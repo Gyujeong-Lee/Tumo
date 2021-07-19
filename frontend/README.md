@@ -31,3 +31,6 @@
 - **소스 코드**
   - 생성 시 만들어지는 components들 초기화 (전부 삭제)
   - state, mutation, actions 각각 js로 분리
+
+
+
