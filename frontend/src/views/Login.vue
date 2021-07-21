@@ -1,36 +1,69 @@
 <template>
-  <div class="container d-flex justify-content-center align-items-center h-100">
-    <div class="d-flex flex-column align-items-center">
-      <img src="@/assets/Login/logo.png" alt="mainlogo" class="w-100 mb-5"/>
-      <div class="d-flex flex-column border rounded-3" id="loginForm">
-        <v-form ref="form" v-model="valid">
-          <v-text-field
-            v-model="credentials.email"
-            placeholder="E-mail"
-            :rules="emailRules"
-            label="E-mail"
-            type="email"
-          ></v-text-field>
-          <v-text-field
-            v-model="credentials.password"
-            placeholder="password"
-            :rules="passwordRules"
-            label="password"
-            type="password"
-            class="pt-0"
-          ></v-text-field>
-          <v-btn :disabled="!valid" color="primary" class="w-100">로그인</v-btn>
-        </v-form>
-        <a href="#">비밀번호를 잊으셨나요?</a>
-        <p class="my-auto">계정이 없으신가요? <a href="#">가입하기</a></p>
-        <hr>
-        <v-btn color="error"><img src="@/assets/Login/google.png" alt="googleIcon">Google 로그인</v-btn>
-        <v-btn color="success"><img src="@/assets/Login/naver.png" alt="naverIcon">Naver 로그인</v-btn>
-        <v-btn color="yellow"><img src="@/assets/Login/kakao.png" alt="kakaoIcon">Kakao 로그인</v-btn>
+  <div class="container h-100 d-flex flex-column justify-content-center">
+    <div class="d-flex justify-content-center align-items-center">
+      <!-- Login 화면 좌측 -->
+      <div class="d-flex flex-column align-items-center" id="login">
+        <img src="@/assets/Login/logo.png" alt="mainlogo" style="width: 90%"/>
+        <h2><span style="color: #CE1D28">투자</span>를 <span style="color: #00BFFE">모으다</span></h2>
+        <div class="d-flex flex-column text-center" id="loginForm">
+          <v-form ref="form" v-model="valid">
+            <v-text-field
+              v-model="credentials.email"
+              :rules="emailRules"
+              type="email"
+              outlined
+              dense
+              hide-details
+              label="E-mail"
+              class="mb-4"
+            ></v-text-field>
+            <v-text-field
+              v-model="credentials.password"
+              :rules="passwordRules"
+              type="password"
+              outlined
+              dense
+              hide-details
+              label="Password"
+              class="mb-4"
+            ></v-text-field>
+            <v-btn :disabled="!valid" color="primary" class="w-100">로그인</v-btn>
+          </v-form>
+          <router-link :to="{ name: 'Login' }">비밀번호를 잊으셨나요?</router-link>
+          <p class="my-auto">투모에 처음 오셨나요? <router-link :to="{ name: 'signup' }">가입하기</router-link></p>
+          <hr>
+          <v-btn color="error"><img src="@/assets/Login/google.png" alt="googleIcon">Google 로그인</v-btn>
+          <v-btn color="success"><img src="@/assets/Login/naver.png" alt="naverIcon">Naver 로그인</v-btn>
+          <v-btn color="yellow"><img src="@/assets/Login/kakao.png" alt="kakaoIcon">Kakao 로그인</v-btn>
+        </div>
+      </div>
+
+      <!-- Login 화면 우측 -->
+      <div id="loginImage">
+        <img src="@/assets/Login/mobile_frame.png" alt="mobile_frame" class="w-100">
+        <b-carousel
+          id="carousel"
+          :interval="3000"
+          fade
+        >
+          <b-carousel-slide v-for="num in ['1', '2', '3']" :key="num">
+            <template #img>
+              <img
+                class="w-100"
+                :src="require(`@/assets/Login/mobile/${num}.png`)"
+                :alt="num"
+              >
+            </template>
+          </b-carousel-slide>
+        </b-carousel>
+        <img src="@/assets/Login/user.png" alt="user" id="userImage">
       </div>
     </div>
-    <img src="@/assets/Login/mobile_frame.png" alt="mobile_frame">
+
+    <!-- Footer -->
+    <p class="text-center fw-bold mt-5">@ All rights reserved by Team Tumo</p>
   </div>
+
 </template>
 
 <script>
@@ -52,52 +85,35 @@ export default {
 </script>
 
 <style scoped>
-@media screen and (max-width: 768px){
-  #loginForm {
-    margin-left: 10%;
-    margin-right: 10%;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-top: 2rem;
-    padding-bottom: 1.5rem;
-    width: 100%;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
-  .container > img {
+@media screen and (max-width: 768px){
+  #loginImage {
     display: none;
   }
 }
 
-@media screen and (min-width: 768px){
-  #loginForm {
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-top: 2rem;
-    padding-bottom: 1.5rem;
-    width: 100%;
-  }
-  
-  .container > img {
-    margin-left: 15%;
+@media screen and (min-width: 768px){  
+  #loginImage {
+    margin-left: 9%;
     width: 260px;
+    position: relative;
+  }
+
+  #carousel img {
+    height: 393px;
   }
 }
 
-#loginForm > * {
-  margin-bottom: 1rem;
-  text-align: center;
+h2 {
+  font-family: 'Jua', sans-serif;
+  margin-bottom: 0;
 }
 
-.container > div {
-  width: 360px;
-}
-
-a {
+a, p {
   text-decoration: none;
-}
-
-button {
-  width: 100%;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 button img {
@@ -105,4 +121,41 @@ button img {
   position: absolute;
   left: 0;
 }
+
+#login {
+  width: 360px;
+}
+
+#loginForm {
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+  width: 100%;
+}
+
+#loginForm > * {
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+#carousel {
+  width: 84.5%;
+  margin-left: 9.5%;
+  position: absolute;
+  top: 11.7%;
+}
+
+#carousel img {
+  height: 393px;
+}
+
+#userImage {
+  position: absolute;
+  width: 300px;
+  left: 40%;
+  top: 53%;
+  z-index: 1;
+}
+
 </style>
