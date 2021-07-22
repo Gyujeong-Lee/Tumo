@@ -4,6 +4,19 @@
 
 <mapper namespace="com.tumo.model.dao.UserDao">
 
+	<insert id="createUser"  parameterType="userdto">
+		insert into user (nickname, email, password, introduce)
+			values (#{nickname},#{email},#{password},#{introduce})
+	</insert>
 	
+	<select id="checkEmail" parameterType="string" resultType="userdto">
+		select * from user
+			where email = #{email} 
+	</select>
+	
+	<select id="checkNickname" parameterType="string" resultType="userdto">
+		select * from user
+			where nickname = #{nickname} 
+	</select>
 	
 </mapper>
