@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tumo.model.dao.SNSDao">
+	<insert id="registScrap">
+		insert into scrap (user_idx, article_idx, create_at)
+		value (#{userIdx}, #{articleIdx}, now())
+	</insert>
+
+	<select id="showScrapList" parameterType="int"
+		resultType="scrapDto">
+		select s.article_idx, a.title, u.nickname
+		from scrap s join
+		article a
+		on s.article_idx = a.article_idx
+		join user u
+		on s.user_idx =
+		u.user_idx
+		where s.user_idx = #{userIdx}
+		order by s.create_at desc;
+	</select>
+
+	<delete id="deleteScrap" parameterType="scrapDto">
+		delete from scrap
+		where user_idx = #{userIdx} and article_idx = #{articleIdx}
+	</delete>
+</mapper>
