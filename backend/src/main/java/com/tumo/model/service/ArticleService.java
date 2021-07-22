@@ -1,5 +1,5 @@
 package com.tumo.model.service;
 
-public class ArticleService {
+public interface ArticleService {
 
 }
