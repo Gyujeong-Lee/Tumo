@@ -1,10 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Login from "../views/User/Login.vue";
-import Signup from "../views/User/Signup.vue";
-import Profile from "../views/User/Profile.vue";
+import Login from "../views/user/Login.vue";
+import Signup from "../views/user/Signup.vue";
+import Profile from "../views/user/Profile.vue";
 import Main from "../views/Main.vue";
-import createArticle from "../views/createArticle.vue";
+import CreateArticle from "../views/CreateArticle.vue";
 
 Vue.use(VueRouter);
 
@@ -27,7 +27,7 @@ const routes = [
   {
     path: "/createArticle",
     name: "createAritlce",
-    component: createArticle,
+    component: CreateArticle,
   },
   {
     path: "/user/:userId",
