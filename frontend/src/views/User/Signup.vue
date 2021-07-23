@@ -1,7 +1,7 @@
 <template>
   <div class="container d-flex justify-center mb-5 h-100">
     <div class="d-flex flex-column align-items-center h-100 fw-bold">
-      <img src="@/assets/Login/logo.png" alt="mainlogo" class="w-50 mb-5"/>
+      <img src="@/assets/login/logo.png" alt="mainlogo" class="w-50 mb-5"/>
       <!-- <img src="../../public/Tumo_Korean.png" alt="CI" class="w-100 mb-5"> -->
       <v-form
         ref="form"

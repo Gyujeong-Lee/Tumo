@@ -1,7 +1,12 @@
 <template>
-  <div class="mb-4 p-3 border border-dark">
-    {{ data }}
-  </div>
+  <v-sheet 
+    elevation="5"
+    rounded="xl"
+    class="mx-2 my-5"
+    height="auto"
+    width="auto">
+    <p class="p-3">{{ data }}</p>
+  </v-sheet>
 </template>
 
 <script>

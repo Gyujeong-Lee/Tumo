@@ -1,9 +1,15 @@
 <template>
-  <div class="w-100">
-    <div class="w-100 pt-5 sticky-top bg-white">
-      <button id="newFeedBtn" class="btn" @click="selectNewFeeds">최신 피드</button>
-      <button id="portfolioBtn" class="btn" @click="selectPortfolio">포트폴리오</button>
-    </div>
+  <div id="mainfeed">
+    <v-tabs grow :color="tabColor" id="feedTabs" class="sticky-top bg-white" style="padding-top: 3em;">
+      <v-tab id="newFeedBtn" @click="selectNewFeeds">
+        <v-icon large class="me-3">mdi-account-group</v-icon>
+        <span>Feeds</span>
+      </v-tab>
+      <v-tab id="portfolioBtn" @click="selectPortfolio">
+        <v-icon large class="me-3">mdi-chart-bar</v-icon>
+        <span>Portfolio</span>
+      </v-tab>
+    </v-tabs>
     <div v-if="!feedList.length">로딩 아이콘</div>
     <div v-else>
       <div v-if="selectedTab === 'newfeeds'">
@@ -24,8 +30,9 @@ export default {
   name: 'FeedList',
   data: function () {
     return {
-      selectedTab: 'newfeeds',
+      selectedTab: 'portfolio',
       feedList: [],
+      tabColor: '',
     }
   },
   components: {
@@ -34,26 +41,22 @@ export default {
   },
   methods: {
     selectNewFeeds: function () {
+      if (this.selectedTab !== 'newfeeds') {
+        this.feedList = []
+        let feedData = this.getNewFeeds()
+        this.feedList = feedData
+      }
+      this.tabColor = 'primary'
       this.selectedTab = 'newfeeds'
-      const newFeedBtn = document.querySelector('#newFeedBtn')
-      const portfolioBtn = document.querySelector('#portfolioBtn')
-      newFeedBtn.classList.add('btn-primary')
-      portfolioBtn.classList.remove('btn-danger')
-
-      this.feedList = []
-      let feedData = this.getNewFeeds()
-      this.feedList = feedData
     },
     selectPortfolio: function () {
+      if (this.selectedTab !== 'portfolio') {
+        this.feedList = []
+        let feedData = this.getPortfolioFeeds()
+        this.feedList = feedData
+      }
+      this.tabColor = 'error'
       this.selectedTab = 'portfolio'
-      const newFeedBtn = document.querySelector('#newFeedBtn')
-      const portfolioBtn = document.querySelector('#portfolioBtn')
-      portfolioBtn.classList.add('btn-danger')
-      newFeedBtn.classList.remove('btn-primary')
-
-      this.feedList = []
-      let feedData = this.getPortfolioFeeds()
-      this.feedList = feedData
     },
     getNewFeeds: function () {
       // axios 요청 보낸후 받은 response.data return
@@ -68,6 +71,33 @@ export default {
           "likes" : 5,
           "islike" : true,
           "isscrap" : false
+          },
+          {
+            "board_idx" : 2,
+          "user_idx": 1,
+          "title" : "제목입니다",
+          "content" : "본문입니다",
+          "likes" : 7,
+          "islike" : false,
+          "isscrap" : true
+          },
+          {
+            "board_idx" : 2,
+          "user_idx": 1,
+          "title" : "제목입니다",
+          "content" : "본문입니다",
+          "likes" : 7,
+          "islike" : false,
+          "isscrap" : true
+          },
+          {
+            "board_idx" : 2,
+          "user_idx": 1,
+          "title" : "제목입니다",
+          "content" : "본문입니다",
+          "likes" : 7,
+          "islike" : false,
+          "isscrap" : true
           },
           {
             "board_idx" : 2,
@@ -111,5 +141,26 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Otomanopee+One&display=swap');
 
+#mainfeed {
+  width: 95%;
+}
+
+@media screen and (min-width: 576px) {
+  #mainfeed {
+    width: 80%;
+  } 
+}
+
+@media screen and (min-width: 940px) {
+  #mainfeed {
+    width: 614px;
+    padding-left: 3rem;
+  }
+}
+
+#feedTabs span {
+  font-family: 'Otomanopee One', sans-serif;
+}
 </style>
