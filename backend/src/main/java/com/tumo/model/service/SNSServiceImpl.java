@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.dao.SNSDao;
@@ -50,6 +51,11 @@ public class SNSServiceImpl implements SNSService {
 	public boolean deleteFavor(HashMap<String, Integer> info) {
 		sqlSession.getMapper(SNSDao.class).deleteFavor(info);
 		return true;
+	}
+
+	@Override
+	public List<FeedDto> readMyPost(int userIdx) {
+		return sqlSession.getMapper(SNSDao.class).readMyPost(userIdx);
 	}
 
 }

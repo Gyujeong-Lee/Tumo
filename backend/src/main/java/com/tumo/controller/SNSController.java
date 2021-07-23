@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.service.SNSService;
@@ -75,9 +76,8 @@ public class SNSController {
 		map.put("message", FAIL);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
 	}
-	
-	
-	@ApiOperation(value="좋아요 생성", notes = "게시글 좋아요")
+
+	@ApiOperation(value = "좋아요 생성", notes = "게시글 좋아요")
 	@PostMapping("/favor")
 	public ResponseEntity<Map<String, Object>> createFavor(@RequestBody HashMap<String, Integer> info) {
 		boolean result = snsService.createFavor(info);
@@ -88,8 +88,8 @@ public class SNSController {
 			map.put("message", SUCCESS);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
-	
-	@ApiOperation(value="좋아요 삭제", notes = "좋아요한 게시글 좋아요 삭제")
+
+	@ApiOperation(value = "좋아요 삭제", notes = "좋아요한 게시글 좋아요 삭제")
 	@DeleteMapping("/favor")
 	public ResponseEntity<Map<String, Object>> deleteFavor(@RequestBody HashMap<String, Integer> info) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -100,13 +100,12 @@ public class SNSController {
 		map.put("message", FAIL);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
 	}
-	
-	
-	@ApiOperation(value="좋아요 상태 확인", notes = "특정 게시물에 대한 사용자의 좋아요 여부 조회")
+
+	@ApiOperation(value = "좋아요 상태 확인", notes = "특정 게시물에 대한 사용자의 좋아요 여부 조회")
 	@GetMapping("/favor/{user_idx}/{board_idx}")
-	public ResponseEntity<Map<String, Object>> readIsLike (@PathVariable int userIdx, @PathVariable int boardIdx) {
+	public ResponseEntity<Map<String, Object>> readIsLike(@PathVariable int userIdx, @PathVariable int boardIdx) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		Map<String, Integer> param = new HashMap<String, Integer>();
 		param.put("userIdx", userIdx);
 		param.put("boardIdx", boardIdx);
@@ -121,4 +120,17 @@ public class SNSController {
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "내가 쓴 글 조회")
+	@GetMapping("/board/{userIdx}")
+	public ResponseEntity<Map<String, Object>> readMyPost(@PathVariable int userIdx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<FeedDto> scrap = snsService.readMyPost(userIdx);
+		if (scrap == null || scrap.size() == 0) {
+			map.put("message", FAIL);
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
+		}
+		map.put("scrap", scrap);
+		map.put("message", SUCCESS);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	}
 }
