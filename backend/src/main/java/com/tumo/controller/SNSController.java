@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tumo.model.ArticleDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.service.SNSService;
 
@@ -40,7 +39,7 @@ public class SNSController {
 
 	@ApiOperation(value = "스크랩 생성", notes = "게시글 스크랩")
 	@PostMapping("/scrap")
-	public ResponseEntity<Map<String, Object>> registScrap(@RequestBody ArticleDto info) {
+	public ResponseEntity<Map<String, Object>> registScrap(@RequestBody HashMap<String, Integer> info) {
 		boolean result = snsService.registScrap(info);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (!result)
@@ -66,7 +65,7 @@ public class SNSController {
 
 	@ApiOperation(value = "스크랩한 게시물 삭제", notes = "스크랩한 게시글 스크랩 취소")
 	@DeleteMapping("/scrap")
-	public ResponseEntity<Map<String, Object>> deleteScrap(@RequestBody ScrapDto info) {
+	public ResponseEntity<Map<String, Object>> deleteScrap(@RequestBody HashMap<String, Integer> info) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (snsService.deleteScrap(info)) {
 			map.put("message", SUCCESS);

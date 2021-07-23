@@ -5,7 +5,7 @@ public class ScrapDto {
 	private int scrapIdx;
 	private int userIdx;
 	private String nickname;
-	private int articleIdx;
+	private int boardIdx;
 	private String title;
 
 	public int getScrapIdx() {
@@ -32,12 +32,12 @@ public class ScrapDto {
 		this.nickname = nickname;
 	}
 
-	public int getArticleIdx() {
-		return articleIdx;
+	public int getBoardIdx() {
+		return boardIdx;
 	}
 
-	public void setArticleIdx(int articleIdx) {
-		this.articleIdx = articleIdx;
+	public void setBoardIdx(int boardIdx) {
+		this.boardIdx = boardIdx;
 	}
 
 	public String getTitle() {
@@ -48,19 +48,19 @@ public class ScrapDto {
 		this.title = title;
 	}
 
-	public ScrapDto(int scrapIdx, int userIdx, String nickname, int articleIdx, String title) {
+	public ScrapDto(int scrapIdx, int userIdx, String nickname, int boardIdx, String title) {
 		super();
 		this.scrapIdx = scrapIdx;
 		this.userIdx = userIdx;
 		this.nickname = nickname;
-		this.articleIdx = articleIdx;
+		this.boardIdx = boardIdx;
 		this.title = title;
 	}
 
 	@Override
 	public String toString() {
-		return "ScrapDto [scrapIdx=" + scrapIdx + ", userIdx=" + userIdx + ", nickname=" + nickname + ", articleIdx="
-				+ articleIdx + ", title=" + title + "]";
+		return "ScrapDto [scrapIdx=" + scrapIdx + ", userIdx=" + userIdx + ", nickname=" + nickname + ", boardIdx="
+				+ boardIdx + ", title=" + title + "]";
 	}
 
 }

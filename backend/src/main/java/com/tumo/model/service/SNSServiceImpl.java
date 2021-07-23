@@ -1,12 +1,12 @@
 package com.tumo.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tumo.model.ArticleDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.dao.SNSDao;
 
@@ -17,7 +17,7 @@ public class SNSServiceImpl implements SNSService {
 	private SqlSession sqlSession;
 
 	@Override
-	public boolean registScrap(ArticleDto info) {
+	public boolean registScrap(HashMap<String, Integer> info) {
 		sqlSession.getMapper(SNSDao.class).registScrap(info);
 		return true;
 	}
@@ -28,7 +28,7 @@ public class SNSServiceImpl implements SNSService {
 	}
 
 	@Override
-	public boolean deleteScrap(ScrapDto info) {
+	public boolean deleteScrap(HashMap<String, Integer> info) {
 		sqlSession.getMapper(SNSDao.class).deleteScrap(info);
 		return true;
 	}
