@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import FeedList from '@/components/Main/FeedList'
+import FeedList from '@/components/main/FeedList'
 
 export default {
   name: 'Main',
