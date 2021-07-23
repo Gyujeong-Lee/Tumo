@@ -6,17 +6,31 @@
 
 	<insert id="createUser"  parameterType="userdto">
 		insert into user (nickname, email, password, introduce)
-			values (#{nickname},#{email},#{password},#{introduce})
+			values (#{nickname}, #{email}, #{password}, #{introduce})
 	</insert>
 	
-	<select id="checkEmail" parameterType="string" resultType="userdto">
-		select * from user
-			where email = #{email} 
+	<select id="findUserByEmail" parameterType="string" resultType="userdto">
+		select user_idx as userIdx, nickname, email, login_type as loginType, introduce, 
+				disclosure, create_at as createAt, update_at as updateAt, deleted 
+			from user
+			having email = #{email} 
 	</select>
 	
-	<select id="checkNickname" parameterType="string" resultType="userdto">
-		select * from user
+	<select id="findUserByNickname" parameterType="string" resultType="userdto">
+		select user_idx as userIdx, nickname, email, login_type as loginType, introduce, 
+				disclosure, create_at as createAt, update_at as updateAt, deleted 
+			from user
 			where nickname = #{nickname} 
+	</select>
+	
+	<insert id="insertUserTag" parameterType="map">
+		insert into user_tag (user_idx, content)
+			values (#{userIdx}, #{content})
+	</insert>
+	
+	<select id="findUserTagByUserIdxAndContent" parameterType="map" resultType="boolean">
+		select if(count(*) != 0, 1, 0) from user_tag
+			where user_idx = #{userIdx} and content = #{content}
 	</select>
 	
 </mapper>

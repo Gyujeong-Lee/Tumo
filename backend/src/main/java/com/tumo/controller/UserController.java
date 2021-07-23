@@ -30,7 +30,7 @@ public class UserController {
 
 	@PostMapping(value = "/signup")
 	@ApiOperation(value = "회원가입")
-	public ResponseEntity signup(@RequestBody SignupDto signupDto) {
+	public ResponseEntity createSignup(@RequestBody SignupDto signupDto) {
 
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
@@ -54,7 +54,7 @@ public class UserController {
 
 	@GetMapping(value = "/email/{email}")
 	@ApiOperation(value = "email 중복 체크")
-	public ResponseEntity email(@PathVariable String email) {
+	public ResponseEntity ReadEmail(@PathVariable String email) {
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
 
@@ -76,7 +76,7 @@ public class UserController {
 
 	@GetMapping(value = "/nickname/{nickname}")
 	@ApiOperation(value = "nickname 중복 체크")
-	public ResponseEntity nickname(@PathVariable String nickname) {
+	public ResponseEntity ReadNickname(@PathVariable String nickname) {
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
 

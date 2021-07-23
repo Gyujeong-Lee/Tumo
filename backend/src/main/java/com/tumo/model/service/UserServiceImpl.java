@@ -1,6 +1,9 @@
 package com.tumo.model.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +24,43 @@ public class UserServiceImpl implements UserService {
 
 	// Bcrypt 해시 함수를 이용한 비밀번호 암호화
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	
+
 	@Override
-	@Transactional(rollbackFor = SQLException.class)
+	@Transactional
 	public void createUser(SignupDto signupDto) throws SQLException {
-		
-		UserDto userDto = new UserDto(signupDto.getNickname(), signupDto.getEmail(),
-				signupDto.getPassword(), signupDto.getIntroduce());
-		
+
+		UserDto userDto = new UserDto(signupDto.getNickname(), signupDto.getEmail(), signupDto.getPassword(),
+				signupDto.getIntroduce());
+
 		// 회원가입시 비밀번호 암호화 후 DB에 저장
 		String encodedPassword = passwordEncoder.encode(userDto.getPassword());
 		userDto.setPassword(encodedPassword);
 
+		// 회원정보 insert
 		sqlSession.getMapper(UserDao.class).createUser(userDto);
+
+		// 회원정보 insert 성공시 태그 insert를 위한 user_idx 조회
+		UserDto signupUser = sqlSession.getMapper(UserDao.class).findUserByEmail(userDto.getEmail());
+		Integer userIdx = signupUser.getUserIdx();
+
+		List<String> tagList = signupDto.getTag();
+
+		Map<String, Object> tagMap = new HashMap<String, Object>();
+
+		// 태그 insert
+		for (String content : tagList) {
+			tagMap.clear();
+			tagMap.put("userIdx", userIdx);
+			tagMap.put("content", content);
+
+			// 중복되는 태그 insert 방지를 위한 검사
+			if (sqlSession.getMapper(UserDao.class).findUserTagByUserIdxAndContent(tagMap)) {
+				continue;
+			}
+
+			sqlSession.getMapper(UserDao.class).insertUserTag(tagMap);
+
+		}
 
 	}
 
@@ -42,7 +69,7 @@ public class UserServiceImpl implements UserService {
 		// 사용 가능한 email이면 true, 중복되면 false
 		boolean result = false;
 
-		UserDto userDto = sqlSession.getMapper(UserDao.class).checkEmail(email);
+		UserDto userDto = sqlSession.getMapper(UserDao.class).findUserByEmail(email);
 		if (userDto == null) {
 			result = true;
 		}
@@ -55,7 +82,7 @@ public class UserServiceImpl implements UserService {
 		// 중복되면 true, 없으면 false
 		boolean result = false;
 
-		UserDto userDto = sqlSession.getMapper(UserDao.class).checkNickname(nickname);
+		UserDto userDto = sqlSession.getMapper(UserDao.class).findUserByNickname(nickname);
 
 		if (userDto == null) {
 			result = true;
