@@ -27,7 +27,7 @@
               label="Password"
               class="mb-4"
             ></v-text-field>
-            <v-btn :disabled="!valid" color="primary" class="w-100">로그인</v-btn>
+            <v-btn :disabled="!valid" color="primary" class="w-100" @click="userLogin">로그인</v-btn>
           </v-form>
           <router-link :to="{ name: 'Login' }">비밀번호를 잊으셨나요?</router-link>
           <p class="my-auto">투모에 처음 오셨나요? <router-link :to="{ name: 'signup' }">가입하기</router-link></p>
@@ -81,6 +81,11 @@ export default {
       passwordRules: [(v) => !!v],
     };
   },
+  methods: {
+    userLogin: function () {
+      this.$router.push({ name: 'main'})
+    }
+  }
 };
 </script>
 
