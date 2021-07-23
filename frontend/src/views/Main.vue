@@ -1,23 +1,21 @@
 <template>
   <div id="mainPage" class="h-100">
     <div class="d-flex justify-content-center h-100">
-      <div id="subfeed" class="border border-dark">
-        <p>123</p>
-      </div>
-      <div id="mainfeed">
-        <FeedList/>
-      </div>
+      <SubFeed/>
+      <FeedList/>
     </div>
   </div>
 </template>
 
 <script>
-import FeedList from '@/components/Main/FeedList'
+import FeedList from '@/components/main/FeedList'
+import SubFeed from '@/components/main/SubFeed'
 
 export default {
   name: 'Main',
   components: {
     FeedList,
+    SubFeed,
   },
   data: function () {
     return {
@@ -27,24 +25,10 @@ export default {
 </script>
 
 <style>
-@media screen and (min-width: 576px) {
+@media screen and (min-width: 940px) {
   #mainPage {
     min-width: 930px;
   }
-
-  #mainfeed {
-    width: 614px;
-    padding-left: 2rem;
-  }
-
-  #subfeed {
-    width: 300px;
-  }
-}
-
-#subfeed * {
-  position: sticky;
-  top: 0px;
 }
 
 </style>

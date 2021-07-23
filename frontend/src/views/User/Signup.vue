@@ -1,39 +1,44 @@
 <template>
-  <div class="container d-flex justify-center mb-5">
-    <div class="d-flex flex-column">
-      <img src="@/assets/Login/logo.png" alt="mainlogo" class="w-50 mb-5"/>
+  <div class="container d-flex justify-center mb-5 h-100">
+    <div class="d-flex flex-column align-items-center h-100 fw-bold">
+      <img src="@/assets/login/logo.png" alt="mainlogo" class="w-50 mb-5"/>
       <!-- <img src="../../public/Tumo_Korean.png" alt="CI" class="w-100 mb-5"> -->
       <v-form
         ref="form"
         v-model="valid"
+        id="signupForm"
       >
         <!-- 서비스 내 이름 -->
-        <v-text-field
-          v-model="credentials.name"
-          :rules="nameRules"
-          :counter="10"
-          label="Name"
-          required
-        >
-        </v-text-field>
-        <v-btn
-        :disabled="!name_exist"
-        small
-        @click="name_check"
-        >중복검사</v-btn>
+        <div id="nickNameInput" class="position-relative">
+          <v-text-field
+            v-model="credentials.name"
+            :rules="nameRules"
+            :counter="10"
+            label="Name"
+            required
+          >
+          </v-text-field>
+          <v-btn
+          :disabled="!name_exist"
+          small
+          @click="name_check"
+          >중복검사</v-btn>
+        </div>
 
         <!-- 이메일 계정 -->
-        <v-text-field
-          v-model="credentials.email"
-          :rules="emailRules"
-          label="E-mail"
-          required
-        ></v-text-field>
-        <v-btn
-        :disabled="!email_exist"
-        small
-        @click="email_check"
-        >중복검사</v-btn>
+        <div id="emailInput" class="position-relative">
+          <v-text-field
+            v-model="credentials.email"
+            :rules="emailRules"
+            label="E-mail"
+            required
+          ></v-text-field>
+          <v-btn
+          :disabled="!email_exist"
+          small
+          @click="email_check"
+          >중복검사</v-btn>
+        </div>
 
         <!-- 비밀번호 -->
         <v-text-field
@@ -82,23 +87,26 @@
           label="Do you agree?"
           required
         ></v-checkbox>
-          <p>회원이신가요? <router-link :to="{ name: 'Login' }">로그인</router-link></p>        
-        <v-btn
-          id="cancel_btn"
-          class="mr-4 "
-          @click="cancel"
-        >
-          cancel
-        </v-btn>
-        <v-btn 
-          id="signup_btn"    
-          @click="signup"
-          :disabled="!valid || !name_checked"
+        <div id="btnGroup" class="my-3">
+          <v-btn
+            id="cancel_btn"
+            class="mr-4 "
+            @click="cancel"
           >
-          signup
-        </v-btn>
+            cancel
+          </v-btn>
+          <v-btn 
+            id="signup_btn"    
+            @click="signup"
+            :disabled="!valid || !name_checked"
+            >
+            signup
+          </v-btn>
+        </div>
+        <p class="text-center py-5 my-3">회원이신가요? <router-link :to="{ name: 'Login' }">로그인</router-link></p>        
       </v-form>
-        <!-- Footer -->
+
+      <!-- Footer -->
       <p class="text-center fw-bold mt-5">@ All rights reserved by Team Tumo</p>
     </div>
   </div>
@@ -158,12 +166,12 @@
           // console.log('work')
           if (this.credentials.name && this.credentials.name.length <= 10) {
             this.name_exist = true
-          }else {
+          } else {
             this.name_exist = false
           }
           if (this.credentials.email && /.+@.+\..+/.test(this.credentials.email)) {
             this.email_exist = true
-          }else {
+          } else {
             this.email_exist = false
           }
         },
@@ -191,7 +199,9 @@
       // keyword 추가하기
       add_keyword: function () {
         //serve로 보낼 user data에 추가
-        this.credentials.keywords.push(this.keyword)
+        if (this.keyword.trim()) {
+          this.credentials.keywords.push(this.keyword)
+        }
         this.keyword = ""
       },
       // keyword 제거
@@ -205,20 +215,60 @@
 </script>
 
 <style scoped>
-  #signup_btn {
-    background-color: #00BFFE;
-    color: white;
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+@media screen and (max-width: 500px){
+  #btnGroup {
+    justify-content: center;
   }
-  #cancel_btn {
-    background-color: #CE1D28;
-    color: white;
+}
+
+@media screen and (min-width: 500px){
+  #btnGroup {
+    justify-content: flex-end;
   }
-  .keywords_tag {
-    background-color: #00BFFE;
-  }
-  a, p {
-  text-decoration: none;
-  font-family: 'Noto Sans KR', sans-serif;
-  }
+}
+
+#btnGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+
+#signup_btn {
+  background-color: #00BFFE;
+  color: white;
+}
+
+#cancel_btn {
+  background-color: #CE1D28;
+  color: white;
+}
+
+.keywords_tag {
+  background-color: #00BFFE;
+}
+
+a, p {
+text-decoration: none;
+font-family: 'Noto Sans KR', sans-serif;
+}
+
+#nickNameInput > button {
+  position: absolute;
+  right: 0;
+  top: 20%;
+}
+
+#emailInput > button {
+  position: absolute;
+  right: 0;
+  top: 20%;
+}
+
+#signupForm {
+  width: 80%;
+}
 
 </style>

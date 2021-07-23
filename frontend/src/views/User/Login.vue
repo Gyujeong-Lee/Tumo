@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-center align-items-center">
       <!-- Login 화면 좌측 -->
       <div class="d-flex flex-column align-items-center" id="login">
-        <img src="@/assets/Login/logo.png" alt="mainlogo" style="width: 90%"/>
+        <img src="@/assets/login/logo.png" alt="mainlogo" style="width: 90%"/>
         <h2><span style="color: #CE1D28">투자</span>를 <span style="color: #00BFFE">모으다</span></h2>
         <div class="d-flex flex-column text-center" id="loginForm">
           <v-form ref="form" v-model="valid">
@@ -32,15 +32,15 @@
           <router-link :to="{ name: 'Login' }">비밀번호를 잊으셨나요?</router-link>
           <p class="my-auto">투모에 처음 오셨나요? <router-link :to="{ name: 'signup' }">가입하기</router-link></p>
           <hr>
-          <v-btn color="error"><img src="@/assets/Login/google.png" alt="googleIcon">Google 로그인</v-btn>
-          <v-btn color="success"><img src="@/assets/Login/naver.png" alt="naverIcon">Naver 로그인</v-btn>
-          <v-btn color="yellow"><img src="@/assets/Login/kakao.png" alt="kakaoIcon">Kakao 로그인</v-btn>
+          <v-btn color="error"><img src="@/assets/login/google.png" alt="googleIcon">Google 로그인</v-btn>
+          <v-btn color="success"><img src="@/assets/login/naver.png" alt="naverIcon">Naver 로그인</v-btn>
+          <v-btn color="yellow"><img src="@/assets/login/kakao.png" alt="kakaoIcon">Kakao 로그인</v-btn>
         </div>
       </div>
 
       <!-- Login 화면 우측 -->
       <div id="loginImage">
-        <img src="@/assets/Login/mobile_frame.png" alt="mobile_frame" class="w-100">
+        <img src="@/assets/login/mobile_frame.png" alt="mobile_frame" class="w-100">
         <b-carousel
           id="carousel"
           :interval="3000"
@@ -50,13 +50,13 @@
             <template #img>
               <img
                 class="w-100"
-                :src="require(`@/assets/Login/mobile/${num}.png`)"
+                :src="require(`@/assets/login/mobile/${num}.png`)"
                 :alt="num"
               >
             </template>
           </b-carousel-slide>
         </b-carousel>
-        <img src="@/assets/Login/user.png" alt="user" id="userImage">
+        <img src="@/assets/login/user.png" alt="user" id="userImage">
       </div>
     </div>
 
