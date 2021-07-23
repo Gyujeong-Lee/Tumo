@@ -4,7 +4,7 @@
 <mapper namespace="com.tumo.model.dao.SNSDao">
 	<insert id="createScrap" parameterType="map">
 		insert into scrap (user_idx, board_idx, create_at)
-		value (#{userIdx}, #{boardIdx}, now())
+		values (#{userIdx}, #{boardIdx}, now())
 	</insert>
 
 	<select id="readScrapList" parameterType="int"
@@ -25,8 +25,13 @@
 	
 	<insert id="createFavor" parameterType="map">
 		insert into feed_like (user_idx, board_idx, create_at)
-		value (#{userIdx}, #{boardIdx}, now())
+		values (#{userIdx}, #{boardIdx}, now())
 	</insert>
+	
+	<update id="addFavor" parameterType="map">
+		update feed set likes = likes + 1
+		where boardIdx=#{boardIdx}
+	</update>
 	
 	<select id="readIsLike" parameterType="map" resultType="feedLikeDto">
 		select like_idx as likeIdx, user_idx as userIdx, board_idx as boardIdx, create_at as createAt
@@ -39,6 +44,11 @@
 		from feed_like
 		where board_idx = #{boardIdx} and user_idx = #{userIdx}
 	</delete>
+	
+	<update id="subFavor" parameterType="map">
+		update feed set likes = likes - 1
+		where boardIdx=#{boardIdx}
+	</update>
 	
 	<select id="readMyPost" parameterType="int" resultType="feedDto">
 		select f.board_idx as boardIdx, f.user_idx as userIdx, u.nickname as nickname, f.likes, f.title, f.content, f.create_at, f.update_at

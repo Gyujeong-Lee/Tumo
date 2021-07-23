@@ -16,11 +16,15 @@ public interface SNSDao {
 	
 	int deleteScrap(HashMap<String, Integer> info);
 
+	void addFavor(int boardIdx);
+
 	void createFavor(HashMap<String, Integer> info);
 
 	FeedLikeDto readIsLike(Map<String, Integer> param);
 
 	void deleteFavor(HashMap<String, Integer> info);
+
+	void subFavor(int boardIdx);
 
 	List<FeedDto> readMyPost(int userIdx);
 

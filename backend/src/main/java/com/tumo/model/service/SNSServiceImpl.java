@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
@@ -37,7 +38,9 @@ public class SNSServiceImpl implements SNSService {
 	}
 
 	@Override
+	@Transactional
 	public boolean createFavor(HashMap<String, Integer> info) {
+		sqlSession.getMapper(SNSDao.class).addFavor(info.get("boardIdx"));
 		sqlSession.getMapper(SNSDao.class).createFavor(info);
 		return true;
 	}
@@ -48,7 +51,9 @@ public class SNSServiceImpl implements SNSService {
 	}
 
 	@Override
+	@Transactional
 	public boolean deleteFavor(HashMap<String, Integer> info) {
+		sqlSession.getMapper(SNSDao.class).subFavor(info.get("boardIdx"));
 		sqlSession.getMapper(SNSDao.class).deleteFavor(info);
 		return true;
 	}
