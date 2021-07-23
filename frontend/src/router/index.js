@@ -1,10 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Login from "../views/Login.vue";
-import Signup from "../views/Signup.vue";
+import Login from "../views/User/Login.vue";
+import Signup from "../views/User/Signup.vue";
+import Profile from "../views/User/Profile.vue";
 import Main from "../views/Main.vue";
 import createArticle from "../views/createArticle.vue";
-import Profile from "../views/Profile.vue";
 
 Vue.use(VueRouter);
 
