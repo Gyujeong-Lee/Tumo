@@ -14,7 +14,13 @@
           :counter="10"
           label="Name"
           required
-        ></v-text-field>
+        >
+        </v-text-field>
+        <v-btn
+        :disabled="!name_exist"
+        small
+        @click="name_check"
+        >중복검사</v-btn>
 
         <!-- 이메일 계정 -->
         <v-text-field
@@ -23,6 +29,11 @@
           label="E-mail"
           required
         ></v-text-field>
+        <v-btn
+        :disabled="!email_exist"
+        small
+        @click="email_check"
+        >중복검사</v-btn>
 
         <!-- 비밀번호 -->
         <v-text-field
@@ -52,13 +63,14 @@
         <!-- 선택된 키워드 or default -->
         <div id="keyword_items">
           <v-chip 
-          v-for="(value, keyword, idx) in credentials.keywords" 
+          v-for="(keyword, idx) in credentials.keywords" 
           :key="idx"
           class="me-2"
           color="#00BFFE"
           text-color="white"
+          close
+          @click:close="delete_keyword(keyword)"
           >
-          {{ value }}
           {{ keyword }}
           </v-chip>
         </div>
@@ -70,8 +82,7 @@
           label="Do you agree?"
           required
         ></v-checkbox>
-
-          <p>회원이신가요? <a href="/">로그인</a></p>        
+          <p>회원이신가요? <router-link :to="{ name: 'Login' }">로그인</router-link></p>        
         <v-btn
           id="cancel_btn"
           class="mr-4 "
@@ -82,11 +93,13 @@
         <v-btn 
           id="signup_btn"    
           @click="signup"
-          :disabled="!valid"
+          :disabled="!valid || !name_checked"
           >
           signup
         </v-btn>
       </v-form>
+        <!-- Footer -->
+      <p class="text-center fw-bold mt-5">@ All rights reserved by Team Tumo</p>
     </div>
   </div>
 </template>
@@ -98,22 +111,29 @@
     },    
     data: () => {
       return {
+        // 요구사항 만족
         valid: true,
+
+        // 서버와 통신할 데이터
         credentials: {
           name: "",
           email: "",
           password: "",
           passwordConfirmation: "",
-          keywords: {
-            
-          },
+          keywords: [],
         },
         keyword: "",
-        
         // 동의 여부
         checkbox: false, 
 
-        // 회원가입 규칙
+      // 회원가입 규칙
+
+        // 중복검사 여부
+        name_exist: false,
+        name_checked: false,
+        email_exist: false,
+        email_checked: false,
+
         nameRules: [
         v => !!v || 'Name is required',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
@@ -131,20 +151,55 @@
        
       }
     },
+    // 닉네임 및 이메일 중복 검사 하기 전 조건에 맞는 입력값인지 확인
+    watch: {
+      credentials: {
+        handler: function () {
+          // console.log('work')
+          if (this.credentials.name && this.credentials.name.length <= 10) {
+            this.name_exist = true
+          }else {
+            this.name_exist = false
+          }
+          if (this.credentials.email && /.+@.+\..+/.test(this.credentials.email)) {
+            this.email_exist = true
+          }else {
+            this.email_exist = false
+          }
+        },
+        deep: true
+      }
+    },
     methods: {
+      // 닉네임 중복검사 axios 요청 보낼 것.
+      name_check: function () {
+        this.name_checked = true
+        // checked = true
+      },
+      // 닉네임 중복검사 axios 요청 보낼 것.
+      email_check: function () {
+        
+      },
       // 취소 -> 로그인 페이지로
       cancel: function () {
         this.$router.push('/')
       },
       // sign up axios 요청 보내기
       signup: function () {
+        this.name_checked = false
       },
       // keyword 추가하기
       add_keyword: function () {
         //serve로 보낼 user data에 추가
-        this.credentials.keywords[this.keyword] = true
+        this.credentials.keywords.push(this.keyword)
         this.keyword = ""
       },
+      // keyword 제거
+      delete_keyword: function (keyword) {
+        // console.log(keyword)
+        const idx_keyword = this.credentials.keywords.indexOf(keyword)
+        this.credentials.keywords.splice(idx_keyword, 1)
+      }
     },
   }
 </script>
@@ -161,8 +216,9 @@
   .keywords_tag {
     background-color: #00BFFE;
   }
-  a {
+  a, p {
   text-decoration: none;
+  font-family: 'Noto Sans KR', sans-serif;
   }
 
 </style>
