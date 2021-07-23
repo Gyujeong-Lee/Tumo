@@ -2,16 +2,23 @@ package com.tumo.model.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.tumo.model.ArticleDto;
+import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ScrapDto;
 
 public interface SNSService {
 
-	boolean registScrap(HashMap<String, Integer> info);
+	boolean createScrap(HashMap<String, Integer> info);
 
-	List<ScrapDto> showScrapList(int userId);
+	List<ScrapDto> readScrapList(int userIdx);
 
 	boolean deleteScrap(HashMap<String, Integer> info);
+
+	boolean createFavor(HashMap<String, Integer> info);
+
+	FeedLikeDto readIsLike(Map<String, Integer> param);
+
+	boolean deleteFavor(HashMap<String, Integer> info);
 
 }

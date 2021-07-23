@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tumo.model.dao.SNSDao">
-	<insert id="registScrap" parameterType="map">
+	<insert id="createScrap" parameterType="map">
 		insert into scrap (user_idx, board_idx, create_at)
 		value (#{userIdx}, #{boardIdx}, now())
 	</insert>
 
-	<select id="showScrapList" parameterType="int"
+	<select id="readScrapList" parameterType="int"
 		resultType="scrapDto">
 		select s.board_idx as boardIdx, f.title as title, u.nickname as nickname, u.user_idx as userIdx
 		from scrap s join feed f
@@ -21,5 +21,22 @@
 	<delete id="deleteScrap" parameterType="map">
 		delete from scrap
 		where user_idx = #{userIdx} and board_idx = #{boardIdx}
+	</delete>
+	
+	<insert id="createFavor" parameterType="map">
+		insert into feed_like (user_idx, board_idx, create_at)
+		value (#{userIdx}, #{boardIdx}, now())
+	</insert>
+	
+	<select id="readIsLike" parameterType="map" resultType="feedLikeDto">
+		select like_idx as likeIdx, user_idx as userIdx, board_idx as boardIdx, create_at as createAt
+		from feed_like
+		where board_idx = #{boardIdx} and user_idx = #{userIdx}
+	</select>
+	
+	<delete id="deleteFavor" parameterType="map">
+		delete
+		from feed_like
+		where board_idx = #{boardIdx} and user_idx = #{userIdx}
 	</delete>
 </mapper>

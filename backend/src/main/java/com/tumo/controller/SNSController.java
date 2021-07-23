@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.service.SNSService;
 
@@ -39,8 +40,8 @@ public class SNSController {
 
 	@ApiOperation(value = "스크랩 생성", notes = "게시글 스크랩")
 	@PostMapping("/scrap")
-	public ResponseEntity<Map<String, Object>> registScrap(@RequestBody HashMap<String, Integer> info) {
-		boolean result = snsService.registScrap(info);
+	public ResponseEntity<Map<String, Object>> createScrap(@RequestBody HashMap<String, Integer> info) {
+		boolean result = snsService.createScrap(info);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (!result)
 			map.put("message", FAIL);
@@ -50,10 +51,10 @@ public class SNSController {
 	}
 
 	@ApiOperation(value = "스크랩한 게시물 조회", notes = "특정 유저가 스크랩한 게시글 리스트 조회")
-	@GetMapping("/scrap/{userId}")
-	public ResponseEntity<Map<String, Object>> showScrapList(@PathVariable int userId) {
+	@GetMapping("/scrap/{userIdx}")
+	public ResponseEntity<Map<String, Object>> readScrapList(@PathVariable int userIdx) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<ScrapDto> scrap = snsService.showScrapList(userId);
+		List<ScrapDto> scrap = snsService.readScrapList(userIdx);
 		if (scrap == null || scrap.size() == 0) {
 			map.put("message", FAIL);
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
@@ -73,6 +74,51 @@ public class SNSController {
 		}
 		map.put("message", FAIL);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
+	}
+	
+	
+	@ApiOperation(value="좋아요 생성", notes = "게시글 좋아요")
+	@PostMapping("/favor")
+	public ResponseEntity<Map<String, Object>> createFavor(@RequestBody HashMap<String, Integer> info) {
+		boolean result = snsService.createFavor(info);
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (!result)
+			map.put("message", FAIL);
+		else
+			map.put("message", SUCCESS);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="좋아요 삭제", notes = "좋아요한 게시글 좋아요 삭제")
+	@DeleteMapping("/favor")
+	public ResponseEntity<Map<String, Object>> deleteFavor(@RequestBody HashMap<String, Integer> info) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (snsService.deleteFavor(info)) {
+			map.put("message", SUCCESS);
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		}
+		map.put("message", FAIL);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
+	}
+	
+	
+	@ApiOperation(value="좋아요 상태 확인", notes = "특정 게시물에 대한 사용자의 좋아요 여부 조회")
+	@GetMapping("/favor/{user_idx}/{board_idx}")
+	public ResponseEntity<Map<String, Object>> readIsLike (@PathVariable int userIdx, @PathVariable int boardIdx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		Map<String, Integer> param = new HashMap<String, Integer>();
+		param.put("userIdx", userIdx);
+		param.put("boardIdx", boardIdx);
+		FeedLikeDto like = snsService.readIsLike(param);
+		if (like == null) {
+			map.put("like", false);
+			map.put("message", FAIL);
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
+		}
+		map.put("like", true);
+		map.put("message", SUCCESS);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 
 }
