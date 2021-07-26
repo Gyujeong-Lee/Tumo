@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ScrapDto;
+import com.tumo.model.UserDto;
 import com.tumo.model.dao.SNSDao;
 
 @Service
@@ -61,6 +62,16 @@ public class SNSServiceImpl implements SNSService {
 	@Override
 	public List<FeedDto> readMyPost(int userIdx) {
 		return sqlSession.getMapper(SNSDao.class).readMyPost(userIdx);
+	}
+
+	@Override
+	public List<UserDto> searchUser(String searchContent, int pageNum) {
+		searchContent = searchContent.replaceAll("+", " ");
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("searchContent", searchContent);
+		param.put("pageNum", pageNum * 5);
+
+		return sqlSession.getMapper(SNSDao.class).searchUser(param);
 	}
 
 }

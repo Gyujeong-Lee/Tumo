@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ScrapDto;
+import com.tumo.model.UserDto;
 import com.tumo.model.service.SNSService;
 
 import io.swagger.annotations.Api;
@@ -132,5 +133,20 @@ public class SNSController {
 		map.put("scrap", scrap);
 		map.put("message", SUCCESS);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "유저 검색")
+	@GetMapping("/search/{searchContent}/{pageNum}")
+	public ResponseEntity<Map<String, Object>> searchUser(@PathVariable String searchContent,
+			@PathVariable int pageNum) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<UserDto> users = snsService.searchUser(searchContent, pageNum);
+		if (users == null || users.size() == 0) {
+			result.put("message", FAIL);
+			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
+		}
+		result.put("users", users);
+		result.put("message", SUCCESS);
+		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
 	}
 }

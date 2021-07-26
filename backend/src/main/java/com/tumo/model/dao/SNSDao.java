@@ -7,6 +7,7 @@ import java.util.Map;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ScrapDto;
+import com.tumo.model.UserDto;
 
 public interface SNSDao {
 
@@ -27,5 +28,7 @@ public interface SNSDao {
 	void subFavor(int boardIdx);
 
 	List<FeedDto> readMyPost(int userIdx);
+
+	List<UserDto> searchUser(Map<String, Object> param);
 
 }
