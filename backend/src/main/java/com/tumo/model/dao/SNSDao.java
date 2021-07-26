@@ -35,8 +35,8 @@ public interface SNSDao {
 
 	ProfileDto readUser(int userIdx);
 
-	int getFollowingCount(int userIdx);
+	Integer getFollowingCount(int userIdx);
 
-	int getFollowerCount(int userIdx);
+	Integer getFollowerCount(int userIdx);
 
 }

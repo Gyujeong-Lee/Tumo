@@ -87,8 +87,11 @@ public class SNSServiceImpl implements SNSService {
 		if(result == null)
 			return null;
 		
-		result.setFollowingCnt(sqlSession.getMapper(SNSDao.class).getFollowingCount(userIdx));
-		result.setFollowerCnt(sqlSession.getMapper(SNSDao.class).getFollowerCount(userIdx));
+		Integer followingCnt = sqlSession.getMapper(SNSDao.class).getFollowingCount(userIdx);
+		Integer followerCnt = sqlSession.getMapper(SNSDao.class).getFollowerCount(userIdx);
+		
+		result.setFollowingCnt(followingCnt == null ? 0 : followingCnt);
+		result.setFollowerCnt(followerCnt == null ? 0 : followerCnt);
 		
 		return result;
 	}
