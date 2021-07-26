@@ -15,7 +15,7 @@
     <!-- 댓글 작성 폼 -->
     <form class="d-flex justify-content-between pb-2">
      <input v-model="comment" type="text" placeholder="댓글 작성" class="w-75">
-     <v-btn color="primary" text :disabled="!comment.trim()" @click="createComment">게시</v-btn>
+     <v-btn color="primary" class="fw-bold" text plain :disabled="!comment.trim()" @click="createComment">게시</v-btn>
     </form>
   </div>
 </template>
@@ -37,6 +37,15 @@ export default {
   methods: {
     createComment: function () {
       // axios 요청
+      // .then commentData에 push (axios 재요청 X)
+      let data = {
+        "comment_idx": 1,
+        "user_idx": 1,
+        "nickName": "이규빈",
+        "content": this.comment,
+      }
+      this.commentData.push(data)
+      // alert
       this.comment = ''
     }
   }
@@ -52,4 +61,5 @@ export default {
 #comments input:focus {
   outline: none;
 }
+
 </style>
