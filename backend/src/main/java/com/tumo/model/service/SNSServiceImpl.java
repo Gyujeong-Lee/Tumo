@@ -13,6 +13,7 @@ import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.UserDto;
+import com.tumo.model.dao.ProfileDto;
 import com.tumo.model.dao.SNSDao;
 
 @Service
@@ -77,6 +78,19 @@ public class SNSServiceImpl implements SNSService {
 			return null;
 		
 		return sqlSession.getMapper(SNSDao.class).searchUser(param);
+	}
+
+	@Override
+	public ProfileDto readUser(int userIdx) {
+		ProfileDto result = sqlSession.getMapper(SNSDao.class).readUser(userIdx);
+		
+		if(result == null)
+			return null;
+		
+		result.setFollowingCnt(sqlSession.getMapper(SNSDao.class).getFollowingCount(userIdx));
+		result.setFollowerCnt(sqlSession.getMapper(SNSDao.class).getFollowerCount(userIdx));
+		
+		return result;
 	}
 
 }

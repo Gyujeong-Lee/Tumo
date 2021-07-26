@@ -33,4 +33,10 @@ public interface SNSDao {
 
 	int countSearchedUser(Map<String, Object> param);
 
+	ProfileDto readUser(int userIdx);
+
+	int getFollowingCount(int userIdx);
+
+	int getFollowerCount(int userIdx);
+
 }

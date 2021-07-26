@@ -71,4 +71,24 @@
 		where (nickname like CONCAT('%', #{searchContent}, '%') or email like CONCAT('%', #{searchContent}, '%') ) and deleted is null
 	</select>
 	
+	<select id="readUser" parameterType="int"  resultType="profileDto">
+		select user_idx as userIdx, nickname, introduce
+		from user
+		where user_idx = #{userIdx}	
+	</select>
+	
+	<select id="getFollowingCount" parameterType="int" resultType="int">
+		select count(*)
+		from following
+		group by user_idx
+		where user_idx = #{userIdx}
+	</select>
+	
+	<select id="getFollowerCount" parameterType="int"  resultType="int">
+		select count(*)
+		from following
+		group by following_idx
+		where following_idx = #{userIdx}
+	</select>
+	
 </mapper>
