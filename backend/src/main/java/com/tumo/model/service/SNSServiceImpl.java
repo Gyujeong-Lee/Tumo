@@ -66,11 +66,16 @@ public class SNSServiceImpl implements SNSService {
 
 	@Override
 	public List<UserDto> searchUser(String searchContent, int pageNum) {
-		searchContent = searchContent.replaceAll("+", " ");
+		searchContent = searchContent.replaceAll("\\+", " ");
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("searchContent", searchContent);
 		param.put("pageNum", pageNum * 5);
-
+		int cnt = sqlSession.getMapper(SNSDao.class).countSearchedUser(param);
+		
+		System.out.println("searchContent = "+param.get("searchContent"));
+		if(cnt == 0)
+			return null;
+		
 		return sqlSession.getMapper(SNSDao.class).searchUser(param);
 	}
 

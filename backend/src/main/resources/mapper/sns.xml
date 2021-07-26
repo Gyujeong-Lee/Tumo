@@ -59,13 +59,16 @@
 	</select>
 	
 	<select id="searchUser" parameterType="map" resultType="userDto">
-		select user_idx as userIdx, nickname, introduce
+		select user_idx as userIdx, nickname as nickname, introduce as introduce
 		from user
-		where (nickname like "%#{searchContent}%" or email like "%#{searchContent}%" ) and deleted is null
-		order by (select count(*)
-			from following
-			group by user_idx
-			having user_idx = #{user_idx}) desc
-		limit #{pageNum}, 5;
+		where (nickname like CONCAT('%', #{searchContent}, '%') or email like CONCAT('%', #{searchContent}, '%') ) and deleted is null
+		limit #{pageNum}, 5
 	</select>
+	
+	<select id="countSearchedUser" parameterType="map" resultType="int">
+		select count(*)
+		from user
+		where (nickname like CONCAT('%', #{searchContent}, '%') or email like CONCAT('%', #{searchContent}, '%') ) and deleted is null
+	</select>
+	
 </mapper>

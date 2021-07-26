@@ -31,4 +31,6 @@ public interface SNSDao {
 
 	List<UserDto> searchUser(Map<String, Object> param);
 
+	int countSearchedUser(Map<String, Object> param);
+
 }
