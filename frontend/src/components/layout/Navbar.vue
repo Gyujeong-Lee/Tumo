@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed-top">
+  <div>
     <v-app-bar
     color="#00BFFE"
     dense
