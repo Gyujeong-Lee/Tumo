@@ -8,6 +8,15 @@
       </div>
       <p>{{ data.content }}</p>
     </div>
+    <div class="w-100 d-flex justify-content-center">
+      <img src="@/assets/comment/paginator.png" alt="paginator" class="w-75">
+    </div>
+    <hr>
+    <!-- 댓글 작성 폼 -->
+    <form class="d-flex justify-content-between pb-2">
+     <input v-model="comment" type="text" placeholder="댓글 작성" class="w-75">
+     <v-btn color="primary" text :disabled="!comment.trim()" @click="createComment">게시</v-btn>
+    </form>
   </div>
 </template>
 
@@ -21,7 +30,14 @@ export default {
   },
   data: function () {
     return {
-      commentData: this.data
+      commentData: this.data,
+      comment: '',
+    }
+  },
+  methods: {
+    createComment: function () {
+      // axios 요청
+      this.comment = ''
     }
   }
 }
@@ -31,5 +47,9 @@ export default {
 #comments {
   padding-left: 8%;
   padding-right: 8%;
+}
+
+#comments input:focus {
+  outline: none;
 }
 </style>
