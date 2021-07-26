@@ -6,18 +6,6 @@
       </div>
       <div>
         <h3 class="mb-4 fw-bold text-center">TOP <img src="@/assets/main/three.png" alt="three" style="width: 3rem;">KeyWords</h3>
-        <div class="mb-5 fw-bold">
-          <h5>1. AI</h5>
-          <img src="@/assets/main/carousel.png" alt="carousel">
-        </div>
-        <div class="mb-5 fw-bold">
-          <h5>2. 기업의</h5>
-          <img src="@/assets/main/carousel.png" alt="carousel">
-        </div>
-        <div class="mb-5 fw-bold">
-          <h5>3. 여러분~</h5>
-          <img src="@/assets/main/carousel.png" alt="carousel">
-        </div>
       </div>
     </div>
   </div>

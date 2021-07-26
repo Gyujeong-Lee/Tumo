@@ -7,7 +7,7 @@
     >
       <div class="w-100 d-flex justify-space-between">
         <!-- Logo -->
-        <router-link :to="{ name: 'Login' }"><img src="@/assets/Login/logo.png" alt="mainlogo" height="50"></router-link>
+        <router-link :to="{ name: 'Login' }"><img src="@/assets/login/logo.png" alt="mainlogo" height="50"></router-link>
         <!-- Search -->
         <b-form-input class="mt-3" placeholder="Search">
         </b-form-input> 

@@ -1,6 +1,6 @@
 <template>
   <div id="mainfeed">
-    <v-tabs grow :color="tabColor" id="feedTabs" class="sticky-top bg-white" style="padding-top: 3em;">
+    <v-tabs grow :color="tabColor" id="feedTabs" class="sticky-top" style="padding-top: 3em;">
       <v-tab id="newFeedBtn" @click="selectNewFeeds">
         <v-icon large class="me-3">mdi-account-group</v-icon>
         <span>Feeds</span>
