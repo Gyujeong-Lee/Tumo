@@ -12,5 +12,9 @@ export default {
     },
     // ADD_SEARCH_RESULT (state, res) {
     //     state.search_result.push(res)
-    // }
+    // },
+    ACTIVATE_ALERTCENTER (state) {
+        state.activate_alertcenter = !state.activate_alertcenter
+        console.log(state.activate_alertcenter)
+    }
 }

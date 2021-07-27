@@ -8,4 +8,7 @@ export default {
         //최근 검색 결과 목록에 추가하기.
         context.commit('ADD_SEARCH_HISTORY', search_item)
     },
+    activate_alertcenter ({commit}) {
+        commit('ACTIVATE_ALERTCENTER')
+    }
 }

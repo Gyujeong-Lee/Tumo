@@ -4,7 +4,6 @@ import Login from "../views/user/Login.vue";
 import Signup from "../views/user/Signup.vue";
 import Profile from "../views/user/Profile.vue";
 import Main from "../views/Main.vue";
-import CreateArticle from "../views/CreateArticle.vue";
 
 Vue.use(VueRouter);
 
@@ -25,14 +24,10 @@ const routes = [
     component: Main,
   },
   {
-    path: "/createArticle",
-    name: "createAritlce",
-    component: CreateArticle,
-  },
-  {
-    path: "/user/:userId",
+    path: "/user/:nickname",
     name: "profile",
     component: Profile,
+    props: true
   },
 ];
 
