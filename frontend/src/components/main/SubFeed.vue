@@ -7,13 +7,19 @@
       <div>
         <h3 class="mb-4 fw-bold text-center">TOP <img src="@/assets/main/three.png" alt="three" style="width: 3rem;">KeyWords</h3>
       </div>
+      <button @click="drawModal" class="btn btn-primary">open modal</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SubFeed'
+  name: 'SubFeed',
+  methods: {
+    drawModal: function () {
+      this.$store.state.drawCreateArticle = !this.$store.state.drawCreateArticle
+    }
+  }
 }
 </script>
 
@@ -35,7 +41,8 @@ export default {
 #subfeed {
   position: sticky;
   top: 0px;
-  padding-top: 3em;
+  padding-top: 5rem;
+  margin-right: 3rem;
 }
 
 #subfeed > div:last-child img {

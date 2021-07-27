@@ -1,5 +1,5 @@
 <template>
-  <div class="sticky-top">
+  <div class="fixed-top" id="NavBar">
     <v-app-bar
     color="#00BFFE"
     dense
@@ -78,5 +78,8 @@ export default {
 
 <style scoped>
 
+#NavBar {
+  z-index: 2;
+}
 
 </style>
