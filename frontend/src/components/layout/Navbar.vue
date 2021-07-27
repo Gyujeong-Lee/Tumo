@@ -23,7 +23,7 @@
           <datalist 
           id="my-list-id"
           >
-            <option>Customizing 가능</option>
+            <option>인기 검색어?</option>
             <option v-for="(item, idx) in search_list" :key="idx">{{ item }}</option>
           </datalist>
         </div>
@@ -36,33 +36,36 @@
           <v-btn icon>
             <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;"><v-icon>mdi-apple-safari</v-icon></router-link>
           </v-btn>
-          <v-btn icon>
-            <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;"><v-icon>mdi-heart</v-icon></router-link>
+          <v-btn icon
+          @click="dialog = true"
+          >
+            <v-icon>mdi-heart</v-icon>
           </v-btn>
+          <AlertCenter/>
           <v-btn icon>
             <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;"><v-icon>mdi-account-circle</v-icon></router-link>
           </v-btn>
         </div>
-
       </div>
     </v-app-bar>
   </div>
 </template>
 
 <script>
+import AlertCenter from '../AlertCenter.vue'
+
 export default {
   name: 'Navbar',
   data: function () {
     return {
       // 검색어
       search_item: "",
-
+      dialog: false,
     }
   },
   computed: {
     //store에서 검색 목록 가져오기
     search_list () {
-      console.log('으')
       return this.$store.state.search_history
     },
   },
@@ -72,6 +75,9 @@ export default {
       this.$store.dispatch('search', this.search_item)
       this.search_item = ""
     },
+  },
+  components: {
+    AlertCenter,
   }
 }
 </script>
