@@ -1,8 +1,8 @@
 <template>
   <div id="mainPage" class="h-100">
     <div class="d-flex justify-content-center h-100">
-      <SubFeed/>
       <FeedList/>
+      <SubFeed/>
     </div>
   </div>
 </template>
@@ -25,6 +25,17 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+h1 {
+  font-family: 'Jua', sans-serif;
+}
+
+label {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
 @media screen and (min-width: 940px) {
   #mainPage {
     min-width: 930px;

@@ -4,7 +4,7 @@
       <!-- navbar는 jwt token 여부에 따라 토글한다. -->
       <Navbar/>
       <router-view/>
-      <CreateArticle/>
+      <CreateArticle v-if="$store.state.drawCreateArticle"/>
     </v-main>
   </v-app>
 </template>
