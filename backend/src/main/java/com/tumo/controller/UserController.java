@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tumo.jwt.JwtFilter;
+import com.tumo.model.LoginDto;
 import com.tumo.model.SignupDto;
+import com.tumo.model.TokenDto;
+import com.tumo.model.UserDto;
 import com.tumo.model.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -95,5 +101,48 @@ public class UserController {
 
 		return response;
 	}
+	
+	@PostMapping(value = "/login")
+	@ApiOperation(value = "로그인 | jwt는 헤더에 autorization으로 전송")
+	public ResponseEntity createLogin(@RequestBody LoginDto loginDto) {
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			TokenDto tokenDto = userService.login(loginDto);
+			
+			String jwt = tokenDto.getJwt();
+			UserDto userDto = tokenDto.getUserDto();
+			
+			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+			
+			resultMap.put("userDto", userDto);
+			resultMap.put("message", "ok");
+			
+			response = new ResponseEntity<>(resultMap, httpHeaders, HttpStatus.OK);
+		} catch (Exception e) {
+			resultMap.put("message", "로그인 실패");
+			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		}
+		
+		
+		return response;
+		
+	}
+	
+	
+	@GetMapping("/user")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<String> getMyUserInfo() {
+        return ResponseEntity.ok("ok");
+    }
+ 
+    @GetMapping("/user/{username}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<String> getUserInfo(@PathVariable String username) {
+        return ResponseEntity.ok("ok");
+    }
+	
 
 }

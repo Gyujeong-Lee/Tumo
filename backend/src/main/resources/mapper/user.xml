@@ -10,14 +10,14 @@
 	</insert>
 	
 	<select id="findUserByEmail" parameterType="string" resultType="userdto">
-		select user_idx as userIdx, nickname, email, login_type as loginType, introduce, 
+		select user_idx as userIdx, password, nickname, email, login_type as loginType, introduce, 
 				disclosure, create_at as createAt, update_at as updateAt, deleted 
 			from user
 			having email = #{email} 
 	</select>
 	
 	<select id="findUserByNickname" parameterType="string" resultType="userdto">
-		select user_idx as userIdx, nickname, email, login_type as loginType, introduce, 
+		select user_idx as userIdx, password, nickname, email, login_type as loginType, introduce, 
 				disclosure, create_at as createAt, update_at as updateAt, deleted 
 			from user
 			where nickname = #{nickname} 
@@ -32,5 +32,11 @@
 		select if(count(*) != 0, 1, 0) from user_tag
 			where user_idx = #{userIdx} and content = #{content}
 	</select>
+	
+	<update id="updateUpdateAtByEmail" parameterType="string">
+		update user
+			set update_at = CURRENT_TIMESTAMP
+			where email = #{email}
+	</update>
 	
 </mapper>

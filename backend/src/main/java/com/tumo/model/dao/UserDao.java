@@ -22,4 +22,7 @@ public interface UserDao {
 	// user_tag 중복 조회
 	public boolean findUserTagByUserIdxAndContent(Map<String, Object> tagMap);
 	
+	// 로그인시 update_at 갱신
+	public void updateUpdateAtByEmail(String email);
+	
 }

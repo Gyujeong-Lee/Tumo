@@ -7,12 +7,19 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tumo.jwt.TokenProvider;
+import com.tumo.model.LoginDto;
 import com.tumo.model.SignupDto;
+import com.tumo.model.TokenDto;
 import com.tumo.model.UserDto;
 import com.tumo.model.dao.UserDao;
 
@@ -21,10 +28,18 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private SqlSession sqlSession;
-
+	
+	private final TokenProvider tokenProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+	    
+    public UserServiceImpl(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+        this.tokenProvider = tokenProvider;
+        this.authenticationManagerBuilder = authenticationManagerBuilder;
+    }
+    
 	// Bcrypt 해시 함수를 이용한 비밀번호 암호화
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
+    
 	@Override
 	@Transactional
 	public void createUser(SignupDto signupDto) throws SQLException {
@@ -89,6 +104,29 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return result;
+	}
+
+	@Transactional
+	@Override
+	public TokenDto login(LoginDto loginDto) {
+		
+		UsernamePasswordAuthenticationToken authenticationToken =
+				new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
+				
+		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		String jwt = tokenProvider.createToken(authentication);
+		
+		// jwt 생성 성공시 로그인 날짜 변경
+		sqlSession.getMapper(UserDao.class).updateUpdateAtByEmail(loginDto.getEmail());
+		
+		UserDto userDto = sqlSession.getMapper(UserDao.class).findUserByEmail(loginDto.getEmail());
+		userDto.setPassword(null); // Response Body에 비밀번호 노출 방지
+				
+		TokenDto tokenDto = new TokenDto(jwt, userDto);
+		
+		return tokenDto;
 	}
 
 }
