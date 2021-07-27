@@ -1,24 +1,33 @@
 <template>
   <div id="createArticle">
-    <form>
-      <div class="d-flex justify-content-between align-items-end">
-        <div class="w-100 me-5">
+    <v-form
+      ref="form"
+      v-model="valid"
+    >
+      <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
+        <div class="w-100">
           <label for="formTitle">제목</label>
           <v-text-field
             solo
             rounded
             dense
+            counter=30
+            :rules="titleRules"
             v-model="data.title" 
             id="formTitle"
           ></v-text-field>
         </div>
-        <v-select
-          :items="items"
-          dense
-          solo
-          rounded
-          v-model="data.stock"
-        ></v-select>
+        <div>
+          <label for="formStock">종목</label>
+          <v-select
+            :items="items"
+            dense
+            solo
+            rounded
+            v-model="data.stock"
+            id="formStock"
+          ></v-select>
+        </div>
       </div>
       <div>
         <label for="">내용</label>
@@ -26,6 +35,7 @@
           solo
           rounded
           dense
+          :rules="contentRules"
           v-model="data.content"
           id="formContent"
         ></v-textarea>
@@ -43,14 +53,15 @@
           ></v-text-field>
         </div>
         <v-btn rounded color="error" @click="addTag">추가</v-btn>
+        <div></div>
       </div>
       <br>
       <div>
         <v-chip v-for="(tag, idx) in data.tags" :key="idx" label close @click:close="popTag(idx)" class="me-3 mb-3">#{{ tag }}</v-chip>
       </div>
       <br>
-      <v-btn block rounded color="primary">작성</v-btn>
-    </form>
+      <v-btn block rounded :disabled="!valid" color="primary">작성</v-btn>
+    </v-form>
   </div>
 </template>
 
@@ -59,8 +70,16 @@ export default {
   name: 'CreateArticle',
   data: function () {
     return {
+      valid: true,
       items: ['국내주식', '해외주식', '국내채권', '해외채권'],
       inputTag: '',
+      titleRules: [
+        v => !!v || '제목을 적어주세요.',
+        v => (v && v.length <= 30) || '제목이 너무 길어요...',
+      ],
+      contentRules: [
+        v => !!v || '내용을 적어주세요.',
+      ],
       data: {
         title: '',
         stock: '국내주식',
@@ -84,10 +103,29 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+#createArticle * {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
 #createArticle form {
-  width: 576px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 5%;
+  margin-left: 8%;
+  margin-right: 8%;
+
+}
+
+@media screen and (min-width: 600px){
+  #createArticle form {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+  }
+
+  form > div > div:first-child {
+    margin-right: 5%;
+  }
+  
 }
 </style>
