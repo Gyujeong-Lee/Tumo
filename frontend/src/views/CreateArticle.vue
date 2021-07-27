@@ -6,6 +6,7 @@
     id="createArticle"
   >
     <v-card>
+      <h1 class="text-center mb-5"><v-icon large color="black">mdi-pencil</v-icon> 새 게시물</h1>
       <v-form
         ref="form"
         v-model="valid"
@@ -17,7 +18,7 @@
               solo
               rounded
               dense
-              counter=30
+              counter=20
               :rules="titleRules"
               v-model="data.title" 
               id="formTitle"
@@ -58,17 +59,17 @@
               v-model="inputTag"
             ></v-text-field>
           </div>
-          <v-btn rounded color="error" @click="addTag">추가</v-btn>
-          <div></div>
+          <v-btn rounded class="me-5" color="error" @click="addTag">추가</v-btn>          
         </div>
         <br>
         <div>
           <v-chip v-for="(tag, idx) in data.tags" :key="idx" label close @click:close="popTag(idx)" class="me-3 mb-3">#{{ tag }}</v-chip>
         </div>
         <br>
-        <v-btn block rounded :disabled="!valid" color="primary">작성</v-btn>
-        <br>
-        <v-btn block rounded color="error" @click="closeModal">작성 취소</v-btn>
+        <div class="d-flex justify-content-end">
+          <v-btn rounded class="me-5" color="error" @click="closeModal">작성 취소</v-btn>
+          <v-btn rounded color="primary" :disabled="!valid" @click="submitForm">작성 완료</v-btn>
+        </div>
       </v-form>
     </v-card>
   </v-dialog>
@@ -84,7 +85,7 @@ export default {
       inputTag: '',
       titleRules: [
         v => !!v || '제목을 적어주세요.',
-        v => (v && v.length <= 30) || '제목이 너무 길어요...',
+        v => (v && v.length <= 20) || '제목이 너무 길어요...',
       ],
       contentRules: [
         v => !!v || '내용을 적어주세요.',
@@ -109,6 +110,11 @@ export default {
     },
     closeModal: function () {
       this.$store.state.drawCreateArticle = false
+    },
+    submitForm: function () {
+      // axios 요청
+      // alert
+      this.$store.state.drawCreateArticle = false
     }
   },
   computed: {
@@ -120,20 +126,13 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
-
 .v-card {
-  padding: 10% 7%;
-}
-
-#createArticle * {
-  font-family: 'Noto Sans KR', sans-serif;
+  padding: 5% 7%;
 }
 
 #createArticle form {
   margin-left: 8%;
   margin-right: 8%;
-
 }
 
 @media screen and (min-width: 600px){

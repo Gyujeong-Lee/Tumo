@@ -9,9 +9,9 @@
     <div class="d-flex justify-content-between mb-3">
       <div class="d-flex align-items-center">
         <img src="@/assets/main/user.png" alt="user" style="width: 35px;">
-        <div class="d-flex flex-column align-items-start ms-3">
-          <p class="my-0">@nickName</p>
-          <h6 class="my-0 fw-bold">{{ data.title }}</h6>
+        <div class="d-flex align-items-center">
+          <h6 class="my-0 mx-3 fw-bold">{{ data.title }}</h6>
+          <p class="my-0 text-secondary">@nickName</p>
         </div>
       </div>
       <div>

@@ -17,7 +17,7 @@ export default {
   name: 'SubFeed',
   methods: {
     drawModal: function () {
-      this.$store.state.drawCreateArticle = !this.$store.state.drawCreateArticle
+      this.$store.state.drawCreateArticle = true
     }
   }
 }
@@ -42,7 +42,7 @@ export default {
   position: sticky;
   top: 0px;
   padding-top: 5rem;
-  margin-right: 3rem;
+  margin-left: 3rem;
 }
 
 #subfeed > div:last-child img {
