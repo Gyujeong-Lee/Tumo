@@ -209,7 +209,7 @@
         // console.log(keyword)
         const idx_keyword = this.credentials.keywords.indexOf(keyword)
         this.credentials.keywords.splice(idx_keyword, 1)
-      }
+      },
     },
   }
 </script>

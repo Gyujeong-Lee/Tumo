@@ -1,18 +1,34 @@
 <template>
-  <div>
+  <div class="sticky-top">
     <v-app-bar
     color="#00BFFE"
     dense
     dark
     >
-      <div class="w-100 d-flex justify-space-between">
+      <div class="w-100 d-flex justify-space-between my-auto">
         <!-- Logo -->
         <router-link :to="{ name: 'Login' }"><img src="@/assets/login/logo.png" alt="mainlogo" height="50"></router-link>
         <!-- Search -->
-        <b-form-input class="mt-3" placeholder="Search">
-        </b-form-input> 
+        <div class="mt-1 ms-1">
+          <b-form-input
+          placeholder="Search"
+          v-model="search_item"
+          list="my-list-id"
+          autocomplete="on"
+          @keypress.enter="search"
+          >
+          </b-form-input>
+
+          <!-- 검색 목록 -->
+          <datalist 
+          id="my-list-id"
+          >
+            <option>Customizing 가능</option>
+            <option v-for="(item, idx) in search_list" :key="idx">{{ item }}</option>
+          </datalist>
+        </div>
         <!-- 아이콘 -->
-        <div class="mt-2">
+        <div>
           <!-- 링크 수정할 것 -->
           <v-btn icon>
             <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;"><v-icon>mdi-pencil</v-icon></router-link>
@@ -38,22 +54,29 @@ export default {
   name: 'Navbar',
   data: function () {
     return {
+      // 검색어
+      search_item: "",
 
     }
   },
+  computed: {
+    //store에서 검색 목록 가져오기
+    search_list () {
+      console.log('으')
+      return this.$store.state.search_history
+    },
+  },
   methods: {
-
+    search: function () {
+      // vuex를 통해 검색 요청 보내기
+      this.$store.dispatch('search', this.search_item)
+      this.search_item = ""
+    },
   }
 }
 </script>
 
 <style scoped>
-  #nav-bar {
-    /* nav bar 색상 추가 */
-    background-color: #00BFFE;
-  }
-  input {
-    width: 20%;
-    height: 80%;
-  }
+
+
 </style>

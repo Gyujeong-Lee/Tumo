@@ -7,6 +7,10 @@ import mutations from './mutations'
 Vue.use(Vuex)
 
 const state = {
+    //최근 검색 목록
+    search_history: [],
+    //검색 결과
+    search_result: [],
 }
 
 export default new Vuex.Store({
