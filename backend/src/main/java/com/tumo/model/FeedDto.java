@@ -86,6 +86,12 @@ public class FeedDto {
 		this.createAt = createAt;
 		this.updateAt = updateAt;
 	}
+	
+	public FeedDto(String title, String content) {
+		super();
+		this.title = title;
+		this.content = content;
+	}
 
 	@Override
 	public String toString() {
