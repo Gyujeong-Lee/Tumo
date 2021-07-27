@@ -7,7 +7,8 @@
     >
       <div class="w-100 d-flex justify-space-between my-auto">
         <!-- Logo -->
-        <router-link :to="{ name: 'Login' }"><img src="@/assets/login/logo.png" alt="mainlogo" height="50"></router-link>
+        <router-link :to="{ name: 'main' }"><img src="@/assets/login/logo.png" alt="mainlogo" height="50"></router-link>
+
         <!-- Search -->
         <div class="mt-1 ms-1">
           <b-form-input
@@ -27,23 +28,48 @@
             <option v-for="(item, idx) in search_list" :key="idx">{{ item }}</option>
           </datalist>
         </div>
+
         <!-- 아이콘 -->
         <div>
           <!-- 링크 수정할 것 -->
+          <!-- 글쓰기 -->
           <v-btn icon>
-            <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;"><v-icon>mdi-pencil</v-icon></router-link>
+            <router-link :to="{ name: 'CreateArticle' }" style="text-decoration: none; color: inherit;">
+              <v-icon>mdi-pencil</v-icon>
+            </router-link>
           </v-btn>
+          <!-- 탐색 -->
           <v-btn icon>
-            <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;"><v-icon>mdi-apple-safari</v-icon></router-link>
+            <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;">
+              <v-icon>mdi-apple-safari</v-icon>
+            </router-link>
           </v-btn>
-          <v-btn icon
-          @click="dialog = true"
+          <!-- 알림 -->
+          <v-menu
+          bottom
+          offset-y
           >
-            <v-icon>mdi-heart</v-icon>
-          </v-btn>
-          <AlertCenter/>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                dark
+                icon
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>mdi-heart</v-icon>
+              </v-btn>
+            </template>
+            <!-- 알림 센터 popover -->
+            <AlertCenter/>
+          </v-menu>
+          <!-- 프로필 -->
           <v-btn icon>
-            <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;"><v-icon>mdi-account-circle</v-icon></router-link>
+            <router-link 
+            :to="{ name: 'profile', params:{ nickname: `${user_nickname}`} }" 
+            style="text-decoration: none; color: inherit;"
+            >
+              <v-icon>mdi-account-circle</v-icon>
+            </router-link>
           </v-btn>
         </div>
       </div>
@@ -52,7 +78,7 @@
 </template>
 
 <script>
-import AlertCenter from '../AlertCenter.vue'
+import AlertCenter from '../alertcenter/AlertCenter.vue'
 
 export default {
   name: 'Navbar',
@@ -60,13 +86,15 @@ export default {
     return {
       // 검색어
       search_item: "",
-      dialog: false,
     }
   },
   computed: {
     //store에서 검색 목록 가져오기
     search_list () {
       return this.$store.state.search_history
+    },
+    user_nickname () {
+      return this.$store.state.user_info.user_nickname
     },
   },
   methods: {
