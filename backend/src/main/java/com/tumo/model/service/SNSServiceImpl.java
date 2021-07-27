@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
+import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.UserDto;
-import com.tumo.model.dao.ProfileDto;
 import com.tumo.model.dao.SNSDao;
 
 @Service
@@ -72,28 +72,48 @@ public class SNSServiceImpl implements SNSService {
 		param.put("searchContent", searchContent);
 		param.put("pageNum", pageNum * 5);
 		int cnt = sqlSession.getMapper(SNSDao.class).countSearchedUser(param);
-		
-		System.out.println("searchContent = "+param.get("searchContent"));
-		if(cnt == 0)
+
+		System.out.println("searchContent = " + param.get("searchContent"));
+		if (cnt == 0)
 			return null;
-		
+
 		return sqlSession.getMapper(SNSDao.class).searchUser(param);
 	}
 
 	@Override
 	public ProfileDto readUser(int userIdx) {
 		ProfileDto result = sqlSession.getMapper(SNSDao.class).readUser(userIdx);
-		
-		if(result == null)
+
+		if (result == null)
 			return null;
-		
+
 		Integer followingCnt = sqlSession.getMapper(SNSDao.class).getFollowingCount(userIdx);
 		Integer followerCnt = sqlSession.getMapper(SNSDao.class).getFollowerCount(userIdx);
-		
+
 		result.setFollowingCnt(followingCnt == null ? 0 : followingCnt);
 		result.setFollowerCnt(followerCnt == null ? 0 : followerCnt);
-		
+
 		return result;
+	}
+
+	@Override
+	public List<ProfileDto> readFollowerList(int userIdx) {
+		return sqlSession.getMapper(SNSDao.class).readFollowerList(userIdx);
+	}
+
+	@Override
+	public List<ProfileDto> readFollowingList(int userIdx) {
+		return sqlSession.getMapper(SNSDao.class).readFollowingList(userIdx);
+	}
+
+	@Override
+	public Boolean readIsFollow(Map<String, Object> param) {
+		Map<String, Integer> follow = sqlSession.getMapper(SNSDao.class).readIsFollow(param);
+		
+		if (follow == null)
+			return false;
+
+		return true;
 	}
 
 }

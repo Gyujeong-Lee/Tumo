@@ -6,9 +6,9 @@ import java.util.Map;
 
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
+import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.UserDto;
-import com.tumo.model.dao.ProfileDto;
 
 public interface SNSService {
 
@@ -29,5 +29,11 @@ public interface SNSService {
 	List<UserDto> searchUser(String searchContent, int pageNum);
 
 	ProfileDto readUser(int userIdx);
+
+	List<ProfileDto> readFollowerList(int userIdx);
+
+	List<ProfileDto> readFollowingList(int userIdx);
+
+	Boolean readIsFollow(Map<String, Object> param);
 
 }

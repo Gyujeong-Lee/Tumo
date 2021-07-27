@@ -1,4 +1,4 @@
-package com.tumo.model.dao;
+package com.tumo.model;
 
 public class ProfileDto {
 	private int userIdx;
@@ -6,6 +6,7 @@ public class ProfileDto {
 	private String introduce;
 	private int followingCnt;
 	private int followerCnt;
+	private String disclosure;
 
 	public int getUserIdx() {
 		return userIdx;
@@ -46,29 +47,39 @@ public class ProfileDto {
 	public void setFollowerCnt(int followerCnt) {
 		this.followerCnt = followerCnt;
 	}
-	
-	
 
-	public ProfileDto(int userIdx, String nickname, String introduce) {
+	public String getDisclosure() {
+		return disclosure;
+	}
+
+	public void setDisclosure(String disclosure) {
+		this.disclosure = disclosure;
+	}
+
+	public ProfileDto(int userIdx, String nickname, String introduce, String disclosure) {
 		super();
 		this.userIdx = userIdx;
 		this.nickname = nickname;
 		this.introduce = introduce;
+		this.disclosure = disclosure;
 	}
 
-	public ProfileDto(int userIdx, String nickname, String introduce, int followingCnt, int followerCnt) {
+	public ProfileDto(int userIdx, String nickname, String introduce, int followingCnt, int followerCnt,
+			String disclosure) {
 		super();
 		this.userIdx = userIdx;
 		this.nickname = nickname;
 		this.introduce = introduce;
 		this.followingCnt = followingCnt;
 		this.followerCnt = followerCnt;
+		this.disclosure = disclosure;
 	}
 
 	@Override
 	public String toString() {
-		return "profileDto [userIdx=" + userIdx + ", nickname=" + nickname + ", introduce=" + introduce
-				+ ", followingCnt=" + followingCnt + ", followerCnt=" + followerCnt + "]";
+		return "ProfileDto [userIdx=" + userIdx + ", nickname=" + nickname + ", introduce=" + introduce
+				+ ", followingCnt=" + followingCnt + ", followerCnt=" + followerCnt + ", disclosure=" + disclosure
+				+ "]";
 	}
 
 }

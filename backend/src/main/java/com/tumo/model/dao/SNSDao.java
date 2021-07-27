@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
+import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.UserDto;
 
@@ -38,5 +39,11 @@ public interface SNSDao {
 	Integer getFollowingCount(int userIdx);
 
 	Integer getFollowerCount(int userIdx);
+
+	List<ProfileDto> readFollowerList(int userIdx);
+
+	List<ProfileDto> readFollowingList(int userIdx);
+
+	Map<String, Integer> readIsFollow(Map<String, Object> param);
 
 }

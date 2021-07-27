@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
+import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.UserDto;
-import com.tumo.model.dao.ProfileDto;
 import com.tumo.model.service.SNSService;
 
 import io.swagger.annotations.Api;
@@ -148,9 +148,9 @@ public class SNSController {
 		}
 		result.put("users", users);
 		result.put("message", SUCCESS);
-		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "유저 정보 조회", notes = "특정 회원의 닉네임, 한 줄 소개, 팔로잉 수, 팔로워 수")
 	@GetMapping("/profile/{userIdx}")
 	public ResponseEntity<Map<String, Object>> readUserInfo(@PathVariable int userIdx) {
@@ -162,8 +162,47 @@ public class SNSController {
 		}
 		result.put("users", user);
 		result.put("message", SUCCESS);
-		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
-	
 
+	@ApiOperation(value = "팔로워 리스트")
+	@GetMapping("/follower/{userIdx}")
+	public ResponseEntity<Map<String, Object>> readFollowerList(@PathVariable int userIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<ProfileDto> followers = snsService.readFollowerList(userIdx);
+		result.put("message", SUCCESS);
+		result.put("followers", followers);
+		if (followers == null || followers.size() == 0) {
+			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "팔로잉 리스트")
+	@GetMapping("/following/{userIdx}")
+	public ResponseEntity<Map<String, Object>> readFollowingList(@PathVariable int userIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<ProfileDto> following = snsService.readFollowingList(userIdx);
+		result.put("message", SUCCESS);
+		result.put("followers", following);
+		if (following == null || following.size() == 0) {
+			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "팔로잉 여부", notes = "해당 회원에 대한 팔로잉 여부")
+	@GetMapping("/follow/{userIdx}/{otherIdx}")
+	public ResponseEntity<Map<String, Object>> readIsFollow(@PathVariable int userIdx, @PathVariable int otherIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("userIdx", userIdx);
+		param.put("otherIdx", otherIdx);
+
+		Boolean isFollow = snsService.readIsFollow(param);
+		result.put("message", SUCCESS);
+		result.put("isFollow", isFollow);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}	
+	
 }
