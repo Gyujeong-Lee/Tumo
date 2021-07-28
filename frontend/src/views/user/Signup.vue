@@ -105,9 +105,6 @@
         </div>
         <p class="text-center py-5 my-3">회원이신가요? <router-link :to="{ name: 'Login' }">로그인</router-link></p>        
       </v-form>
-
-      <!-- Footer -->
-      <p class="text-center fw-bold mt-5">@ All rights reserved by Team Tumo</p>
     </div>
   </div>
 </template>
