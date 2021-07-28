@@ -77,7 +77,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
  #highest_block {
    padding-top: 6rem;
  }

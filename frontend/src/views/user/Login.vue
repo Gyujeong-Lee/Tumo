@@ -59,9 +59,6 @@
         <img src="@/assets/login/user.png" alt="user" id="userImage">
       </div>
     </div>
-
-    <!-- Footer -->
-    <p class="text-center fw-bold mt-5">@ All rights reserved by Team Tumo</p>
   </div>
 
 </template>
