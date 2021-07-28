@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -205,4 +206,12 @@ public class SNSController {
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}	
 	
+	@ApiOperation(value = "계정 공개여부 수정", notes = "공개 계정은 비공개로, 비공개 계정은 공개로 수정")
+	@PutMapping("/disclosure/{userIdx}")
+	public ResponseEntity<Map<String, Object>> updateDisclosure(@PathVariable int userIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		snsService.updateDisclosure(userIdx);
+		result.put("message", SUCCESS);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
 }

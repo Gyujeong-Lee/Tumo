@@ -46,4 +46,6 @@ public interface SNSDao {
 
 	Map<String, Integer> readIsFollow(Map<String, Object> param);
 
+	void updateDisclosure(int userIdx);
+
 }

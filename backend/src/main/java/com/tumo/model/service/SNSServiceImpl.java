@@ -116,4 +116,9 @@ public class SNSServiceImpl implements SNSService {
 		return true;
 	}
 
+	@Override
+	public void updateDisclosure(int userIdx) {
+		sqlSession.getMapper(SNSDao.class).updateDisclosure(userIdx);
+	}
+
 }

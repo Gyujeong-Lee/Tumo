@@ -36,4 +36,6 @@ public interface SNSService {
 
 	Boolean readIsFollow(Map<String, Object> param);
 
+	void updateDisclosure(int userIdx);
+
 }

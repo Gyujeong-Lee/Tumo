@@ -112,4 +112,9 @@
 		from following
 		where user_idx = #{userIdx} and following_idx = #{following_idx}
 	</select>
+	
+	<update id="updateDisclosure" parameterType="int">
+		update user set disclosure = if(disclosure="public", "private", "public")
+		where user_idx = #{userIdx}
+	</update>
 </mapper>
