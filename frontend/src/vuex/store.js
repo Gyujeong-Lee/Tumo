@@ -16,9 +16,9 @@ const state = {
 
   // user
   user_info: {
-    user_id: '',
+    id: '',
     //임시 데이터
-    user_nickname: 'gyu',
+    nickname: 'gyu',
   }
 };
 
