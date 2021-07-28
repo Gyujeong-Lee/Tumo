@@ -94,7 +94,7 @@ export default {
       return this.$store.state.search_history
     },
     user_nickname () {
-      return this.$store.state.user_info.user_nickname
+      return this.$store.state.user_info.nickname
     },
   },
   methods: {
