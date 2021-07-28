@@ -67,6 +67,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "Login",
   components: {},
@@ -83,7 +85,31 @@ export default {
   },
   methods: {
     userLogin: function () {
-      this.$router.push({ name: 'main'})
+      axios({
+        method: 'POST',
+        url: '/user/login',
+        data: this.credentials
+      })
+      .then(res => {
+        const message = res.data.message
+        if (message === '로그인 실패') {
+          alert('로그인 실패')
+        } else {
+          const userData = {
+            'token': res.headers.authorization,
+            'userIdx': res.data.userDto.userIdx,
+            'nickname': res.data.userDto.nickname,
+          }
+          // local Storage에 저장 및 state 변경
+          localStorage.setItem('userData', JSON.stringify(userData))
+          this.$store.commit('LOGIN', userData)
+          // main으로 이동
+          // this.$router.push({ name: 'main'})
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   }
 };

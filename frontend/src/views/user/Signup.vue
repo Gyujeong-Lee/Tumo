@@ -218,18 +218,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
-@media screen and (max-width: 500px){
-  #btnGroup {
-    justify-content: center;
-  }
-}
-
-@media screen and (min-width: 500px){
-  #btnGroup {
-    justify-content: flex-end;
-  }
-}
-
 #btnGroup {
   display: flex;
   flex-direction: row;
@@ -257,13 +245,13 @@ font-family: 'Noto Sans KR', sans-serif;
 
 #nickNameInput > button {
   position: absolute;
-  right: 0;
+  right: 5%;
   top: 20%;
 }
 
 #emailInput > button {
   position: absolute;
-  right: 0;
+  right: 5%;
   top: 20%;
 }
 
@@ -271,4 +259,13 @@ font-family: 'Noto Sans KR', sans-serif;
   width: 80%;
 }
 
+#btnGroup {
+  justify-content: center;
+}
+
+@media screen and (min-width: 500px){
+  #btnGroup {
+    justify-content: flex-end;
+  }
+}
 </style>

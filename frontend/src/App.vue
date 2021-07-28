@@ -2,7 +2,7 @@
   <v-app>
     <v-main>
       <!-- navbar는 jwt token 여부에 따라 토글한다. -->
-      <Navbar/>
+      <Navbar v-if="$store.state.config.Authorization"/>
       <router-view/>
       <CreateArticle v-if="$store.state.drawCreateArticle"/>
     </v-main>
@@ -22,5 +22,12 @@ export default {
     Navbar,
     CreateArticle,
   },
+  mounted: function () {
+    const userData = JSON.parse(localStorage.getItem('userData'))
+    if (userData) {
+      this.$store.commit('LOGIN', userData)
+      // this.$router.push({ name: 'main'})
+    }
+  }
 }
 </script>

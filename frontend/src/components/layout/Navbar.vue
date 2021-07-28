@@ -34,7 +34,7 @@
           <!-- 링크 수정할 것 -->
           <!-- 글쓰기 -->
           <v-btn icon>
-            <router-link :to="{ name: 'CreateArticle' }" style="text-decoration: none; color: inherit;">
+            <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;">
               <v-icon>mdi-pencil</v-icon>
             </router-link>
           </v-btn>
