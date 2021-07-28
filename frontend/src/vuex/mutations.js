@@ -23,6 +23,14 @@ export default {
     // token 저장
     state.config.Authorization = data.token;
   },
+  LOGOUT(state) {
+    // state 값 초기화
+    state.user_info = {
+      id: null,
+      nickname: null,
+    };
+    state.config.Authorization = null;
+  },
   ACTIVATE_ALERTCENTER(state) {
     state.activate_alertcenter = !state.activate_alertcenter;
     console.log(state.activate_alertcenter);

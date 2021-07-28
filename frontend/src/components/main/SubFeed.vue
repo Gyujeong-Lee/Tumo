@@ -8,6 +8,7 @@
         <h3 class="mb-4 fw-bold text-center">TOP <img src="@/assets/main/three.png" alt="three" style="width: 3rem;">KeyWords</h3>
       </div>
       <button @click="drawModal" class="btn btn-primary">open modal</button>
+      <button @click="logout" class="btn btn-danger">로그 아웃..</button>
     </div>
   </div>
 </template>
@@ -18,6 +19,11 @@ export default {
   methods: {
     drawModal: function () {
       this.$store.state.drawCreateArticle = true
+    },
+    logout: function () {
+      localStorage.removeItem('userData')
+      this.$store.commit('LOGOUT')
+      this.$router.push({ name: 'Login' })
     }
   }
 }

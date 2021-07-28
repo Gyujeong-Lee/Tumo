@@ -104,7 +104,7 @@ export default {
           localStorage.setItem('userData', JSON.stringify(userData))
           this.$store.commit('LOGIN', userData)
           // main으로 이동
-          // this.$router.push({ name: 'main'})
+          this.$router.push({ name: 'main'})
         }
       })
       .catch(err => {
