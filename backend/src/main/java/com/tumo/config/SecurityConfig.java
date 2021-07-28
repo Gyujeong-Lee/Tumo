@@ -74,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.formLogin().disable() // Spring Security 기본 로그인 페이지 없애기
 			.authorizeRequests()	// http 사용하는 요청 접근 제한
-			.antMatchers("/user/**").permitAll()	// '/user'로 시작하는 주소는 비회원 접근 허용
+			.antMatchers("/**").permitAll()	// '/user'로 시작하는 주소는 비회원 접근 허용
 			.anyRequest().authenticated()	// 나머지 요청들은 인증 필요
 		
 			.and()
