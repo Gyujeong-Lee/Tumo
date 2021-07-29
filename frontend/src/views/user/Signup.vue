@@ -63,7 +63,7 @@
         <!-- 관심 키워드 입력 -->
         <v-text-field
           v-model="keyword"
-          label="Keyword"
+          label="Hash Tag"
           @keypress.enter="add_keyword"
         ></v-text-field>
         
