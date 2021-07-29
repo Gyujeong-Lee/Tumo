@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed-top" id="NavBar">
+  <div class="sticky-top" id="NavBar">
     <v-app-bar
     color="#00BFFE"
     dense

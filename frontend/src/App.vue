@@ -1,7 +1,8 @@
 <template>
   <v-app>
     <!-- navbar는 jwt token 여부에 따라 토글한다. -->
-    <Navbar v-if="$store.state.config.Authorization"/>
+    <Navbar/>
+    <!-- <Navbar v-if="$store.state.config.Authorization"/> -->
     <v-main>
       <router-view/>
       <CreateArticle v-if="$store.state.drawCreateArticle"/>

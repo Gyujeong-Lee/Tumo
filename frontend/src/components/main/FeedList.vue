@@ -165,9 +165,9 @@ export default {
 }
 
 #feedTabs {
-  padding-top: 6rem;
+  padding-top: 3rem;
   position: sticky;
-  top: 0;
+  top: 48px;
   background-color: white;
   z-index: 1;
 }
