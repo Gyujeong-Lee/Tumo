@@ -10,9 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,7 @@ import com.tumo.jwt.JwtFilter;
 import com.tumo.model.LoginDto;
 import com.tumo.model.SignupDto;
 import com.tumo.model.TokenDto;
+import com.tumo.model.UpdateUserDto;
 import com.tumo.model.UserDto;
 import com.tumo.model.service.UserService;
 
@@ -118,18 +121,91 @@ public class UserController {
 			httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 			
 			resultMap.put("userDto", userDto);
-			resultMap.put("message", "ok");
+			resultMap.put("message", "success");
 			
 			response = new ResponseEntity<>(resultMap, httpHeaders, HttpStatus.OK);
 		} catch (Exception e) {
-			resultMap.put("message", "로그인 실패");
+			resultMap.put("message", "fail");
 			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
 		}
 		
-		
 		return response;
-		
 	}
 	
-
+	@PostMapping(value = "/checkpassword")
+	@ApiOperation(value = "비밀번호 확인")
+	public ResponseEntity createCheckpassword(@RequestBody UserDto userDto) {
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		boolean check = userService.checkPassword(userDto.getUserIdx(), userDto.getPassword());
+		
+		if (check) {
+			// 비밀번호 일치
+			resultMap.put("message", "success");
+			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		} else {
+			// 비밀번호 불일치
+			resultMap.put("message", "fail");
+			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		}
+		
+		return response;
+	}
+	
+	@PutMapping(value = "/password")
+	@ApiOperation(value = "비밀번호 변경")
+	public ResponseEntity updatePassword(@RequestBody UserDto userDto) {
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		if ( userService.updatePassword(userDto.getUserIdx(), userDto.getPassword()) ) {
+			// 비밀번호 변경 성공
+			resultMap.put("message", "success");
+			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		} else {
+			// 기존과 동일한 비밀번호 변경 시도로 인한 실패
+			resultMap.put("message", "fail");
+			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		}
+		
+		return response;
+	}
+	
+	@PutMapping(value = "/nickname")
+	@ApiOperation(value = "닉네임 변경")
+	public ResponseEntity updateNickname(@RequestBody UserDto userDto) {
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		UpdateUserDto updateUserDto = userService.updateNickname(
+				userDto.getUserIdx(), userDto.getNickname());
+		
+		if ( updateUserDto.getSuccess() ) {
+			// 닉네임 변경 성공
+			resultMap.put("message", "success");
+			resultMap.put("userDto", updateUserDto.getUserDto());
+			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		} else {
+			// 중복된 닉네임 변경 시도로 인한 실패
+			resultMap.put("message", "fail");
+			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		}
+		
+		return response;
+	}
+	
+	@DeleteMapping(value = "/user/{userIdx}")
+	@ApiOperation(value = "회원 탈퇴")
+	public ResponseEntity deleteUser(@PathVariable int userIdx) {
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		userService.deleteUser(userIdx);
+		resultMap.put("message", "success");
+		response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		
+		return response;
+	}
+	
 }

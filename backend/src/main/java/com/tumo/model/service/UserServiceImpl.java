@@ -20,6 +20,7 @@ import com.tumo.jwt.TokenProvider;
 import com.tumo.model.LoginDto;
 import com.tumo.model.SignupDto;
 import com.tumo.model.TokenDto;
+import com.tumo.model.UpdateUserDto;
 import com.tumo.model.UserDto;
 import com.tumo.model.dao.UserDao;
 
@@ -74,7 +75,6 @@ public class UserServiceImpl implements UserService {
 			}
 
 			sqlSession.getMapper(UserDao.class).insertUserTag(tagMap);
-
 		}
 
 	}
@@ -91,10 +91,10 @@ public class UserServiceImpl implements UserService {
 
 		return result;
 	}
-
+	
 	@Override
 	public boolean checkNickname(String nickname) {
-		// 중복되면 true, 없으면 false
+		// 사용 가능한 nickname이면 true, 안면 false
 		boolean result = false;
 
 		UserDto userDto = sqlSession.getMapper(UserDao.class).findUserByNickname(nickname);
@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
 
 		return result;
 	}
-
+	
 	@Transactional
 	@Override
 	public TokenDto login(LoginDto loginDto) {
@@ -128,5 +128,69 @@ public class UserServiceImpl implements UserService {
 		
 		return tokenDto;
 	}
+	
+	@Override
+	public boolean checkPassword(int userIdx, String password) {
+		// 비밀번호 일치하면 true, 불일치하면 false
+		boolean result = false;
+		
+		UserDto userDto = sqlSession.getMapper(UserDao.class).findUserByUserIdx(userIdx);
+		
+		// 비밀번호 일치 검사
+		if ( passwordEncoder.matches(password, userDto.getPassword()) ) {
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public boolean updatePassword(int userIdx, String password) {
+		// 비밀번호 변경 성공하면 true, 기존과 동일한 비밀번호 변경 시도할 경우 false;
+		boolean result = false;
+		
+		if (checkPassword(userIdx, password)) {
+			// 변경하려는 비밀번호가 DB에 저장된 기존 비밀번호와 일치
+			result = false;
+		} else {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("userIdx", userIdx);
+			map.put("password", passwordEncoder.encode(password));
+			
+			sqlSession.getMapper(UserDao.class).updatePasswordByUserIdx(map);
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	@Transactional
+	@Override
+	public UpdateUserDto updateNickname(int userIdx, String nickname) {
+		UpdateUserDto updateUserDto = new UpdateUserDto();
+		
+		if (checkNickname(nickname)) {
+			// 변경하려는 닉네임이 사용 가능한 nickname
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("userIdx", userIdx);
+			map.put("nickname", nickname);
+			sqlSession.getMapper(UserDao.class).updateNicknameByUserIdx(map);
+			
+			UserDto userDto = sqlSession.getMapper(UserDao.class).findUserByUserIdx(userIdx);
+			
+			updateUserDto.setSuccess(true);
+			updateUserDto.setUserDto(userDto);
+		} else {
+			// 중복된 닉네임으로 변경 시도
+			updateUserDto.setSuccess(false);
+		}
+		
+		return updateUserDto;
+	}
 
+	@Override
+	public void deleteUser(int userIdx) {
+		sqlSession.getMapper(UserDao.class).deleteUserByUserIdx(userIdx);
+	}
+	
 }
