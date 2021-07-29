@@ -14,7 +14,7 @@
               outlined
               dense
               hide-details
-              label="E-mail"
+              label="이메일"
               class="mb-4"
             ></v-text-field>
             <v-text-field
@@ -24,11 +24,12 @@
               outlined
               dense
               hide-details
-              label="Password"
+              label="비밀번호"
               class="mb-4"
             ></v-text-field>
-            <v-btn :disabled="!valid" color="primary" class="w-100" @click="userLogin">로그인</v-btn>
+            <v-btn :disabled="!valid" :loading="isLoading" color="primary" class="w-100" @click="userLogin">로그인</v-btn>
           </v-form>
+          <v-alert dense text type="error" id="loginAlert">회원 정보를 다시 확인해 주세요.</v-alert>
           <router-link :to="{ name: 'Login' }">비밀번호를 잊으셨나요?</router-link>
           <p class="my-auto">투모에 처음 오셨나요? <router-link :to="{ name: 'signup' }">가입하기</router-link></p>
           <hr>
@@ -72,16 +73,16 @@ export default {
   data: function() {
     return {
       valid: true,
+      isLoading: false,
       credentials: {
         email: "",
         password: "",
       },
-      emailRules: [(v) => /.+@.+\..+/.test(v) || "E-mail이 유효하지 않습니다."],
-      passwordRules: [(v) => !!v],
     };
   },
   methods: {
     userLogin: function () {
+      this.isLoading = true
       axios({
         method: 'POST',
         url: '/user/login',
@@ -90,7 +91,9 @@ export default {
       .then(res => {
         const message = res.data.message
         if (message === '로그인 실패') {
-          alert('로그인 실패')
+          // alert('회원정보를 다시 확인해 주세요')
+          const loginAlert = document.querySelector('.v-alert')
+          loginAlert.setAttribute('style', 'display: unset;')
         } else {
           const userData = {
             'token': res.headers.authorization,
@@ -103,10 +106,19 @@ export default {
           // main으로 이동
           this.$router.push({ name: 'main'})
         }
+        this.isLoading = false
       })
       .catch(err => {
         console.log(err)
       })
+    }
+  },
+  computed: {
+    emailRules: function () {
+      return [(v) => /.+@.+\..+/.test(v) || "E-mail이 유효하지 않습니다."]
+    },
+    passwordRules: function () {
+      return [(v) => !!v]
     }
   }
 };
@@ -184,6 +196,11 @@ button img {
   left: 40%;
   top: 53%;
   z-index: 1;
+}
+
+#loginAlert {
+  font-size: 0.8rem;
+  display: none;
 }
 
 </style>
