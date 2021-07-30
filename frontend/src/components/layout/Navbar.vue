@@ -93,6 +93,7 @@ export default {
     search_list () {
       return this.$store.state.search_history
     },
+    // 스토어에서 현재 로그인한 사용자 닉네임 가져오기
     user_nickname () {
       return this.$store.state.user_info.nickname
     },

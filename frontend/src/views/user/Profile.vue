@@ -1,5 +1,6 @@
 <template>
-  <div class="container d-flex flex-column" id="highest_block">
+  <div id="highest_block" class="container d-flex flex-column" 
+  >
     <div class="d-flex justify-center mb-5">
       <!-- img와 (팔로우 요청, 정보 수정) 분기 -->
       <div id="user_image_block" class="d-flex flex-column me-5">
@@ -9,13 +10,16 @@
         @click="edit_profile"
         >Edit</p>
         <!-- v-else-if로 팔로우 언팔로우 분기처리 -->
-        <p v-else>Follow</p>
+        <p 
+        v-else-if="!follow_flag"
+        >Follow</p>
+        <p v-else> Unfollow</p>
       </div>
       <!-- 유저 정보 -->
       <div id="user_info_block">
         <h2>{{ this.$route.params.nickname }}'s profile</h2>
-          <span> Follwer : </span>
-          <span> Follwing : </span>
+          <span> Follwer : {{ user_info }}</span>
+          <span> Follwing : {{ user_info }}</span>
 
           <div id="hash_tags" class="mt-5">
             <v-chip 
@@ -74,9 +78,9 @@ export default {
       hash_tags: ['삼성전자', 'ESG'],
     }
   },
-  //DOM 생성 유저 데이터 받아오기
+  //DOM 생성, 유저 데이터 받아오기
   created: function () {
-    //axios 요청 - profile
+    //axios 요청 - 유저 정보 profile
       // const token = localStorage.getItem('jwt')
       // const config = {
       //   Authorization: `JWT ${token}`
@@ -107,6 +111,11 @@ export default {
         return false
       }
     },
+    follow_flag: function () {
+      // axios 요청 보내서 현재 로그인한 사용자가 프로필 유저의 팔로워인지 검사
+
+      return true
+    }
   },
   methods: {
     edit_profile: function () {
