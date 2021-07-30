@@ -90,8 +90,7 @@ export default {
       })
       .then(res => {
         const message = res.data.message
-        if (message === '로그인 실패') {
-          // alert('회원정보를 다시 확인해 주세요')
+        if (message === 'fail') {
           const loginAlert = document.querySelector('.v-alert')
           loginAlert.setAttribute('style', 'display: unset;')
         } else {
