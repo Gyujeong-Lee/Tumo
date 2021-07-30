@@ -3,9 +3,8 @@
     persistent
     width="640"
     v-model="isDrawCreateArticle" 
-    id="createArticle"
   >
-    <v-card>
+    <v-card id="createArticle">
       <h1 class="text-center mb-5"><v-icon large color="black">mdi-pencil</v-icon> 새 게시물</h1>
       <v-form
         ref="form"
@@ -16,7 +15,6 @@
             <label for="formTitle">제목</label>
             <v-text-field
               solo
-              rounded
               dense
               counter=20
               :rules="titleRules"
@@ -30,45 +28,35 @@
               :items="items"
               dense
               solo
-              rounded
               v-model="data.stock"
               id="formStock"
             ></v-select>
           </div>
         </div>
         <div>
-          <label for="">내용</label>
-          <v-textarea
-            solo
-            rounded
-            dense
-            :rules="contentRules"
-            v-model="data.content"
-            id="formContent"
-          ></v-textarea>
+          <label for="content">내용</label>
+          <Tiptap v-model="data.content"/>
         </div>
+        <br>
         <div class="d-flex justify-content-between align-items-end">
-          <div class="w-75">
-            <label for="">태그</label>
+          <div class="w-100">
+            <label for="tags">태그</label>
             <v-text-field
               dense
               solo
-              rounded
               hide-details
               @keypress.enter="addTag"
               v-model="inputTag"
             ></v-text-field>
           </div>
-          <v-btn rounded class="me-5" color="error" @click="addTag">추가</v-btn>          
+          <v-btn color="error" @click="addTag">추가</v-btn>          
         </div>
-        <br>
         <div>
-          <v-chip v-for="(tag, idx) in data.tags" :key="idx" label close @click:close="popTag(idx)" class="me-3 mb-3">#{{ tag }}</v-chip>
+          <v-chip v-for="(tag, idx) in data.tags" :key="idx" label close @click:close="popTag(idx)" class="me-3 my-3">#{{ tag }}</v-chip>
         </div>
-        <br>
-        <div class="d-flex justify-content-end">
-          <v-btn rounded class="me-5" color="error" @click="closeModal">작성 취소</v-btn>
-          <v-btn rounded color="primary" :disabled="!valid" @click="submitForm">작성 완료</v-btn>
+        <div class="d-flex justify-content-end mt-5">
+          <v-btn class="me-5" color="error" @click="closeModal">작성 취소</v-btn>
+          <v-btn color="primary" :disabled="!valid" @click="submitForm">작성 완료</v-btn>
         </div>
       </v-form>
     </v-card>
@@ -76,20 +64,18 @@
 </template>
 
 <script>
+import Tiptap from '../components/Tiptap.vue'
+
 export default {
   name: 'CreateArticle',
+  components: {
+    Tiptap,
+  },
   data: function () {
     return {
       valid: true,
       items: ['국내주식', '해외주식', '국내채권', '해외채권'],
       inputTag: '',
-      titleRules: [
-        v => !!v || '제목을 적어주세요.',
-        v => (v && v.length <= 20) || '제목이 너무 길어요...',
-      ],
-      contentRules: [
-        v => !!v || '내용을 적어주세요.',
-      ],
       data: {
         title: '',
         stock: '국내주식',
@@ -120,32 +106,45 @@ export default {
   computed: {
     isDrawCreateArticle: function () {
       return this.$store.state.drawCreateArticle
+    },
+    titleRules: function () {
+      return [
+        v => !!v || '제목을 적어주세요.',
+        v => (v && v.length <= 20) || '제목이 너무 길어요...',
+      ]
+    },
+    contentRules: function () {
+      return [
+        v => !!v || '내용을 적어주세요.',
+      ]
     }
   }
 }
 </script>
 
 <style>
-.v-card {
+#createArticle {
   padding: 5% 7%;
 }
 
+#createArticle h1 {
+  font-family: 'Gothic A1', sans-serif;
+  font-weight: 800;
+}
+
+#createArticle label, 
+#createArticle span {
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: 700;
+}
+
 #createArticle form {
-  margin-left: 8%;
-  margin-right: 8%;
+  width: 100%;
+  margin-top: 5%;
 }
 
-@media screen and (min-width: 600px){
-  #createArticle form {
-    width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 5%;
-  }
-
-  form > div > div:first-child {
-    margin-right: 5%;
-  }
+#createArticle form > div > div:first-child {
+  margin-right: 5%;
+}
   
-}
 </style>

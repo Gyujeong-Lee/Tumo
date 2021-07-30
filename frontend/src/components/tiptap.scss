@@ -1,0 +1,99 @@
+.divider {
+  width: 2px;
+  height: 1.25rem;
+  background-color: rgba(13, 13, 13, 0.3);
+  margin-left: 0.5rem;
+  margin-right: 0.75rem;
+  display: inline-block;
+}
+
+#Tiptap {
+  height: 250px;
+
+  div:last-child {
+    overflow-y: auto;
+    height: 87%;
+  }
+
+  button {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 20px;
+  }
+
+  .is-active,
+  button:hover {
+    color: #fff;
+    background-color: #0d0d0d;
+  }
+
+  .ProseMirror {
+    margin-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    outline: none;
+
+    > * + * {
+      margin-top: 0.5em;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+
+    ul,
+    ol {
+      padding: 0 1rem;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      line-height: 1.1;
+    }
+
+    code {
+      background-color: rgba(#616161, 0.1);
+      color: #616161;
+    }
+
+    pre {
+      background: #0d0d0d;
+      color: #fff;
+      font-family: "JetBrainsMono", monospace;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+
+      code {
+        color: inherit;
+        padding: 0;
+        background: none;
+        font-size: 0.8rem;
+      }
+    }
+
+    mark {
+      background-color: #faf594;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    blockquote {
+      padding-left: 1rem;
+      border-left: 2px solid rgba(#0d0d0d, 0.1);
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid rgba(#0d0d0d, 0.1);
+      margin: 2rem 0;
+    }
+  }
+}

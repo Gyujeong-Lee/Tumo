@@ -1,7 +1,7 @@
 <template>
   <v-sheet 
-    elevation="5"
-    rounded="xl"
+    elevation="4"
+    rounded
     class="mx-2 my-5"
     height="auto"
     width="auto"
@@ -19,7 +19,7 @@
         <v-btn icon large v-else @click="scrapArticle"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
       </div>
     </div>
-    <p>{{ data.content }}</p>
+    <div v-html="data.content" class="mb-5"></div>
     <div class="d-flex justify-content-between">
       <div>
         <v-btn icon large v-if="islike" @click="cancelLikeArticle" color="error"><v-icon color="error">mdi-heart</v-icon></v-btn>
@@ -113,8 +113,6 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
-
 #articleFeed {
   padding-top: 1rem;
   padding-bottom: 0.5rem;
