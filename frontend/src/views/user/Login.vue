@@ -123,10 +123,7 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
-
+<style>
 @media screen and (max-width: 768px){
   #loginImage {
     display: none;
@@ -145,17 +142,17 @@ export default {
   }
 }
 
-h2 {
+#login h2 {
   font-family: 'Jua', sans-serif;
   margin-bottom: 0;
 }
 
-a, p {
+#login a, #login p {
   text-decoration: none;
   font-family: 'Noto Sans KR', sans-serif;
 }
 
-button img {
+#login button img {
   height: 20px;
   position: absolute;
   left: 0;

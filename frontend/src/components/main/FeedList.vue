@@ -141,7 +141,6 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Otomanopee+One&display=swap');
 
 #mainfeed {
   width: 95%;

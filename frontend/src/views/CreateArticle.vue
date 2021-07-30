@@ -3,9 +3,8 @@
     persistent
     width="640"
     v-model="isDrawCreateArticle" 
-    id="createArticle"
   >
-    <v-card>
+    <v-card id="createArticle">
       <h1 class="text-center mb-5"><v-icon large color="black">mdi-pencil</v-icon> 새 게시물</h1>
       <v-form
         ref="form"
@@ -124,26 +123,28 @@ export default {
 </script>
 
 <style>
-.v-card {
+#createArticle {
   padding: 5% 7%;
 }
 
+#createArticle h1 {
+  font-family: 'Gothic A1', sans-serif;
+  font-weight: 800;
+}
+
+#createArticle label, 
+#createArticle span {
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: 700;
+}
+
 #createArticle form {
-  margin-left: 8%;
-  margin-right: 8%;
+  width: 100%;
+  margin-top: 5%;
 }
 
-@media screen and (min-width: 600px){
-  #createArticle form {
-    width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 5%;
-  }
-
-  form > div > div:first-child {
-    margin-right: 5%;
-  }
+#createArticle form > div > div:first-child {
+  margin-right: 5%;
+}
   
-}
 </style>

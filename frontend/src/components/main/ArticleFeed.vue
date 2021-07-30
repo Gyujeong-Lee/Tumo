@@ -113,8 +113,6 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
-
 #articleFeed {
   padding-top: 1rem;
   padding-bottom: 0.5rem;
