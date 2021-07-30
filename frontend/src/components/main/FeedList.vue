@@ -1,6 +1,6 @@
 <template>
   <div id="mainfeed">
-    <v-tabs grow :color="tabColor" id="feedTabs" class="sticky-top" style="padding-top: 3em;">
+    <v-tabs grow :color="tabColor" id="feedTabs">
       <v-tab id="newFeedBtn" @click="selectNewFeeds">
         <v-icon large class="me-3">mdi-account-group</v-icon>
         <span>Feeds</span>
@@ -156,11 +156,20 @@ export default {
 @media screen and (min-width: 940px) {
   #mainfeed {
     width: 614px;
-    padding-left: 3rem;
+    padding-right: 3rem;
   }
 }
 
 #feedTabs span {
   font-family: 'Otomanopee One', sans-serif;
 }
+
+#feedTabs {
+  padding-top: 3rem;
+  position: sticky;
+  top: 48px;
+  background-color: white;
+  z-index: 1;
+}
+
 </style>

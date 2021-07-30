@@ -1,5 +1,9 @@
 package com.tumo.model.dao;
 
-public interface CompanyDao {
+import java.util.List;
+import java.util.Map;
 
-}
+public interface CompanyDao {
+	public List<Map<Object,Object>> searchCompany(String keyword,String pageNum);
+	
+ }

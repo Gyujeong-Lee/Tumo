@@ -1,5 +1,9 @@
 package com.tumo.model.service;
 
-public interface CompanyService {
+import java.util.List;
+import java.util.Map;
 
+
+public interface CompanyService {
+	public List<Map<Object,Object>> searchCompany(String searchContent,String pageNum);
 }

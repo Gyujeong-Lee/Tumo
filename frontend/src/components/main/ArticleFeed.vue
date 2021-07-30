@@ -9,9 +9,9 @@
     <div class="d-flex justify-content-between mb-3">
       <div class="d-flex align-items-center">
         <img src="@/assets/main/user.png" alt="user" style="width: 35px;">
-        <div class="d-flex flex-column align-items-start ms-3">
-          <p class="my-0">@nickName</p>
-          <h6 class="my-0 fw-bold">{{ data.title }}</h6>
+        <div class="d-flex align-items-center">
+          <h6 class="my-0 mx-3">{{ data.title }}</h6>
+          <p class="my-0 text-secondary">@nickName</p>
         </div>
       </div>
       <div>
@@ -113,9 +113,21 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
 #articleFeed {
   padding-top: 1rem;
   padding-bottom: 0.5rem;
+}
+
+#articleFeed h6 {
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: 800
+}
+
+#articleFeed p {
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: 400;
 }
 
 #articleFeed > * {
