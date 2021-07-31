@@ -38,4 +38,12 @@ public interface SNSService {
 
 	void updateDisclosure(int userIdx);
 
+	void deleteFollowing(Map<String, Object> param);
+
+	String createFollowRequest(HashMap<String, Integer> info);
+
+	String createFollowing(HashMap<String, Integer> info);
+
+	void deleteFollowingRequest(HashMap<String, Integer> param);
+
 }

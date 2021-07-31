@@ -121,4 +121,41 @@ public class SNSServiceImpl implements SNSService {
 		sqlSession.getMapper(SNSDao.class).updateDisclosure(userIdx);
 	}
 
+	@Override
+	public void deleteFollowing(Map<String, Object> param) {
+		sqlSession.getMapper(SNSDao.class).deleteFollowing(param);
+	}
+
+	@Override
+	@Transactional
+	public String createFollowRequest(HashMap<String, Integer> info) {
+		ProfileDto result = sqlSession.getMapper(SNSDao.class).readUser(info.get("otherIdx"));
+		String disclosure = result.getDisclosure();
+		
+		if(disclosure.equals("public")) {
+			sqlSession.getMapper(SNSDao.class).createFollowing(info);
+			return "Follow";
+		} else {
+			sqlSession.getMapper(SNSDao.class).notifyFollowRequest(info);
+			return "Wait";
+		}
+	}
+
+	
+	@Override
+	@Transactional
+	public String createFollowing(HashMap<String, Integer> info) {
+		sqlSession.getMapper(SNSDao.class).createFollowing(info);
+		sqlSession.getMapper(SNSDao.class).deleteNotifiedFollowRequest(info);
+		return "Follow";
+	}
+
+	@Override
+	public void deleteFollowingRequest(HashMap<String, Integer> param) {
+		HashMap<String, Integer> info = new HashMap<String, Integer>();
+		info.put("userIdx", param.get("otherIdx"));
+		info.put("otherIdx", param.get("userIdx"));
+		sqlSession.getMapper(SNSDao.class).deleteNotifiedFollowRequest(info);
+	}
+
 }

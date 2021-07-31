@@ -117,4 +117,24 @@
 		update user set disclosure = if(disclosure="public", "private", "public")
 		where user_idx = #{userIdx}
 	</update>
+	
+	<delete id="deleteFollowing" parameterType="map">
+		delete from following
+		where user_idx = #{userIdx} and following_idx = #{otherIdx}
+	</delete>
+	
+	<insert id="createFollowing" parameterType="map">
+		insert into following (user_idx, following_idx)
+		values (#{userIdx}, #{otherIdx})
+	</insert>
+	
+	<insert id="notifyFollowRequest" parameterType="map">
+		insert into notification (user_idx, otheruser_idx, type, create_at)
+		values (#{userIdx}, #{otherIdx}, 1, now())
+	</insert>
+	
+	<delete id="deleteNotifiedFollowRequest" parameterType="map">
+		delete from notification
+		where user_idx = #{userIdx} and otheruser_idx = #{otherIdx} and type = 1
+	</delete>
 </mapper>

@@ -48,4 +48,14 @@ public interface SNSDao {
 
 	void updateDisclosure(int userIdx);
 
+	void deleteFollowing(Map<String, Object> param);
+
+	void createFollowing(HashMap<String, Integer> info);
+
+	void notifyFollowRequest(HashMap<String, Integer> info);
+
+	void deleteNotifiedFollowRequest(HashMap<String, Integer> info);
+
+	void deleteFollowRequest(Map<String, Object> param);
+
 }
