@@ -5,6 +5,7 @@ import store from "./vuex/store";
 import vuetify from "./plugins/vuetify";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 
+import "remixicon/fonts/remixicon.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 

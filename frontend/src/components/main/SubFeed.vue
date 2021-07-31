@@ -30,9 +30,6 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@800;900&display=swap');
-
 @media screen and (min-width: 576px) {
   #subfeed {
     width: 300px;

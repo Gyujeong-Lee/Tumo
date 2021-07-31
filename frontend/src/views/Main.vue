@@ -25,14 +25,7 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
-
-h1 {
-  font-family: 'Jua', sans-serif;
-}
-
-label {
+#mainPage label {
   font-family: 'Noto Sans KR', sans-serif;
 }
 
