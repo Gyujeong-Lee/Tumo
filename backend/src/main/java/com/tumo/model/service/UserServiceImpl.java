@@ -23,6 +23,7 @@ import com.tumo.model.TokenDto;
 import com.tumo.model.UpdateUserDto;
 import com.tumo.model.UserDto;
 import com.tumo.model.dao.UserDao;
+import com.tumo.util.MailUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,6 +31,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	@Autowired
+	private MailUtil mailUtil;
+		
 	private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 	    
@@ -191,6 +195,44 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(int userIdx) {
 		sqlSession.getMapper(UserDao.class).deleteUserByUserIdx(userIdx);
+	}
+
+	@Transactional
+	@Override
+	public boolean findPassword(String email) {
+		boolean result = false; // 임시 비밀번호 생성시 true, 실패시 false 반환
+		
+		UserDto userDto = sqlSession.getMapper(UserDao.class).findUserByEmail(email);
+				
+		if (userDto == null) {
+			// 작성한 email로 가입된 회원이 존재하지 않을 경우 false 반환
+			result = false;
+			return result;
+		}
+		
+		// 8자리 숫자+영문자 임시 비밀번호 생성
+		String tempPassword = mailUtil.getTempPassword();
+		
+		// DB 회원 정보를 임시 비밀번호로 갱신
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userIdx", userDto.getUserIdx());
+		map.put("password", passwordEncoder.encode(tempPassword));
+		sqlSession.getMapper(UserDao.class).updatePasswordByUserIdx(map);
+		
+		try {
+			String status = mailUtil.findPassword(email, userDto.getNickname(), tempPassword);
+			
+			System.out.println(status);
+			
+			if (status.equals("200")) {
+				// 임시 비밀번호 메일 전송 성공
+				result = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 }

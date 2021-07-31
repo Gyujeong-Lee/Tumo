@@ -33,4 +33,7 @@ public interface UserService {
 	
 	// 회원 탈퇴
 	public void deleteUser(int userIdx);
+	
+	// 비밀번호 찾기 (임시 비밀번호 8자리 생성)
+	public boolean findPassword(String email);
 }
