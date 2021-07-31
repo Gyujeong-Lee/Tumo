@@ -5,9 +5,10 @@
         <img src="@/assets/main/wordcloud.png" alt="wordcloud" class="w-75">
       </div>
       <div>
-        <h3 class="mb-4 fw-bold text-center">TOP <img src="@/assets/main/three.png" alt="three" style="width: 3rem;">KeyWords</h3>
+        <h1 class="mb-4 fw-bold text-center">TOP KeyWords</h1>
       </div>
       <button @click="drawModal" class="btn btn-primary">open modal</button>
+      <button @click="logout" class="btn btn-danger">로그 아웃..</button>
     </div>
   </div>
 </template>
@@ -17,7 +18,12 @@ export default {
   name: 'SubFeed',
   methods: {
     drawModal: function () {
-      this.$store.state.drawCreateArticle = !this.$store.state.drawCreateArticle
+      this.$store.state.drawCreateArticle = true
+    },
+    logout: function () {
+      localStorage.removeItem('userData')
+      this.$store.commit('LOGOUT')
+      this.$router.push({ name: 'Login' })
     }
   }
 }
@@ -25,6 +31,7 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@800;900&display=swap');
 
 @media screen and (min-width: 576px) {
   #subfeed {
@@ -40,16 +47,17 @@ export default {
 
 #subfeed {
   position: sticky;
-  top: 0px;
-  padding-top: 5rem;
-  margin-right: 3rem;
+  top: 48px;
+  padding-top: 2rem;
+  margin-left: 3rem;
 }
 
 #subfeed > div:last-child img {
   width: 100%;
 }
 
-#subfeed h3 {
-  font-family: 'Fredoka One', cursive;
+#subfeed h1 {
+  font-family: 'Gothic A1', sans-serif;
+  font-weight: 900;
 }
 </style>

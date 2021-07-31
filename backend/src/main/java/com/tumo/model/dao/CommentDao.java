@@ -1,5 +1,5 @@
 package com.tumo.model.dao;
 
-public interface ArticleDao {
+public interface CommentDao {
 
 }

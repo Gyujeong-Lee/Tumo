@@ -1,7 +1,7 @@
 package com.tumo.model;
 
 public class UserDto {
-	
+
 	private int userIdx;
 	private String nickname;
 	private String email;
@@ -12,7 +12,14 @@ public class UserDto {
 	private String createAt;
 	private String updateAt;
 	private String deleted;
-	
+
+	public UserDto(int userIdx, String nickname, String introduce) {
+		super();
+		this.userIdx = userIdx;
+		this.nickname = nickname;
+		this.introduce = introduce;
+	}
+
 	public UserDto(String nickname, String email, String password, String introduce) {
 		super();
 		this.nickname = nickname;
@@ -21,10 +28,25 @@ public class UserDto {
 		this.introduce = introduce;
 	}
 
+	public UserDto(int userIdx, String nickname, String email, String password, String loginType, String introduce,
+			String disclosure, String createAt, String updateAt, String deleted) {
+		super();
+		this.userIdx = userIdx;
+		this.nickname = nickname;
+		this.email = email;
+		this.password = password;
+		this.loginType = loginType;
+		this.introduce = introduce;
+		this.disclosure = disclosure;
+		this.createAt = createAt;
+		this.updateAt = updateAt;
+		this.deleted = deleted;
+	}
+
 	public int getUserIdx() {
 		return userIdx;
 	}
-	
+
 	public String getNickname() {
 		return nickname;
 	}
@@ -32,7 +54,7 @@ public class UserDto {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -40,7 +62,7 @@ public class UserDto {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
@@ -48,7 +70,7 @@ public class UserDto {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getLogin_type() {
 		return loginType;
 	}
@@ -56,7 +78,7 @@ public class UserDto {
 	public void setLogin_type(String login_type) {
 		this.loginType = login_type;
 	}
-	
+
 	public String getIntroduce() {
 		return introduce;
 	}
@@ -72,7 +94,7 @@ public class UserDto {
 	public void setDisclosure(String disclosure) {
 		this.disclosure = disclosure;
 	}
-	
+
 	public String getCreate_at() {
 		return createAt;
 	}
@@ -91,5 +113,5 @@ public class UserDto {
 				+ ", login_type=" + loginType + ", introduce=" + introduce + ", disclosure=" + disclosure
 				+ ", create_at=" + createAt + ", update_at=" + updateAt + ", deleted=" + deleted + "]";
 	}
-	
+
 }

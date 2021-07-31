@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex justify-center mb-5 h-100">
+  <div class="container d-flex justify-center my-5 h-100">
     <div class="d-flex flex-column align-items-center h-100 fw-bold">
       <img src="@/assets/login/logo.png" alt="mainlogo" class="w-50 mb-5"/>
       <!-- <img src="../../public/Tumo_Korean.png" alt="CI" class="w-100 mb-5"> -->
@@ -23,6 +23,7 @@
           small
           @click="name_check"
           >중복검사</v-btn>
+          <v-icon v-if="name_checked" color="success" class="checkBtn">mdi-check-bold</v-icon>
         </div>
 
         <!-- 이메일 계정 -->
@@ -38,6 +39,7 @@
           small
           @click="email_check"
           >중복검사</v-btn>
+          <v-icon v-if="email_checked" color="success" class="checkBtn">mdi-check-bold</v-icon>
         </div>
 
         <!-- 비밀번호 -->
@@ -61,7 +63,7 @@
         <!-- 관심 키워드 입력 -->
         <v-text-field
           v-model="keyword"
-          label="Keyword"
+          label="Hash Tag"
           @keypress.enter="add_keyword"
         ></v-text-field>
         
@@ -83,7 +85,7 @@
         <!-- 약관 동의 -->
         <v-checkbox
           v-model="checkbox"
-          :rules="[v => !!v || 'You must agree to continue!']"
+          :rules="[v => !!v || '동의하셔야 회원가입이 가능합니다.']"
           label="Do you agree?"
           required
         ></v-checkbox>
@@ -98,137 +100,184 @@
           <v-btn 
             id="signup_btn"    
             @click="signup"
-            :disabled="!valid || !name_checked"
-            >
+            :disabled="!valid || !name_checked || !email_checked"
+          >
             signup
           </v-btn>
         </div>
         <p class="text-center py-5 my-3">회원이신가요? <router-link :to="{ name: 'Login' }">로그인</router-link></p>        
       </v-form>
-
-      <!-- Footer -->
-      <p class="text-center fw-bold mt-5">@ All rights reserved by Team Tumo</p>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'signup',
-    components: {
-    },    
-    data: () => {
-      return {
-        // 요구사항 만족
-        valid: true,
+import axios from 'axios'
 
-        // 서버와 통신할 데이터
-        credentials: {
-          name: "",
-          email: "",
-          password: "",
-          passwordConfirmation: "",
-          keywords: [],
-        },
-        keyword: "",
-        // 동의 여부
-        checkbox: false, 
+export default {
+  name: 'signup',
+  components: {
+  },    
+  data: () => {
+    return {
+      // 요구사항 만족
+      valid: true,
 
-      // 회원가입 규칙
-
-        // 중복검사 여부
-        name_exist: false,
-        name_checked: false,
-        email_exist: false,
-        email_checked: false,
-
-        nameRules: [
-        v => !!v || 'Name is required',
-        v => (v && v.length <= 10) || 'Name must be less than 10 characters',
-        ],
-        emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-        ],
-        passwordRules: [
-        v => !!v || 'password is required',
-        ],
-        confirmationRules: [
-        v => !!v || 'password Confirmation is required',
-        ],
-       
-      }
-    },
-    // 닉네임 및 이메일 중복 검사 하기 전 조건에 맞는 입력값인지 확인
-    watch: {
+      // 서버와 통신할 데이터
       credentials: {
-        handler: function () {
-          // console.log('work')
-          if (this.credentials.name && this.credentials.name.length <= 10) {
-            this.name_exist = true
-          } else {
-            this.name_exist = false
-          }
-          if (this.credentials.email && /.+@.+\..+/.test(this.credentials.email)) {
-            this.email_exist = true
-          } else {
-            this.email_exist = false
-          }
-        },
-        deep: true
-      }
-    },
-    methods: {
-      // 닉네임 중복검사 axios 요청 보낼 것.
-      name_check: function () {
-        this.name_checked = true
-        // checked = true
+        name: "",
+        email: "",
+        password: "",
+        passwordConfirmation: "",
+        keywords: [],
       },
-      // 닉네임 중복검사 axios 요청 보낼 것.
-      email_check: function () {
-        
-      },
-      // 취소 -> 로그인 페이지로
-      cancel: function () {
-        this.$router.push('/')
-      },
-      // sign up axios 요청 보내기
-      signup: function () {
-        this.name_checked = false
-      },
-      // keyword 추가하기
-      add_keyword: function () {
-        //serve로 보낼 user data에 추가
-        if (this.keyword.trim()) {
-          this.credentials.keywords.push(this.keyword)
+      keyword: "",
+      // 동의 여부
+      checkbox: false, 
+
+      // 중복검사 여부
+      name_exist: false,
+      name_checked: false,
+      email_exist: false,
+      email_checked: false,
+    }
+  },
+  // 닉네임 및 이메일 중복 검사 하기 전 조건에 맞는 입력값인지 확인
+  watch: {
+    credentials: {
+      handler: function () {
+        // console.log('work')
+        if (this.credentials.name && this.credentials.name.length <= 10) {
+          this.name_exist = true
+        } else {
+          this.name_exist = false
         }
-        this.keyword = ""
+        if (this.credentials.email && /.+@.+\..+/.test(this.credentials.email)) {
+          this.email_exist = true
+        } else {
+          this.email_exist = false
+        }
       },
-      // keyword 제거
-      delete_keyword: function (keyword) {
-        // console.log(keyword)
-        const idx_keyword = this.credentials.keywords.indexOf(keyword)
-        this.credentials.keywords.splice(idx_keyword, 1)
-      },
+      deep: true
+    }
+  },
+  methods: {
+    // 닉네임 중복검사 axios 요청 보낼 것.
+    name_check: function () {
+      axios({
+        method: 'GET',
+        url: `/user/nickname/${this.credentials.name}`
+      })
+      .then(res => {
+        const message = res.data.message
+        if (message === "success") {
+          this.name_checked = true
+        } else {
+          alert('이미 존재하는 닉네임입니다.')
+          this.name_checked = false
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    // 이메일 중복검사 axios 요청 보낼 것.
+    email_check: function () {
+      axios({
+        method: 'GET',
+        url: `/user/email/${this.credentials.email}`
+      })
+      .then(res => {
+        const message = res.data.message
+        if (message === "success") {
+          this.email_checked = true
+        } else {
+          alert('이미 존재하는 이메일입니다.')
+          this.email_checked = false
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    // 취소 -> 로그인 페이지로
+    cancel: function () {
+      this.$router.push('/')
+    },
+    // sign up axios 요청 보내기
+    signup: function () {
+      // request에 필요한 data
+      const data = {
+        email: this.credentials.email,
+        introduce: null,
+        nickname: this.credentials.name,
+        password: this.credentials.password,
+        tag: this.credentials.keywords
+      }
+      // axios 요청
+      axios({
+        method: 'POST',
+        url: '/user/signup',
+        data: data
+      })
+      .then(res => {
+        const message = res.data.message
+        if (message === "success") {
+          alert('정상적으로 가입 되었습니다.')
+          this.$router.push({ name: 'Login' })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    // keyword 추가하기
+    add_keyword: function () {
+      //serve로 보낼 user data에 추가
+      if (this.keyword.trim()) {
+        this.credentials.keywords.push(this.keyword)
+      }
+      this.keyword = ""
+    },
+    // keyword 제거
+    delete_keyword: function (keyword) {
+      // console.log(keyword)
+      const idx_keyword = this.credentials.keywords.indexOf(keyword)
+      this.credentials.keywords.splice(idx_keyword, 1)
+    },
+  },
+  computed: {
+    // 회원가입 규칙
+    nameRules: function () {
+      return [
+        v => !!v || '닉네임은 필수 입력사항입니다.',
+        v => (v && v.length <= 10) || '닉네임은 10자를 넘을 수 없습니다.',
+      ]
+    },
+    emailRules: function () {
+      return [
+        v => !!v || '이메일은 필수 입력사항입니다.',
+        v => /.+@.+\..+/.test(v) || '이메일이 유효하지 않습니다.',
+      ]
+    },
+    passwordRules: function () {
+      return [
+        v => !!v || '비밀번호는 필수 입력사항입니다.',  
+      ]
+    },
+    confirmationRules: function () {
+      return [
+        v => !!v || '비밀번호는 필수 입력사항입니다.',
+        v => (!!v && v) === this.credentials.password || '비밀번호가 일치하지 않습니다.' 
+      ]
     },
   }
+}
 </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
-
-@media screen and (max-width: 500px){
-  #btnGroup {
-    justify-content: center;
-  }
-}
-
-@media screen and (min-width: 500px){
-  #btnGroup {
-    justify-content: flex-end;
-  }
-}
 
 #btnGroup {
   display: flex;
@@ -257,13 +306,13 @@ font-family: 'Noto Sans KR', sans-serif;
 
 #nickNameInput > button {
   position: absolute;
-  right: 0;
+  right: 5%;
   top: 20%;
 }
 
 #emailInput > button {
   position: absolute;
-  right: 0;
+  right: 5%;
   top: 20%;
 }
 
@@ -271,4 +320,34 @@ font-family: 'Noto Sans KR', sans-serif;
   width: 80%;
 }
 
+#btnGroup {
+  justify-content: center;
+}
+
+.checkBtn {
+  position: absolute;
+  left: 97%;
+  top: 20%;
+}
+
+@media screen and (min-width: 500px){
+  #btnGroup {
+    justify-content: flex-end;
+  }
+}
+
+@media screen and (max-width: 599px){
+  #nickNameInput > button {
+    right: 0;
+  }
+
+  #emailInput > button {
+    right: 0;
+  }
+
+  .checkBtn {
+    left: 100%;
+    padding-left: 8px;
+  }
+}
 </style>

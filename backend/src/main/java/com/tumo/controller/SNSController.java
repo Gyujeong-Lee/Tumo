@@ -14,13 +14,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
+import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
+import com.tumo.model.UserDto;
 import com.tumo.model.service.SNSService;
 
 import io.swagger.annotations.Api;
@@ -132,5 +135,127 @@ public class SNSController {
 		map.put("scrap", scrap);
 		map.put("message", SUCCESS);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "유저 검색")
+	@GetMapping("/search/{searchContent}/{pageNum}")
+	public ResponseEntity<Map<String, Object>> searchUser(@PathVariable String searchContent,
+			@PathVariable int pageNum) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<UserDto> users = snsService.searchUser(searchContent, pageNum);
+		if (users == null || users.size() == 0) {
+			result.put("message", FAIL);
+			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
+		}
+		result.put("users", users);
+		result.put("message", SUCCESS);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "유저 정보 조회", notes = "특정 회원의 닉네임, 한 줄 소개, 팔로잉 수, 팔로워 수")
+	@GetMapping("/profile/{userIdx}")
+	public ResponseEntity<Map<String, Object>> readUserInfo(@PathVariable int userIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		ProfileDto user = snsService.readUser(userIdx);
+		if (user == null) {
+			result.put("message", FAIL);
+			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
+		}
+		result.put("users", user);
+		result.put("message", SUCCESS);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "팔로워 리스트")
+	@GetMapping("/follower/{userIdx}")
+	public ResponseEntity<Map<String, Object>> readFollowerList(@PathVariable int userIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<ProfileDto> followers = snsService.readFollowerList(userIdx);
+		result.put("message", SUCCESS);
+		result.put("followers", followers);
+		if (followers == null || followers.size() == 0) {
+			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "팔로잉 리스트")
+	@GetMapping("/following/{userIdx}")
+	public ResponseEntity<Map<String, Object>> readFollowingList(@PathVariable int userIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<ProfileDto> following = snsService.readFollowingList(userIdx);
+		result.put("message", SUCCESS);
+		result.put("followers", following);
+		if (following == null || following.size() == 0) {
+			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "팔로잉 여부", notes = "해당 회원에 대한 팔로잉 여부")
+	@GetMapping("/follow/{userIdx}/{otherIdx}")
+	public ResponseEntity<Map<String, Object>> readIsFollow(@PathVariable int userIdx, @PathVariable int otherIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("userIdx", userIdx);
+		param.put("otherIdx", otherIdx);
+
+		Boolean isFollow = snsService.readIsFollow(param);
+		result.put("message", SUCCESS);
+		result.put("isFollow", isFollow);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}	
+	
+	@ApiOperation(value = "계정 공개여부 수정", notes = "공개 계정은 비공개로, 비공개 계정은 공개로 수정")
+	@PutMapping("/disclosure/{userIdx}")
+	public ResponseEntity<Map<String, Object>> updateDisclosure(@PathVariable int userIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		snsService.updateDisclosure(userIdx);
+		result.put("message", SUCCESS);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "팔로우 추가 및 팔로우 요청", notes = "추가한 계정이 공개 계정이면 추가(Follow), 비공개 계정이면 요청(Request)")
+	@PostMapping("follow")
+	public ResponseEntity<Map<String, Object>> createFollowRequest(@RequestBody HashMap<String, Integer> info) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		String response = snsService.createFollowRequest(info);
+		result.put("message", SUCCESS);
+		result.put("result", response);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "요청 승인 후 팔로우 추가", notes = "팔로우 요청 승인 시 팔로우 추가, 팔로우 요청 알림 삭제 (otherIdx에 대한 userIdx의 팔로우 요청 승인) ")
+	@PostMapping("follow/acception")
+	public ResponseEntity<Map<String, Object>> createFollowing(@RequestBody HashMap<String, Integer> info) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		String response = snsService.createFollowing(info);
+		result.put("message", SUCCESS);
+		result.put("result", response);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "팔로우 요청 거절", notes = "userIdx가 otherIdx를 거절")
+	@DeleteMapping("follow/rejection/{userIdx}/{otherIdx}")
+	public ResponseEntity<Map<String, Object>> deleteFollowingRequest(@PathVariable int userIdx, @PathVariable int otherIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		HashMap<String, Integer> param = new HashMap<String, Integer>();
+		param.put("userIdx", userIdx);
+		param.put("otherIdx", otherIdx);
+		snsService.deleteFollowingRequest(param);
+		result.put("message", SUCCESS);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "팔로우 삭제")
+	@DeleteMapping("follow/{userIdx}/{otherIdx}")
+	public ResponseEntity<Map<String, Object>> deleteFollowing(@PathVariable int userIdx, @PathVariable int otherIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("userIdx", userIdx);
+		param.put("otherIdx", otherIdx);
+		snsService.deleteFollowing(param);
+		result.put("message", SUCCESS);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
 }

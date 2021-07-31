@@ -6,7 +6,9 @@ import java.util.Map;
 
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
+import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
+import com.tumo.model.UserDto;
 
 public interface SNSService {
 
@@ -23,5 +25,25 @@ public interface SNSService {
 	boolean deleteFavor(HashMap<String, Integer> info);
 
 	List<FeedDto> readMyPost(int userIdx);
+
+	List<UserDto> searchUser(String searchContent, int pageNum);
+
+	ProfileDto readUser(int userIdx);
+
+	List<ProfileDto> readFollowerList(int userIdx);
+
+	List<ProfileDto> readFollowingList(int userIdx);
+
+	Boolean readIsFollow(Map<String, Object> param);
+
+	void updateDisclosure(int userIdx);
+
+	void deleteFollowing(Map<String, Object> param);
+
+	String createFollowRequest(HashMap<String, Integer> info);
+
+	String createFollowing(HashMap<String, Integer> info);
+
+	void deleteFollowingRequest(HashMap<String, Integer> param);
 
 }
