@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tumo.model.dao.UserDao">
+
+	<insert id="createUser"  parameterType="userdto">
+		insert into user (nickname, email, password, introduce)
+			values (#{nickname}, #{email}, #{password}, #{introduce})
+	</insert>
+	
+	<select id="findUserByEmail" parameterType="string" resultType="userdto">
+		select user_idx as userIdx, password, nickname, email, login_type as loginType, introduce, 
+				disclosure, create_at as createAt, update_at as updateAt, deleted 
+			from user
+			having email = #{email} 
+	</select>
+	
+	<select id="findUserByNickname" parameterType="string" resultType="userdto">
+		select user_idx as userIdx, password, nickname, email, login_type as loginType, introduce, 
+				disclosure, create_at as createAt, update_at as updateAt, deleted 
+			from user
+			having nickname = #{nickname} 
+	</select>
+	
+	<select id="findUserByUserIdx" parameterType="int" resultType="userdto">
+		select user_idx as userIdx, password, nickname, email, login_type as loginType, introduce, 
+				disclosure, create_at as createAt, update_at as updateAt, deleted 
+			from user
+			having user_idx = #{userIdx} 
+	</select>
+	
+	<insert id="insertUserTag" parameterType="map">
+		insert into user_tag (user_idx, content)
+			values (#{userIdx}, #{content})
+	</insert>
+	
+	<select id="findUserTagByUserIdxAndContent" parameterType="map" resultType="boolean">
+		select if(count(*) != 0, 1, 0) from user_tag
+			where user_idx = #{userIdx} and content = #{content}
+	</select>
+	
+	<update id="updateUpdateAtByEmail" parameterType="string">
+		update user
+			set update_at = CURRENT_TIMESTAMP
+			where email = #{email}
+	</update>
+	
+	<update id="updatePasswordByUserIdx" parameterType="map">
+		update user
+			set password = #{password}
+			where user_idx = #{userIdx}
+	</update>
+	
+	<update id="updateNicknameByUserIdx" parameterType="map">
+		update user
+			set nickname = #{nickname}
+			where user_idx = #{userIdx}
+	</update>
+	
+	<delete id="deleteUserByUserIdx" parameterType="int">
+		delete from user
+			where user_idx = #{userIdx}
+	</delete>
+	
+</mapper>

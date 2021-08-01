@@ -43,7 +43,7 @@ public class UserController {
 
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
-
+		
 		try {
 			userService.createUser(signupDto);
 
@@ -88,7 +88,6 @@ public class UserController {
 	public ResponseEntity ReadNickname(@PathVariable String nickname) {
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
-
 		// 사용 가능 true, 중복 false
 		boolean check = userService.checkNickname(nickname);
 
