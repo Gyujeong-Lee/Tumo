@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tumo.model.dao.SNSDao">
+	<insert id="createScrap" parameterType="map">
+		insert into scrap (user_idx, board_idx, create_at)
+		values (#{userIdx}, #{boardIdx}, now())
+	</insert>
+
+	<select id="readScrapList" parameterType="int"
+		resultType="scrapDto">
+		select s.board_idx as boardIdx, f.title as title, u.nickname as nickname, u.user_idx as userIdx
+		from scrap s join feed f
+		on s.board_idx = f.board_idx
+		join user u
+		on s.user_idx = u.user_idx
+		where s.user_idx = #{userIdx}
+		order by s.create_at desc;
+	</select>
+
+	<delete id="deleteScrap" parameterType="map">
+		delete from scrap
+		where user_idx = #{userIdx} and board_idx = #{boardIdx}
+	</delete>
+	
+	<insert id="createFavor" parameterType="map">
+		insert into feed_like (user_idx, board_idx, create_at)
+		values (#{userIdx}, #{boardIdx}, now())
+	</insert>
+	
+	<update id="addFavor" parameterType="map">
+		update feed set likes = likes + 1
+		where boardIdx=#{boardIdx}
+	</update>
+	
+	<select id="readIsLike" parameterType="map" resultType="feedLikeDto">
+		select like_idx as likeIdx, user_idx as userIdx, board_idx as boardIdx, create_at as createAt
+		from feed_like
+		where board_idx = #{boardIdx} and user_idx = #{userIdx}
+	</select>
+	
+	<delete id="deleteFavor" parameterType="map">
+		delete
+		from feed_like
+		where board_idx = #{boardIdx} and user_idx = #{userIdx}
+	</delete>
+	
+	<update id="subFavor" parameterType="map">
+		update feed set likes = likes - 1
+		where boardIdx=#{boardIdx}
+	</update>
+	
+	<select id="readMyPost" parameterType="int" resultType="feedDto">
+		select f.board_idx as boardIdx, f.user_idx as userIdx, u.nickname as nickname, f.likes, f.title, f.content, f.create_at, f.update_at
+		from feed f join user u
+		on f.user_idx = u.user_idx
+		where f.user_idx = #{userIdx}
+		order by f.create_at desc;
+	</select>
+</mapper>
