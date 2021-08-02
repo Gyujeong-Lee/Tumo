@@ -40,33 +40,21 @@
     <div class="d-flex justify-center my-auto">
       <div class="col-5">
         <h3>portfolio</h3>
+        <Portfolio/>
       </div>
-
     <!-- 작성글, 스크랩 탭 -->
       <div class="col-5">
         <h3>activity</h3>
-        <v-tabs grow :color="tabColor" class="p-0" id="activityTabs">
-          <v-tab id="articleBtn" @click="selectArticles">
-            <v-icon large class="me-3">mdi-clipboard-text-outline</v-icon>
-            <span>Article</span>
-          </v-tab>
-          <v-tab id="scrapBtn" @click="selectScrap">
-            <v-icon large class="me-3">mdi-book-multiple-outline</v-icon>
-            <span>Scrap</span>
-          </v-tab>
-        </v-tabs>
-        <div v-if="selectedTab === 'newfeeds'">
-            <!-- article -->
-        </div>
-        <div v-else-if="selectedTab === 'portfolio'">
-          <!-- scrap -->
-        </div>
+        <Activity/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Activity from '@/components/profile/Activity.vue'
+import Portfolio from '@/components/profile/Portfolio.vue'
+
 export default {
   name: "Profile",
   data: function () {
@@ -77,6 +65,10 @@ export default {
       user_info: [],
       hash_tags: ['삼성전자', 'ESG'],
     }
+  },
+  components: {
+    Activity,
+    Portfolio,
   },
   //DOM 생성, 유저 데이터 받아오기
   created: function () {
@@ -114,7 +106,7 @@ export default {
     follow_flag: function () {
       // axios 요청 보내서 현재 로그인한 사용자가 프로필 유저의 팔로워인지 검사
 
-      return true
+      return false
     }
   },
   methods: {
@@ -123,7 +115,7 @@ export default {
       // hash tag 추가, 삭제 - vanila setattribute?로 x 띄우기 등
       // 한 줄 소개
       // nick name? 이건 고려해봐야 함
-    }
+    },
   }
 }
 </script>
