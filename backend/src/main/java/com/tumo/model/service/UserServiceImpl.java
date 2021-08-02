@@ -134,6 +134,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public List<String> readUserTag(int userIdx) {
+		return sqlSession.getMapper(UserDao.class).findUserTagByUserIdx(userIdx);
+	}
+
+	@Override
 	public boolean checkPassword(int userIdx, String password) {
 		// 비밀번호 일치하면 true, 불일치하면 false
 		boolean result = false;
@@ -221,8 +226,6 @@ public class UserServiceImpl implements UserService {
 		
 		try {
 			String status = mailUtil.findPassword(email, userDto.getNickname(), tempPassword);
-			
-			System.out.println(status);
 			
 			if (status.equals("200")) {
 				// 임시 비밀번호 메일 전송 성공

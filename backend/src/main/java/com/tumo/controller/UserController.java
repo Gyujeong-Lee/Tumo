@@ -2,6 +2,7 @@ package com.tumo.controller;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,15 +116,18 @@ public class UserController {
 			
 			String jwt = tokenDto.getJwt();
 			UserDto userDto = tokenDto.getUserDto();
-			
+			List<String> tags = userService.readUserTag(userDto.getUserIdx());
+
 			HttpHeaders httpHeaders = new HttpHeaders();
 			httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 			
 			resultMap.put("userDto", userDto);
+			resultMap.put("tags", tags);
 			resultMap.put("message", "success");
 			
 			response = new ResponseEntity<>(resultMap, httpHeaders, HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			resultMap.put("message", "fail");
 			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
 		}
@@ -182,8 +186,11 @@ public class UserController {
 		
 		if ( updateUserDto.getSuccess() ) {
 			// 닉네임 변경 성공
+			List<String> tags = userService.readUserTag(userDto.getUserIdx());
+			resultMap.put("tags", tags);
 			resultMap.put("message", "success");
 			resultMap.put("userDto", updateUserDto.getUserDto());
+			
 			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
 		} else {
 			// 중복된 닉네임 변경 시도로 인한 실패

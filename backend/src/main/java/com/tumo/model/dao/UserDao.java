@@ -1,6 +1,7 @@
 package com.tumo.model.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import com.tumo.model.UserDto;
@@ -24,6 +25,9 @@ public interface UserDao {
 	
 	// user_tag 중복 조회
 	public boolean findUserTagByUserIdxAndContent(Map<String, Object> tagMap);
+	
+	// user_tag 조회
+	public List<String> findUserTagByUserIdx(int userIdx);
 	
 	// 로그인시 update_at 갱신
 	public void updateUpdateAtByEmail(String email);
