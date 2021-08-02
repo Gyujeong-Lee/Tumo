@@ -30,7 +30,8 @@
             <v-btn :disabled="!valid" :loading="isLoading" color="primary" class="w-100" @click="userLogin">로그인</v-btn>
           </v-form>
           <v-alert dense text type="error" id="loginAlert">회원 정보를 다시 확인해 주세요.</v-alert>
-          <router-link :to="{ name: 'Login' }">비밀번호를 잊으셨나요?</router-link>
+          <p class="text-primary" style="cursor: pointer;" @click="drawModal">비밀번호를 잊으셨나요?</p>
+          <FindPassword v-if="$store.state.drawFindPassword" />
           <p class="my-auto">투모에 처음 오셨나요? <router-link :to="{ name: 'signup' }">가입하기</router-link></p>
           <hr>
           <v-btn color="error"><img src="@/assets/login/google.png" alt="googleIcon">Google 로그인</v-btn>
@@ -66,10 +67,13 @@
 
 <script>
 import axios from 'axios'
+import FindPassword from '@/components/profile/FindPassword'
 
 export default {
   name: "Login",
-  components: {},
+  components: {
+    FindPassword,
+  },
   data: function() {
     return {
       valid: true,
@@ -113,6 +117,9 @@ export default {
       .catch(err => {
         console.log(err)
       })
+    },
+    drawModal: function () {
+      this.$store.state.drawFindPassword = true
     }
   },
   computed: {

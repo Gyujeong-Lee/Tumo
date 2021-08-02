@@ -49,8 +49,8 @@
                 ></v-text-field>
                 <v-btn class="ms-5" color="primary" :disabled="isCheckPassword" @click="checkPassword" :loading="step1Loading">Check</v-btn>
               </div>
-              <v-alert v-if="checkResult === 'success'" type="success" dense>비밀번호가 확인 되었습니다.</v-alert>
-              <v-alert v-else-if="checkResult === 'error'" type="error" dense>비밀번호를 다시 확인해주세요.</v-alert>
+              <v-alert v-if="checkResult === 'success'" type="success" dense text>비밀번호가 확인 되었습니다.</v-alert>
+              <v-alert v-else-if="checkResult === 'error'" type="error" dense text>비밀번호를 다시 확인해주세요.</v-alert>
             </div>
 
             <div class="d-flex justify-content-between mx-4">
@@ -93,7 +93,7 @@
                   type="password"
                   class="mx-5 my-5"
                 ></v-text-field>
-                <v-alert v-if="checkResult2 === 'error'" type="error" class="mx-4 mb-5" dense>변경 전과 동일한 비밀번호입니다.</v-alert>
+                <v-alert v-if="checkResult2 === 'error'" type="error" class="mx-4 mb-5" dense text>변경 전과 동일한 비밀번호입니다.</v-alert>
               </div>
 
               <div class="d-flex justify-content-between mx-5 mb-3">

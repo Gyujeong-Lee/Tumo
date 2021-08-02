@@ -98,7 +98,6 @@ export default {
   },    
   data: () => {
     return {
-      dialog: false,
       // 요구사항 만족
       valid: true,
 
@@ -222,6 +221,7 @@ export default {
     this.credentials.name = this.$store.state.user_info.nickname
     this.credentials.email = this.$store.state.user_info.email
     this.credentials.introduce = this.$store.state.user_info.introduce
+    this.credentials.keywords = this.$store.state.user_info.tags
   }
 }
 </script>

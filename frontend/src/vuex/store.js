@@ -14,6 +14,7 @@ const state = {
   //글 작성 모달
   drawCreateArticle: false,
   drawUpdatePassword: false,
+  drawFindPassword: false,
   // user
   user_info: {
     // 로그인 한 유저의 idx
