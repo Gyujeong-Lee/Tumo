@@ -97,6 +97,8 @@ export default {
           const userData = {
             'token': res.headers.authorization,
             'userIdx': res.data.userDto.userIdx,
+            'email': res.data.userDto.email,
+            'introduce': res.data.userDto.introduce,
             'nickname': res.data.userDto.nickname,
           }
           // local Storage에 저장 및 state 변경
@@ -119,7 +121,7 @@ export default {
     passwordRules: function () {
       return [(v) => !!v]
     }
-  }
+  },
 };
 </script>
 

@@ -18,6 +18,8 @@ export default {
     // 유저 nickname과 idx 저장
     state.user_info = {
       id: data.userIdx,
+      email: data.email,
+      introduce: data.introduce,
       nickname: data.nickname,
     };
     // token 저장

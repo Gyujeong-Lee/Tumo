@@ -26,11 +26,11 @@ export default {
     Footer,
     CreateArticle,
   },
-  mounted: function () {
+  created: function () {
     const userData = JSON.parse(localStorage.getItem('userData'))
     if (userData) {
       this.$store.commit('LOGIN', userData)
-      this.$router.push({ name: 'main'})
+      // this.$router.push({ name: 'main'})
     }
   }
 }

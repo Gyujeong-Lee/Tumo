@@ -17,7 +17,8 @@ const state = {
   user_info: {
     // 로그인 한 유저의 idx
     id: null,
-    // 임시 데이터
+    email: null,
+    introduce: null,
     nickname: null,
   },
   // token
