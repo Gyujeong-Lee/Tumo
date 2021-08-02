@@ -7,8 +7,6 @@
       <div>
         <h1 class="mb-4 fw-bold text-center">TOP KeyWords</h1>
       </div>
-      <button @click="drawModal" class="btn btn-primary">open modal</button>
-      <button @click="logout" class="btn btn-danger">로그 아웃..</button>
     </div>
   </div>
 </template>
@@ -16,14 +14,9 @@
 <script>
 export default {
   name: 'SubFeed',
-  methods: {
-    drawModal: function () {
-      this.$store.state.drawCreateArticle = true
-    },
-    logout: function () {
-      localStorage.removeItem('userData')
-      this.$store.commit('LOGOUT')
-      this.$router.push({ name: 'Login' })
+  data: function () {
+    return {
+      
     }
   }
 }

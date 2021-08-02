@@ -11,29 +11,29 @@
         >Edit</p>
         <!-- v-else-if로 팔로우 언팔로우 분기처리 -->
         <p 
-        v-else-if="!follow_flag"
+        v-else-if="!isFollow"
         >Follow</p>
         <p v-else> Unfollow</p>
       </div>
       <!-- 유저 정보 -->
       <div id="user_info_block">
         <h2>{{ this.$route.params.nickname }}'s profile</h2>
-          <span> Follwer : {{ user_info }}</span>
-          <span> Follwing : {{ user_info }}</span>
+          <span> Follwer : {{ user_info.followerCnt }}</span>
+          <span> Follwing : {{ user_info.followingCnt }}</span>
 
           <div id="hash_tags" class="mt-5">
             <v-chip 
-            v-for="(hash_tag, idx) in hash_tags" 
+            v-for="(tag, idx) in user_info.tags" 
             :key="idx"
             class="me-2"
             color="#00BFFE"
             text-color="white"
             >
-            {{ hash_tag }}
+            {{ tag }}
             </v-chip>
           </div>
           <!-- 소개 -->
-          <p class="fw-bold mt-3">한 줄 소개</p>
+          <p class="fw-bold mt-3">{{ user_info.introduce }}</p>
       </div>
     </div>
     <!-- 포트폴리오  -->
@@ -54,16 +54,16 @@
 <script>
 import Activity from '@/components/profile/Activity.vue'
 import Portfolio from '@/components/profile/Portfolio.vue'
+import axios from 'axios'
 
 export default {
   name: "Profile",
   data: function () {
     return {
-      articles: [],
       portfolios: [],
-      // img, follower, following
+      // img, follower, following, tag
       user_info: [],
-      hash_tags: ['삼성전자', 'ESG'],
+      isFollow: false,
     }
   },
   components: {
@@ -72,26 +72,41 @@ export default {
   },
   //DOM 생성, 유저 데이터 받아오기
   created: function () {
-    //axios 요청 - 유저 정보 profile
-      // const token = localStorage.getItem('jwt')
-      // const config = {
-      //   Authorization: `JWT ${token}`
-      // }
+    // 현재 404 error api 수정 예정
+    // 해당 형태로 데이터 옮겨 받을 예정 
+    const data = {
+      "userIdx": 1,
+      "nickname": "admin",
+      "introduce": "관리자입니다",
+      "followingCnt": 0,
+      "followerCnt": 0,
+      "disclosure": "public",
+      "tags" : [
+        "삼성전자", "SK하이닉스"
+      ]
+    }
+    this.user_info = data
       // axios({
-      //   method: 'get',
-      //   url: `${this.$store.state.domain}/accounts/mypage/`,
-      //   headers: config
+      //   method: 'GET',
+      //   url: `sns/profile/${this.$route.params.nickname}`,
       // })
-      // .then(res => {
-      //   // console.log(res)
-      //   this.reviews = res.data.reviews
-      //   this.articles = res.data.articles
-      //   this.articlecomments = res.data.articlecomments
-      //   this.reviewcomments = res.data.reviewcomments
-      //   // console.log(this.reviews)
-      //   // console.log(this.reviewcomments)
+      // .then (res => {
+      //   console.log(res.message)
+      //   // const data = res.users
+      //   const data = {
+      //     "userIdx": 1,
+      //     "nickname": "admin",
+      //     "introduce": "관리자입니다",
+      //     "followingCnt": 0,
+      //     "followerCnt": 0,
+      //     "disclosure": "public",
+      //     "tags" : [
+      //       "삼성전자", "SK하이닉스"
+      //     ]
+      //   }
+      //   this.user_info = data
       // })
-      // .catch(err => {
+      // .catch (err => {
       //   console.log(err)
       // })
     },
@@ -103,19 +118,24 @@ export default {
         return false
       }
     },
-    follow_flag: function () {
-      // axios 요청 보내서 현재 로그인한 사용자가 프로필 유저의 팔로워인지 검사
-
-      return false
-    }
   },
   methods: {
-    edit_profile: function () {
-      // 사진
-      // hash tag 추가, 삭제 - vanila setattribute?로 x 띄우기 등
-      // 한 줄 소개
-      // nick name? 이건 고려해봐야 함
-    },
+    checkFollow: function () {
+      const login_user_idx = this.$store.state.user_info.id
+      const profile_user_idx = this.user_info.userIdx
+
+      axios({
+        method: 'GET',
+        url: `sns/follow/${login_user_idx}/${profile_user_idx}`
+      })
+      .then(res => {
+        console.log(res)
+        this.isFollow = res.isFollow
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>

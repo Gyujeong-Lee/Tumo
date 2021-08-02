@@ -31,13 +31,32 @@
 
         <!-- 아이콘 -->
         <div>
-          <!-- 링크 수정할 것 -->
           <!-- 글쓰기 -->
-          <v-btn icon>
-            <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;">
-              <v-icon>mdi-pencil</v-icon>
-            </router-link>
-          </v-btn>
+          <v-menu
+          bottom
+          left
+          offset-y
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                dark
+                icon
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+
+            <v-list>
+              <v-list-item>
+                <p type="button" @click="drawArticleModal">Article</p>
+              </v-list-item>
+              <v-list-item>
+                <p type="button" @click="drawPortfolioModal">Portfolio</p>
+              </v-list-item>
+            </v-list>
+          </v-menu>
           <!-- 탐색 -->
           <v-btn icon>
             <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;">
@@ -62,15 +81,46 @@
             <!-- 알림 센터 popover -->
             <AlertCenter/>
           </v-menu>
+
           <!-- 프로필 -->
-          <v-btn icon>
-            <router-link 
-            :to="{ name: 'profile', params:{ nickname: `${user_nickname}`} }" 
-            style="text-decoration: none; color: inherit;"
-            >
-              <v-icon>mdi-account-circle</v-icon>
-            </router-link>
-          </v-btn>
+          <v-menu
+          bottom
+          offset-y
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                dark
+                icon
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>mdi-account-circle</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item>
+                <router-link 
+                :to="{ name: 'profile', params:{ nickname: `${user_nickname}`} }" 
+                style="text-decoration: none; color: inherit;"
+                >
+                  my profile
+                </router-link>
+              </v-list-item>
+              <!-- 계정 설정 변경 -->
+              <v-list-item>
+                <router-link 
+                :to="{ name: 'profile', params:{ nickname: `${user_nickname}`} }" 
+                style="text-decoration: none; color: inherit;"
+                >
+                  change info
+                </router-link>
+              </v-list-item>
+              <!-- 로그아웃 -->
+              <v-list-item>
+                <p type="button" @click="logout">LogOut</p>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </div>
       </div>
     </v-app-bar>
@@ -104,6 +154,19 @@ export default {
       this.$store.dispatch('search', this.search_item)
       this.search_item = ""
     },
+    drawArticleModal: function () {
+      // 글 작성 모달
+    this.$store.state.drawCreateArticle = true
+    },
+    drawPortfolioModal: function () {
+      // 추후 포트폴리오 모달로 변경
+      this.$store.state.drawCreateArticle = true
+    },
+    logout: function () {
+      localStorage.removeItem('userData')
+      this.$store.commit('LOGOUT')
+      this.$router.push({ name: 'Login' })
+    }
   },
   components: {
     AlertCenter,
