@@ -1,6 +1,7 @@
 package com.tumo.model.service;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import com.tumo.model.LoginDto;
@@ -21,6 +22,9 @@ public interface UserService {
 	
 	// 로그인 | jwt, userDto 반환
 	public TokenDto login(LoginDto loginDto);
+	
+	// 유저 태그 조회 | 로그인 및 회원 정보 변경시 새로 조회해서 갱신
+	public List<String> readUserTag(int userIdx);
 	
 	// 비밀번호 확인 | password 일치 확인
 	public boolean checkPassword(int userIdx, String password);

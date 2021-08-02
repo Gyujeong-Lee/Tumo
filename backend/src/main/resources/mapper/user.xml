@@ -40,6 +40,11 @@
 			where user_idx = #{userIdx} and content = #{content}
 	</select>
 	
+	<select id="findUserTagByUserIdx" parameterType="int" resultType="string">
+		select content from user_tag
+			where user_idx = #{userIdx}
+	</select>
+	
 	<update id="updateUpdateAtByEmail" parameterType="string">
 		update user
 			set update_at = CURRENT_TIMESTAMP

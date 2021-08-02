@@ -21,6 +21,7 @@ export default {
       email: data.email,
       introduce: data.introduce,
       nickname: data.nickname,
+      tags: data.tags,
     };
     // token 저장
     state.config.Authorization = data.token;

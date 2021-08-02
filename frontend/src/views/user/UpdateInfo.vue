@@ -81,17 +81,20 @@
           </v-btn>
         </div>
       </v-form>
-      <p class="my-3 text-primary" style="cursor: pointer;">비밀번호를 변경하시겠어요?</p>
+      <p class="my-3 text-primary" style="cursor: pointer;" @click="drawModal">비밀번호를 변경하시겠어요?</p>
+      <UpdatePassword v-if="$store.state.drawUpdatePassword"/>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import UpdatePassword from '@/components/profile/UpdatePassword'
 
 export default {
-  name: 'signup',
+  name: 'UpdateInfo',
   components: {
+    UpdatePassword
   },    
   data: () => {
     return {
@@ -168,7 +171,7 @@ export default {
         userIdx: this.$store.state.user_info.id,
         nickname: this.credentials.name,
         introduce: this.credentials.introduce,
-        tag: this.credentials.keywords
+        tags: this.credentials.keywords
       }
       // axios 요청
       axios({
@@ -201,6 +204,9 @@ export default {
       const idx_keyword = this.credentials.keywords.indexOf(keyword)
       this.credentials.keywords.splice(idx_keyword, 1)
     },
+    drawModal: function () {
+      this.$store.state.drawUpdatePassword = true
+    }
   },
   computed: {
     // 회원가입 규칙
@@ -215,6 +221,7 @@ export default {
     this.credentials.name = this.$store.state.user_info.nickname
     this.credentials.email = this.$store.state.user_info.email
     this.credentials.introduce = this.$store.state.user_info.introduce
+    this.credentials.keywords = this.$store.state.user_info.tags
   }
 }
 </script>
