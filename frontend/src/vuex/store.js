@@ -13,6 +13,7 @@ const state = {
   search_result: [],
   //글 작성 모달
   drawCreateArticle: false,
+  drawUpdatePassword: false,
   // user
   user_info: {
     // 로그인 한 유저의 idx
@@ -20,6 +21,7 @@ const state = {
     email: null,
     introduce: null,
     nickname: null,
+    tags: [],
   },
   // token
   config: {

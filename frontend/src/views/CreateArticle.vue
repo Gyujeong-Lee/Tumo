@@ -77,6 +77,7 @@ export default {
       items: ['국내주식', '해외주식', '국내채권', '해외채권'],
       inputTag: '',
       data: {
+        // userIdx: null,
         title: '',
         stock: '국내주식',
         content: '',

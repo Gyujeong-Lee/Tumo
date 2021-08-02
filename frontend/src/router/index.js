@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Login from "../views/user/Login.vue";
 import Signup from "../views/user/Signup.vue";
 import Profile from "../views/user/Profile.vue";
-import UserUpdate from "../views/user/UserUpdate.vue";
+import UpdateInfo from "../views/user/UpdateInfo.vue";
 import Main from "../views/Main.vue";
 
 Vue.use(VueRouter);
@@ -27,7 +27,7 @@ const routes = [
   {
     path: "/user/update",
     name: "update",
-    component: UserUpdate,
+    component: UpdateInfo,
   },
   {
     path: "/user/:nickname",

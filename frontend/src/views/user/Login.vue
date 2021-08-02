@@ -100,6 +100,7 @@ export default {
             'email': res.data.userDto.email,
             'introduce': res.data.userDto.introduce,
             'nickname': res.data.userDto.nickname,
+            'tags': res.data.tags
           }
           // local Storage에 저장 및 state 변경
           localStorage.setItem('userData', JSON.stringify(userData))
