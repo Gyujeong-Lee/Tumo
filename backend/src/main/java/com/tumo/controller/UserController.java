@@ -175,31 +175,56 @@ public class UserController {
 		return response;
 	}
 	
-	@PutMapping(value = "/nickname")
-	@ApiOperation(value = "닉네임 변경")
-	public ResponseEntity updateNickname(@RequestBody UserDto userDto) {
+	@PutMapping(value = "/update")
+	@ApiOperation(value = "회원정보 변경 (자기소개, 관심사 태그, 닉네임, 공개 여부")
+	public ResponseEntity updateUpdate(@RequestBody UpdateUserDto updateUserDto) {
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
 		
-		UpdateUserDto updateUserDto = userService.updateNickname(
-				userDto.getUserIdx(), userDto.getNickname());
-		
-		if ( updateUserDto.getSuccess() ) {
-			// 닉네임 변경 성공
+		try {
+			// 회원정보
+			UserDto userDto = userService.updateUser(updateUserDto);
 			List<String> tags = userService.readUserTag(userDto.getUserIdx());
-			resultMap.put("tags", tags);
-			resultMap.put("message", "success");
-			resultMap.put("userDto", updateUserDto.getUserDto());
 			
-			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
-		} else {
-			// 중복된 닉네임 변경 시도로 인한 실패
+			resultMap.put("message", "success");
+			resultMap.put("userDto", userDto);
+			resultMap.put("tags", tags);
+			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		} catch (Exception e) {
+			// DB 오류
+			e.printStackTrace();
 			resultMap.put("message", "fail");
-			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		return response;
 	}
+	
+//	@PutMapping(value = "/nickname")
+//	@ApiOperation(value = "닉네임 변경")
+//	public ResponseEntity updateNickname(@RequestBody UserDto userDto) {
+//		ResponseEntity response = null;
+//		Map<String, Object> resultMap = new HashMap<>();
+//		
+//		UpdateUserDto updateUserDto = userService.updateNickname(
+//				userDto.getUserIdx(), userDto.getNickname());
+//		
+//		if ( updateUserDto.getSuccess() ) {
+//			// 닉네임 변경 성공
+//			List<String> tags = userService.readUserTag(userDto.getUserIdx());
+//			resultMap.put("tags", tags);
+//			resultMap.put("message", "success");
+//			resultMap.put("userDto", updateUserDto.getUserDto());
+//			
+//			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+//		} else {
+//			// 중복된 닉네임 변경 시도로 인한 실패
+//			resultMap.put("message", "fail");
+//			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+//		}
+//		
+//		return response;
+//	}
 	
 	@DeleteMapping(value = "/user/{userIdx}")
 	@ApiOperation(value = "회원 탈퇴")

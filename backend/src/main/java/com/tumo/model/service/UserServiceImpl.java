@@ -1,9 +1,11 @@
 package com.tumo.model.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,26 +177,22 @@ public class UserServiceImpl implements UserService {
 	
 	@Transactional
 	@Override
-	public UpdateUserDto updateNickname(int userIdx, String nickname) {
-		UpdateUserDto updateUserDto = new UpdateUserDto();
+	public UserDto updateUser(UpdateUserDto updateUserDto) {
+		// treeSet 이용한 tags 중복 제거
+		TreeSet<String> tagsTreeSet = new TreeSet<String>();
 		
-		if (checkNickname(nickname)) {
-			// 변경하려는 닉네임이 사용 가능한 nickname
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("userIdx", userIdx);
-			map.put("nickname", nickname);
-			sqlSession.getMapper(UserDao.class).updateNicknameByUserIdx(map);
-			
-			UserDto userDto = sqlSession.getMapper(UserDao.class).findUserByUserIdx(userIdx);
-			
-			updateUserDto.setSuccess(true);
-			updateUserDto.setUserDto(userDto);
-		} else {
-			// 중복된 닉네임으로 변경 시도
-			updateUserDto.setSuccess(false);
+		for(String tag : updateUserDto.getTags()) {
+			tagsTreeSet.add(tag);
 		}
 		
-		return updateUserDto;
+		List<String> tagList = new ArrayList<String>(tagsTreeSet);
+		updateUserDto.setTags(tagList);
+		
+		sqlSession.getMapper(UserDao.class).updateUserByUserIdx(updateUserDto);
+		
+		// 변경된 회원 정보 반환
+		UserDto userDto = sqlSession.getMapper(UserDao.class).findUserByUserIdx(updateUserDto.getUserIdx());
+		return userDto;
 	}
 
 	@Override
