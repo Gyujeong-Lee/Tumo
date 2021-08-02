@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import com.tumo.model.UpdateUserDto;
 import com.tumo.model.UserDto;
 
 public interface UserDao {
@@ -35,8 +36,8 @@ public interface UserDao {
 	// password 변경
 	public void updatePasswordByUserIdx(Map<String, Object> map);
 	
-	// nickname 변경
-	public void updateNicknameByUserIdx(Map<String, Object> map);
+	// 회원정보(introduce, nickname, disclosure, tags) 변경
+	public void updateUserByUserIdx(UpdateUserDto updateUserDto);
 	
 	// 회원 탈퇴
 	public void deleteUserByUserIdx(int userIdx);

@@ -2,12 +2,12 @@ package com.tumo.model.service;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import com.tumo.model.LoginDto;
 import com.tumo.model.SignupDto;
 import com.tumo.model.TokenDto;
 import com.tumo.model.UpdateUserDto;
+import com.tumo.model.UserDto;
 
 public interface UserService {
 	
@@ -32,8 +32,8 @@ public interface UserService {
 	// 비밀번호 변경 | password 변경
 	public boolean updatePassword(int userIdx, String password);
 	
-	// 닉네임 변경 | nickname 변경
-	public UpdateUserDto updateNickname(int userIdx, String nickname);
+	// 회원정보 수정 | introduce, nickname, disclosure, tags 변경
+	public UserDto updateUser(UpdateUserDto updateUserDto);
 	
 	// 회원 탈퇴
 	public void deleteUser(int userIdx);

@@ -1,36 +1,32 @@
 package com.tumo.model;
 
+import java.util.List;
+
 public class UpdateUserDto {
 
-	// 유저정보 변경시 변경 성공 여부, 변경된 유저 정보 반환용 dto
+	int userIdx;
+	String nickname;
+	String introduce;
+	String disclosure;
+	List<String> tags;
 	
-	boolean success; // 변경 성공시 true, 실패시 false
-	UserDto userDto;
-	
-	public UpdateUserDto(boolean success, UserDto userDto) {
-		super();
-		this.success = success;
-		this.userDto = userDto;
+	public int getUserIdx() {
+		return userIdx;
 	}
-
-	public UpdateUserDto() {
-		
+	public String getNickname() {
+		return nickname;
 	}
-
-	public boolean getSuccess() {
-		return success;
+	public String getIntroduce() {
+		return introduce;
 	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
+	public String getDisclosure() {
+		return disclosure;
 	}
-
-	public UserDto getUserDto() {
-		return userDto;
+	public List<String> getTags() {
+		return tags;
 	}
-
-	public void setUserDto(UserDto userDto) {
-		this.userDto = userDto;
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 	
 }
