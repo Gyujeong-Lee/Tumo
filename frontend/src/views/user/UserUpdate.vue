@@ -1,6 +1,7 @@
 <template>
   <div class="container d-flex justify-center my-5 h-100">
-    <div id="userUpdate" class="d-flex flex-column align-items-center h-100 fw-bold mt-5">
+    <div id="userUpdate" class="d-flex flex-column align-items-center h-100 fw-bold">
+      <h1 class="my-5">회원정보 변경</h1>
       <v-form
         ref="form"
         v-model="valid"
@@ -14,6 +15,7 @@
             :counter="10"
             label="Name"
             required
+            @input="name_checked = false"
           >
           </v-text-field>
           <v-btn
@@ -72,13 +74,14 @@
           </v-btn>
           <v-btn 
             id="signup_btn"    
-            @click="signup"
+            @click="update"
             :disabled="!valid || !name_checked"
           >
             update
           </v-btn>
         </div>
       </v-form>
+      <p class="my-3 text-primary" style="cursor: pointer;">비밀번호를 변경하시겠어요?</p>
     </div>
   </div>
 </template>
@@ -106,17 +109,18 @@ export default {
 
       // 중복검사 여부
       name_exist: false,
-      name_checked: false,
+      name_checked: true,
     }
   },
   // 닉네임 및 이메일 중복 검사 하기 전 조건에 맞는 입력값인지 확인
   watch: {
     credentials: {
       handler: function () {
-        // console.log('work')
         if (this.credentials.name && this.credentials.name.length <= 10) {
+          // 이미 기존 닉네임과 동일한 경우 중복검사 버튼 비활성화 및 name_check = true
           if (this.credentials.name === this.$store.state.user_info.nickname) {
             this.name_exist = false
+            this.name_checked = true
           } else {
             this.name_exist = true
           }
@@ -130,47 +134,53 @@ export default {
   methods: {
     // 닉네임 중복검사 axios 요청 보낼 것.
     name_check: function () {
-      axios({
-        method: 'GET',
-        url: `/user/nickname/${this.credentials.name}`
-      })
-      .then(res => {
-        const message = res.data.message
-        if (message === "success") {
-          this.name_checked = true
-          console.log('ok')
-        } else {
-          alert('이미 존재하는 닉네임입니다.')
-          this.name_checked = false
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      if (this.credentials.name === this.$store.state.user_info.nickname) {
+        this.name_checked = true
+      } else {
+        axios({
+          method: 'GET',
+          url: `/user/nickname/${this.credentials.name}`
+        })
+        .then(res => {
+          const message = res.data.message
+          if (message === "success") {
+            this.name_checked = true
+            this.name_exist = false
+            console.log('ok')
+          } else {
+            alert('이미 존재하는 닉네임입니다.')
+            this.name_checked = false
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
     },
     // 취소 -> 로그인 페이지로
     cancel: function () {
-      this.$router.push('/')
+      this.$router.push({ name: 'main' })
     },
-    // sign up axios 요청 보내기
-    signup: function () {
+    // update axios 요청 보내기
+    update: function () {
       // request에 필요한 data
       const data = {
-        introduce: null,
+        userIdx: this.$store.state.user_info.id,
         nickname: this.credentials.name,
+        introduce: this.credentials.introduce,
         tag: this.credentials.keywords
       }
       // axios 요청
       axios({
-        method: 'POST',
-        url: '/user/signup',
+        method: 'PUT',
+        url: '/user/update',
         data: data
       })
       .then(res => {
         const message = res.data.message
         if (message === "success") {
-          alert('정상적으로 가입 되었습니다.')
-          this.$router.push({ name: 'Login' })
+          alert('정상적으로 수정 되었습니다.')
+          this.$router.push({ name: 'main' })
         }
       })
       .catch(err => {
@@ -214,7 +224,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
 #userUpdate {
-  width: 60%;
+  width: 600px;
 }
 
 #btnGroup {

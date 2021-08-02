@@ -16,6 +16,7 @@
             :counter="10"
             label="Name"
             required
+            @input="name_checked = false"
           >
           </v-text-field>
           <v-btn
@@ -33,6 +34,7 @@
             :rules="emailRules"
             label="E-mail"
             required
+            @input="email_checked = false"
           ></v-text-field>
           <v-btn
           :disabled="!email_exist"
@@ -172,6 +174,7 @@ export default {
         const message = res.data.message
         if (message === "success") {
           this.name_checked = true
+          this.name_exist = false
           console.log('ok')
         } else {
           alert('이미 존재하는 닉네임입니다.')
@@ -307,13 +310,13 @@ font-family: 'Noto Sans KR', sans-serif;
 
 #nickNameInput > button {
   position: absolute;
-  right: 5%;
+  right: 0;
   top: 20%;
 }
 
 #emailInput > button {
   position: absolute;
-  right: 5%;
+  right: 0;
   top: 20%;
 }
 
@@ -327,28 +330,14 @@ font-family: 'Noto Sans KR', sans-serif;
 
 .checkBtn {
   position: absolute;
-  left: 97%;
+  left: 100%;
   top: 20%;
+  padding-left: 8px;
 }
 
 @media screen and (min-width: 500px){
   #btnGroup {
     justify-content: flex-end;
-  }
-}
-
-@media screen and (max-width: 599px){
-  #nickNameInput > button {
-    right: 0;
-  }
-
-  #emailInput > button {
-    right: 0;
-  }
-
-  .checkBtn {
-    left: 100%;
-    padding-left: 8px;
   }
 }
 </style>
