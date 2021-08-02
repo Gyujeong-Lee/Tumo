@@ -199,33 +199,7 @@ public class UserController {
 		
 		return response;
 	}
-	
-//	@PutMapping(value = "/nickname")
-//	@ApiOperation(value = "닉네임 변경")
-//	public ResponseEntity updateNickname(@RequestBody UserDto userDto) {
-//		ResponseEntity response = null;
-//		Map<String, Object> resultMap = new HashMap<>();
-//		
-//		UpdateUserDto updateUserDto = userService.updateNickname(
-//				userDto.getUserIdx(), userDto.getNickname());
-//		
-//		if ( updateUserDto.getSuccess() ) {
-//			// 닉네임 변경 성공
-//			List<String> tags = userService.readUserTag(userDto.getUserIdx());
-//			resultMap.put("tags", tags);
-//			resultMap.put("message", "success");
-//			resultMap.put("userDto", updateUserDto.getUserDto());
-//			
-//			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
-//		} else {
-//			// 중복된 닉네임 변경 시도로 인한 실패
-//			resultMap.put("message", "fail");
-//			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
-//		}
-//		
-//		return response;
-//	}
-	
+		
 	@DeleteMapping(value = "/user/{userIdx}")
 	@ApiOperation(value = "회원 탈퇴")
 	public ResponseEntity deleteUser(@PathVariable int userIdx) {
