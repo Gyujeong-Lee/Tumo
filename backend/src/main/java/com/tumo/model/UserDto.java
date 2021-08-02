@@ -13,6 +13,9 @@ public class UserDto {
 	private String updateAt;
 	private String deleted;
 
+	public UserDto() {
+	}
+
 	public UserDto(int userIdx, String nickname, String introduce) {
 		super();
 		this.userIdx = userIdx;
