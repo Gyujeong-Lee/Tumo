@@ -3,6 +3,7 @@ package com.tumo.model.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import com.tumo.model.ArticleDto;
 import com.tumo.model.FeedDto;
 
 public interface FeedDao {
@@ -11,12 +12,20 @@ public interface FeedDao {
 
 	List<FeedDto> searchFeed(String title);
 
-	void createArticle(FeedDto newArticle);
+	void createArticle(ArticleDto articleDto);
 	
-	void readArticle(int boardIdx);
+	int findBoardIdxByArticle(ArticleDto articleDto);
 	
-	void updateArticle(FeedDto updateArticle);
+	FeedDto readArticle(int boardIdx);
+	
+	List<String> readFeedTag(int boardIdx);
+	
+	void updateArticle(FeedDto feedDto);
 
 	void deleteArticle(int boardIdx);
+
+	void createFeedTag(HashMap<String, Object> tagMap);
+
+	void deleteFeedTag(int boardIdx);
 
 }

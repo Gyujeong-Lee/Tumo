@@ -57,4 +57,84 @@
 		where f.user_idx = #{userIdx}
 		order by f.create_at desc;
 	</select>
+	
+	<select id="searchUser" parameterType="map" resultType="userDto">
+		select user_idx as userIdx, nickname, introduce
+		from user
+		where (nickname like CONCAT('%', #{searchContent}, '%') or email like CONCAT('%', #{searchContent}, '%') ) and deleted is null
+		limit #{pageNum}, 5
+	</select>
+	
+	<select id="countSearchedUser" parameterType="map" resultType="int">
+		select count(*)
+		from user
+		where (nickname like CONCAT('%', #{searchContent}, '%') or email like CONCAT('%', #{searchContent}, '%') ) and deleted is null
+	</select>
+	
+	<select id="readUser" parameterType="int"  resultType="profileDto">
+		select user_idx as userIdx, nickname, introduce, disclosure
+		from user
+		where user_idx = #{userIdx}	
+	</select>
+	
+	<select id="getFollowingCount" parameterType="int" resultType="integer">
+		select count(*)
+		from following f left join user u
+		on f.user_idx = u.user_idx
+		group BY f.user_idx
+		HAVING f.user_idx = #{userIdx};
+	</select>
+	
+	<select id="getFollowerCount" parameterType="int"  resultType="integer">
+		select count(*)
+		from following f left join user u
+		on f.following_idx = u.user_idx
+		group by f.following_idx
+		having f.following_idx = #{userIdx};
+	</select>
+	
+	<select id="readFollowerList" parameterType="int" resultType="profileDto">
+		select u.user_idx as userIdx, u.nickname as nickname, u.introduce as introduce
+		from following f left join user u
+		on f.user_idx = u.user_idx
+		where u.deleted is null and f.following_idx = #{userIdx}
+	</select>
+	
+	<select id="readFollowingList" parameterType="int" resultType="profileDto">
+		select u.user_idx as userIdx, u.nickname as nickname, u.introduce as introduce
+		from following f left join user u
+		on f.following_idx = u.user_idx
+		where u.deleted is null and f.user_idx = #{userIdx}
+	</select>
+	
+	<select id="readIsFollow" parameterType="map" resultType="map">
+		select user_idx, following_idx
+		from following
+		where user_idx = #{userIdx} and following_idx = #{following_idx}
+	</select>
+	
+	<update id="updateDisclosure" parameterType="int">
+		update user set disclosure = if(disclosure="public", "private", "public")
+		where user_idx = #{userIdx}
+	</update>
+	
+	<delete id="deleteFollowing" parameterType="map">
+		delete from following
+		where user_idx = #{userIdx} and following_idx = #{otherIdx}
+	</delete>
+	
+	<insert id="createFollowing" parameterType="map">
+		insert into following (user_idx, following_idx)
+		values (#{userIdx}, #{otherIdx})
+	</insert>
+	
+	<insert id="notifyFollowRequest" parameterType="map">
+		insert into notification (user_idx, otheruser_idx, type, create_at)
+		values (#{userIdx}, #{otherIdx}, 1, now())
+	</insert>
+	
+	<delete id="deleteNotifiedFollowRequest" parameterType="map">
+		delete from notification
+		where user_idx = #{userIdx} and otheruser_idx = #{otherIdx} and type = 1
+	</delete>
 </mapper>
