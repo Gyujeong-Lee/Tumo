@@ -1,29 +1,23 @@
 package com.tumo.model;
 
 public class CommentDto {
-	private int commentIdx;
+	private int boardIdx;
 	private int userIdx;
-	private int articleIdx;
 	private String content;
-	private String createAt;
-	private String updateAt;
-	
-	public CommentDto(int commentIdx, int userIdx, int articleIdx, String content, String createAt, String updateAt) {
+
+	public CommentDto(int boardIdx, int userIdx, String content) {
 		super();
-		this.commentIdx = commentIdx;
+		this.boardIdx = boardIdx;
 		this.userIdx = userIdx;
-		this.articleIdx = articleIdx;
 		this.content = content;
-		this.createAt = createAt;
-		this.updateAt = updateAt;
-	}
-	
-	public int getCommentIdx() {
-		return commentIdx;
 	}
 
-	public void setCommentIdx(int commentIdx) {
-		this.commentIdx = commentIdx;
+	public int getBoardIdx() {
+		return boardIdx;
+	}
+
+	public void setBoardIdx(int boardIdx) {
+		this.boardIdx = boardIdx;
 	}
 
 	public int getUserIdx() {
@@ -34,14 +28,6 @@ public class CommentDto {
 		this.userIdx = userIdx;
 	}
 
-	public int getArticleIdx() {
-		return articleIdx;
-	}
-
-	public void setArticleIdx(int articleIdx) {
-		this.articleIdx = articleIdx;
-	}
-
 	public String getContent() {
 		return content;
 	}
@@ -50,25 +36,9 @@ public class CommentDto {
 		this.content = content;
 	}
 
-	public String getCreateAt() {
-		return createAt;
-	}
-
-	public void setCreateAt(String createAt) {
-		this.createAt = createAt;
-	}
-
-	public String getUpdateAt() {
-		return updateAt;
-	}
-
-	public void setUpdateAt(String updateAt) {
-		this.updateAt = updateAt;
-	}
-
 	@Override
 	public String toString() {
-		return "CommentDto [commentIdx=" + commentIdx + ", userIdx=" + userIdx + ", articleIdx=" + articleIdx
-				+ ", content=" + content + ", createAt=" + createAt + ", updateAt=" + updateAt + "]";
+		return "CommentDto [boardIdx=" + boardIdx + ", userIdx=" + userIdx + ", content=" + content + "]";
 	}
+
 }

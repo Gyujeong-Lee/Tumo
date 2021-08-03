@@ -1,10 +1,13 @@
 package com.tumo.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class FeedDto {
 	private int boardIdx;
 	private int userIdx;
 	private String nickname;
 	private int likes;
+	private String stock;
 	private String title;
 	private String content;
 	private String createAt;
@@ -74,30 +77,62 @@ public class FeedDto {
 		this.nickname = nickname;
 	}
 
-	public FeedDto(int boardIdx, int userIdx, String nickname, int likes, String title, String content, String createAt,
-			String updateAt) {
-		super();
-		this.boardIdx = boardIdx;
-		this.userIdx = userIdx;
-		this.nickname = nickname;
-		this.likes = likes;
-		this.title = title;
-		this.content = content;
-		this.createAt = createAt;
-		this.updateAt = updateAt;
+	public String getStock() {
+		return stock;
 	}
-	
+
+	public void setStock(String stock) {
+		this.stock = stock;
+	}
+
+	public FeedDto() {
+		super();
+	}
+
 	public FeedDto(String title, String content) {
 		super();
 		this.title = title;
 		this.content = content;
 	}
 
+	@JsonCreator
+	public FeedDto(int userIdx, String nickname, String stock, String title, String content) {
+		super();
+		this.userIdx = userIdx;
+		this.nickname = nickname;
+		this.stock = stock;
+		this.title = title;
+		this.content = content;
+	}
+
+	public FeedDto(int boardIdx, int userIdx, String stock, String title, String content) {
+		super();
+		this.boardIdx = boardIdx;
+		this.userIdx = userIdx;
+		this.stock = stock;
+		this.title = title;
+		this.content = content;
+	}
+
+	public FeedDto(int boardIdx, int userIdx, String nickname, int likes, String stock, String title, String content,
+			String createAt, String updateAt) {
+		super();
+		this.boardIdx = boardIdx;
+		this.userIdx = userIdx;
+		this.nickname = nickname;
+		this.likes = likes;
+		this.stock = stock;
+		this.title = title;
+		this.content = content;
+		this.createAt = createAt;
+		this.updateAt = updateAt;
+	}
+
 	@Override
 	public String toString() {
 		return "FeedDto [boardIdx=" + boardIdx + ", userIdx=" + userIdx + ", nickname=" + nickname + ", likes=" + likes
-				+ ", title=" + title + ", content=" + content + ", createAt=" + createAt + ", updateAt=" + updateAt
-				+ "]";
+				+ ", stock=" + stock + ", title=" + title + ", content=" + content + ", createAt=" + createAt
+				+ ", updateAt=" + updateAt + "]";
 	}
 
 }
