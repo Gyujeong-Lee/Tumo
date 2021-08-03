@@ -65,7 +65,7 @@ export default {
       }
       axios({
         method: 'DELETE',
-        url: '/user',
+        url: '/user/',
         data: data,
       })
       .then(res => {
