@@ -33,6 +33,14 @@
             label="E-mail"
             disabled
           ></v-text-field>
+          <v-switch
+            v-model="credentials.disclosure"
+            inset
+            hide-details
+            class="my-auto"
+            id="toggleBtn"
+            :label="credentials.disclosure ? 'Public' : 'Private'"
+          ></v-switch>
         </div>
 
         <!-- 자기소개 -->
@@ -65,36 +73,42 @@
         </div>
 
         <div id="btnGroup" class="my-3">
-          <v-btn
-            id="cancel_btn"
-            class="mr-4 "
-            @click="cancel"
-          >
-            cancel
-          </v-btn>
-          <v-btn 
-            id="signup_btn"    
-            @click="update"
-            :disabled="!valid || !name_checked"
-          >
-            update
-          </v-btn>
+          <div>
+            <v-btn
+              id="cancel_btn"
+              class="mr-4 "
+              @click="cancel"
+            >
+              cancel
+            </v-btn>
+            <v-btn 
+              id="signup_btn"    
+              @click="update"
+              :disabled="!valid || !name_checked"
+            >
+              update
+            </v-btn>
+          </div>
         </div>
       </v-form>
-      <p class="my-3 text-primary" style="cursor: pointer;" @click="drawModal">비밀번호를 변경하시겠어요?</p>
+      <p class="my-3 text-primary" style="cursor: pointer;" @click="drawUpdatePassword">비밀번호를 변경하시겠어요?</p>
       <UpdatePassword v-if="$store.state.drawUpdatePassword"/>
+      <p class="my-3 text-danger" style="cursor: pointer;" @click="drawDeleteAccount">계정을 삭제 할건가요.....?</p>
+      <DeleteAccount v-if="$store.state.drawDeleteAccount"/>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import UpdatePassword from '@/components/profile/UpdatePassword'
+import UpdatePassword from '@/components/account/UpdatePassword'
+import DeleteAccount from '@/components/account/DeleteAccount'
 
 export default {
   name: 'UpdateInfo',
   components: {
-    UpdatePassword
+    UpdatePassword,
+    DeleteAccount
   },    
   data: () => {
     return {
@@ -106,6 +120,7 @@ export default {
         name: "",
         introduce: "",
         email: "",
+        disclosure: true,
         keywords: [],
       },
       keyword: "",
@@ -170,6 +185,7 @@ export default {
       const data = {
         userIdx: this.$store.state.user_info.id,
         nickname: this.credentials.name,
+        disclosure: (this.credentials.disclosure) ? 'public' : 'private',
         introduce: this.credentials.introduce,
         tags: this.credentials.keywords
       }
@@ -185,6 +201,10 @@ export default {
           alert('정상적으로 수정 되었습니다.')
           this.$router.push({ name: 'main' })
         }
+      })
+      // store 정보 갱신
+      .then(() => {
+        this.$store.commit('INFO_UPDATE', data)
       })
       .catch(err => {
         console.log(err)
@@ -204,8 +224,11 @@ export default {
       const idx_keyword = this.credentials.keywords.indexOf(keyword)
       this.credentials.keywords.splice(idx_keyword, 1)
     },
-    drawModal: function () {
+    drawUpdatePassword: function () {
       this.$store.state.drawUpdatePassword = true
+    },
+    drawDeleteAccount: function () {
+      this.$store.state.drawDeleteAccount = true
     }
   },
   computed: {
@@ -222,6 +245,7 @@ export default {
     this.credentials.email = this.$store.state.user_info.email
     this.credentials.introduce = this.$store.state.user_info.introduce
     this.credentials.keywords = this.$store.state.user_info.tags
+    this.credentials.disclosure = (this.$store.state.user_info.disclosure) === 'public' ? true : false
   }
 }
 </script>
@@ -265,18 +289,18 @@ font-family: 'Noto Sans KR', sans-serif;
   top: 20%;
 }
 
-#emailInput > button {
-  position: absolute;
-  right: 0;
-  top: 20%;
-}
-
 #userUpdateForm {
   width: 80%;
 }
 
 #btnGroup {
   justify-content: center;
+}
+
+#emailInput div:last-child {
+  position: absolute;
+  top: 15%;
+  left: 78%;
 }
 
 .checkBtn {
@@ -289,6 +313,7 @@ font-family: 'Noto Sans KR', sans-serif;
 @media screen and (min-width: 500px){
   #btnGroup {
     justify-content: flex-end;
+    align-items: center;
   }
 }
 
@@ -298,10 +323,6 @@ font-family: 'Noto Sans KR', sans-serif;
   }
 
   #nickNameInput > button {
-    right: 0;
-  }
-
-  #emailInput > button {
     right: 0;
   }
 }

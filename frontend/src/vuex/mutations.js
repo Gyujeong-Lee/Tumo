@@ -19,6 +19,7 @@ export default {
     state.user_info = {
       id: data.userIdx,
       email: data.email,
+      disclosure: data.disclosure,
       introduce: data.introduce,
       nickname: data.nickname,
       tags: data.tags,
@@ -30,9 +31,22 @@ export default {
     // state 값 초기화
     state.user_info = {
       id: null,
+      email: null,
+      introduce: null,
       nickname: null,
+      disclosure: null,
+      tags: [],
     };
     state.config.Authorization = null;
+  },
+  INFO_UPDATE(state, data) {
+    state.user_info = {
+      ...state.user_info,
+      nickname: data.nickname,
+      disclosure: data.disclosure,
+      introduce: data.introduce,
+      tags: data.tags,
+    };
   },
   ACTIVATE_ALERTCENTER(state) {
     state.activate_alertcenter = !state.activate_alertcenter;

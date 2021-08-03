@@ -15,6 +15,7 @@ const state = {
   drawCreateArticle: false,
   drawUpdatePassword: false,
   drawFindPassword: false,
+  drawDeleteAccount: false,
   drawFollowerList: false,
   drawFollowingList: false,
   // user
@@ -24,6 +25,7 @@ const state = {
     email: null,
     introduce: null,
     nickname: null,
+    disclosure: null,
     tags: [],
   },
   // token
