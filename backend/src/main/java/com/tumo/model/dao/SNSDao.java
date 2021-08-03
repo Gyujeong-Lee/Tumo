@@ -30,7 +30,7 @@ public interface SNSDao {
 
 	List<FeedDto> readMyPost(int userIdx);
 
-	List<UserDto> searchUser(Map<String, Object> param);
+	List<Map<String, Object>> searchUser(Map<String, Object> param);
 
 	int countSearchedUser(Map<String, Object> param);
 
@@ -45,8 +45,6 @@ public interface SNSDao {
 	List<ProfileDto> readFollowingList(int userIdx);
 
 	Map<String, Integer> readIsFollow(Map<String, Object> param);
-
-	void updateDisclosure(int userIdx);
 
 	void deleteFollowing(Map<String, Object> param);
 
