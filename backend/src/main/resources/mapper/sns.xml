@@ -51,7 +51,7 @@
 	</update>
 	
 	<select id="readMyPost" parameterType="int" resultType="feedDto">
-		select f.board_idx as boardIdx, f.user_idx as userIdx, u.nickname as nickname, f.likes, f.title, f.content, f.create_at as createAt, f.update_at as updateAt
+		select f.board_idx as boardIdx, f.user_idx as userIdx, u.nickname as nickname, f.stock, f.likes, f.title, f.content, f.create_at as createAt, f.update_at as updateAt
 		from feed f join user u
 		on f.user_idx = u.user_idx
 		where f.user_idx = #{userIdx}
