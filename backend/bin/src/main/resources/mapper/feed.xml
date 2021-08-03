@@ -8,12 +8,14 @@
 		select nickname, title, content, likes, createAt, updateAt
 		from feed
 		where user_idx = #{userIdx}
+		order by updateAt desc;
 	</select>
 	
 	<select id="searchFeedByTitle" parameterType="String" resultType="feedDto">
 		select nickname, title, content, likes, createAt, updateAt
 		from feed
 		where (title like "%#{title}%")
+		order by updateAt desc;
 	</select>
 	
 </mapper>	
