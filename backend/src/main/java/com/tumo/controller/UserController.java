@@ -201,7 +201,7 @@ public class UserController {
 		
 	@DeleteMapping(value = "")
 	@ApiOperation(value = "회원 탈퇴")
-	public ResponseEntity deleteUser(@RequestBody int userIdx) {
+	public ResponseEntity deleteUser(@RequestBody Integer userIdx) {
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
 		
