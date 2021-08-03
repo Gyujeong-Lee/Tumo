@@ -2,8 +2,11 @@ package com.tumo.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.tumo.model.ArticleDto;
+import com.tumo.model.CommentDto;
+import com.tumo.model.FeedCommentDto;
 import com.tumo.model.FeedDto;
 
 public interface FeedDao {
@@ -27,5 +30,13 @@ public interface FeedDao {
 	void createFeedTag(HashMap<String, Object> tagMap);
 
 	void deleteFeedTag(int boardIdx);
+
+	void createComment(CommentDto commentDto);
+
+	int countCommentInFeed(Map<String, Integer> param);
+
+	List<FeedCommentDto> readComment(Map<String, Integer> param);
+
+	void deleteComment(int commentIdx);
 
 }

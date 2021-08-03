@@ -43,10 +43,32 @@
 	</delete>
 
 	<delete id="deleteArticle" parameterType="int">
-		delete
-		from feed
-		where
-		user_idx = #{userIdx} and board_idx = #{boardIdx}
+		delete from feed
+		where user_idx = #{userIdx} and board_idx = #{boardIdx}
 	</delete>
 
+	<insert id="createComment" parameterType="commentDto">
+		insert into feed_comment (user_idx, board_idx, content, create_at)
+		values (#{userIdx}, #{boardIdx}, #{content}, now())
+	</insert>
+	
+	<select id="countCommentInFeed" parameterType="map" resultType="integer">
+		select count(*)
+		from feed_comment
+		where board_idx = #{boardIdx}
+	</select>
+	
+	<select id="readComment" parameterType="map" resultType="feedCommentDto">
+		select c.comment_idx as commentIdx, c.board_idx as boardIdx, c.user_idx as userIdx, u.nickname as nickname, c.content as content, c.create_at as crerateAt, c.update_at as updateAt
+		from feed_comment c join user u
+		on c.user_idx = u.user_idx
+		where c.board_idx = #{boardIdx}
+		order by c.create_at desc
+		limit #{pageNum}, 5
+	</select>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete from feed_comment
+		where comment_idx = #{commentIdx}
+	</delete>
 </mapper>

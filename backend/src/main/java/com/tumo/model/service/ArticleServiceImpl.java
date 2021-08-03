@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tumo.model.ArticleDto;
+import com.tumo.model.CommentDto;
+import com.tumo.model.FeedCommentDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.dao.FeedDao;
 import com.tumo.model.dao.SNSDao;
@@ -39,6 +41,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	@Transactional
 	public boolean createFeedTags(int boardIdx, List<String> tags) {
 		HashMap<String, Object> tagMap;
 		for (String tag : tags) {
@@ -97,6 +100,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	@Transactional
 	public boolean deleteArticle(int boardIdx) {
 		FeedDto feed = sqlSession.getMapper(FeedDao.class).readArticle(boardIdx);
 		if (feed == null)
@@ -104,6 +108,43 @@ public class ArticleServiceImpl implements ArticleService {
 
 		sqlSession.getMapper(FeedDao.class).deleteArticle(boardIdx);
 		sqlSession.getMapper(FeedDao.class).deleteFeedTag(boardIdx);
+		return true;
+	}
+
+	@Override
+	@Transactional
+	public boolean createComment(CommentDto commentDto) {
+		FeedDto feed = sqlSession.getMapper(FeedDao.class).readArticle(commentDto.getBoardIdx());
+		if (feed == null)
+			return false;
+
+		sqlSession.getMapper(FeedDao.class).createComment(commentDto);
+
+		return true;
+	}
+
+	@Override
+	@Transactional
+	public List<FeedCommentDto> readComment(Map<String, Integer> param) {
+		FeedDto feed = sqlSession.getMapper(FeedDao.class).readArticle(param.get("boardIdx"));
+
+		if (feed == null)
+			return null;
+
+		int pageNum = param.get("pageNum") * 5;
+		param.remove("pageNum");
+		param.put("pageNum", pageNum);
+		int cnt = sqlSession.getMapper(FeedDao.class).countCommentInFeed(param);
+
+		if (cnt == 0)
+			return null;
+
+		return sqlSession.getMapper(FeedDao.class).readComment(param);
+	}
+
+	@Override
+	public boolean deleteComment(int commentIdx) {
+		sqlSession.getMapper(FeedDao.class).deleteComment(commentIdx);
 		return true;
 	}
 }
