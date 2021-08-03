@@ -49,7 +49,8 @@ export default {
       url: `/sns/following/${this.userId}`,
     })
     .then(res => {
-      console.log(res)
+
+      console.log(`following${res}`)
       // this.followingList에 추가할 것. 
     })
     .catch(err => {
