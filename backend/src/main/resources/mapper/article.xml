@@ -4,27 +4,71 @@
 
 <mapper namespace="com.tumo.model.dao.FeedDao">
 
-	<insert id="createArticle"  parameterType="feeddto">
-		insert into feed (userIdx, boardIdx, title, content, createAt, updateAt)
-			values (#{userIdx}, #{boardIdx}, #{title}, #{content}, now(), now())
+	<insert id="createArticle" parameterType="articleDto">
+		insert into feed (user_idx, stock, title, content, create_at)
+		values (#{userIdx}, #{stock}, #{title}, #{content}, now())
 	</insert>
 	
-	<select id="readArticle" parameterType="int">
-		select nickname, title, content, likes, createAt, updateAt
+	<select id="findBoardIdxByArticle" parameterType="articleDto" resultType="int">
+		select board_idx
+		from feed
+		where user_idx = #{userIdx} and stock = #{stock} and title = #{title} and content = #{content}
+	</select>
+	
+	<insert id="createFeedTag" parameterType="map">
+		insert into feed_tag (board_idx, content)
+		values (#{board_idx}, #{content})
+	</insert>
+
+	<select id="readArticle" parameterType="int" resultType="feedDto">
+		select board_idx as boardIdx, user_idx as userIdx, stock, title, content, create_at as createAt, update_at as updateAt
 		from feed
 		where board_idx = #{boardIdx}
 	</select>
 	
-	<update id="updateArticle" parameterType="map">
-		update feed
-		set title = #{title}, content = #{content}, updateAt = now()
+	<select id="readFeedTag" parameterType="int" resultType="String">
+		select content
+		from feed_tag
+		where board_idx = #{boardIdx}
+	</select>
+
+	<update id="updateArticle" parameterType="feedDto">
+		update feed set title = #{title}, content = #{content}, update_at = now(), stock = #{stock}
 		where user_idx = #{userIdx} and board_idx = #{boardIdx}
 	</update>
 	
+	<delete id="deleteFeedTag" parameterType="int">
+		delete from feed_tag
+		where board_idx = #{boardIdx}
+	</delete>
+
 	<delete id="deleteArticle" parameterType="int">
-		delete
-		from feed
+		delete from feed
 		where user_idx = #{userIdx} and board_idx = #{boardIdx}
 	</delete>
+
+	<insert id="createComment" parameterType="commentDto">
+		insert into feed_comment (user_idx, board_idx, content, create_at)
+		values (#{userIdx}, #{boardIdx}, #{content}, now())
+	</insert>
 	
+	<select id="countCommentInFeed" parameterType="map" resultType="integer">
+		select count(*)
+		from feed_comment
+		where board_idx = #{boardIdx}
+	</select>
+	
+	<select id="readComment" parameterType="map" resultType="feedCommentDto">
+		select c.comment_idx as commentIdx, c.board_idx as boardIdx, c.user_idx as userIdx, u.nickname as nickname, c.content as content, c.create_at as crerateAt, c.update_at as updateAt
+		from feed_comment c join user u
+		on c.user_idx = u.user_idx
+		where c.board_idx = #{boardIdx}
+		order by c.create_at desc
+		limit #{pageNum}, 5
+	</select>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete from feed_comment
+		where comment_idx = #{commentIdx}
+	</delete>
 </mapper>

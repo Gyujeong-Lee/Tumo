@@ -98,6 +98,13 @@
             <artifactId>jsoup</artifactId>
             <version>1.13.1</version>
         </dependency>
+        
+        <!-- mailjet -->
+        <dependency>
+			<groupId>com.mailjet</groupId>
+			<artifactId>mailjet-client</artifactId>
+			<version>4.2.0</version>
+		</dependency>
 				
 	</dependencies>
 

@@ -21,7 +21,7 @@
 		where user_idx = #{userIdx} and board_idx = #{boardIdx}
 	</update>
 	
-	<delete id="deleteArticle" parameterType="map">
+	<delete id="deleteArticle" parameterType="int">
 		delete
 		from feed
 		where user_idx = #{userIdx} and board_idx = #{boardIdx}
