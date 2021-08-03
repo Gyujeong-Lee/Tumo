@@ -67,7 +67,7 @@
 
 <script>
 import axios from 'axios'
-import FindPassword from '@/components/profile/FindPassword'
+import FindPassword from '@/components/account/FindPassword'
 
 export default {
   name: "Login",

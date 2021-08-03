@@ -91,20 +91,24 @@
           </div>
         </div>
       </v-form>
-      <p class="my-3 text-primary" style="cursor: pointer;" @click="drawModal">비밀번호를 변경하시겠어요?</p>
+      <p class="my-3 text-primary" style="cursor: pointer;" @click="drawUpdatePassword">비밀번호를 변경하시겠어요?</p>
       <UpdatePassword v-if="$store.state.drawUpdatePassword"/>
+      <p class="my-3 text-danger" style="cursor: pointer;" @click="drawDeleteAccount">계정을 삭제 할건가요.....?</p>
+      <DeleteAccount v-if="$store.state.drawDeleteAccount"/>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import UpdatePassword from '@/components/profile/UpdatePassword'
+import UpdatePassword from '@/components/account/UpdatePassword'
+import DeleteAccount from '@/components/account/DeleteAccount'
 
 export default {
   name: 'UpdateInfo',
   components: {
-    UpdatePassword
+    UpdatePassword,
+    DeleteAccount
   },    
   data: () => {
     return {
@@ -220,8 +224,11 @@ export default {
       const idx_keyword = this.credentials.keywords.indexOf(keyword)
       this.credentials.keywords.splice(idx_keyword, 1)
     },
-    drawModal: function () {
+    drawUpdatePassword: function () {
       this.$store.state.drawUpdatePassword = true
+    },
+    drawDeleteAccount: function () {
+      this.$store.state.drawDeleteAccount = true
     }
   },
   computed: {

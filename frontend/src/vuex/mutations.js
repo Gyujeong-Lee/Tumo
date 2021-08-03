@@ -31,7 +31,11 @@ export default {
     // state 값 초기화
     state.user_info = {
       id: null,
+      email: null,
+      introduce: null,
       nickname: null,
+      disclosure: null,
+      tags: [],
     };
     state.config.Authorization = null;
   },
