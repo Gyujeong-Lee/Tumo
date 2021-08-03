@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Tiptap from '../components/Tiptap.vue'
 
 export default {
@@ -77,10 +78,10 @@ export default {
       items: ['국내주식', '해외주식', '국내채권', '해외채권'],
       inputTag: '',
       data: {
-        // userIdx: null,
-        title: '',
+        userIdx: null,
+        title: null,
         stock: '국내주식',
-        content: '',
+        content: null,
         tags: [],
       }
     }
@@ -100,6 +101,17 @@ export default {
     },
     submitForm: function () {
       // axios 요청
+      axios({
+        method: 'POST',
+        url: '/article/',
+        data: this.data
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
       // alert
       this.$store.state.drawCreateArticle = false
     }
@@ -119,6 +131,9 @@ export default {
         v => !!v || '내용을 적어주세요.',
       ]
     }
+  },
+  created: function () {
+    this.data.userIdx = this.$store.state.user_info.id
   }
 }
 </script>

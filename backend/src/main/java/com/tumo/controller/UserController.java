@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -200,9 +199,11 @@ public class UserController {
 		return response;
 	}
 		
-	@DeleteMapping(value = "/user/{userIdx}")
+	@DeleteMapping(value = "")
 	@ApiOperation(value = "회원 탈퇴")
-	public ResponseEntity deleteUser(@PathVariable int userIdx) {
+	public ResponseEntity deleteUser(@RequestBody Map<String, Integer> map) {
+		int userIdx = map.get("userIdx");
+		
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
 		

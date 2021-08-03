@@ -5,22 +5,18 @@
       <!-- img와 (팔로우 요청, 정보 수정) 분기 -->
       <div id="user_image_block" class="d-flex flex-column me-5">
         <img src="@/assets/temp_user_image.jpg" alt="user image" id="user_image">
-        <p 
-        v-if="itsMe"
-        @click="edit_profile"
-        >Edit</p>
+        <p v-if="itsMe" @click="edit_profile">Edit</p>
         <!-- v-else-if로 팔로우 언팔로우 분기처리 -->
-        <p 
-        v-else-if="!isFollow"
-        >Follow</p>
+        <p v-else-if="!isFollow">Follow</p>
         <p v-else> Unfollow</p>
       </div>
       <!-- 유저 정보 -->
       <div id="user_info_block">
-        <h2>{{ this.$route.params.nickname }}'s profile</h2>
-          <span> Follwer : {{ user_info.followerCnt }}</span>
-          <span> Follwing : {{ user_info.followingCnt }}</span>
-
+        <h2>{{ user_info.nickname }}'s profile</h2>
+          <span type="button" @click="openFollowerList" class="me-5"> Follwer : {{ user_info.followerCnt }}</span>
+          <span type="button" @click="openFollowingList"> Follwing : {{ user_info.followingCnt }}</span>
+          <FollowerList :userIdx="user_info.userIdx"/>
+          <FollowingList :userIdx="user_info.userIdx"/>
           <div id="hash_tags" class="mt-5">
             <v-chip 
             v-for="(tag, idx) in user_info.tags" 
@@ -54,6 +50,8 @@
 <script>
 import Activity from '@/components/profile/Activity.vue'
 import Portfolio from '@/components/profile/Portfolio.vue'
+import FollowerList from '@/components/profile/followlist/FollowerList.vue'
+import FollowingList from '@/components/profile/followlist/FollowingList.vue'
 import axios from 'axios'
 
 export default {
@@ -69,6 +67,8 @@ export default {
   components: {
     Activity,
     Portfolio,
+    FollowerList,
+    FollowingList,
   },
   //DOM 생성, 유저 데이터 받아오기
   created: function () {
@@ -120,6 +120,7 @@ export default {
     },
   },
   methods: {
+    // 로그인 유저와 프로필 유저의 팔로우 관계, 버튼 분기 처리
     checkFollow: function () {
       const login_user_idx = this.$store.state.user_info.id
       const profile_user_idx = this.user_info.userIdx
@@ -135,7 +136,15 @@ export default {
       .catch(err => {
         console.log(err)
       })
-    }
+    },
+    // profile 유저의 팔로워 리스트
+    openFollowerList: function () {
+      this.$store.state.drawFollowerList = true
+    },
+    // profile 유저의 팔로잉 리스트
+    openFollowingList: function () {
+      this.$store.state.drawFollowingList = true
+    },
   }
 }
 </script>

@@ -6,6 +6,7 @@
       </div>
       <div>
         <h1 class="mb-4 fw-bold text-center">TOP KeyWords</h1>
+        <router-link :to="{ name: 'update'}">update</router-link>
       </div>
     </div>
   </div>
