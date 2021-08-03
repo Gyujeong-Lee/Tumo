@@ -26,17 +26,15 @@ public interface SNSService {
 
 	List<FeedDto> readMyPost(int userIdx);
 
-	List<UserDto> searchUser(String searchContent, int pageNum);
+	List<Map<String, Object>> searchUser(String searchContent, int pageNum);
 
-	ProfileDto readUser(int userIdx);
+	HashMap<String, Object> readUser(String nickname);
 
 	List<ProfileDto> readFollowerList(int userIdx);
 
 	List<ProfileDto> readFollowingList(int userIdx);
 
 	Boolean readIsFollow(Map<String, Object> param);
-
-	void updateDisclosure(int userIdx);
 
 	void deleteFollowing(Map<String, Object> param);
 

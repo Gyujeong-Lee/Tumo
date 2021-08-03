@@ -15,6 +15,7 @@ import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.UserDto;
 import com.tumo.model.dao.SNSDao;
+import com.tumo.model.dao.UserDao;
 
 @Service
 public class SNSServiceImpl implements SNSService {
@@ -66,7 +67,7 @@ public class SNSServiceImpl implements SNSService {
 	}
 
 	@Override
-	public List<UserDto> searchUser(String searchContent, int pageNum) {
+	public List<Map<String, Object>> searchUser(String searchContent, int pageNum) {
 		searchContent = searchContent.replaceAll("\\+", " ");
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("searchContent", searchContent);
@@ -81,18 +82,31 @@ public class SNSServiceImpl implements SNSService {
 	}
 
 	@Override
-	public ProfileDto readUser(int userIdx) {
-		ProfileDto result = sqlSession.getMapper(SNSDao.class).readUser(userIdx);
-
-		if (result == null)
+	@Transactional
+	public HashMap<String, Object> readUser(String nickname) {
+		int userIdx = sqlSession.getMapper(UserDao.class).findUserByNickname(nickname).getUserIdx();
+		ProfileDto profileDto = sqlSession.getMapper(SNSDao.class).readUser(userIdx);
+		if (profileDto == null)
 			return null;
 
+		
 		Integer followingCnt = sqlSession.getMapper(SNSDao.class).getFollowingCount(userIdx);
 		Integer followerCnt = sqlSession.getMapper(SNSDao.class).getFollowerCount(userIdx);
 
-		result.setFollowingCnt(followingCnt == null ? 0 : followingCnt);
-		result.setFollowerCnt(followerCnt == null ? 0 : followerCnt);
+		profileDto.setFollowingCnt(followingCnt == null ? 0 : followingCnt);
+		profileDto.setFollowerCnt(followerCnt == null ? 0 : followerCnt);
 
+		List<String> tags = sqlSession.getMapper(UserDao.class).findUserTagByUserIdx(userIdx);
+
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("userIdx", profileDto.getUserIdx());
+		result.put("nickname", profileDto.getNickname());
+		result.put("introduce", profileDto.getIntroduce());
+		result.put("followingCnt", profileDto.getFollowingCnt());
+		result.put("followerCnt", profileDto.getFollowerCnt());
+		result.put("disclosure", profileDto.getDisclosure());
+		result.put("tags", tags);
+		
 		return result;
 	}
 
@@ -114,11 +128,6 @@ public class SNSServiceImpl implements SNSService {
 			return false;
 
 		return true;
-	}
-
-	@Override
-	public void updateDisclosure(int userIdx) {
-		sqlSession.getMapper(SNSDao.class).updateDisclosure(userIdx);
 	}
 
 	@Override

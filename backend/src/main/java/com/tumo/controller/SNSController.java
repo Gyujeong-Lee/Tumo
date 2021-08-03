@@ -132,7 +132,7 @@ public class SNSController {
 			map.put("message", FAIL);
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
 		}
-		map.put("scrap", scrap);
+		map.put("myFeed", scrap);
 		map.put("message", SUCCESS);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
@@ -142,7 +142,7 @@ public class SNSController {
 	public ResponseEntity<Map<String, Object>> searchUser(@PathVariable String searchContent,
 			@PathVariable int pageNum) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		List<UserDto> users = snsService.searchUser(searchContent, pageNum);
+		List<Map<String, Object>> users = snsService.searchUser(searchContent, pageNum);
 		if (users == null || users.size() == 0) {
 			result.put("message", FAIL);
 			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
@@ -153,10 +153,10 @@ public class SNSController {
 	}
 
 	@ApiOperation(value = "유저 정보 조회", notes = "특정 회원의 닉네임, 한 줄 소개, 팔로잉 수, 팔로워 수")
-	@GetMapping("/profile/{userIdx}")
-	public ResponseEntity<Map<String, Object>> readUserInfo(@PathVariable int userIdx) {
+	@GetMapping("/profile/{nickname}")
+	public ResponseEntity<Map<String, Object>> readUserInfo(@PathVariable String nickname) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		ProfileDto user = snsService.readUser(userIdx);
+		HashMap<String, Object> user = snsService.readUser(nickname);
 		if (user == null) {
 			result.put("message", FAIL);
 			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
@@ -203,15 +203,6 @@ public class SNSController {
 		Boolean isFollow = snsService.readIsFollow(param);
 		result.put("message", SUCCESS);
 		result.put("isFollow", isFollow);
-		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
-	}	
-	
-	@ApiOperation(value = "계정 공개여부 수정", notes = "공개 계정은 비공개로, 비공개 계정은 공개로 수정")
-	@PutMapping("/disclosure/{userIdx}")
-	public ResponseEntity<Map<String, Object>> updateDisclosure(@PathVariable int userIdx) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		snsService.updateDisclosure(userIdx);
-		result.put("message", SUCCESS);
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
 	

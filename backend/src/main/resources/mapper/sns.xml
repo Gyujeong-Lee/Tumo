@@ -51,17 +51,17 @@
 	</update>
 	
 	<select id="readMyPost" parameterType="int" resultType="feedDto">
-		select f.board_idx as boardIdx, f.user_idx as userIdx, u.nickname as nickname, f.likes, f.title, f.content, f.create_at, f.update_at
+		select f.board_idx as boardIdx, f.user_idx as userIdx, u.nickname as nickname, f.likes, f.title, f.content, f.create_at as createAt, f.update_at as updateAt
 		from feed f join user u
 		on f.user_idx = u.user_idx
 		where f.user_idx = #{userIdx}
 		order by f.create_at desc;
 	</select>
 	
-	<select id="searchUser" parameterType="map" resultType="userDto">
+	<select id="searchUser" parameterType="map" resultType="map">
 		select user_idx as userIdx, nickname, introduce
 		from user
-		where (nickname like CONCAT('%', #{searchContent}, '%') or email like CONCAT('%', #{searchContent}, '%') ) and deleted is null
+		where nickname like CONCAT('%', #{searchContent}, '%') and deleted is null
 		limit #{pageNum}, 5
 	</select>
 	
@@ -112,11 +112,6 @@
 		from following
 		where user_idx = #{userIdx} and following_idx = #{following_idx}
 	</select>
-	
-	<update id="updateDisclosure" parameterType="int">
-		update user set disclosure = if(disclosure="public", "private", "public")
-		where user_idx = #{userIdx}
-	</update>
 	
 	<delete id="deleteFollowing" parameterType="map">
 		delete from following
