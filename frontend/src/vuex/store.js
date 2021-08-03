@@ -11,11 +11,13 @@ const state = {
   search_history: [],
   //검색 결과
   search_result: [],
-  // 모달
+  //모달 Flag
   drawCreateArticle: false,
   drawUpdatePassword: false,
   drawFindPassword: false,
   drawDeleteAccount: false,
+  drawFollowerList: false,
+  drawFollowingList: false,
   // user
   user_info: {
     // 로그인 한 유저의 idx

@@ -32,11 +32,7 @@
         <!-- 아이콘 -->
         <div>
           <!-- 글쓰기 -->
-          <v-menu
-          bottom
-          left
-          offset-y
-          >
+          <v-menu bottom left offset-y>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 dark
@@ -47,7 +43,6 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </template>
-
             <v-list>
               <v-list-item>
                 <p type="button" @click="drawArticleModal">Article</p>
