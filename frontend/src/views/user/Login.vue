@@ -99,11 +99,8 @@ export default {
           loginAlert.setAttribute('style', 'display: unset;')
         } else {
           const userData = {
+            ...res.data.userDto,
             'token': res.headers.authorization,
-            'userIdx': res.data.userDto.userIdx,
-            'email': res.data.userDto.email,
-            'introduce': res.data.userDto.introduce,
-            'nickname': res.data.userDto.nickname,
             'tags': res.data.tags
           }
           // local Storage에 저장 및 state 변경

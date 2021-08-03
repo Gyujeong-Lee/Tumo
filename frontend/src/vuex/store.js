@@ -22,6 +22,7 @@ const state = {
     email: null,
     introduce: null,
     nickname: null,
+    disclosure: null,
     tags: [],
   },
   // token
