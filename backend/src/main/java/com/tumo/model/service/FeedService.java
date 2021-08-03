@@ -14,9 +14,6 @@ public interface FeedService {
 	
 	List<FeedDto> searchFeedByTitle(String title);
 	
-	List<FeedDto> readComment(int boardIdx);
-
 	List<FeedDto> readHotkey(int boardIdx);
-
 
 }

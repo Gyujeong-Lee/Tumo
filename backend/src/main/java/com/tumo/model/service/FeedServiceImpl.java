@@ -28,12 +28,6 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
-	public List<FeedDto> readComment(int boardIdx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<FeedDto> readHotkey(int boardIdx) {
 		// TODO Auto-generated method stub
 		return null;

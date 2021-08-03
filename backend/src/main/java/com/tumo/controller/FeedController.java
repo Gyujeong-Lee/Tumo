@@ -62,20 +62,6 @@ public class FeedController {
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 	
-	@ApiOperation(value = "댓글 조회")
-	@GetMapping("/comment/{board_idx}")
-	public ResponseEntity<Map<String, Object>> readComment(@PathVariable int boardIdx) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<FeedDto> commentList = feedService.readComment(boardIdx);
-		if (commentList == null || commentList.size() == 0) {
-			map.put("message", FAIL);
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
-		}
-		map.put("commentList", commentList);
-		map.put("message", SUCCESS);
-		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-	}
-	
 	@ApiOperation(value = "인기 키워드")
 	@GetMapping("/hotkeyword")
 	public ResponseEntity<Map<String, Object>> readHotkey(@PathVariable int boardIdx) {
