@@ -40,14 +40,15 @@ export default {
   props: {
     userIdx: Number
   },
+  created: function () {
+    this.getArticleList()
+  },
   methods: {
     selectArticle: function () {
       if (this.selectedTab !== 'article') {
         this.selectedTab = 'article'
         this.activityList = []
-        let articleList = this.getArticleList()
-        console.log(articleList)
-        this.activityList = articleList
+        this.getArticleList()
         console.log(this.activityList)
       }
     },
@@ -55,8 +56,7 @@ export default {
       if (this.selectedTab !== 'scrap') {
         this.selectedTab = 'scrap'
         this.activityList = []
-        let scrapList = this.getScrapList()
-        this.activityList = scrapList
+        this.getScrapList()
       }
     },
     getArticleList: function () {
@@ -82,8 +82,9 @@ export default {
         //   ],
         //   "message": "success"
         // }
+        // api 응답 변경해야함. scrap 바꿀 것.
         console.log(res)
-        return res.data.scrap
+        this.activityList = res.data.scrap
       })
       .catch(err => {
         console.log(err)
@@ -112,7 +113,8 @@ export default {
         "message" : "success"
         }
         console.log(res)
-        return response.scrap
+        //204 때문에 임의 데이터 삽입함.
+        this.activityList = response.scrap
       })
       .catch(err => {
         console.log(err)
