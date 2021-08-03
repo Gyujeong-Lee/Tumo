@@ -41,7 +41,7 @@
     <!-- 작성글, 스크랩 탭 -->
       <div class="col-5">
         <h3>activity</h3>
-        <Activity/>
+        <Activity :userIdx="user_info.userIdx"/>
       </div>
     </div>
   </div>
@@ -124,7 +124,6 @@ export default {
     checkFollow: function () {
       const login_user_idx = this.$store.state.user_info.id
       const profile_user_idx = this.user_info.userIdx
-
       axios({
         method: 'GET',
         url: `sns/follow/${login_user_idx}/${profile_user_idx}`

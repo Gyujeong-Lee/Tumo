@@ -49,7 +49,7 @@ export default {
       url: `/sns/follower/${this.userId}`,
     })
     .then(res => {
-      console.log(res)
+      console.log(`follower${res}`)
       // this.followingList에 추가할 것. 
     })
     .catch(err => {
