@@ -66,6 +66,7 @@ public class ArticleServiceImpl implements ArticleService {
 		List<String> feedTag = sqlSession.getMapper(FeedDao.class).readFeedTag(param.get("boardIdx"));
 		String nickname = sqlSession.getMapper(UserDao.class).findUserByUserIdx(feed.getUserIdx()).getNickname();
 		boolean isLike = sqlSession.getMapper(SNSDao.class).readIsLike(param) == null ? false : true;
+		boolean isScrap = sqlSession.getMapper(SNSDao.class).readIsScrap(param) == null ? false : true;
 
 		result.put("boardIdx", feed.getBoardIdx());
 		result.put("userIdx", feed.getUserIdx());
@@ -76,6 +77,7 @@ public class ArticleServiceImpl implements ArticleService {
 		result.put("updateAt", feed.getUpdateAt());
 		result.put("tags", feedTag);
 		result.put("isLike", isLike);
+		result.put("isScrap", isScrap);
 
 		return result;
 	}
