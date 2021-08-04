@@ -6,11 +6,11 @@
 	
 	<select id="readFeed" parameterType="int" resultType="feedDto">
 		select f.board_idx as boardIdx, f.user_idx as userIdx, u.nickname as nickname, f.title as title, f.content as content, f.create_at as createAt, f.update_at as updateAt, f.likes as likes, f.stock as stock
-		from feed f join following l
+		from feed f left outer join following l
 		on f.user_idx = l.following_idx
 		join user u
 		on f.user_idx = u.user_idx
-		where l.user_idx = #{userIdx}
+		where l.user_idx = #{userIdx} or f.user_idx = #{userIdx}
 		order by f.create_at desc
 		limit #{pageNum}, 10
 	</select>
