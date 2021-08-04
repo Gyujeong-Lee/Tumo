@@ -167,6 +167,7 @@ public class UserController {
 				// 이메일 인증 안된 임시 회원
 				resultMap.put("message", "temp");
 				resultMap.put("userIdx", userDto.getUserIdx());
+				resultMap.put("email", userDto.getEmail());
 				
 				response = new ResponseEntity<>(resultMap, HttpStatus.OK);
 				return response;
