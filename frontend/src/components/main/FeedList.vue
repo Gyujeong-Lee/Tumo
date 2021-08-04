@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import ArticleFeed from './ArticleFeed'
 import PortfolioFeed from './PortfolioFeed'
 
@@ -44,8 +45,7 @@ export default {
     selectNewFeeds: function () {
       if (this.selectedTab !== 'newfeeds') {
         this.feedList = []
-        let feedData = this.getNewFeeds()
-        this.feedList = feedData
+        this.getNewFeeds()
       }
       this.tabColor = 'primary'
       this.selectedTab = 'newfeeds'
@@ -60,58 +60,17 @@ export default {
       this.selectedTab = 'portfolio'
     },
     getNewFeeds: function () {
-      // axios 요청 보낸후 받은 response.data return
-      // data = dump data
-      const data = {
-        "feed" :[
-          {
-            "board_idx" : 1,
-            "user_idx": 1,
-            "title" : "제목입니다",
-            "content" : "본문입니다",
-            "likes" : 5,
-            "islike" : true,
-            "isscrap" : false
-          },
-          {
-            "board_idx" : 2,
-            "user_idx": 1,
-            "title" : "제목입니다",
-            "content" : "본문입니다",
-            "likes" : 7,
-            "islike" : false,
-            "isscrap" : true
-          },
-          {
-            "board_idx" : 2,
-            "user_idx": 1,
-            "title" : "제목입니다",
-            "content" : "본문입니다",
-            "likes" : 7,
-            "islike" : false,
-            "isscrap" : true
-          },
-          {
-            "board_idx" : 2,
-            "user_idx": 1,
-            "title" : "제목입니다",
-            "content" : "본문입니다",
-            "likes" : 7,
-            "islike" : false,
-            "isscrap" : true
-          },
-          {
-            "board_idx" : 2,
-            "user_idx": 1,
-            "title" : "제목입니다",
-            "content" : "본문입니다",
-            "likes" : 7,
-            "islike" : false,
-            "isscrap" : true
-          },
-        ]
-      };
-      return data.feed
+      // axios 요청 보낸후 받은 res.data.feedList 저장
+      axios({
+        method: 'GET',
+        url: `/feed/${this.$store.state.user_info.id}/${this.pageNum}`
+      })
+      .then(res => {
+        this.feedList = res.data.feedList
+      })
+      .catch(err => {
+        console.log(err)
+      })
     },
     getPortfolioFeeds: function () {
       // axios 요청 보낸후 받은 response.data return

@@ -11,7 +11,8 @@
         <img src="@/assets/main/user.png" alt="user" style="width: 35px;">
         <div class="d-flex align-items-center">
           <h6 class="my-0 mx-3">{{ data.title }}</h6>
-          <p class="my-0 text-secondary">@nickName</p>
+          <p class="my-0 text-secondary">@{{ data.nickname }}</p>
+          <p class="my-0 mx-3 text-primary">{{ data.stock }}</p>
         </div>
       </div>
       <div>
@@ -20,6 +21,9 @@
       </div>
     </div>
     <div v-html="data.content" class="mb-5" @click="moveToDetail" style="cursor: pointer;"></div>
+    <div class="mb-3">
+      <v-chip v-for="(tag, idx) in data.tags" :key="idx" label class="px-3"># {{ tag }}</v-chip>
+    </div>
     <!-- Btn Group -->
     <div class="d-flex justify-content-between">
       <div>
@@ -115,14 +119,14 @@ export default {
       // 게시물 상세 정보 axios 요청 보내서 selectedArticle에 저장
       axios({
         method: 'GET',
-        url: `/article/${this.data.board_idx}/${this.data.user_idx}`
+        url: `/article/${this.data.boardIdx}/${this.data.userIdx}`
       })
       .then(res => {
         console.log(res)
       })
       this.$store.state.selectedArticle = this.data
       // .then router push
-      // this.$router.push({ name: 'articleDetail', params: { boardIdx: this.data.board_idx }})
+      this.$router.push({ name: 'articleDetail', params: { boardIdx: this.data.boardIdx }})
     },
   }
 }
@@ -146,13 +150,13 @@ export default {
 }
 
 #articleFeed > * {
-  padding-left: 8%;
-  padding-right: 8%;
+  margin-left: 8%;
+  margin-right: 8%;
 }
 
 #articleFeed > div:first-child {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 </style>
