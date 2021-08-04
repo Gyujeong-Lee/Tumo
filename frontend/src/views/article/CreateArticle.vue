@@ -65,7 +65,7 @@
 
 <script>
 import axios from 'axios'
-import Tiptap from '../components/Tiptap.vue'
+import Tiptap from '@/components/Tiptap.vue'
 
 export default {
   name: 'CreateArticle',

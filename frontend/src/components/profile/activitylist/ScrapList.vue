@@ -14,7 +14,6 @@ export default {
   name: 'ScrapList',
   data: function () {
     return {
-
     }
   },
   props: {

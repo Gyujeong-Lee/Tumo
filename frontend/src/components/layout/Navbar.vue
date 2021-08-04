@@ -21,9 +21,7 @@
           </b-form-input>
 
           <!-- 검색 목록 -->
-          <datalist 
-          id="my-list-id"
-          >
+          <datalist id="my-list-id">
             <option>인기 검색어?</option>
             <option v-for="(item, idx) in search_list" :key="idx">{{ item }}</option>
           </datalist>
@@ -145,7 +143,10 @@ export default {
   },
   methods: {
     search: function () {
-      // vuex를 통해 검색 요청 보내기
+      // 검색 결과 페이지 이동 
+      console.log(this.search_item)
+      this.$router.push({name: 'search', params: {keyword: `${this.search_item}`}})
+      // vuex에 최신 검색 목록 저장
       this.$store.dispatch('search', this.search_item)
       this.search_item = ""
     },

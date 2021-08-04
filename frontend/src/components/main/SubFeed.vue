@@ -17,9 +17,11 @@ export default {
   name: 'SubFeed',
   data: function () {
     return {
-      
     }
-  }
+  },
+  // created: function () {
+  //   console.log(this.$route)
+  // }
 }
 </script>
 
@@ -41,10 +43,6 @@ export default {
   top: 48px;
   padding-top: 2rem;
   margin-left: 3rem;
-}
-
-#subfeed > div:last-child img {
-  width: 100%;
 }
 
 #subfeed h1 {

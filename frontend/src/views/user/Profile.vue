@@ -15,8 +15,8 @@
         <h2>{{ user_info.nickname }}'s profile</h2>
           <span type="button" @click="openFollowerList" class="me-5"> Follwer : {{ user_info.followerCnt }}</span>
           <span type="button" @click="openFollowingList"> Follwing : {{ user_info.followingCnt }}</span>
-          <FollowerList :userIdx="user_info.userIdx"/>
-          <FollowingList :userIdx="user_info.userIdx"/>
+          <FollowerList :followerList="followerList"/>
+          <FollowingList :followingList="followingList"/>
           <div id="hash_tags" class="mt-5">
             <v-chip 
             v-for="(tag, idx) in user_info.tags" 
@@ -41,7 +41,7 @@
     <!-- 작성글, 스크랩 탭 -->
       <div class="col-5">
         <h3>activity</h3>
-        <Activity/>
+        <Activity v-if="user_info.userIdx" :userIdx="user_info.userIdx"/>
       </div>
     </div>
   </div>
@@ -62,6 +62,30 @@ export default {
       // img, follower, following, tag
       user_info: [],
       isFollow: false,
+      followerList: [		
+        {
+          "user_idx" : 1,
+          "nickname" : "gyoo",
+          "introduce" : "안녕하세요.\n잘부탁드립니다."
+        },
+        {
+          "user_idx" : 2,
+          "nickname" : "joon2",
+          "introduce" : ""
+        }
+      ],
+      followingList: [		
+        {
+          "user_idx" : 1,
+          "nickname" : "gyoo",
+          "introduce" : "안녕하세요.\n잘부탁드립니다."
+        },
+        {
+          "user_idx" : 2,
+          "nickname" : "joon2",
+          "introduce" : ""
+        }
+      ],
     }
   },
   components: {
@@ -72,44 +96,19 @@ export default {
   },
   //DOM 생성, 유저 데이터 받아오기
   created: function () {
-    // 현재 404 error api 수정 예정
-    // 해당 형태로 데이터 옮겨 받을 예정 
-    const data = {
-      "userIdx": 1,
-      "nickname": "admin",
-      "introduce": "관리자입니다",
-      "followingCnt": 0,
-      "followerCnt": 0,
-      "disclosure": "public",
-      "tags" : [
-        "삼성전자", "SK하이닉스"
-      ]
-    }
-    this.user_info = data
-      // axios({
-      //   method: 'GET',
-      //   url: `sns/profile/${this.$route.params.nickname}`,
-      // })
-      // .then (res => {
-      //   console.log(res.message)
-      //   // const data = res.users
-      //   const data = {
-      //     "userIdx": 1,
-      //     "nickname": "admin",
-      //     "introduce": "관리자입니다",
-      //     "followingCnt": 0,
-      //     "followerCnt": 0,
-      //     "disclosure": "public",
-      //     "tags" : [
-      //       "삼성전자", "SK하이닉스"
-      //     ]
-      //   }
-      //   this.user_info = data
-      // })
-      // .catch (err => {
-      //   console.log(err)
-      // })
-    },
+    // 추후 파라미터 닉네임으로 변경 예정
+    axios({
+      method: 'GET',
+      url: `/sns/profile/${this.$route.params.nickname}`,
+    })
+    .then (res => {
+      console.log(res)
+      this.user_info = res.data.users
+    })
+    .catch (err => {
+      console.log(err)
+    })
+  },
   computed: {
     itsMe: function () {
       if (this.$store.state.user_info.nickname === this.$route.params.nickname) {
@@ -124,7 +123,6 @@ export default {
     checkFollow: function () {
       const login_user_idx = this.$store.state.user_info.id
       const profile_user_idx = this.user_info.userIdx
-
       axios({
         method: 'GET',
         url: `sns/follow/${login_user_idx}/${profile_user_idx}`
@@ -132,6 +130,7 @@ export default {
       .then(res => {
         console.log(res)
         this.isFollow = res.isFollow
+
       })
       .catch(err => {
         console.log(err)
@@ -139,12 +138,38 @@ export default {
     },
     // profile 유저의 팔로워 리스트
     openFollowerList: function () {
+      axios({
+        method: 'GET',
+        url: `/sns/follower/${this.user_info.userIdx}`,
+      })
+      .then(res => {
+        console.log(`follower${res}`)
+        // this.followerList에 추가할 것. 
+      })
+      .catch(err => {
+        console.log(err)
+      })
       this.$store.state.drawFollowerList = true
     },
     // profile 유저의 팔로잉 리스트
     openFollowingList: function () {
+      axios({
+        method: 'GET',
+        url: `/sns/following/${this.user_info.userIdx}`,
+      })
+      .then(res => {
+
+        console.log(`following${res}`)
+        // this.followingList에 추가할 것. 
+      })
+      .catch(err => {
+        console.log(err)
+      })
       this.$store.state.drawFollowingList = true
     },
+    edit_profile: function () {
+
+    }
   }
 }
 </script>
