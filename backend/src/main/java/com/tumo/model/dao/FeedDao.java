@@ -11,7 +11,7 @@ import com.tumo.model.FeedDto;
 
 public interface FeedDao {
 
-	List<FeedDto> readFeed(int boardIdx);
+	List<FeedDto> readFeed(Map<String, Object> param);
 
 	List<FeedDto> searchFeed(String title);
 
