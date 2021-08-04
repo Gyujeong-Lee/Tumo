@@ -10,7 +10,7 @@ import com.tumo.model.ScrapDto;
 
 public interface FeedService {
 	
-	List<FeedDto> readFeed(int boardIdx);
+	List<HashMap<String, Object>> readFeed(Map<String, Object> param);
 	
 	List<FeedDto> searchFeedByTitle(String title);
 	

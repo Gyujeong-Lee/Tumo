@@ -18,6 +18,8 @@ public interface SNSDao {
 	
 	int deleteScrap(HashMap<String, Integer> info);
 
+	ScrapDto readIsScrap(Map<String, Integer> param);
+
 	void addFavor(int boardIdx);
 
 	void createFavor(HashMap<String, Integer> info);
@@ -55,5 +57,6 @@ public interface SNSDao {
 	void deleteNotifiedFollowRequest(HashMap<String, Integer> info);
 
 	void deleteFollowRequest(Map<String, Object> param);
+
 
 }
