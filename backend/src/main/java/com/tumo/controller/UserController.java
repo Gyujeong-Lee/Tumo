@@ -163,6 +163,15 @@ public class UserController {
 			UserDto userDto = tokenDto.getUserDto();
 			List<String> tags = userService.readUserTag(userDto.getUserIdx());
 
+			if ("temp".equals(userDto.getLogin_type())) {
+				// 이메일 인증 안된 임시 회원
+				resultMap.put("message", "temp");
+				resultMap.put("userIdx", userDto.getUserIdx());
+				
+				response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+				return response;
+			}
+			
 			HttpHeaders httpHeaders = new HttpHeaders();
 			httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 			
