@@ -55,17 +55,16 @@ public class FeedController {
 
 	@ApiOperation(value = "피드 검색")
 	@GetMapping("/search/{searchContent}/{pageNum}")
-	public ResponseEntity<Map<String, Object>> searchFeed(@PathVariable String searchContent) {
-//		Map<String, Object> map = new HashMap<String, Object>();
-////		List<FeedDto> feedList = feedService.searchFeedByTitle(title);
-//		if (feedList == null || feedList.size() == 0) {
-//			map.put("message", FAIL);
-//			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
-//		}
-//		map.put("feedList", feedList);
-//		map.put("message", SUCCESS);
-//		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		return null;
+	public ResponseEntity<Map<String, Object>> searchFeed(@PathVariable String searchContent, @PathVariable int pageNum) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("searchContent", searchContent);
+		param.put("pageNum", pageNum * 5);
+		
+		List<HashMap<String, Object>> feedList = feedService.searchFeed(param);
+		result.put("feedList", feedList);
+		result.put("message", SUCCESS);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "인기 키워드")

@@ -3,12 +3,6 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.tumo.model.dao.FeedDao">
-	<select id="searchFeedByTitle" parameterType="String" resultType="feedDto">
-		select nickname, title, content, likes, createAt, updateAt
-		from feed
-		where (title like "%#{title}%")
-		order by updateAt desc;
-	</select>
 	
 	<select id="readFeed" parameterType="int" resultType="feedDto">
 		select f.board_idx as boardIdx, f.user_idx as userIdx, u.nickname as nickname, f.title as title, f.content as content, f.create_at as createAt, f.update_at as updateAt, f.likes as likes, f.stock as stock
@@ -20,4 +14,16 @@
 		order by f.create_at desc
 		limit #{pageNum}, 10
 	</select>
+
+	<select id="searchFeed" parameterType="map" resultType="feedDto">
+		select distinct f.board_idx as boardIdx, f.user_idx as userIdx, u.nickname, f.title, f.content, f.create_at as createAt, f.update_at as updateAt, f.likes, f.stock
+		from feed f join user u
+		on f.user_idx = u.user_idx
+		left outer join feed_tag t
+		on f.board_idx = t.board_idx
+		where f.title like CONCAT('%', #{searchContent}, '%') or f.content like CONCAT('%', #{searchContent}, '%') or f.stock like CONCAT('%', #{searchContent}, '%') or t.content like CONCAT('%', #{searchContent}, '%')
+		order by f.create_at desc
+		limit #{pageNum}, 5
+	</select>
+
 </mapper>	
