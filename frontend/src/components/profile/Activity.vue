@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-tabs grow :color="tabsColor" class="p-0" id="activityTabs">
+  <div v-if="userIdx">
+    <v-tabs grow class="p-0" id="activityTabs">
       <v-tab id="articleBtn" @click="selectArticle">
       <v-icon large class="me-3">mdi-clipboard-text-outline</v-icon>
       <span>Article</span>
@@ -40,9 +40,9 @@ export default {
   props: {
     userIdx: Number
   },
-  created: function () {
-    this.getArticleList()
-  },
+  // mounted: function () {
+  //   this.getArticleList()
+  // },
   methods: {
     selectArticle: function () {
       if (this.selectedTab !== 'article') {
@@ -91,6 +91,7 @@ export default {
       })
     },
     getScrapList: function () {
+      console.log(this.userId)
       //axios for Scrap
       axios({
         method: 'GET',
