@@ -23,6 +23,12 @@
 		where user_idx = #{userIdx} and board_idx = #{boardIdx}
 	</delete>
 	
+	<select id="readIsScrap" parameterType="map" resultType="scrapDto">
+		select board_idx as boardIdx, user_idx as userIdx, create_at as createAt
+		from scrap
+		where board_idx = #{boardIdx} and user_idx=#{userIdx}
+	</select>
+	
 	<insert id="createFavor" parameterType="map">
 		insert into feed_like (user_idx, board_idx, create_at)
 		values (#{userIdx}, #{boardIdx}, now())
