@@ -41,7 +41,7 @@
     <!-- 작성글, 스크랩 탭 -->
       <div class="col-5">
         <h3>activity</h3>
-        <Activity :userIdx="user_info.userIdx"/>
+        <Activity v-if="user_info.userIdx" :userIdx="user_info.userIdx"/>
       </div>
     </div>
   </div>
@@ -97,10 +97,9 @@ export default {
   //DOM 생성, 유저 데이터 받아오기
   created: function () {
     // 추후 파라미터 닉네임으로 변경 예정
-    console.log(this.$route.params.nickname)
     axios({
       method: 'GET',
-      url: `/sns/profile/${this.$store.state.user_info.id}`,
+      url: `/sns/profile/${this.$route.params.nickname}`,
     })
     .then (res => {
       console.log(res)
