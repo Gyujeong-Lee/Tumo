@@ -3,8 +3,6 @@
     elevation="4"
     rounded
     class="mx-2 my-5"
-    height="auto"
-    width="auto"
     id="articleFeed">
     <div class="d-flex justify-content-between mb-3">
       <div class="d-flex align-items-center">
