@@ -32,6 +32,8 @@ const state = {
   config: {
     Authorization: null,
   },
+  // 게시물 상세 페이지
+  selectedArticle: null,
 };
 
 export default new Vuex.Store({
