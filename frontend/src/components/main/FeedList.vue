@@ -33,6 +33,7 @@ export default {
       selectedTab: 'portfolio',
       feedList: [],
       tabColor: '',
+      pageNum: 0,
     }
   },
   components: {

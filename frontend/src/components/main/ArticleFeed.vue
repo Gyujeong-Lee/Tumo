@@ -1,8 +1,10 @@
 <template>
   <v-sheet 
-    elevation="4"
+    :elevation="elevation"
     rounded
     class="mx-2 my-5"
+    @mouseover="elevation=10"
+    @mouseleave="elevation=4"
     id="articleFeed">
     <div class="d-flex justify-content-between mb-3">
       <div class="d-flex align-items-center">
@@ -17,7 +19,8 @@
         <v-btn icon large v-else @click="scrapArticle"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
       </div>
     </div>
-    <div v-html="data.content" class="mb-5"></div>
+    <div v-html="data.content" class="mb-5" @click="moveToDetail" style="cursor: pointer;"></div>
+    <!-- Btn Group -->
     <div class="d-flex justify-content-between">
       <div>
         <v-btn icon large v-if="islike" @click="cancelLikeArticle" color="error"><v-icon color="error">mdi-heart</v-icon></v-btn>
@@ -34,6 +37,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Comments from '@/components/comment/Comments'
 
 export default {
@@ -53,6 +57,7 @@ export default {
       likes: this.data.likes,
       commentDrawer: false,
       commentData: [],
+      elevation: 4,
     }
   },
   methods: {
@@ -105,7 +110,20 @@ export default {
         this.commentData = data.comment
       }
       this.commentDrawer = !this.commentDrawer
-    }
+    },
+    moveToDetail: function () {
+      // 게시물 상세 정보 axios 요청 보내서 selectedArticle에 저장
+      axios({
+        method: 'GET',
+        url: `/article/${this.data.board_idx}/${this.data.user_idx}`
+      })
+      .then(res => {
+        console.log(res)
+      })
+      this.$store.state.selectedArticle = this.data
+      // .then router push
+      // this.$router.push({ name: 'articleDetail', params: { boardIdx: this.data.board_idx }})
+    },
   }
 }
 </script>
@@ -114,6 +132,7 @@ export default {
 #articleFeed {
   padding-top: 1rem;
   padding-bottom: 0.5rem;
+  transition: 0.5s;
 }
 
 #articleFeed h6 {
