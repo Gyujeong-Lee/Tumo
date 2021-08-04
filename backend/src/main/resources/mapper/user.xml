@@ -9,6 +9,26 @@
 			values (#{nickname}, #{email}, #{password}, #{introduce})
 	</insert>
 	
+	<insert id="insertUserTemp" parameterType="map">
+		insert into user_temp (user_idx, code)
+			values (#{userIdx}, #{code})
+	</insert>
+	
+	<select id="findUserTempByUserIdx" parameterType="int" resultType="string">
+		select code
+			from user_temp
+			where user_idx = #{userIdx};
+	</select>
+	
+	<update id="updateUserLoginType" parameterType="int">
+		update user
+			set login_type = 'ROLE_USER'
+			where user_idx = #{userIdx};
+			
+		delete from user_temp
+			where user_idx = #{userIdx};
+	</update>
+	
 	<select id="findUserByEmail" parameterType="string" resultType="userdto">
 		select user_idx as userIdx, password, nickname, email, login_type as loginType, introduce, 
 				disclosure, create_at as createAt, update_at as updateAt, deleted 

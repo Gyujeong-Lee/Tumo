@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mailjet.client.errors.MailjetException;
+import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.tumo.jwt.TokenProvider;
 import com.tumo.model.LoginDto;
 import com.tumo.model.SignupDto;
@@ -82,6 +84,21 @@ public class UserServiceImpl implements UserService {
 
 			sqlSession.getMapper(UserDao.class).insertUserTag(tagMap);
 		}
+		
+		// 이메일 인증 코드 생성후 이메일 발송
+		String code = mailUtil.getTempPassword();
+		Map<String, Object> tempMap = new HashMap<String, Object>();
+		tempMap.put("userIdx", userIdx);
+		tempMap.put("code", code);
+		sqlSession.getMapper(UserDao.class).insertUserTemp(tempMap);
+		
+		try {
+			mailUtil.confirmEmail(signupUser.getEmail(), signupUser.getNickname(), userIdx, code);
+		} catch (MailjetException e) {
+			e.printStackTrace();
+		} catch (MailjetSocketTimeoutException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -112,6 +129,43 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 	
+	@Transactional
+	@Override
+	public UserDto confirmEmail(int userIdx, String code) {
+		UserDto userDto = sqlSession.getMapper(UserDao.class).findUserByUserIdx(userIdx);
+		String tempCode = sqlSession.getMapper(UserDao.class).findUserTempByUserIdx(userIdx);
+		
+		if ( userDto == null || tempCode == null || !code.equals(tempCode) ) {
+			// 실패사유
+			// 1. 등록된 회원이 아님
+			// 2. 이미 인증 완료된 회원
+			// 3. 입력받은 인증 코드가 틀린 경우
+			return null;
+		}
+		
+		sqlSession.getMapper(UserDao.class).updateUserLoginType(userIdx);
+		
+		return userDto;
+	}
+	
+	@Override
+	public boolean resendConfirmEmail(int userIdx) {
+		UserDto userDto = sqlSession.getMapper(UserDao.class).findUserByUserIdx(userIdx);
+		String code = sqlSession.getMapper(UserDao.class).findUserTempByUserIdx(userIdx);
+		
+		if ( userDto == null || code == null ) {
+			return false;
+		}
+		
+		try {
+			mailUtil.confirmEmail(userDto.getEmail(), userDto.getNickname(), userIdx, code);
+		} catch (MailjetException | MailjetSocketTimeoutException e) {
+			e.printStackTrace();
+		}
+		
+		return true;
+	}
+
 	@Transactional
 	@Override
 	public TokenDto login(LoginDto loginDto) {

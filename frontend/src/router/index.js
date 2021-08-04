@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Login from "../views/user/Login.vue";
 import Signup from "../views/user/Signup.vue";
 import Profile from "../views/user/Profile.vue";
+import ConfirmEmail from "../views/user/ConfirmEmail.vue";
 import UpdateInfo from "../views/user/UpdateInfo.vue";
 import ArticleDetail from "../views/article/ArticleDetail.vue";
 import Main from "../views/Main.vue";
@@ -36,6 +37,11 @@ const routes = [
     name: "profile",
     component: Profile,
     props: true,
+  },
+  {
+    path: "/user/confirm-email/:useridx/code/:code",
+    name: "confirmEmail",
+    component: ConfirmEmail,
   },
   {
     path: "/search/:keyword",

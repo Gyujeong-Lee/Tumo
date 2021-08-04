@@ -104,6 +104,52 @@ public class UserController {
 		return response;
 	}
 	
+	@PostMapping(value = "/confirm-email")
+	@ApiOperation(value = "회원가입 이메일 인증")
+	public ResponseEntity createConfirmEmail(@RequestBody Map<String, Object> map) {
+		int userIdx = (int) map.get("userIdx");
+		String code = (String) map.get("code");
+		
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		UserDto userDto = userService.confirmEmail(userIdx, code);
+		
+		if (userDto == null) {
+			// 등록된 회원이 아니거나 이메일 인증이 이미 완료된 회원
+			resultMap.put("message", "fail");
+			response = new ResponseEntity<>(resultMap, HttpStatus.NO_CONTENT);
+			return response;
+		}
+		
+		resultMap.put("message", "success");
+		resultMap.put("email", userDto.getEmail());
+		resultMap.put("nickname", userDto.getNickname());
+		response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		
+		return response;
+	}
+	
+	@GetMapping(value = "/resend-confirm-email/{userIdx}")
+	@ApiOperation(value = "이메일 인증코드 메일 재발송")
+	public ResponseEntity readResendConfirmEmail(@PathVariable int userIdx) {
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		boolean check = userService.resendConfirmEmail(userIdx);
+		
+		if (check == false) {
+			resultMap.put("message", "fail");
+			response = new ResponseEntity<>(resultMap, HttpStatus.NO_CONTENT);
+			return response;
+		}
+	
+		resultMap.put("message", "success");
+		response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		
+		return response;
+	}
+	
 	@PostMapping(value = "/login")
 	@ApiOperation(value = "로그인 | jwt는 헤더에 autorization으로 전송")
 	public ResponseEntity createLogin(@RequestBody LoginDto loginDto) {

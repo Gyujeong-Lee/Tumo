@@ -49,6 +49,36 @@ public class MailUtil {
 		return password.toString();
 	}
 
+	// 회원가입 이메일 인증
+	public String confirmEmail(String email, String nickname, int userIdx, String code)
+			throws MailjetException, MailjetSocketTimeoutException {
+		MailjetClient client;
+		MailjetRequest request;
+		MailjetResponse response;
+		
+		client = new MailjetClient(apiKey, secretKey, new ClientOptions("v3.1"));
+		request = new MailjetRequest(Emailv31.resource).property(Emailv31.MESSAGES, new JSONArray().put(new JSONObject()
+				.put(Emailv31.Message.FROM, new JSONObject().put("Email", from).put("Name", "tumo-noReply"))
+				.put(Emailv31.Message.TO,
+						new JSONArray().put(new JSONObject().put("Email", email).put("Name", nickname)))
+				.put(Emailv31.Message.SUBJECT, "[tumo] 회원가입 이메일 인증을 완료해주세요.")
+				.put(Emailv31.Message.TEXTPART, "텍스트파트")
+				.put(Emailv31.Message.HTMLPART,
+						"<a href='https://www.ssafy.com/'><img src=\"https://edu.ssafy.com/asset/images/logo.png\"></a></br><h3><a href='https://www.ssafy.com/'>tumo 투자를 모으다</a>!</h3><br />"
+								+ nickname + "님의 회원가입을 축하드립니다.<br>아래 링크를 클릭하여 회원가입을 완료해주세요.<br>" 
+								+ "<a href='https://i5a302.p.ssafy.io/confirm-email/" + userIdx + "/code/" + code + "'>이메일 인증</a><br><br>" 
+								+ "본 메일은 발신전용으로 답장을 받지않습니다.<br />"
+								+ "<br><br><a href='http://localhost:3000/user/confirm-email/" + userIdx + "/code/" + code + "'>AWS 배포전까지는 여기 클릭</a><br><br>"
+								)
+				.put(Emailv31.Message.CUSTOMID, "커스텀 아이디")));
+		response = client.post(request);
+
+		// 메일 보내는데 성공하면 200 반환
+		// 하루 발신 가능한 개수가 200개이므로 초과될 경우 메일 전송 실패
+		return Integer.toString(response.getStatus());
+	}
+	
+	// 비밀번호 찾기 메일
 	public String findPassword(String email, String nickname, String password)
 			throws MailjetException, MailjetSocketTimeoutException {
 		MailjetClient client;
@@ -60,7 +90,7 @@ public class MailUtil {
 				.put(Emailv31.Message.FROM, new JSONObject().put("Email", from).put("Name", "tumo-noReply"))
 				.put(Emailv31.Message.TO,
 						new JSONArray().put(new JSONObject().put("Email", email).put("Name", nickname)))
-				.put(Emailv31.Message.SUBJECT, "tumo " + nickname + " 회원님의 비밀번호 찾기 내역입니다.")
+				.put(Emailv31.Message.SUBJECT, "[tumo] " + nickname + " 회원님의 비밀번호 찾기 내역입니다.")
 				.put(Emailv31.Message.TEXTPART, "텍스트파트")
 				.put(Emailv31.Message.HTMLPART,
 						"<a href='https://www.ssafy.com/'><img src=\"https://edu.ssafy.com/asset/images/logo.png\"></a></br><h3><a href='https://www.ssafy.com/'>tumo 투자를 모으다</a>!</h3><br />"
@@ -72,4 +102,5 @@ public class MailUtil {
 		// 하루 발신 가능한 개수가 200개이므로 초과될 경우 메일 전송 실패
 		return Integer.toString(response.getStatus());
 	}
+
 }

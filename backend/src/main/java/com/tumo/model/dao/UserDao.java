@@ -12,6 +12,15 @@ public interface UserDao {
 	// 회원 정보 insert
 	public void createUser(UserDto userDto) throws SQLException;
 	
+	// email 인증 코드 insert
+	public void insertUserTemp(Map<String, Object> tempMap);
+	
+	// email 인증 코드 조회
+	public String findUserTempByUserIdx(int userIdx);
+	
+	// email 인증 완료 (login_type을 ROLE_USER로 변경) & user_temp 컬럼 삭제
+	public void updateUserLoginType(int userIdx);
+	
 	// email로 회원 조회
 	public UserDto findUserByEmail(String email);
 	

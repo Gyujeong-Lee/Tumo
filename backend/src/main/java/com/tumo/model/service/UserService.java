@@ -11,7 +11,7 @@ import com.tumo.model.UserDto;
 
 public interface UserService {
 	
-	// 회원 가입 | 회원 정보 insert
+	// 회원가입 | 회원 정보 insert
 	public void createUser(SignupDto signupDto) throws SQLException;
 		
 	// email 중복 체크
@@ -19,6 +19,12 @@ public interface UserService {
 		
 	// nickname 중복 체크
 	public boolean checkNickname(String nickname);
+	
+	// 회원가입 이메일 인증
+	public UserDto confirmEmail(int userIdx, String code);
+	
+	// 이메일 인증코드 메일 재발송
+	public boolean resendConfirmEmail(int userIdx);
 	
 	// 로그인 | jwt, userDto 반환
 	public TokenDto login(LoginDto loginDto);
