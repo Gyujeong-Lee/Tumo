@@ -65,48 +65,48 @@ export default {
         "feed" :[
           {
             "board_idx" : 1,
-          "user_idx": 1,
-          "title" : "제목입니다",
-          "content" : "본문입니다",
-          "likes" : 5,
-          "islike" : true,
-          "isscrap" : false
+            "user_idx": 1,
+            "title" : "제목입니다",
+            "content" : "본문입니다",
+            "likes" : 5,
+            "islike" : true,
+            "isscrap" : false
           },
           {
             "board_idx" : 2,
-          "user_idx": 1,
-          "title" : "제목입니다",
-          "content" : "본문입니다",
-          "likes" : 7,
-          "islike" : false,
-          "isscrap" : true
+            "user_idx": 1,
+            "title" : "제목입니다",
+            "content" : "본문입니다",
+            "likes" : 7,
+            "islike" : false,
+            "isscrap" : true
           },
           {
             "board_idx" : 2,
-          "user_idx": 1,
-          "title" : "제목입니다",
-          "content" : "본문입니다",
-          "likes" : 7,
-          "islike" : false,
-          "isscrap" : true
+            "user_idx": 1,
+            "title" : "제목입니다",
+            "content" : "본문입니다",
+            "likes" : 7,
+            "islike" : false,
+            "isscrap" : true
           },
           {
             "board_idx" : 2,
-          "user_idx": 1,
-          "title" : "제목입니다",
-          "content" : "본문입니다",
-          "likes" : 7,
-          "islike" : false,
-          "isscrap" : true
+            "user_idx": 1,
+            "title" : "제목입니다",
+            "content" : "본문입니다",
+            "likes" : 7,
+            "islike" : false,
+            "isscrap" : true
           },
           {
             "board_idx" : 2,
-          "user_idx": 1,
-          "title" : "제목입니다",
-          "content" : "본문입니다",
-          "likes" : 7,
-          "islike" : false,
-          "isscrap" : true
+            "user_idx": 1,
+            "title" : "제목입니다",
+            "content" : "본문입니다",
+            "likes" : 7,
+            "islike" : false,
+            "isscrap" : true
           },
         ]
       };

@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <!-- navbar는 jwt token 여부에 따라 토글한다. -->
-    <Navbar/>
-    <!-- <Navbar v-if="$store.state.config.Authorization"/> -->
+    <!-- <Navbar/> -->
+    <Navbar v-if="$store.state.config.Authorization"/>
     <v-main>
       <router-view/>
       <CreateArticle v-if="$store.state.drawCreateArticle"/>
@@ -14,7 +14,7 @@
 <script>
 import Navbar from './components/layout/Navbar.vue'
 import Footer from './components/layout/Footer.vue'
-import CreateArticle from '@/views/CreateArticle'
+import CreateArticle from '@/views/article/CreateArticle'
 
 export default {
   name: 'App',
