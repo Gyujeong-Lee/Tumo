@@ -9,9 +9,6 @@ import "remixicon/fonts/remixicon.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
-import axios from 'axios'
-axios.defaults.baseURL = 'http://localhost:8080/api'
-
 Vue.config.productionTip = false;
 
 Vue.use(BootstrapVue);
