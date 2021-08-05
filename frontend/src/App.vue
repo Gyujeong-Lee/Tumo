@@ -6,6 +6,7 @@
     <v-main>
       <router-view/>
       <CreateArticle v-if="$store.state.drawCreateArticle"/>
+      <CreatePortfolio v-if="$store.state.drawCreatePortfolio"/>
     </v-main>
     <Footer/>
   </v-app>
@@ -15,6 +16,7 @@
 import Navbar from './components/layout/Navbar.vue'
 import Footer from './components/layout/Footer.vue'
 import CreateArticle from '@/views/article/CreateArticle'
+import CreatePortfolio from '@/views/portfolio/CreatePortfolio'
 
 export default {
   name: 'App',
@@ -25,6 +27,7 @@ export default {
     Navbar,
     Footer,
     CreateArticle,
+    CreatePortfolio,
   },
   created: function () {
     const userData = JSON.parse(localStorage.getItem('userData'))

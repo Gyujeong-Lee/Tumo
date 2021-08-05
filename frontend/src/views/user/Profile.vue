@@ -94,7 +94,7 @@ export default {
     FollowerList,
     FollowingList,
   },
-  //DOM 생성, 유저 데이터 받아오기
+  //유저 데이터 받아오기
   created: function () {
     // 추후 파라미터 닉네임으로 변경 예정
     axios({
