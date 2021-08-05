@@ -26,7 +26,6 @@
             <option v-for="(item, idx) in search_list" :key="idx">{{ item }}</option>
           </datalist>
         </div>
-
         <!-- 아이콘 -->
         <div>
           <!-- 글쓰기 -->
@@ -41,7 +40,7 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </template>
-            <v-list>
+            <v-list width="10%">
               <v-list-item>
                 <p type="button" @click="drawArticleModal">Article</p>
               </v-list-item>

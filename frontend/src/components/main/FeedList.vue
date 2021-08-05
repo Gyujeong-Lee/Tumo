@@ -66,7 +66,9 @@ export default {
         url: `/feed/${this.$store.state.user_info.id}/${this.pageNum}`
       })
       .then(res => {
-        this.feedList = res.data.feedList
+        if (res.data.feedList) {
+          this.feedList = res.data.feedList
+        }
       })
       .catch(err => {
         console.log(err)

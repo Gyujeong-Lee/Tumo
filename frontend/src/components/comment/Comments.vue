@@ -53,11 +53,6 @@ export default {
 </script>
 
 <style>
-#comments {
-  padding-left: 8%;
-  padding-right: 8%;
-}
-
 #comments input:focus {
   outline: none;
 }

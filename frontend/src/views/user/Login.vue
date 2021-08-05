@@ -28,6 +28,7 @@
               class="mb-4"
             ></v-text-field>
             <v-btn :disabled="!valid" :loading="isLoading" color="primary" class="w-100" @click="userLogin">로그인</v-btn>
+            <EmailAuth v-if="$store.state.drawEmailAuth" :userIdx="userIdx" :email="credentials.email"/>
           </v-form>
           <v-alert dense text type="error" id="loginAlert">회원 정보를 다시 확인해 주세요.</v-alert>
           <p class="text-primary" style="cursor: pointer;" @click="drawModal">비밀번호를 잊으셨나요?</p>
@@ -68,11 +69,13 @@
 <script>
 import axios from 'axios'
 import FindPassword from '@/components/account/FindPassword'
+import EmailAuth from '@/components/account/EmailAuth'
 
 export default {
   name: "Login",
   components: {
     FindPassword,
+    EmailAuth,
   },
   data: function() {
     return {
@@ -82,6 +85,7 @@ export default {
         email: "",
         password: "",
       },
+      userIdx: null,
     };
   },
   methods: {
@@ -97,16 +101,18 @@ export default {
         if (message === 'fail') {
           const loginAlert = document.querySelector('.v-alert')
           loginAlert.setAttribute('style', 'display: unset;')
+        } else if (message === 'temp') {
+          console.log(res.data)
+          this.userIdx = res.data.userIdx
+          this.$store.state.drawEmailAuth = true
         } else {
           const userData = {
             ...res.data.userDto,
             'token': res.headers.authorization,
             'tags': res.data.tags
           }
-          // local Storage에 저장 및 state 변경
           localStorage.setItem('userData', JSON.stringify(userData))
           this.$store.commit('LOGIN', userData)
-          // main으로 이동
           this.$router.push({ name: 'main'})
         }
         this.isLoading = false

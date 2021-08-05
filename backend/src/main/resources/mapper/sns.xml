@@ -2,13 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tumo.model.dao.SNSDao">
-	<insert id="createScrap" parameterType="map">
+	<insert id="createScrap" parameterType="favorScrapDto">
 		insert into scrap (user_idx, board_idx, create_at)
 		values (#{userIdx}, #{boardIdx}, now())
 	</insert>
 
-	<select id="readScrapList" parameterType="int"
-		resultType="scrapDto">
+	<select id="readScrapList" parameterType="int" resultType="scrapDto">
 		select s.board_idx as boardIdx, f.title as title, u.nickname as nickname, u.user_idx as userIdx
 		from scrap s join feed f
 		on s.board_idx = f.board_idx
@@ -18,34 +17,34 @@
 		order by s.create_at desc;
 	</select>
 
-	<delete id="deleteScrap" parameterType="map">
+	<delete id="deleteScrap" parameterType="favorScrapDto">
 		delete from scrap
 		where user_idx = #{userIdx} and board_idx = #{boardIdx}
 	</delete>
 	
-	<select id="readIsScrap" parameterType="map" resultType="scrapDto">
-		select board_idx as boardIdx, user_idx as userIdx, create_at as createAt
+	<select id="readIsScrap" parameterType="favorScrapDto" resultType="map">
+		select board_idx as boardIdx, user_idx as userIdx
 		from scrap
 		where board_idx = #{boardIdx} and user_idx=#{userIdx}
 	</select>
 	
-	<insert id="createFavor" parameterType="map">
+	<insert id="createFavor" parameterType="favorScrapDto">
 		insert into feed_like (user_idx, board_idx, create_at)
 		values (#{userIdx}, #{boardIdx}, now())
 	</insert>
 	
 	<update id="addFavor" parameterType="map">
 		update feed set likes = likes + 1
-		where boardIdx=#{boardIdx}
+		where board_idx=#{boardIdx}
 	</update>
 	
-	<select id="readIsLike" parameterType="map" resultType="feedLikeDto">
+	<select id="readIsLike" parameterType="favorScrapDto" resultType="feedLikeDto">
 		select like_idx as likeIdx, user_idx as userIdx, board_idx as boardIdx, create_at as createAt
 		from feed_like
 		where board_idx = #{boardIdx} and user_idx = #{userIdx}
 	</select>
 	
-	<delete id="deleteFavor" parameterType="map">
+	<delete id="deleteFavor" parameterType="favorScrapDto">
 		delete
 		from feed_like
 		where board_idx = #{boardIdx} and user_idx = #{userIdx}
@@ -53,7 +52,7 @@
 	
 	<update id="subFavor" parameterType="map">
 		update feed set likes = likes - 1
-		where boardIdx=#{boardIdx}
+		where board_idx=#{boardIdx}
 	</update>
 	
 	<select id="readMyPost" parameterType="int" resultType="feedDto">
@@ -136,6 +135,19 @@
 	
 	<delete id="deleteNotifiedFollowRequest" parameterType="map">
 		delete from notification
-		where user_idx = #{userIdx} and otheruser_idx = #{otherIdx} and type = 1
+		where user_idx = #{userIdx}0 and otheruser_idx = #{otherIdx} and type = 1
 	</delete>
+	
+	<select id="readAlarmList" parameterType="int" resultType="notificationDto">
+		select n.notification_idx as notificationIdx, n.user_idx as userIdx, u.nickname, n.type, n.board_idx as boardIdx, n.create_at as createAt, n.read_at as readAt
+		from notification n join user u
+		on n.user_idx = u.user_idx
+		where n.otheruser_idx = #{userIdx}
+		order by n.otheruser_idx asc, n.type asc, n.create_at desc;
+	</select>
+	
+	<update id="updateAlarm" parameterType="int">
+		update notification set read_at = now()
+		where notification_idx = #{notificationIdx}
+	</update>
 </mapper>

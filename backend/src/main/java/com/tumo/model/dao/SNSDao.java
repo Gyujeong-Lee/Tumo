@@ -4,29 +4,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
+import com.tumo.model.NotificationDto;
 import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
-import com.tumo.model.UserDto;
 
 public interface SNSDao {
 
-	int createScrap(HashMap<String, Integer> info);
-	
-	List<ScrapDto> readScrapList(int userIdx);
-	
-	int deleteScrap(HashMap<String, Integer> info);
+	int createScrap(FavorScrapDto info);
 
-	ScrapDto readIsScrap(Map<String, Integer> param);
+	List<ScrapDto> readScrapList(int userIdx);
+
+	int deleteScrap(FavorScrapDto info);
+
+	Map<String, Object> readIsScrap(FavorScrapDto param);
 
 	void addFavor(int boardIdx);
 
-	void createFavor(HashMap<String, Integer> info);
+	void createFavor(FavorScrapDto info);
 
-	FeedLikeDto readIsLike(Map<String, Integer> param);
+	FeedLikeDto readIsLike(FavorScrapDto param);
 
-	void deleteFavor(HashMap<String, Integer> info);
+	void deleteFavor(FavorScrapDto info);
 
 	void subFavor(int boardIdx);
 
@@ -58,5 +59,8 @@ public interface SNSDao {
 
 	void deleteFollowRequest(Map<String, Object> param);
 
+	List<NotificationDto> readAlarmList(int userIdx);
+
+	void updateAlarm(int notificationIdx);
 
 }

@@ -39,4 +39,6 @@ public interface FeedDao {
 
 	void deleteComment(int commentIdx);
 
+	List<FeedDto> searchFeed(Map<String, Object> param);
+
 }

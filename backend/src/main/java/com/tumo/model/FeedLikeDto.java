@@ -49,7 +49,7 @@ public class FeedLikeDto {
 	@Override
 	public String toString() {
 		return "FeedLikeDto [likeIdx=" + likeIdx + ", userIdx=" + userIdx + ", boardIdx=" + boardIdx + ", createAt="
-				+ createAt + "]";
+			  + createAt + "]";
 	}
 
 }

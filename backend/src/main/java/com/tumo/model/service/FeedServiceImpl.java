@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.dao.FeedDao;
 import com.tumo.model.dao.SNSDao;
@@ -25,14 +26,11 @@ public class FeedServiceImpl implements FeedService {
 	public List<HashMap<String, Object>> readFeed(Map<String, Object> param) {
 		List<FeedDto> feedDtoList = sqlSession.getMapper(FeedDao.class).readFeed(param);
 		List<HashMap<String, Object>> result = new ArrayList<HashMap<String, Object>>();
-		
+
 		int userIdx = (int) param.get("userIdx");
-		for(FeedDto feedDto : feedDtoList) {
-			Map<String, Integer> param2 = new HashMap<String, Integer>();
+		for (FeedDto feedDto : feedDtoList) {
 			int boardIdx = feedDto.getBoardIdx();
-			param2.put("userIdx", userIdx);
-			param2.put("boardIdx", boardIdx);
-			
+
 			HashMap<String, Object> tmp = new HashMap<String, Object>();
 			tmp.put("boardIdx", boardIdx);
 			tmp.put("userIdx", feedDto.getUserIdx());
@@ -41,21 +39,43 @@ public class FeedServiceImpl implements FeedService {
 			tmp.put("content", feedDto.getContent());
 			tmp.put("likes", feedDto.getLikes());
 			tmp.put("stock", feedDto.getStock());
+			tmp.put("createAt", feedDto.getCreateAt());
+			tmp.put("updateAt", feedDto.getUpdateAt());
 			tmp.put("tags", sqlSession.getMapper(FeedDao.class).readFeedTag(boardIdx));
-			tmp.put("isLike", sqlSession.getMapper(SNSDao.class).readIsLike(param2) == null ? false : true);
-			tmp.put("isScrap", sqlSession.getMapper(SNSDao.class).readIsScrap(param2) == null ? false : true);
-			
+			tmp.put("isLike", sqlSession.getMapper(SNSDao.class).readIsLike(new FavorScrapDto(userIdx, boardIdx)) == null ? false : true);
+			tmp.put("isScrap", sqlSession.getMapper(SNSDao.class).readIsScrap(new FavorScrapDto(userIdx, boardIdx)) == null ? false : true);
+
 			result.add(tmp);
 		}
-		// feed tag
 
 		return result;
 	}
 
 	@Override
-	public List<FeedDto> searchFeedByTitle(String title) {
+	public List<HashMap<String, Object>> searchFeed(Map<String, Object> param) {
+		List<HashMap<String, Object>> result = new ArrayList<HashMap<String, Object>>();
 
-		return sqlSession.getMapper(FeedDao.class).searchFeed(title);
+		System.out.println(param.get("searchContent"));
+		List<FeedDto> feedDtoList = sqlSession.getMapper(FeedDao.class).searchFeed(param);
+		
+		for(FeedDto feedDto : feedDtoList) {
+			int boardIdx = feedDto.getBoardIdx();
+			HashMap<String, Object> tmp = new HashMap<String, Object>();
+			
+			tmp.put("boardIdx", boardIdx);
+			tmp.put("userIdx", feedDto.getUserIdx());
+			tmp.put("nickname", feedDto.getNickname());
+			tmp.put("title", feedDto.getTitle());
+			tmp.put("content", feedDto.getContent());
+			tmp.put("likes", feedDto.getLikes());
+			tmp.put("stock", feedDto.getStock());
+			tmp.put("tags", sqlSession.getMapper(FeedDao.class).readFeedTag(boardIdx));
+
+			result.add(tmp);
+		}
+		
+		
+		return result;
 	}
 
 	@Override
