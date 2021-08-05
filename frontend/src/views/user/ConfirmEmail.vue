@@ -35,22 +35,22 @@ export default {
       };
 
     axios({
-        method: 'POST',
-        url: '/user/confirm-email',
-        data: data
-      })
-      .then(res => {
-        const message = res.data.message
-        if (message !== "success") {
-          alert('잘못된 요청입니다.');
-          this.$router.push({ name: 'Login' })
-        }
-        this.nickname = res.data.nickname;
-        this.email = res.data.email;
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      method: 'POST',
+      url: '/user/confirm-email',
+      data: data
+    })
+    .then(res => {
+      const message = res.data.message
+      if (message !== "success") {
+        alert('잘못된 요청입니다.');
+        this.$router.push({ name: 'Login' })
+      }
+      this.nickname = res.data.nickname;
+      this.email = res.data.email;
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>
