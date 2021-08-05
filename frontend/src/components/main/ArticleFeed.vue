@@ -36,7 +36,7 @@
       <v-btn icon large @click="drawComments"><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
       <v-btn icon large><v-icon>mdi-share-variant-outline</v-icon></v-btn>
     </div>
-    <Comments v-if="commentDrawer" :data="commentData"/>
+    <Comments v-if="commentDrawer" :data="commentData" :boardIdx="boardIdx"/>
   </v-sheet>
 </template>
 
@@ -83,35 +83,27 @@ export default {
     },
     drawComments: function () {
       if (this.commentDrawer) {
+        this.commentDrawer = !this.commentDrawer
         this.commentData = []
       } else {
         // axios 요청
-        // .then
-        const data = {
-          "comment" :[
-            {
-            "comment_idx" : 1,
-            "content":"댓글 내용입니다",
-            "user_idx" : 1,
-            "nickName" : "이규빈"
-            },
-            {
-            "comment_idx" : 2,
-            "content":"댓글 내용입니다",
-            "user_idx" : 1,
-            "nickName" : "이규빈"
-            },
-            {
-            "comment_idx" : 3,
-            "content":"댓글 내용입니다",
-            "user_idx" : 1,
-            "nickName" : "이규빈"
-            },
-          ]
-        }
-        this.commentData = data.comment
+        this.getComments()
       }
-      this.commentDrawer = !this.commentDrawer
+    },
+    getComments: function () {
+      axios({
+        method: 'GET',
+        url: `/article/comment/${this.boardIdx}/0`
+      })
+      .then(res => {
+        if (res.status === 200) {
+          this.commentData = res.data.commentList
+        }
+        this.commentDrawer = !this.commentDrawer
+      })
+      .catch(err => {
+        console.log(err)
+      })
     },
     moveToDetail: function () {
       // 게시물 상세 정보 axios 요청 보내서 selectedArticle에 저장

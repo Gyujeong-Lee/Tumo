@@ -40,7 +40,7 @@
         <v-btn icon large><v-icon>mdi-share-variant-outline</v-icon></v-btn>
       </div>
       <div>
-        <Comments :data="commentData"/>
+        <Comments v-if="!isLoading" :data="commentData" :boardIdx="data.boardIdx"/>
       </div>
     </v-sheet>
     <SubFeed/>
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import SubFeed from '@/components/main/SubFeed'
 import Comments from '@/components/comment/Comments'
 
@@ -61,6 +62,7 @@ export default {
     return {
       data: this.$store.state.selectedArticle,
       commentData: [],
+      isLoading: true,
     }
   },
   methods: {
@@ -82,9 +84,24 @@ export default {
       this.data.isScrap = !this.data.isScrap
       // axios 요청
     },
+    getComments: function () {
+      axios({
+        method: 'GET',
+        url: `/article/comment/${this.data.boardIdx}/0`
+      })
+      .then(res => {
+        if (res.status === 200) {
+          this.commentData = res.data.commentList
+        }
+        this.isLoading = false
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
   },
   created: function () {
-    
+    this.getComments()
     // 새로고침 시 data 없음
   }
 }
