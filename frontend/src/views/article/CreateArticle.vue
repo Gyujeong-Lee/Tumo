@@ -105,7 +105,7 @@ export default {
     submitForm: function () {
       axios({
         method: 'POST',
-        url: '/article/',
+        url: '/api/article/',
         data: this.data
       })
       .then(() => {
