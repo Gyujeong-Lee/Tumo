@@ -10,6 +10,7 @@
         ref="form"
         v-model="valid"
       >
+        <!-- title -->
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
           <div class="w-100">
             <label for="formTitle">제목</label>
@@ -33,30 +34,32 @@
             ></v-select>
           </div>
         </div>
+        <!-- content -->
         <div>
           <label for="content">내용</label>
           <Tiptap v-model="data.content"/>
         </div>
         <br>
+        <!-- tags -->
+        <label for="tags">태그</label>
         <div class="d-flex justify-content-between align-items-end">
-          <div class="w-100">
-            <label for="tags">태그</label>
-            <v-text-field
-              dense
-              solo
-              hide-details
-              @keypress.enter="addTag"
-              v-model="inputTag"
-            ></v-text-field>
-          </div>
+          <v-text-field
+            dense
+            solo
+            hide-details
+            class="w-100"
+            v-model="inputTag"
+            @keypress.enter="addTag"
+          ></v-text-field>
           <v-btn color="error" @click="addTag">추가</v-btn>          
         </div>
         <div>
           <v-chip v-for="(tag, idx) in data.tags" :key="idx" label close @click:close="popTag(idx)" class="me-3 my-3">#{{ tag }}</v-chip>
         </div>
+        <!-- Btn Group -->
         <div class="d-flex justify-content-end mt-5">
-          <v-btn class="me-5" color="error" @click="closeModal">작성 취소</v-btn>
-          <v-btn color="primary" :disabled="!valid" @click="submitForm">작성 완료</v-btn>
+          <v-btn @click="closeModal" class="me-5" color="error" >작성 취소</v-btn>
+          <v-btn @click="submitForm" :disabled="!valid" color="primary" >작성 완료</v-btn>
         </div>
       </v-form>
     </v-card>
@@ -78,10 +81,10 @@ export default {
       items: ['국내주식', '해외주식', '국내채권', '해외채권'],
       inputTag: '',
       data: {
-        userIdx: null,
+        userIdx: this.$store.state.user_info.id,
         title: null,
-        stock: '국내주식',
         content: null,
+        stock: '국내주식',
         tags: [],
       }
     }
@@ -100,19 +103,18 @@ export default {
       this.$store.state.drawCreateArticle = false
     },
     submitForm: function () {
-      // axios 요청
       axios({
         method: 'POST',
         url: '/article/',
         data: this.data
       })
       .then(() => {
-        this.$store.state.drawCreateArticle = false
+        // 작성 성공 문구
+        this.closeModal()
       })
       .catch(err => {
         console.log(err)
       })
-      // alert
     }
   },
   computed: {
@@ -131,9 +133,6 @@ export default {
       ]
     }
   },
-  created: function () {
-    this.data.userIdx = this.$store.state.user_info.id
-  }
 }
 </script>
 

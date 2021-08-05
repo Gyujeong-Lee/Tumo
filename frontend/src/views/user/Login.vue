@@ -8,30 +8,30 @@
         <div class="d-flex flex-column text-center" id="loginForm">
           <v-form ref="form" v-model="valid">
             <v-text-field
-              v-model="credentials.email"
-              :rules="emailRules"
-              type="email"
-              outlined
               dense
+              outlined
               hide-details
+              type="email"
               label="이메일"
               class="mb-4"
+              v-model="credentials.email"
+              :rules="emailRules"
             ></v-text-field>
             <v-text-field
-              v-model="credentials.password"
-              :rules="passwordRules"
-              type="password"
-              outlined
               dense
+              outlined
               hide-details
+              type="password"
               label="비밀번호"
               class="mb-4"
+              v-model="credentials.password"
+              :rules="passwordRules"
             ></v-text-field>
-            <v-btn :disabled="!valid" :loading="isLoading" color="primary" class="w-100" @click="userLogin">로그인</v-btn>
+            <v-btn @click="userLogin" :disabled="!valid" :loading="isLoading" class="w-100" color="primary">로그인</v-btn>
             <EmailAuth v-if="$store.state.drawEmailAuth" :userIdx="userIdx" :email="credentials.email"/>
           </v-form>
-          <v-alert dense text type="error" id="loginAlert">회원 정보를 다시 확인해 주세요.</v-alert>
-          <p class="text-primary" style="cursor: pointer;" @click="drawModal">비밀번호를 잊으셨나요?</p>
+          <v-alert v-if="error" dense text type="error" style="font-size: 0.8rem;">회원 정보를 다시 확인해 주세요.</v-alert>
+          <p @click="drawModal" class="text-primary" style="cursor: pointer;" >비밀번호를 잊으셨나요?</p>
           <FindPassword v-if="$store.state.drawFindPassword" />
           <p class="my-auto">투모에 처음 오셨나요? <router-link :to="{ name: 'signup' }">가입하기</router-link></p>
           <hr>
@@ -80,12 +80,13 @@ export default {
   data: function() {
     return {
       valid: true,
+      error: false,
       isLoading: false,
+      userIdx: null,
       credentials: {
         email: "",
         password: "",
       },
-      userIdx: null,
     };
   },
   methods: {
@@ -99,10 +100,8 @@ export default {
       .then(res => {
         const message = res.data.message
         if (message === 'fail') {
-          const loginAlert = document.querySelector('.v-alert')
-          loginAlert.setAttribute('style', 'display: unset;')
+          this.error = true
         } else if (message === 'temp') {
-          console.log(res.data)
           this.userIdx = res.data.userIdx
           this.$store.state.drawEmailAuth = true
         } else {
@@ -137,24 +136,6 @@ export default {
 </script>
 
 <style>
-@media screen and (max-width: 768px){
-  #loginImage {
-    display: none;
-  }
-}
-
-@media screen and (min-width: 768px){  
-  #loginImage {
-    margin-left: 9%;
-    width: 260px;
-    position: relative;
-  }
-
-  #carousel img {
-    height: 393px;
-  }
-}
-
 #login h2 {
   font-family: 'Jua', sans-serif;
   margin-bottom: 0;
@@ -176,10 +157,7 @@ export default {
 }
 
 #loginForm {
-  padding-left: 3rem;
-  padding-right: 3rem;
-  padding-top: 2rem;
-  padding-bottom: 1.5rem;
+  padding: 2rem 3rem 1.5rem;
   width: 100%;
 }
 
@@ -207,9 +185,21 @@ export default {
   z-index: 1;
 }
 
-#loginAlert {
-  font-size: 0.8rem;
-  display: none;
+@media screen and (max-width: 768px){
+  #loginImage {
+    display: none;
+  }
 }
 
+@media screen and (min-width: 768px){  
+  #loginImage {
+    margin-left: 9%;
+    width: 260px;
+    position: relative;
+  }
+
+  #carousel img {
+    height: 393px;
+  }
+}
 </style>

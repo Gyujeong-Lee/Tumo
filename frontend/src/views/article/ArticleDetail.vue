@@ -7,17 +7,17 @@
     >
       <div class="d-flex justify-content-between mb-3">
         <div class="d-flex align-items-center">
-          <img src="@/assets/main/user.png" alt="user" style="width: 55px;">
-          <div class="d-flex flex-column ms-3">
-            <h4 class="my-0">{{ title }}</h4>
-            <div class="d-flex" style="font-size: 1em;">
+          <img src="@/assets/main/user.png" alt="user_img" style="width: 55px;">
+          <div class="ms-3">
+            <h3 class="mb-1">{{ title }}</h3>
+            <div style="font-size: 1rem;">
               <router-link 
                 class="my-0 text-secondary nickname" 
                 :to="{ name: 'profile', params: { nickname: `${nickname}` }}"
               >
                 @{{ nickname }}
               </router-link>
-              <p class="my-0 mx-3 text-primary"><v-icon dense color="primary">mdi-chart-bar</v-icon> {{ stock }}</p>
+              <span class="mx-3 text-primary"><v-icon dense color="primary">mdi-chart-bar</v-icon> {{ stock }}</span>
             </div>
           </div>
         </div>
@@ -26,12 +26,13 @@
           <p class="my-0">수정 : {{ updateAt.substring(2, 16) }}</p>
         </div>
       </div>
-      <div v-html="content" class="mb-5"></div>
+      <!-- content & tags -->
+      <div v-html="content" class="my-3"></div>
       <div class="mb-3">
-        <v-chip v-for="(tag, idx) in tags" :key="idx" label class="px-3"># {{ tag }}</v-chip>
+        <v-chip v-for="(tag, idx) in tags" :key="idx" label class="px-3">#{{ tag }}</v-chip>
       </div>
       <!-- Btn Group -->
-      <div class="d-flex justify-content-between mx-5">
+      <div class="d-flex justify-content-between">
         <div>
           <v-btn icon large v-if="isLike" @click="cancelLikeArticle" color="error"><v-icon color="error">mdi-heart</v-icon></v-btn>
           <v-btn icon large v-else @click="likeArticle"><v-icon>mdi-heart-outline</v-icon></v-btn>
@@ -44,9 +45,7 @@
         </div>
         <v-btn icon large><v-icon>mdi-share-variant-outline</v-icon></v-btn>
       </div>
-      <div>
-        <Comments :boardIdx="boardIdx"/>
-      </div>
+      <Comments :boardIdx="boardIdx"/>
     </v-sheet>
     <SubFeed/>
   </div>
@@ -131,9 +130,8 @@ export default {
 <style>
 #articleDetail {
   width: 614px;
-  padding: 2rem;
-  margin-top: 3rem;
-  margin-bottom: 1rem;
+  padding: 2rem 2rem 1rem;
+  margin: 3rem 0rem 1rem;
 }
 
 @media screen and (min-width: 940px) {
