@@ -67,19 +67,53 @@ export default {
       this.isLike = !this.isLike
       this.likes += 1
       // axios 요청
+      const data = {
+        boardIdx: this.boardIdx,
+        userIdx: this.$store.state.user_info.id
+      }
+      axios({
+        method: 'POST',
+        url: '/sns/favor',
+        data: data
+      })
+      .then(() => {
+      })
     },
     cancelLikeArticle: function () {
       this.isLike = !this.isLike
       this.likes -= 1
       // axios 요청
+      axios({
+        method: 'DELETE',
+        url: `/sns/favor/${this.$store.state.user_info.id}/${this.boardIdx}`
+      })
+      .then(() => {
+      })
     },
     scrapArticle: function () {
       this.isScrap = !this.isScrap
       // axios 요청
+      const data = {
+        boardIdx: this.boardIdx,
+        userIdx: this.$store.state.user_info.id
+      }
+      axios({
+        method: 'POST',
+        url: '/sns/scrap',
+        data: data
+      })
+      .then(() => {
+      })
     },
     cancelScrapArticle: function () {
       this.isScrap = !this.isScrap
       // axios 요청
+      axios({
+        method: 'DELETE',
+        url: `/sns/scrap/${this.$store.state.user_info.id}/${this.boardIdx}`
+      })
+      .then(() => {
+      })
     },
     drawComments: function () {
       if (this.commentDrawer) {
