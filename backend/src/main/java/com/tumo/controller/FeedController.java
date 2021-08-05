@@ -21,7 +21,7 @@ import com.tumo.model.service.FeedService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/feed")
+@RequestMapping("/api/feed")
 @CrossOrigin("*")
 public class FeedController {
 
@@ -40,13 +40,17 @@ public class FeedController {
 		param.put("pageNum", pageNum * 10);
 
 		List<HashMap<String, Object>> feedList = feedService.readFeed(param);
+		int totalPageCnt = feedService.readFeedPageCnt(userIdx);
+		
 		if (feedList == null || feedList.size() == 0) {
 			result.put("message", FAIL);
 			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
 		}
 
-		result.put("feedList", feedList);
 		result.put("message", SUCCESS);
+		result.put("feedList", feedList);
+		result.put("totalPageCnt", totalPageCnt);
+
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
 

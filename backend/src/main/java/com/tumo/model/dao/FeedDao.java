@@ -33,12 +33,14 @@ public interface FeedDao {
 
 	void createComment(CommentDto commentDto);
 
-	int countCommentInFeed(Map<String, Integer> param);
+	int countCommentInFeed(int boardIdx);
 
 	List<FeedCommentDto> readComment(Map<String, Integer> param);
 
 	void deleteComment(int commentIdx);
 
 	List<FeedDto> searchFeed(Map<String, Object> param);
+
+	int readFeedPageCnt(int userIdx);
 
 }

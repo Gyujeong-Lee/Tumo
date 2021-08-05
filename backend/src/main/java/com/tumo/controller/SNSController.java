@@ -31,7 +31,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/sns")
+@RequestMapping("/api/sns")
 @Api("SNS 컨트롤러 V1")
 @CrossOrigin("*")
 public class SNSController {

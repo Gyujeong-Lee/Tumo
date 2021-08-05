@@ -25,5 +25,11 @@
 		order by f.create_at desc
 		limit #{pageNum}, 5
 	</select>
-
-</mapper>	
+	
+	<select id="readFeedPageCnt" parameterType="int" resultType="int">
+		select count(*)
+		from feed f left outer join following l
+		on f.user_idx = l.following_idx
+		where l.user_idx = #{userIdx} or f.user_idx = #{userIdx}
+	</select>
+</mapper>

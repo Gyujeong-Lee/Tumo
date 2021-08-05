@@ -25,7 +25,7 @@ import com.tumo.model.service.ArticleService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/api/article")
 @CrossOrigin("*")
 public class ArticleController {
 
@@ -117,7 +117,8 @@ public class ArticleController {
 		param.put("boardIdx", boardIdx);
 		param.put("pageNum", pageNum);
 		List<FeedCommentDto> comments = articleService.readComment(param);
-
+		int totalPageCnt = articleService.readCommentPageCnt(boardIdx);
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		if (comments == null || comments.size() == 0) {
 			result.put("message", FAIL);
@@ -125,6 +126,7 @@ public class ArticleController {
 		}
 		result.put("message", SUCCESS);
 		result.put("commentList", comments);
+		result.put("totalPageCnt", totalPageCnt);
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
 

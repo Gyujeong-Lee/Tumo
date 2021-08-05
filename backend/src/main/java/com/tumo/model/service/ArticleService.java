@@ -29,4 +29,6 @@ public interface ArticleService {
 
 	boolean deleteComment(int commentIdx);
 
+	int readCommentPageCnt(int boardIdx);
+
 }

@@ -66,8 +66,10 @@ public class ArticleServiceImpl implements ArticleService {
 
 		List<String> feedTag = sqlSession.getMapper(FeedDao.class).readFeedTag(param.get("boardIdx"));
 		String nickname = sqlSession.getMapper(UserDao.class).findUserByUserIdx(feed.getUserIdx()).getNickname();
-		boolean isLike = sqlSession.getMapper(SNSDao.class).readIsLike(new FavorScrapDto(param.get("userIdx"), param.get("boardIdx"))) == null ? false : true;
-		boolean isScrap = sqlSession.getMapper(SNSDao.class).readIsScrap(new FavorScrapDto(param.get("userIdx"), param.get("boardIdx"))) == null ? false : true;
+		boolean isLike = sqlSession.getMapper(SNSDao.class)
+				.readIsLike(new FavorScrapDto(param.get("userIdx"), param.get("boardIdx"))) == null ? false : true;
+		boolean isScrap = sqlSession.getMapper(SNSDao.class)
+				.readIsScrap(new FavorScrapDto(param.get("userIdx"), param.get("boardIdx"))) == null ? false : true;
 
 		result.put("boardIdx", feed.getBoardIdx());
 		result.put("userIdx", feed.getUserIdx());
@@ -139,12 +141,19 @@ public class ArticleServiceImpl implements ArticleService {
 		int pageNum = param.get("pageNum") * 5;
 		param.remove("pageNum");
 		param.put("pageNum", pageNum);
-		int cnt = sqlSession.getMapper(FeedDao.class).countCommentInFeed(param);
+		int cnt = sqlSession.getMapper(FeedDao.class).countCommentInFeed(param.get("boardIdx"));
 
 		if (cnt == 0)
 			return null;
 
 		return sqlSession.getMapper(FeedDao.class).readComment(param);
+	}
+
+	@Override
+	public int readCommentPageCnt(int boardIdx) {
+		int totalCnt = sqlSession.getMapper(FeedDao.class).countCommentInFeed(boardIdx);
+		
+		return totalCnt % 5 == 0 ? totalCnt / 5 : totalCnt / 5 + 1;
 	}
 
 	@Override
