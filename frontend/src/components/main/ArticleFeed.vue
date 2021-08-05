@@ -12,7 +12,12 @@
         <div class="d-flex flex-column ms-3">
           <h4 class="my-0">{{ title }}</h4>
           <div class="d-flex" style="font-size: 0.75em;">
-            <p class="my-0 text-secondary nickname" >@{{ nickname }}</p>
+            <router-link 
+              class="my-0 text-secondary nickname" 
+              :to="{ name: 'profile', params: { nickname: `${nickname}` }}"
+            >
+              @{{ nickname }}
+            </router-link>
             <p class="my-0 mx-3 text-primary"><v-icon small color="primary">mdi-chart-bar</v-icon> {{ stock }}</p>
           </div>
         </div>
@@ -183,9 +188,12 @@ export default {
   margin-right: 1rem;
 }
 
+.nickname {
+  text-decoration: none;
+}
+
 .nickname:hover {
   text-decoration: underline;
-  cursor: pointer;
 }
 
 </style>
