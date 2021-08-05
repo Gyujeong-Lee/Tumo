@@ -135,6 +135,19 @@
 	
 	<delete id="deleteNotifiedFollowRequest" parameterType="map">
 		delete from notification
-		where user_idx = #{userIdx} and otheruser_idx = #{otherIdx} and type = 1
+		where user_idx = #{userIdx}0 and otheruser_idx = #{otherIdx} and type = 1
 	</delete>
+	
+	<select id="readAlarmList" parameterType="int" resultType="notificationDto">
+		select n.notification_idx as notificationIdx, n.user_idx as userIdx, u.nickname, n.type, n.board_idx as boardIdx, n.create_at as createAt, n.read_at as readAt
+		from notification n join user u
+		on n.user_idx = u.user_idx
+		where n.otheruser_idx = #{userIdx}
+		order by n.otheruser_idx asc, n.type asc, n.create_at desc;
+	</select>
+	
+	<update id="updateAlarm" parameterType="int">
+		update notification set read_at = now()
+		where notification_idx = #{notificationIdx}
+	</update>
 </mapper>
