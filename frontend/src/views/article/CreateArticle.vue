@@ -5,7 +5,7 @@
     v-model="isDrawCreateArticle" 
   >
     <v-card id="createArticle">
-      <h1 class="text-center mb-5"><v-icon large color="black">mdi-pencil</v-icon> 새 게시물</h1>
+      <h1 class="text-center mb-5"><v-icon large color="#00BFFE" class="me-2">mdi-pencil</v-icon> 새 게시물</h1>
       <v-form
         ref="form"
         v-model="valid"
