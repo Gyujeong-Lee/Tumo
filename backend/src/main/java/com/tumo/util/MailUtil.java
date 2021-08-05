@@ -64,11 +64,10 @@ public class MailUtil {
 				.put(Emailv31.Message.SUBJECT, "[tumo] 회원가입 이메일 인증을 완료해주세요.")
 				.put(Emailv31.Message.TEXTPART, "텍스트파트")
 				.put(Emailv31.Message.HTMLPART,
-						"<a href='https://www.ssafy.com/'><img src=\"https://edu.ssafy.com/asset/images/logo.png\"></a></br><h3><a href='https://www.ssafy.com/'>tumo 투자를 모으다</a>!</h3><br />"
+						"<a href='https://i5a302.p.ssafy.io/'><img src=\"https://i5a302.p.ssafy.io/img/logo.ef4d71a6.png\" width=\"324\" height=\"177\"></a></br><h3><a href='https://i5a302.p.ssafy.io/'>tumo 투자를 모으다</a>!</h3><br />"
 								+ nickname + "님의 회원가입을 축하드립니다.<br>아래 링크를 클릭하여 회원가입을 완료해주세요.<br>" 
 								+ "<a href='https://i5a302.p.ssafy.io/confirm-email/" + userIdx + "/code/" + code + "'>이메일 인증</a><br><br>" 
 								+ "본 메일은 발신전용으로 답장을 받지않습니다.<br />"
-								+ "<br><br><a href='http://localhost:3000/user/confirm-email/" + userIdx + "/code/" + code + "'>AWS 배포전까지는 여기 클릭</a><br><br>"
 								)
 				.put(Emailv31.Message.CUSTOMID, "커스텀 아이디")));
 		response = client.post(request);
@@ -93,7 +92,7 @@ public class MailUtil {
 				.put(Emailv31.Message.SUBJECT, "[tumo] " + nickname + " 회원님의 비밀번호 찾기 내역입니다.")
 				.put(Emailv31.Message.TEXTPART, "텍스트파트")
 				.put(Emailv31.Message.HTMLPART,
-						"<a href='https://www.ssafy.com/'><img src=\"https://edu.ssafy.com/asset/images/logo.png\"></a></br><h3><a href='https://www.ssafy.com/'>tumo 투자를 모으다</a>!</h3><br />"
+						"<a href='https://i5a302.p.ssafy.io/'><img src=\"https://i5a302.p.ssafy.io/img/logo.ef4d71a6.png\" width=\"324\" height=\"177\"></a></br><h3><a href='https://i5a302.p.ssafy.io/'>tumo 투자를 모으다</a>!</h3><br />"
 								+ nickname + "님의 임시비밀번호는 " + password + "입니다.<br />" + "본 메일은 발신전용으로 답장을 받지않습니다.<br />")
 				.put(Emailv31.Message.CUSTOMID, "커스텀 아이디")));
 		response = client.post(request);
