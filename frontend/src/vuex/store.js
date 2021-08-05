@@ -18,6 +18,7 @@ const state = {
   drawDeleteAccount: false,
   drawFollowerList: false,
   drawFollowingList: false,
+  drawEmailAuth: false,
   // user
   user_info: {
     // 로그인 한 유저의 idx
