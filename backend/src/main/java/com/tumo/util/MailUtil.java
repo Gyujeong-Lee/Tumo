@@ -66,7 +66,7 @@ public class MailUtil {
 				.put(Emailv31.Message.HTMLPART,
 						"<a href='https://i5a302.p.ssafy.io/'><img src=\"https://i5a302.p.ssafy.io/img/logo.ef4d71a6.png\" width=\"324\" height=\"177\"></a></br><h3><a href='https://i5a302.p.ssafy.io/'>tumo 투자를 모으다</a>!</h3><br />"
 								+ nickname + "님의 회원가입을 축하드립니다.<br>아래 링크를 클릭하여 회원가입을 완료해주세요.<br>" 
-								+ "<a href='https://i5a302.p.ssafy.io/confirm-email/" + userIdx + "/code/" + code + "'>이메일 인증</a><br><br>" 
+								+ "<a href='https://i5a302.p.ssafy.io/user/confirm-email/" + userIdx + "/code/" + code + "'>이메일 인증</a><br><br>" 
 								+ "본 메일은 발신전용으로 답장을 받지않습니다.<br />"
 								)
 				.put(Emailv31.Message.CUSTOMID, "커스텀 아이디")));
