@@ -63,7 +63,7 @@ export default {
       //axios for Article
       axios({
         method: 'GET',
-        url: `/sns/board/${this.userId}`
+        url: `/api/sns/board/${this.userId}`
       })
       .then(res => {
         // const response = {
@@ -95,7 +95,7 @@ export default {
       //axios for Scrap
       axios({
         method: 'GET',
-        url: `/sns/scrap/${this.userId}`
+        url: `/api/sns/scrap/${this.userId}`
       })
       .then(res => {
         const response = {

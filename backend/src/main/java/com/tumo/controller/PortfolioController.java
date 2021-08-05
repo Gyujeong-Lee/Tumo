@@ -24,7 +24,7 @@ import com.tumo.model.service.PortfolioService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/portfolio")
+@RequestMapping("/api/portfolio")
 @CrossOrigin("*")
 public class PortfolioController {
 

@@ -94,7 +94,7 @@ export default {
       this.isLoading = true
       axios({
         method: 'POST',
-        url: '/user/login',
+        url: '/api/user/login',
         data: this.credentials
       })
       .then(res => {

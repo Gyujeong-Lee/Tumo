@@ -78,7 +78,7 @@ export default {
       }
       axios({
         method: 'POST',
-        url: '/sns/favor',
+        url: '/api/sns/favor',
         data: data
       })
       .then(() => {
@@ -90,7 +90,7 @@ export default {
       // axios 요청
       axios({
         method: 'DELETE',
-        url: `/sns/favor/${this.$store.state.user_info.id}/${this.boardIdx}`
+        url: `/api/sns/favor/${this.$store.state.user_info.id}/${this.boardIdx}`
       })
       .then(() => {
       })
@@ -104,7 +104,7 @@ export default {
       }
       axios({
         method: 'POST',
-        url: '/sns/scrap',
+        url: '/api/sns/scrap',
         data: data
       })
       .then(() => {
@@ -115,7 +115,7 @@ export default {
       // axios 요청
       axios({
         method: 'DELETE',
-        url: `/sns/scrap/${this.$store.state.user_info.id}/${this.boardIdx}`
+        url: `/api/sns/scrap/${this.$store.state.user_info.id}/${this.boardIdx}`
       })
       .then(() => {
       })

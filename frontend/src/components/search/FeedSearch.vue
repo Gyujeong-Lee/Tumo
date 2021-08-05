@@ -82,7 +82,7 @@ export default {
   created: function () {
     axios({
       method: 'GET',
-      url: `/feed/search/${this.searchWord}/${this.pageNum}`,
+      url: `/api/feed/search/${this.searchWord}/${this.pageNum}`,
     })
     .then(res => {
       console.log(res)

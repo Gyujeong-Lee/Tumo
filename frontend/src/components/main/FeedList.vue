@@ -68,7 +68,7 @@ export default {
     getNewFeeds: function () {
       return axios({
         method: 'GET',
-        url: `/feed/${this.$store.state.user_info.id}/${this.pageNum}`
+        url: `/api/feed/${this.$store.state.user_info.id}/${this.pageNum}`
       })
       .then(res => {
         const feedList = res.data.feedList

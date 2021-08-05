@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tumo.model.service.CompanyService;
 
 @RestController
-@RequestMapping("/company")
+@RequestMapping("/api/company")
 @CrossOrigin("*")
 public class CompanyController {
 

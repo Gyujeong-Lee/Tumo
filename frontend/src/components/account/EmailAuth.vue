@@ -54,7 +54,7 @@ export default {
       this.message = null
       axios({
         method: 'GET',
-        url: `/user/resend-confirm-email/${this.userIdx}`
+        url: `/api/user/resend-confirm-email/${this.userIdx}`
       })
       .then(res => {
         const status = res.status

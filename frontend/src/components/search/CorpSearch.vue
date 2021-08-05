@@ -44,7 +44,7 @@ export default {
     // console.log(this.$route.params.keyword)
     axios({
       method: 'GET',
-      url: `/company/search/${this.$route.params.keyword}/1`
+      url: `/api/company/search/${this.$route.params.keyword}/1`
     })
     .then(res => {
       // console.log(res)ㄴ

@@ -157,7 +157,7 @@ export default {
       } else {
         axios({
           method: 'GET',
-          url: `/user/nickname/${this.credentials.name}`
+          url: `/api/user/nickname/${this.credentials.name}`
         })
         .then(res => {
           const message = res.data.message
@@ -192,7 +192,7 @@ export default {
       // axios 요청
       axios({
         method: 'PUT',
-        url: '/user/update',
+        url: '/api/user/update',
         data: data
       })
       .then(res => {

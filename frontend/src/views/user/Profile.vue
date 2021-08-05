@@ -99,7 +99,7 @@ export default {
     // 추후 파라미터 닉네임으로 변경 예정
     axios({
       method: 'GET',
-      url: `/sns/profile/${this.$route.params.nickname}`,
+      url: `/api/sns/profile/${this.$route.params.nickname}`,
     })
     .then (res => {
       console.log(res)
@@ -125,7 +125,7 @@ export default {
       const profile_user_idx = this.user_info.userIdx
       axios({
         method: 'GET',
-        url: `sns/follow/${login_user_idx}/${profile_user_idx}`
+        url: `/api/sns/follow/${login_user_idx}/${profile_user_idx}`
       })
       .then(res => {
         console.log(res)
@@ -140,7 +140,7 @@ export default {
     openFollowerList: function () {
       axios({
         method: 'GET',
-        url: `/sns/follower/${this.user_info.userIdx}`,
+        url: `/api/sns/follower/${this.user_info.userIdx}`,
       })
       .then(res => {
         console.log(`follower${res}`)
@@ -155,7 +155,7 @@ export default {
     openFollowingList: function () {
       axios({
         method: 'GET',
-        url: `/sns/following/${this.user_info.userIdx}`,
+        url: `/api/sns/following/${this.user_info.userIdx}`,
       })
       .then(res => {
 

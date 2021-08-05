@@ -78,7 +78,7 @@ export default {
       this.isLoading = true
       axios({
         method: 'GET',
-        url: `/user/findpwd/${this.email}`
+        url: `/api/user/findpwd/${this.email}`
       })
       .then(res => {
         const message = res.data.message

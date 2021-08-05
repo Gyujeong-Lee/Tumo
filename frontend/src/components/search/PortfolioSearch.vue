@@ -49,7 +49,7 @@ export default {
     // 현재 오류 출력 back 작업 후 해결 예정
     axios({
       method: 'GET',
-      url: `/portfolio/search/${this.$route.params.keyword}/1`
+      url: `/api/portfolio/search/${this.$route.params.keyword}/1`
     })
     .then(res => {
       // console.log(res)

@@ -55,7 +55,7 @@ export default {
     getComments: function () {
       axios({
         method: 'GET',
-        url: `/article/comment/${this.boardIdx}/${this.pageNum - 1}`
+        url: `/api/article/comment/${this.boardIdx}/${this.pageNum - 1}`
       })
       .then(res => {
         const commentList = res.data.commentList
@@ -78,7 +78,7 @@ export default {
       // axios 요청
       axios({
         method: 'POST',
-        url: '/article/comment',
+        url: '/api/article/comment',
         data: data
       })
       .then(() => {

@@ -153,7 +153,7 @@ export default {
       // axios 요청
       axios({
         method: 'POST',
-        url: '/article/',
+        url: '/api/article/',
         data: this.data
       })
       .then(res => {

@@ -41,7 +41,7 @@ export default {
   created: function () {
     axios({
       method: 'GET',
-      url: `/sns/search/${this.$route.params.keyword}/1`
+      url: `/api/sns/search/${this.$route.params.keyword}/1`
     })
     .then(res => {
       // console.log(res)

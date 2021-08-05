@@ -163,7 +163,7 @@ export default {
       }
       axios({
         method: 'POST',
-        url: '/user/checkpassword',
+        url: '/api/user/checkpassword',
         data: data,
       })
       .then(res => {
@@ -189,7 +189,7 @@ export default {
       }
       axios({
         method: 'PUT',
-        url: '/user/password',
+        url: '/api/user/password',
         data: data
       })
       .then(res => {

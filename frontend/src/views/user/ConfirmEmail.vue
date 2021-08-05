@@ -36,7 +36,7 @@ export default {
 
     axios({
       method: 'POST',
-      url: '/user/confirm-email',
+      url: '/api/user/confirm-email',
       data: data
     })
     .then(res => {

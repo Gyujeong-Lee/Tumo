@@ -77,7 +77,7 @@ export default {
       }
       axios({
         method: 'POST',
-        url: '/sns/favor',
+        url: '/api/sns/favor',
         data: data
       })
     },
@@ -86,7 +86,7 @@ export default {
       this.likes -= 1
       axios({
         method: 'DELETE',
-        url: `/sns/favor/${this.$store.state.user_info.id}/${this.boardIdx}`
+        url: `/api/sns/favor/${this.$store.state.user_info.id}/${this.boardIdx}`
       })
     },
     scrapArticle: function () {
@@ -97,7 +97,7 @@ export default {
       }
       axios({
         method: 'POST',
-        url: '/sns/scrap',
+        url: '/api/sns/scrap',
         data: data
       })
     },
@@ -105,13 +105,13 @@ export default {
       this.isScrap = !this.isScrap
       axios({
         method: 'DELETE',
-        url: `/sns/scrap/${this.$store.state.user_info.id}/${this.boardIdx}`
+        url: `/api/sns/scrap/${this.$store.state.user_info.id}/${this.boardIdx}`
       })
     },
     moveToDetail: function () {
       axios({
         method: 'GET',
-        url: `/article/${this.boardIdx}/${this.userIdx}`
+        url: `/api/article/${this.boardIdx}/${this.userIdx}`
       })
       .then(res => {
         this.$store.state.selectedArticle = res.data.feed

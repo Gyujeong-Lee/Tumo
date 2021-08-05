@@ -168,7 +168,7 @@ export default {
     name_check: function () {
       axios({
         method: 'GET',
-        url: `/user/nickname/${this.credentials.name}`
+        url: `/api/user/nickname/${this.credentials.name}`
       })
       .then(res => {
         const message = res.data.message
@@ -189,7 +189,7 @@ export default {
     email_check: function () {
       axios({
         method: 'GET',
-        url: `/user/email/${this.credentials.email}`
+        url: `/api/user/email/${this.credentials.email}`
       })
       .then(res => {
         const message = res.data.message
@@ -221,7 +221,7 @@ export default {
       // axios 요청
       axios({
         method: 'POST',
-        url: '/user/signup',
+        url: '/api/user/signup',
         data: data
       })
       .then(res => {
