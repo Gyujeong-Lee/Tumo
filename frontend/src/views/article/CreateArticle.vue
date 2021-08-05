@@ -106,14 +106,13 @@ export default {
         url: '/article/',
         data: this.data
       })
-      .then(res => {
-        console.log(res)
+      .then(() => {
+        this.$store.state.drawCreateArticle = false
       })
       .catch(err => {
         console.log(err)
       })
       // alert
-      this.$store.state.drawCreateArticle = false
     }
   },
   computed: {
