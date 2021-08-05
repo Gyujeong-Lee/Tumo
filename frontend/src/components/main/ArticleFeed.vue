@@ -38,10 +38,10 @@
         <v-btn icon large v-else @click="likeArticle"><v-icon>mdi-heart-outline</v-icon></v-btn>
         <span>{{ likes }}</span>
       </div>
-      <v-btn icon large @click="drawComments"><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
+      <v-btn icon large @click="commentDrawer = !commentDrawer"><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
       <v-btn icon large><v-icon>mdi-share-variant-outline</v-icon></v-btn>
     </div>
-    <Comments v-if="commentDrawer" :data="commentData" :boardIdx="boardIdx"/>
+    <Comments v-if="commentDrawer" :boardIdx="boardIdx"/>
   </v-sheet>
 </template>
 
@@ -63,7 +63,6 @@ export default {
     return {
       ...this.data,
       commentDrawer: false,
-      commentData: [],
       elevation: 4,
     }
   },
@@ -118,30 +117,6 @@ export default {
         url: `/sns/scrap/${this.$store.state.user_info.id}/${this.boardIdx}`
       })
       .then(() => {
-      })
-    },
-    drawComments: function () {
-      if (this.commentDrawer) {
-        this.commentDrawer = !this.commentDrawer
-        this.commentData = []
-      } else {
-        // axios 요청
-        this.getComments()
-      }
-    },
-    getComments: function () {
-      axios({
-        method: 'GET',
-        url: `/article/comment/${this.boardIdx}/0`
-      })
-      .then(res => {
-        if (res.status === 200) {
-          this.commentData = res.data.commentList
-        }
-        this.commentDrawer = !this.commentDrawer
-      })
-      .catch(err => {
-        console.log(err)
       })
     },
     moveToDetail: function () {

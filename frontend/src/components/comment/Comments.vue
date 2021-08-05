@@ -1,27 +1,34 @@
 <template>
   <div id="comments">
     <hr>
-    <h3 v-if="!commentData.length" class="text-center">댓글이 없습니다.</h3>
+    <div v-if="isLoading">로딩중 입니다.</div>
     <div v-else>
-      <div v-for="(data, idx) in commentData" :key="idx">
-        <div class="d-flex align-items-center mb-1">
-          <span>{{ data.userIdx }}</span>
-          <!-- <img src="@/assets/main/user.png" alt="user" style="width: 1em;"> -->
-          <span class="px-2 fw-bold">{{ data.nickname }}</span>
+      <h3 v-if="!commentData.length" class="text-center">댓글이 없습니다.</h3>
+      <div v-else>
+        <div v-for="(data, idx) in commentData" :key="idx">
+          <div class="d-flex align-items-center mb-1">
+            <span>{{ data.userIdx }}</span>
+            <!-- <img src="@/assets/main/user.png" alt="user" style="width: 1em;"> -->
+            <span class="px-2 fw-bold">{{ data.nickname }}</span>
+          </div>
+          <p>{{ data.content }}</p>
         </div>
-        <p>{{ data.content }}</p>
+        <v-pagination
+          v-model="pageNum"
+          :length="6"
+          prev-icon="mdi-menu-left"
+          next-icon="mdi-menu-right"
+          @input="getComments"
+        ></v-pagination>
       </div>
-      <div class="w-100 d-flex justify-content-center">
-        <img src="@/assets/comment/paginator.png" alt="paginator" class="w-75">
-      </div>
+      <hr>
+      <!-- 댓글 작성 폼 -->
+      <form class="d-flex pb-2 w-100">
+        <v-icon>mdi-chat-processing-outline</v-icon>
+        <input v-model="content" type="text" placeholder="댓글 작성" class="w-100 mx-3">
+        <v-btn color="primary" class="fw-bold" text plain :disabled="!content.trim()" @click="createComment">게시</v-btn>
+      </form>
     </div>
-    <hr>
-    <!-- 댓글 작성 폼 -->
-    <form class="d-flex pb-2 w-100">
-      <v-icon>mdi-chat-processing-outline</v-icon>
-      <input v-model="content" type="text" placeholder="댓글 작성" class="w-100 mx-3">
-      <v-btn color="primary" class="fw-bold" text plain :disabled="!content.trim()" @click="createComment">게시</v-btn>
-    </form>
   </div>
 </template>
 
@@ -31,21 +38,34 @@ import axios from 'axios'
 export default {
   name: 'Comments',
   props: {
-    data: {
-      type: Array
-    },
     boardIdx: {
       type: Number
     }
   },
   data: function () {
     return {
-      commentData: this.data,
+      commentData: [],
       content: '',
-      pageNum: 0,
+      pageNum: 1,
+      isLoading: true,
     }
   },
   methods: {
+    getComments: function () {
+      axios({
+        method: 'GET',
+        url: `/article/comment/${this.boardIdx}/${this.pageNum - 1}`
+      })
+      .then(res => {
+        if (res.data.commentList) {
+          this.commentData = res.data.commentList
+        }
+        this.isLoading = false
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
     createComment: function () {
       const data = {
         boardIdx: this.boardIdx,
@@ -71,7 +91,10 @@ export default {
       .catch(err => {
         console.log(err)
       })
-    }
+    },
+  },
+  created: function () {
+    this.getComments()
   }
 }
 </script>
