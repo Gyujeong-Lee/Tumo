@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
+import com.tumo.model.NotificationDto;
 import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.service.SNSService;
@@ -75,7 +76,7 @@ public class SNSController {
 		FavorScrapDto param = new FavorScrapDto(userIdx, boardIdx);
 		if (snsService.deleteScrap(param))
 			result.put("message", SUCCESS);
-		else 
+		else
 			result.put("message", FAIL);
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
@@ -245,6 +246,26 @@ public class SNSController {
 		param.put("userIdx", userIdx);
 		param.put("otherIdx", otherIdx);
 		snsService.deleteFollowing(param);
+		result.put("message", SUCCESS);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "알림 리스트 조회", notes = "응답 type의 경우, 1번 : follow 요청 / 2번 : 좋아요 / 3번 : 댓글 / 4번 : 스크랩")
+	@GetMapping("alarm/{userIdx}")
+	public ResponseEntity<Map<String, Object>> readAlarmList(@PathVariable int userIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<NotificationDto> notification = snsService.readAlarmList(userIdx);
+		result.put("message", SUCCESS);
+		result.put("notification", notification);
+
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "알림 읽음 표시")
+	@PutMapping("alarm/{notificationIdx}")
+	public ResponseEntity<Map<String, Object>> updateAlarmList(@PathVariable int notificationIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		snsService.updateAlarm(notificationIdx);
 		result.put("message", SUCCESS);
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}

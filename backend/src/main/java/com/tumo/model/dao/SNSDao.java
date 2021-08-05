@@ -7,15 +7,16 @@ import java.util.Map;
 import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
+import com.tumo.model.NotificationDto;
 import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
 
 public interface SNSDao {
 
 	int createScrap(FavorScrapDto info);
-	
+
 	List<ScrapDto> readScrapList(int userIdx);
-	
+
 	int deleteScrap(FavorScrapDto info);
 
 	Map<String, Object> readIsScrap(FavorScrapDto param);
@@ -58,5 +59,8 @@ public interface SNSDao {
 
 	void deleteFollowRequest(Map<String, Object> param);
 
+	List<NotificationDto> readAlarmList(int userIdx);
+
+	void updateAlarm(int notificationIdx);
 
 }
