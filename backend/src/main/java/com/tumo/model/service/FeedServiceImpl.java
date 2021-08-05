@@ -29,10 +29,7 @@ public class FeedServiceImpl implements FeedService {
 
 		int userIdx = (int) param.get("userIdx");
 		for (FeedDto feedDto : feedDtoList) {
-			Map<String, Integer> param2 = new HashMap<String, Integer>();
 			int boardIdx = feedDto.getBoardIdx();
-			param2.put("userIdx", userIdx);
-			param2.put("boardIdx", boardIdx);
 
 			HashMap<String, Object> tmp = new HashMap<String, Object>();
 			tmp.put("boardIdx", boardIdx);
@@ -44,7 +41,7 @@ public class FeedServiceImpl implements FeedService {
 			tmp.put("stock", feedDto.getStock());
 			tmp.put("tags", sqlSession.getMapper(FeedDao.class).readFeedTag(boardIdx));
 			tmp.put("isLike", sqlSession.getMapper(SNSDao.class).readIsLike(new FavorScrapDto(userIdx, boardIdx)) == null ? false : true);
-			tmp.put("isScrap", sqlSession.getMapper(SNSDao.class).readIsScrap(param2) == null ? false : true);
+			tmp.put("isScrap", sqlSession.getMapper(SNSDao.class).readIsScrap(new FavorScrapDto(userIdx, boardIdx)) == null ? false : true);
 
 			result.add(tmp);
 		}

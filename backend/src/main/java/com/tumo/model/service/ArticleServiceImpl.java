@@ -67,7 +67,7 @@ public class ArticleServiceImpl implements ArticleService {
 		List<String> feedTag = sqlSession.getMapper(FeedDao.class).readFeedTag(param.get("boardIdx"));
 		String nickname = sqlSession.getMapper(UserDao.class).findUserByUserIdx(feed.getUserIdx()).getNickname();
 		boolean isLike = sqlSession.getMapper(SNSDao.class).readIsLike(new FavorScrapDto(param.get("userIdx"), param.get("boardIdx"))) == null ? false : true;
-		boolean isScrap = sqlSession.getMapper(SNSDao.class).readIsScrap(param) == null ? false : true;
+		boolean isScrap = sqlSession.getMapper(SNSDao.class).readIsScrap(new FavorScrapDto(param.get("userIdx"), param.get("boardIdx"))) == null ? false : true;
 
 		result.put("boardIdx", feed.getBoardIdx());
 		result.put("userIdx", feed.getUserIdx());

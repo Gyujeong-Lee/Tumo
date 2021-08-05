@@ -2,13 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tumo.model.dao.SNSDao">
-	<insert id="createScrap" parameterType="map">
+	<insert id="createScrap" parameterType="favorScrapDto">
 		insert into scrap (user_idx, board_idx, create_at)
 		values (#{userIdx}, #{boardIdx}, now())
 	</insert>
 
-	<select id="readScrapList" parameterType="int"
-		resultType="scrapDto">
+	<select id="readScrapList" parameterType="int" resultType="scrapDto">
 		select s.board_idx as boardIdx, f.title as title, u.nickname as nickname, u.user_idx as userIdx
 		from scrap s join feed f
 		on s.board_idx = f.board_idx
@@ -18,13 +17,13 @@
 		order by s.create_at desc;
 	</select>
 
-	<delete id="deleteScrap" parameterType="map">
+	<delete id="deleteScrap" parameterType="favorScrapDto">
 		delete from scrap
 		where user_idx = #{userIdx} and board_idx = #{boardIdx}
 	</delete>
 	
-	<select id="readIsScrap" parameterType="map" resultType="scrapDto">
-		select board_idx as boardIdx, user_idx as userIdx, create_at as createAt
+	<select id="readIsScrap" parameterType="favorScrapDto" resultType="map">
+		select board_idx as boardIdx, user_idx as userIdx
 		from scrap
 		where board_idx = #{boardIdx} and user_idx=#{userIdx}
 	</select>

@@ -24,7 +24,6 @@ import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
-import com.tumo.model.UserDto;
 import com.tumo.model.service.SNSService;
 
 import io.swagger.annotations.Api;
@@ -45,7 +44,7 @@ public class SNSController {
 
 	@ApiOperation(value = "스크랩 생성", notes = "게시글 스크랩")
 	@PostMapping("/scrap")
-	public ResponseEntity<Map<String, Object>> createScrap(@RequestBody HashMap<String, Integer> info) {
+	public ResponseEntity<Map<String, Object>> createScrap(@RequestBody FavorScrapDto info) {
 		boolean result = snsService.createScrap(info);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (!result)
@@ -70,15 +69,15 @@ public class SNSController {
 	}
 
 	@ApiOperation(value = "스크랩한 게시물 삭제", notes = "스크랩한 게시글 스크랩 취소")
-	@DeleteMapping("/scrap")
-	public ResponseEntity<Map<String, Object>> deleteScrap(@RequestBody HashMap<String, Integer> info) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		if (snsService.deleteScrap(info)) {
-			map.put("message", SUCCESS);
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		}
-		map.put("message", FAIL);
-		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
+	@DeleteMapping("/scrap/{userIdx}/{boardIdx}")
+	public ResponseEntity<Map<String, Object>> deleteScrap(@PathVariable int userIdx, @PathVariable int boardIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		FavorScrapDto param = new FavorScrapDto(userIdx, boardIdx);
+		if (snsService.deleteScrap(param))
+			result.put("message", SUCCESS);
+		else 
+			result.put("message", FAIL);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "좋아요 생성", notes = "게시글 좋아요")

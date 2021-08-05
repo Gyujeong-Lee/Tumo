@@ -9,17 +9,16 @@ import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
-import com.tumo.model.UserDto;
 
 public interface SNSDao {
 
-	int createScrap(HashMap<String, Integer> info);
+	int createScrap(FavorScrapDto info);
 	
 	List<ScrapDto> readScrapList(int userIdx);
 	
-	int deleteScrap(HashMap<String, Integer> info);
+	int deleteScrap(FavorScrapDto info);
 
-	ScrapDto readIsScrap(Map<String, Integer> param);
+	Map<String, Object> readIsScrap(FavorScrapDto param);
 
 	void addFavor(int boardIdx);
 

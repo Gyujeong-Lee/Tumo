@@ -9,15 +9,14 @@ import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
-import com.tumo.model.UserDto;
 
 public interface SNSService {
 
-	boolean createScrap(HashMap<String, Integer> info);
+	boolean createScrap(FavorScrapDto info);
 
 	List<ScrapDto> readScrapList(int userIdx);
 
-	boolean deleteScrap(HashMap<String, Integer> info);
+	boolean deleteScrap(FavorScrapDto param);
 
 	boolean createFavor(FavorScrapDto favorDto);
 

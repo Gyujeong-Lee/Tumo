@@ -14,7 +14,6 @@ import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
-import com.tumo.model.UserDto;
 import com.tumo.model.dao.SNSDao;
 import com.tumo.model.dao.UserDao;
 
@@ -25,7 +24,10 @@ public class SNSServiceImpl implements SNSService {
 	private SqlSession sqlSession;
 
 	@Override
-	public boolean createScrap(HashMap<String, Integer> info) {
+	@Transactional
+	public boolean createScrap(FavorScrapDto info) {
+		if(sqlSession.getMapper(SNSDao.class).readIsScrap(info) != null)
+			return false;
 		sqlSession.getMapper(SNSDao.class).createScrap(info);
 		return true;
 	}
@@ -36,7 +38,10 @@ public class SNSServiceImpl implements SNSService {
 	}
 
 	@Override
-	public boolean deleteScrap(HashMap<String, Integer> info) {
+	@Transactional
+	public boolean deleteScrap(FavorScrapDto info) {
+		if(sqlSession.getMapper(SNSDao.class).readIsScrap(info) == null)
+			return false;
 		sqlSession.getMapper(SNSDao.class).deleteScrap(info);
 		return true;
 	}
@@ -76,6 +81,7 @@ public class SNSServiceImpl implements SNSService {
 	}
 
 	@Override
+	@Transactional
 	public List<Map<String, Object>> searchUser(String searchContent, int pageNum) {
 		searchContent = searchContent.replaceAll("\\+", " ");
 		Map<String, Object> param = new HashMap<String, Object>();
