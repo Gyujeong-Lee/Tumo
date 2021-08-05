@@ -39,6 +39,8 @@ public class FeedServiceImpl implements FeedService {
 			tmp.put("content", feedDto.getContent());
 			tmp.put("likes", feedDto.getLikes());
 			tmp.put("stock", feedDto.getStock());
+			tmp.put("createAt", feedDto.getCreateAt());
+			tmp.put("updateAt", feedDto.getUpdateAt());
 			tmp.put("tags", sqlSession.getMapper(FeedDao.class).readFeedTag(boardIdx));
 			tmp.put("isLike", sqlSession.getMapper(SNSDao.class).readIsLike(new FavorScrapDto(userIdx, boardIdx)) == null ? false : true);
 			tmp.put("isScrap", sqlSession.getMapper(SNSDao.class).readIsScrap(new FavorScrapDto(userIdx, boardIdx)) == null ? false : true);

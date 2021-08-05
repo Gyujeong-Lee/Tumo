@@ -76,6 +76,8 @@ public class ArticleServiceImpl implements ArticleService {
 		result.put("content", feed.getContent());
 		result.put("createAt", feed.getCreateAt());
 		result.put("updateAt", feed.getUpdateAt());
+		result.put("stock", feed.getStock());
+		result.put("likes", feed.getLikes());
 		result.put("tags", feedTag);
 		result.put("isLike", isLike);
 		result.put("isScrap", isScrap);
