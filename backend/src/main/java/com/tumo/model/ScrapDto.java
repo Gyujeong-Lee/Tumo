@@ -48,6 +48,10 @@ public class ScrapDto {
 		this.title = title;
 	}
 
+	public ScrapDto() {
+		super();
+	}
+
 	public ScrapDto(int scrapIdx, int userIdx, String nickname, int boardIdx, String title) {
 		super();
 		this.scrapIdx = scrapIdx;

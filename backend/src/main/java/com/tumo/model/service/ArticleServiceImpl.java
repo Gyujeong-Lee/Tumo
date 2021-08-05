@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tumo.model.ArticleDto;
 import com.tumo.model.CommentDto;
+import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedCommentDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.dao.FeedDao;
@@ -65,8 +66,8 @@ public class ArticleServiceImpl implements ArticleService {
 
 		List<String> feedTag = sqlSession.getMapper(FeedDao.class).readFeedTag(param.get("boardIdx"));
 		String nickname = sqlSession.getMapper(UserDao.class).findUserByUserIdx(feed.getUserIdx()).getNickname();
-		boolean isLike = sqlSession.getMapper(SNSDao.class).readIsLike(param) == null ? false : true;
-		boolean isScrap = sqlSession.getMapper(SNSDao.class).readIsScrap(param) == null ? false : true;
+		boolean isLike = sqlSession.getMapper(SNSDao.class).readIsLike(new FavorScrapDto(param.get("userIdx"), param.get("boardIdx"))) == null ? false : true;
+		boolean isScrap = sqlSession.getMapper(SNSDao.class).readIsScrap(new FavorScrapDto(param.get("userIdx"), param.get("boardIdx"))) == null ? false : true;
 
 		result.put("boardIdx", feed.getBoardIdx());
 		result.put("userIdx", feed.getUserIdx());
@@ -75,6 +76,8 @@ public class ArticleServiceImpl implements ArticleService {
 		result.put("content", feed.getContent());
 		result.put("createAt", feed.getCreateAt());
 		result.put("updateAt", feed.getUpdateAt());
+		result.put("stock", feed.getStock());
+		result.put("likes", feed.getLikes());
 		result.put("tags", feedTag);
 		result.put("isLike", isLike);
 		result.put("isScrap", isScrap);
