@@ -7,12 +7,20 @@ import mutations from "./mutations";
 Vue.use(Vuex);
 
 const state = {
+  tmpAsset: {
+    code: "",
+    name: "",  
+    price : null,  
+    quantity : null,  
+    goal: null
+  },
   //최근 검색 목록
   search_history: [],
   //검색 결과
   search_result: [],
   //모달 Flag
   drawCreateArticle: false,
+  drawCreatePortfolio: false,
   drawUpdatePassword: false,
   drawFindPassword: false,
   drawDeleteAccount: false,

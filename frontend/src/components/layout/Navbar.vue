@@ -29,7 +29,10 @@
         <!-- 아이콘 -->
         <div>
           <!-- 글쓰기 -->
-          <v-menu bottom left offset-y>
+          <v-menu 
+          bottom 
+          left 
+          offset-y>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 dark
@@ -154,8 +157,8 @@ export default {
     this.$store.state.drawCreateArticle = true
     },
     drawPortfolioModal: function () {
-      // 추후 포트폴리오 모달로 변경
-      this.$store.state.drawCreateArticle = true
+      // 포트폴리오 모달
+      this.$store.state.drawCreatePortfolio = true
     },
     logout: function () {
       localStorage.removeItem('userData')

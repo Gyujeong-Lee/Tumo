@@ -1,0 +1,225 @@
+<template>
+  <v-dialog
+    persistent
+    width="640"
+    v-model="isDrawCreatePortfolio" 
+  >
+    <v-card id="createPortfolio">
+      <h1 class="text-center mb-5"><v-icon large color="#00BFFE" class="me-2">mdi-chart-pie</v-icon>Portfolio</h1>
+      <v-form
+        ref="form"
+        v-model="valid"
+      >
+        <div class="w-100">
+          <label for="formTitle">제목</label>
+          <v-text-field
+            solo
+            dense
+            counter=20
+            :rules="titleRules"
+            v-model="data.title" 
+            id="formTitle"
+          ></v-text-field>
+        </div>
+        <div class="w-100">
+          <label for="formTitle">목표 수익률(%)</label>
+          <v-text-field
+            solo
+            dense
+            v-model="data.goal" 
+            placeholder="포트폴리오의 목표 수익률"
+          ></v-text-field>
+        </div>
+        <div>
+          <label for="content">내용</label>
+          <Tiptap v-model="data.content"/>
+        </div>
+        <br>
+        <!-- 상품 검색 -->
+        <div class="d-flex flex-column flex-sm-row align-items-center">
+          <div>
+            <label for="formStock">상품 종류</label>
+            <v-select
+              :types="types"
+              dense
+              solo
+              v-model="type"
+              id="formStock"
+            ></v-select>
+          </div>
+          <div class="w-100">
+            <label for="formTitle">검색</label>
+            <v-text-field
+              solo
+              dense
+              counter=20
+              placeholder="Enter"
+              v-model="stockInfo.name"
+            ></v-text-field>
+          </div>
+          <v-btn 
+          color="#00BFFE" 
+          @click="searchStock" 
+          class="ms-2 text-white"
+          v-if="!isSubmit"
+          >검색</v-btn>  
+          <v-btn color="error" 
+          @click="addStock" 
+          class="ms-2"
+          v-else
+          >추가</v-btn>  
+        </div>
+        <!-- 선택한 종목 담기 -->
+        <div>
+          <v-simple-table class="w-100 border">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-center">
+                    상품명
+                  </th>
+                  <th class="text-center">
+                    매수 가격
+                  </th>
+                  <th class="text-centers">
+                    목표 가격
+                  </th>
+                  <th class="text-center">
+                    수량(주)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <PortfolioListItem v-on:confirm="confirmAsset" v-for="(asset, idx) in data.assets" :key="idx" :stockInfo="asset"/>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </div>
+        <div class="d-flex justify-content-end mt-5">
+          <v-btn class="me-5" color="error" @click="closeModal">작성 취소</v-btn>
+          <v-btn color="#00BFFE" :disabled="!valid" @click="submitForm" class="text-white">작성 완료</v-btn>
+        </div>
+      </v-form>
+    </v-card>
+  </v-dialog>
+</template>   
+
+<script>
+import axios from 'axios'
+import Tiptap from '@/components/Tiptap.vue'
+import PortfolioListItem from './PortfolioListItem.vue'
+
+export default {
+  name: 'CreatePortfolio',
+  components: {
+    Tiptap,
+    PortfolioListItem,
+  },
+  data: function () {
+    return {
+      valid: true,
+      isSubmit: false,
+      inputTag: '',
+      types: ['국내주식', '해외주식', '국내채권', '해외채권'],
+      type: "",
+      data: {
+        userIdx: null,
+        title: null,
+        content: null,
+        goal: null,
+        // 요청 보낼 데이터
+        assets: [],
+      },
+
+    }
+  },
+  methods: {
+    popTag: function (idx) {
+      this.data.tags.splice(idx, 1)
+    },
+    closeModal: function () {
+      this.$store.state.drawCreatePortfolio = false
+    },
+    submitForm: function () {
+      // axios 요청
+      axios({
+        method: 'POST',
+        url: '/article/',
+        data: this.data
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      // alert
+      this.$store.state.drawCreatePortfolio = false
+    },
+    searchStock: function () {
+      // 기업 검색
+      // axios
+      this.isSubmit = true
+    },
+    addStock: function () {
+      // 추가
+      this.data.assets.push(this.stockInfo)
+      this.isSubmit = false
+    },
+    confirmAsset: function () {
+      for (let asset of this.data.assets) {
+        if (asset.name === this.stockInfo.name) {
+          asset = this.$store.state.tmpAsset
+        }
+      }
+    }
+  },
+  computed: {
+    isDrawCreatePortfolio: function () {
+      return this.$store.state.drawCreatePortfolio
+    },
+    titleRules: function () {
+      return [
+        v => !!v || '제목을 적어주세요.',
+        v => (v && v.length <= 20) || '제목이 너무 길어요...',
+      ]
+    },
+    stockInfo: function () {
+      return this.$store.state.tmpAsset
+    },
+  },
+  created: function () {
+    this.data.userIdx = this.$store.state.user_info.id
+  }
+}
+</script>
+
+<style>
+#createPortfolio {
+  padding: 5% 7%;
+}
+
+#createPortfolio h1 {
+  font-family: 'Gothic A1', sans-serif;
+  font-weight: 800;
+}
+
+#createPortfolio label, 
+#createPortfolio span {
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: 700;
+}
+
+#createPortfolio form {
+  width: 100%;
+  margin-top: 5%;
+}
+
+#createPortfolio form > div > div:first-child {
+  margin-right: 5%;
+}
+  
+h1 {
+  color: #00BFFE;
+}
+</style>

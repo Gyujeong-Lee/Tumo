@@ -20,7 +20,8 @@ export default {
   data: function () {
     return {
       searchWord: this.searchItem,
-      resultExist: true,
+      resultExist: false,
+      pageNum: 1,
       feeds: [
     {
       "boardIdx": 18,
@@ -81,7 +82,7 @@ export default {
   created: function () {
     axios({
       method: 'GET',
-      url: `/feed/search/${this.searchWord}/1`,
+      url: `/feed/search/${this.searchWord}/${this.pageNum}`,
     })
     .then(res => {
       console.log(res)
