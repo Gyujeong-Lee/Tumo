@@ -1,6 +1,7 @@
 <template>
   <div id="comments">
     <hr>
+    {{ data }}
     <div v-for="(data, idx) in commentData" :key="idx">
       <div class="d-flex align-items-center mb-1">
         <img src="@/assets/main/user.png" alt="user" style="width: 1em;">
@@ -13,9 +14,10 @@
     </div>
     <hr>
     <!-- 댓글 작성 폼 -->
-    <form class="d-flex justify-content-between pb-2">
-     <input v-model="comment" type="text" placeholder="댓글 작성" class="w-75">
-     <v-btn color="primary" class="fw-bold" text plain :disabled="!comment.trim()" @click="createComment">게시</v-btn>
+    <form class="d-flex pb-2 w-100">
+      <v-icon>mdi-chat-processing-outline</v-icon>
+      <input v-model="comment" type="text" placeholder="댓글 작성" class="w-100 mx-3">
+      <v-btn color="primary" class="fw-bold" text plain :disabled="!comment.trim()" @click="createComment">게시</v-btn>
     </form>
   </div>
 </template>

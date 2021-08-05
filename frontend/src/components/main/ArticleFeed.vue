@@ -9,31 +9,31 @@
     <div class="d-flex justify-content-between mb-3">
       <div class="d-flex align-items-center">
         <img src="@/assets/main/user.png" alt="user" style="width: 35px;">
-        <div class="d-flex align-items-center">
-          <h6 class="my-0 mx-3">{{ data.title }}</h6>
-          <p class="my-0 text-secondary">@{{ data.nickname }}</p>
-          <p class="my-0 mx-3 text-primary">{{ data.stock }}</p>
+        <div class="d-flex flex-column ms-3">
+          <h4 class="my-0">{{ title }}</h4>
+          <div class="d-flex" style="font-size: 0.75em;">
+            <p class="my-0 text-secondary nickname" >@{{ nickname }}</p>
+            <p class="my-0 mx-3 text-primary"><v-icon small color="primary">mdi-chart-bar</v-icon> {{ stock }}</p>
+          </div>
         </div>
       </div>
       <div>
-        <v-btn icon large v-if="isscrap" @click="cancelScrapArticle" color="yellow"><v-icon color="yellow">mdi-bookmark</v-icon></v-btn>
+        <v-btn icon large v-if="isScrap" @click="cancelScrapArticle" color="yellow"><v-icon color="yellow">mdi-bookmark</v-icon></v-btn>
         <v-btn icon large v-else @click="scrapArticle"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
       </div>
     </div>
-    <div v-html="data.content" class="mb-5" @click="moveToDetail" style="cursor: pointer;"></div>
+    <div v-html="content" class="mb-5" @click="moveToDetail" style="cursor: pointer;"></div>
     <div class="mb-3">
-      <v-chip v-for="(tag, idx) in data.tags" :key="idx" label class="px-3"># {{ tag }}</v-chip>
+      <v-chip v-for="(tag, idx) in tags" :key="idx" label class="px-3"># {{ tag }}</v-chip>
     </div>
     <!-- Btn Group -->
     <div class="d-flex justify-content-between">
       <div>
-        <v-btn icon large v-if="islike" @click="cancelLikeArticle" color="error"><v-icon color="error">mdi-heart</v-icon></v-btn>
+        <v-btn icon large v-if="isLike" @click="cancelLikeArticle" color="error"><v-icon color="error">mdi-heart</v-icon></v-btn>
         <v-btn icon large v-else @click="likeArticle"><v-icon>mdi-heart-outline</v-icon></v-btn>
         <span>{{ likes }}</span>
       </div>
-      <div>
-        <v-btn icon large @click="drawComments"><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
-      </div>
+      <v-btn icon large @click="drawComments"><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
       <v-btn icon large><v-icon>mdi-share-variant-outline</v-icon></v-btn>
     </div>
     <Comments v-if="commentDrawer" :data="commentData"/>
@@ -56,9 +56,7 @@ export default {
   },
   data: function () {
     return {
-      islike: this.data.islike,
-      isscrap: this.data.isscrap,
-      likes: this.data.likes,
+      ...this.data,
       commentDrawer: false,
       commentData: [],
       elevation: 4,
@@ -66,21 +64,21 @@ export default {
   },
   methods: {
     likeArticle: function () {
-      this.islike = !this.islike
+      this.isLike = !this.isLike
       this.likes += 1
       // axios 요청
     },
     cancelLikeArticle: function () {
-      this.islike = !this.islike
+      this.isLike = !this.isLike
       this.likes -= 1
       // axios 요청
     },
     scrapArticle: function () {
-      this.isscrap = !this.isscrap
+      this.isScrap = !this.isScrap
       // axios 요청
     },
     cancelScrapArticle: function () {
-      this.isscrap = !this.isscrap
+      this.isScrap = !this.isScrap
       // axios 요청
     },
     drawComments: function () {
@@ -119,14 +117,14 @@ export default {
       // 게시물 상세 정보 axios 요청 보내서 selectedArticle에 저장
       axios({
         method: 'GET',
-        url: `/article/${this.data.boardIdx}/${this.data.userIdx}`
+        url: `/article/${this.boardIdx}/${this.userIdx}`
       })
-      .then(res => {
-        console.log(res)
-      })
-      this.$store.state.selectedArticle = this.data
       // .then router push
-      this.$router.push({ name: 'articleDetail', params: { boardIdx: this.data.boardIdx }})
+      .then(res => {
+        this.$store.state.selectedArticle = res.data.feed
+        this.$router.push({ name: 'articleDetail', params: { boardIdx: this.boardIdx }})
+      })
+      // 댓글정보도 받아오기
     },
   }
 }
@@ -157,6 +155,11 @@ export default {
 #articleFeed > div:first-child {
   margin-left: 1rem;
   margin-right: 1rem;
+}
+
+.nickname:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 </style>
