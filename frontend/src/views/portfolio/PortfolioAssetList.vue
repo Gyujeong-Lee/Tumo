@@ -11,35 +11,36 @@
       <input type="text" v-model="tempInfo.quantity">
     </td>
     <td>
-      <span type="button" @click="confirmInfo">확정</span>
+      <span type="button" v-if="!isconfirm" @click="confirmInfo">확정</span>
+      <span v-else>완료</span>
     </td>
   </tr>
 </template>
 
 <script>
 export default {
-  name: 'PortfolioListItem',
+  name: 'PortfolioAssetList',
   data: function () {
     return {
+      isConfirm: false,
       tempInfo: {
         price: null,
         goal: null,
         quantity: null,
       },
-      ...this.stockInfo,
+      ...this.asset,
     }
   },
   props: {
-    stockInfo: Object,
+    asset: Object,
   },
   methods: {
     confirmInfo: function () {
-      console.log(this.stockInfo.name)
-      console.log(this.tempInfo.price)
-      this.$store.state.tmpAsset.name = this.stockInfo.name
-      this.$store.dispatch("confirmStockInfo", this.tempInfo)
-      console.log(this.$store.state.tmpAsset)
-      this.$emit('confirm')
+      this.asset.price = this.tempInfo.price
+      this.asset.goal = this.tempInfo.goal
+      this.asset.quantity = this.tempInfo.quantity
+      this.isConfirm= true
+      console.log(this.isConfirm)
     }
   }
 }
@@ -52,6 +53,7 @@ export default {
  td input {
    width: 100%;
    border: 1px solid gray;
+   text-align: center;
  }
 
  td input:focus {
