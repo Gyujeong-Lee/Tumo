@@ -7,6 +7,7 @@ import java.util.Map;
 import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
+import com.tumo.model.NotificationDto;
 import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
 
@@ -43,5 +44,9 @@ public interface SNSService {
 	String createFollowing(HashMap<String, Integer> info);
 
 	void deleteFollowingRequest(HashMap<String, Integer> param);
+
+	List<NotificationDto> readAlarmList(int userIdx);
+
+	void updateAlarm(int notificationIdx);
 
 }

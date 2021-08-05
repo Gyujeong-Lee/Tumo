@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
+import com.tumo.model.NotificationDto;
 import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
 import com.tumo.model.dao.SNSDao;
@@ -180,6 +181,18 @@ public class SNSServiceImpl implements SNSService {
 		info.put("userIdx", param.get("otherIdx"));
 		info.put("otherIdx", param.get("userIdx"));
 		sqlSession.getMapper(SNSDao.class).deleteNotifiedFollowRequest(info);
+	}
+
+	@Override
+	public List<NotificationDto> readAlarmList(int userIdx) {
+		List<NotificationDto> notificationList = sqlSession.getMapper(SNSDao.class).readAlarmList(userIdx);
+		
+		return notificationList;
+	}
+
+	@Override
+	public void updateAlarm(int notificationIdx) {
+		sqlSession.getMapper(SNSDao.class).updateAlarm(notificationIdx);
 	}
 
 }
