@@ -52,9 +52,4 @@ export default {
     state.activate_alertcenter = !state.activate_alertcenter;
     console.log(state.activate_alertcenter);
   },
-  CONFIRM_STOCK_INFO(state, data) {
-    state.tmpAsset.price = data.price
-    state.tmpAsset.quantity = data.quantity
-    state.tmpAsset.goal = data.goal
-  }
 };

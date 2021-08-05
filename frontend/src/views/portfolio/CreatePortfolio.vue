@@ -48,13 +48,14 @@
             ></v-select>
           </div>
           <div class="w-100">
-            <label for="formTitle">검색</label>
+            <label for="searchStock">검색</label>
             <v-text-field
+              id="searchStock"
               solo
               dense
               counter=20
               placeholder="Enter"
-              v-model="stockInfo.name"
+              v-model="searchItem"
             ></v-text-field>
           </div>
           <v-btn 
@@ -90,7 +91,7 @@
                 </tr>
               </thead>
               <tbody>
-                <PortfolioListItem v-on:confirm="confirmAsset" v-for="(asset, idx) in data.assets" :key="idx" :stockInfo="asset"/>
+                <PortfolioAssetList v-for="(asset, idx) in data.assets" :key="idx" :asset="asset"/>
               </tbody>
             </template>
           </v-simple-table>
@@ -107,19 +108,27 @@
 <script>
 import axios from 'axios'
 import Tiptap from '@/components/Tiptap.vue'
-import PortfolioListItem from './PortfolioListItem.vue'
+import PortfolioAssetList from './PortfolioAssetList.vue'
 
 export default {
   name: 'CreatePortfolio',
   components: {
     Tiptap,
-    PortfolioListItem,
+    PortfolioAssetList,
   },
   data: function () {
     return {
       valid: true,
       isSubmit: false,
       inputTag: '',
+      searchItem: '',
+      tmpAsset: {
+        name: '',
+        code: null,
+        price: null,
+        goal: null,
+        quantity: null,
+      },
       types: ['국내주식', '해외주식', '국내채권', '해외채권'],
       type: "",
       data: {
@@ -163,16 +172,12 @@ export default {
     },
     addStock: function () {
       // 추가
-      this.data.assets.push(this.stockInfo)
       this.isSubmit = false
+      this.tmpAsset.name = this.searchItem
+      let temp = JSON.parse(JSON.stringify(this.tmpAsset))
+      this.data.assets.push(temp)
+      this.searchItem = ''
     },
-    confirmAsset: function () {
-      for (let asset of this.data.assets) {
-        if (asset.name === this.stockInfo.name) {
-          asset = this.$store.state.tmpAsset
-        }
-      }
-    }
   },
   computed: {
     isDrawCreatePortfolio: function () {
@@ -183,9 +188,6 @@ export default {
         v => !!v || '제목을 적어주세요.',
         v => (v && v.length <= 20) || '제목이 너무 길어요...',
       ]
-    },
-    stockInfo: function () {
-      return this.$store.state.tmpAsset
     },
   },
   created: function () {
