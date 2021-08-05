@@ -22,19 +22,57 @@ export default {
       searchWord: this.searchItem,
       resultExist: true,
       feeds: [
-        {
-          "board_idx" : "1",
-          "title" : "이 종목 어때요?",
-          "content" : "추매?",
-          "tag" : "#종목추천"
-        },
-        {
-          "board_idx" : "2",
-          "title" : "이 종목 어때요2?",
-          "content" : "추매2?",
-          "tag" : "#종목추천2"
-        },
-      ],
+    {
+      "boardIdx": 18,
+      "userIdx": 24,
+      "nickname": "안동준",
+      "title": "asdfaasef",
+      "stock": "국내주식",
+      "content": "<h1>123123</h1>",
+      "likes": 0,
+      "tags": []
+    },
+    {
+      "boardIdx": 17,
+      "userIdx": 24,
+      "nickname": "안동준",
+      "title": "123",
+      "stock": "국내주식",
+      "content": "<p>ㅁㄴㅇㄹㄴㅇㄹㅈㄷ</p>",
+      "likes": 0,
+      "tags": []
+    },
+    {
+      "boardIdx": 12,
+      "userIdx": 24,
+      "nickname": "안동준",
+      "title": "안녕하세요",
+      "stock": "국내주식",
+      "content": "<p>123</p>",
+      "likes": 0,
+      "tags": []
+    },
+    {
+      "boardIdx": 10,
+      "userIdx": 24,
+      "nickname": "안동준",
+      "title": "123",
+      "stock": "국내주식",
+      "content": "<p>123123123</p>",
+      "likes": 0,
+      "tags": []
+    },
+    {
+      "boardIdx": 5,
+      "userIdx": 24,
+      "nickname": "안동준",
+      "title": "123",
+      "stock": "국내주식",
+      "content": "<p>123</p>",
+      "likes": 0,
+      "tags": []
+    }
+  ],
     }
   },
   props: {
@@ -46,13 +84,13 @@ export default {
       url: `/feed/search/${this.searchWord}/1`,
     })
     .then(res => {
-      // console.log(res)
+      console.log(res)
       if (res.request.status === 204) {
         console.log('자료 x')
       } else {
         this.resultExist = true
         // 응답 담기
-        // this.feeds = res.data.feed
+        // this.feeds = res.data.feedList
       }
     })
     .catch(err => {
