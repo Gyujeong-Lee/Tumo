@@ -29,23 +29,23 @@
 		where board_idx = #{boardIdx} and user_idx=#{userIdx}
 	</select>
 	
-	<insert id="createFavor" parameterType="map">
+	<insert id="createFavor" parameterType="favorScrapDto">
 		insert into feed_like (user_idx, board_idx, create_at)
 		values (#{userIdx}, #{boardIdx}, now())
 	</insert>
 	
 	<update id="addFavor" parameterType="map">
 		update feed set likes = likes + 1
-		where boardIdx=#{boardIdx}
+		where board_idx=#{boardIdx}
 	</update>
 	
-	<select id="readIsLike" parameterType="map" resultType="feedLikeDto">
+	<select id="readIsLike" parameterType="favorScrapDto" resultType="feedLikeDto">
 		select like_idx as likeIdx, user_idx as userIdx, board_idx as boardIdx, create_at as createAt
 		from feed_like
 		where board_idx = #{boardIdx} and user_idx = #{userIdx}
 	</select>
 	
-	<delete id="deleteFavor" parameterType="map">
+	<delete id="deleteFavor" parameterType="favorScrapDto">
 		delete
 		from feed_like
 		where board_idx = #{boardIdx} and user_idx = #{userIdx}
@@ -53,7 +53,7 @@
 	
 	<update id="subFavor" parameterType="map">
 		update feed set likes = likes - 1
-		where boardIdx=#{boardIdx}
+		where board_idx=#{boardIdx}
 	</update>
 	
 	<select id="readMyPost" parameterType="int" resultType="feedDto">

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ProfileDto;
@@ -82,8 +83,8 @@ public class SNSController {
 
 	@ApiOperation(value = "좋아요 생성", notes = "게시글 좋아요")
 	@PostMapping("/favor")
-	public ResponseEntity<Map<String, Object>> createFavor(@RequestBody HashMap<String, Integer> info) {
-		boolean result = snsService.createFavor(info);
+	public ResponseEntity<Map<String, Object>> createFavor(@RequestBody FavorScrapDto favorDto) {
+		boolean result = snsService.createFavor(favorDto);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (!result)
 			map.put("message", FAIL);
@@ -93,32 +94,30 @@ public class SNSController {
 	}
 
 	@ApiOperation(value = "좋아요 삭제", notes = "좋아요한 게시글 좋아요 삭제")
-	@DeleteMapping("/favor")
-	public ResponseEntity<Map<String, Object>> deleteFavor(@RequestBody HashMap<String, Integer> info) {
+	@DeleteMapping("/favor/{userIdx}/{boardIdx}")
+	public ResponseEntity<Map<String, Object>> deleteFavor(@PathVariable int userIdx, @PathVariable int boardIdx) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (snsService.deleteFavor(info)) {
+		FavorScrapDto param = new FavorScrapDto(userIdx, boardIdx);
+		if (!snsService.deleteFavor(param))
+			map.put("message", FAIL);
+		else
 			map.put("message", SUCCESS);
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		}
-		map.put("message", FAIL);
-		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "좋아요 상태 확인", notes = "특정 게시물에 대한 사용자의 좋아요 여부 조회")
-	@GetMapping("/favor/{user_idx}/{board_idx}")
+	@GetMapping("/favor/{userIdx}/{boardIdx}")
 	public ResponseEntity<Map<String, Object>> readIsLike(@PathVariable int userIdx, @PathVariable int boardIdx) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		Map<String, Integer> param = new HashMap<String, Integer>();
-		param.put("userIdx", userIdx);
-		param.put("boardIdx", boardIdx);
+		FavorScrapDto param = new FavorScrapDto(userIdx, boardIdx);
 		FeedLikeDto like = snsService.readIsLike(param);
 		if (like == null) {
-			map.put("like", false);
+			map.put("isLike", false);
 			map.put("message", FAIL);
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
 		}
-		map.put("like", true);
+		map.put("isLike", true);
 		map.put("message", SUCCESS);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
@@ -205,7 +204,7 @@ public class SNSController {
 		result.put("isFollow", isFollow);
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "팔로우 추가 및 팔로우 요청", notes = "추가한 계정이 공개 계정이면 추가(Follow), 비공개 계정이면 요청(Request)")
 	@PostMapping("follow")
 	public ResponseEntity<Map<String, Object>> createFollowRequest(@RequestBody HashMap<String, Integer> info) {
@@ -215,7 +214,7 @@ public class SNSController {
 		result.put("result", response);
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "요청 승인 후 팔로우 추가", notes = "팔로우 요청 승인 시 팔로우 추가, 팔로우 요청 알림 삭제 (otherIdx에 대한 userIdx의 팔로우 요청 승인) ")
 	@PostMapping("follow/acception")
 	public ResponseEntity<Map<String, Object>> createFollowing(@RequestBody HashMap<String, Integer> info) {
@@ -225,10 +224,11 @@ public class SNSController {
 		result.put("result", response);
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "팔로우 요청 거절", notes = "userIdx가 otherIdx를 거절")
 	@DeleteMapping("follow/rejection/{userIdx}/{otherIdx}")
-	public ResponseEntity<Map<String, Object>> deleteFollowingRequest(@PathVariable int userIdx, @PathVariable int otherIdx) {
+	public ResponseEntity<Map<String, Object>> deleteFollowingRequest(@PathVariable int userIdx,
+			@PathVariable int otherIdx) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		HashMap<String, Integer> param = new HashMap<String, Integer>();
 		param.put("userIdx", userIdx);
@@ -237,7 +237,7 @@ public class SNSController {
 		result.put("message", SUCCESS);
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "팔로우 삭제")
 	@DeleteMapping("follow/{userIdx}/{otherIdx}")
 	public ResponseEntity<Map<String, Object>> deleteFollowing(@PathVariable int userIdx, @PathVariable int otherIdx) {

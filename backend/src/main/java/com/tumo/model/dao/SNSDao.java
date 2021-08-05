@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ProfileDto;
@@ -22,11 +23,11 @@ public interface SNSDao {
 
 	void addFavor(int boardIdx);
 
-	void createFavor(HashMap<String, Integer> info);
+	void createFavor(FavorScrapDto info);
 
-	FeedLikeDto readIsLike(Map<String, Integer> param);
+	FeedLikeDto readIsLike(FavorScrapDto param);
 
-	void deleteFavor(HashMap<String, Integer> info);
+	void deleteFavor(FavorScrapDto info);
 
 	void subFavor(int boardIdx);
 

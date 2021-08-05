@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ProfileDto;
@@ -18,11 +19,11 @@ public interface SNSService {
 
 	boolean deleteScrap(HashMap<String, Integer> info);
 
-	boolean createFavor(HashMap<String, Integer> info);
+	boolean createFavor(FavorScrapDto favorDto);
 
-	FeedLikeDto readIsLike(Map<String, Integer> param);
+	FeedLikeDto readIsLike(FavorScrapDto param);
 
-	boolean deleteFavor(HashMap<String, Integer> info);
+	boolean deleteFavor(FavorScrapDto param);
 
 	List<FeedDto> readMyPost(int userIdx);
 

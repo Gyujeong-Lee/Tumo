@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.dao.FeedDao;
 import com.tumo.model.dao.SNSDao;
@@ -42,7 +43,7 @@ public class FeedServiceImpl implements FeedService {
 			tmp.put("likes", feedDto.getLikes());
 			tmp.put("stock", feedDto.getStock());
 			tmp.put("tags", sqlSession.getMapper(FeedDao.class).readFeedTag(boardIdx));
-			tmp.put("isLike", sqlSession.getMapper(SNSDao.class).readIsLike(param2) == null ? false : true);
+			tmp.put("isLike", sqlSession.getMapper(SNSDao.class).readIsLike(new FavorScrapDto(userIdx, boardIdx)) == null ? false : true);
 			tmp.put("isScrap", sqlSession.getMapper(SNSDao.class).readIsScrap(param2) == null ? false : true);
 
 			result.add(tmp);
