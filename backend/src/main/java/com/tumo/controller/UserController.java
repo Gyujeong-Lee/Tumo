@@ -30,7 +30,7 @@ import com.tumo.model.service.UserService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @CrossOrigin("*")
 public class UserController {
 
