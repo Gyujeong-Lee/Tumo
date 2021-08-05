@@ -21,7 +21,7 @@
 	</insert>
 
 	<select id="readArticle" parameterType="int" resultType="feedDto">
-		select board_idx as boardIdx, user_idx as userIdx, stock, title, content, create_at as createAt, update_at as updateAt
+		select board_idx as boardIdx, user_idx as userIdx, stock, likes, title, content, create_at as createAt, update_at as updateAt
 		from feed
 		where board_idx = #{boardIdx}
 	</select>
