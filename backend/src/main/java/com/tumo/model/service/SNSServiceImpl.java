@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
 import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
-import com.tumo.model.UserDto;
 import com.tumo.model.dao.SNSDao;
 import com.tumo.model.dao.UserDao;
 
@@ -24,7 +24,10 @@ public class SNSServiceImpl implements SNSService {
 	private SqlSession sqlSession;
 
 	@Override
-	public boolean createScrap(HashMap<String, Integer> info) {
+	@Transactional
+	public boolean createScrap(FavorScrapDto info) {
+		if(sqlSession.getMapper(SNSDao.class).readIsScrap(info) != null)
+			return false;
 		sqlSession.getMapper(SNSDao.class).createScrap(info);
 		return true;
 	}
@@ -35,28 +38,39 @@ public class SNSServiceImpl implements SNSService {
 	}
 
 	@Override
-	public boolean deleteScrap(HashMap<String, Integer> info) {
+	@Transactional
+	public boolean deleteScrap(FavorScrapDto info) {
+		if(sqlSession.getMapper(SNSDao.class).readIsScrap(info) == null)
+			return false;
 		sqlSession.getMapper(SNSDao.class).deleteScrap(info);
 		return true;
 	}
 
 	@Override
 	@Transactional
-	public boolean createFavor(HashMap<String, Integer> info) {
-		sqlSession.getMapper(SNSDao.class).addFavor(info.get("boardIdx"));
+	public boolean createFavor(FavorScrapDto info) {
+		boolean isLike = readIsLike(info) == null ? false : true;
+		if(isLike)
+			return false;
+		
+		sqlSession.getMapper(SNSDao.class).addFavor(info.getBoardIdx());
 		sqlSession.getMapper(SNSDao.class).createFavor(info);
 		return true;
 	}
 
 	@Override
-	public FeedLikeDto readIsLike(Map<String, Integer> param) {
+	public FeedLikeDto readIsLike(FavorScrapDto param) {
 		return sqlSession.getMapper(SNSDao.class).readIsLike(param);
 	}
 
 	@Override
 	@Transactional
-	public boolean deleteFavor(HashMap<String, Integer> info) {
-		sqlSession.getMapper(SNSDao.class).subFavor(info.get("boardIdx"));
+	public boolean deleteFavor(FavorScrapDto info) {
+		boolean isLike = readIsLike(info) == null ? false : true;
+		if(!isLike)
+			return false;
+		
+		sqlSession.getMapper(SNSDao.class).subFavor(info.getBoardIdx());
 		sqlSession.getMapper(SNSDao.class).deleteFavor(info);
 		return true;
 	}
@@ -67,6 +81,7 @@ public class SNSServiceImpl implements SNSService {
 	}
 
 	@Override
+	@Transactional
 	public List<Map<String, Object>> searchUser(String searchContent, int pageNum) {
 		searchContent = searchContent.replaceAll("\\+", " ");
 		Map<String, Object> param = new HashMap<String, Object>();
