@@ -1,5 +1,6 @@
 <template>
   <div id="mainfeed">
+    <!-- Tab Grop -->
     <v-tabs grow :color="tabColor" id="feedTabs">
       <v-tab id="newFeedBtn" @click="selectNewFeeds">
         <v-icon large class="me-3">mdi-account-group</v-icon>
@@ -10,17 +11,16 @@
         <span>Portfolio</span>
       </v-tab>
     </v-tabs>
-    <!-- <div v-if="!feedList.length">로딩 아이콘</div> -->
-    <div>
-      <div v-if="selectedTab === 'newfeeds'">
-        <ArticleFeed v-for="(data, idx) in feedList" :key="idx" :data="data" />
-        <infinite-loading @infinite="FeedinfiniteHandler" spinner="waveDots" class="mt-5">
-          <div slot="no-more" style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px;">목록의 끝입니다 :)</div>
-        </infinite-loading>
-      </div>
-      <div v-else-if="selectedTab === 'portfolio'">
-        <PortfolioFeed v-for="(data, idx) in feedList" :key="idx" :data="data" />
-      </div>
+    <!-- newFeed -->
+    <div v-if="selectedTab === 'newfeeds'">
+      <ArticleFeed v-for="(feed, idx) in feedList" :key="idx" :feed="feed" />
+      <infinite-loading @infinite="feedInfiniteHandler" spinner="waveDots" class="mt-5">
+        <div slot="no-more" style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px;">목록의 끝입니다 :)</div>
+      </infinite-loading>
+    </div>
+    <!-- Portfolio -->
+    <div v-else-if="selectedTab === 'portfolio'">
+      <PortfolioFeed v-for="(data, idx) in feedList" :key="idx" :data="data" />
     </div>
   </div>
 </template>
@@ -36,10 +36,9 @@ export default {
   data: function () {
     return {
       selectedTab: 'newfeeds',
-      feedList: [],
       tabColor: 'primary',
+      feedList: [],
       pageNum: 0,
-      changeTab: true,
     }
   },
   components: {
@@ -49,10 +48,12 @@ export default {
   },
   methods: {
     selectNewFeeds: function () {
-      this.feedList = []
-      this.pageNum = 0
-      this.tabColor = 'primary'
-      this.selectedTab = 'newfeeds'
+      if (this.selectedTab !== 'newfeeds') {
+        this.feedList = []
+        this.pageNum = 0
+        this.tabColor = 'primary'
+        this.selectedTab = 'newfeeds'
+      }
     },
     selectPortfolio: function () {
       if (this.selectedTab !== 'portfolio') {
@@ -65,22 +66,17 @@ export default {
       this.selectedTab = 'portfolio'
     },
     getNewFeeds: function () {
-      // axios 요청 보낸후 받은 res.data.feedList 저장
-      let x = axios({
+      return axios({
         method: 'GET',
         url: `/feed/${this.$store.state.user_info.id}/${this.pageNum}`
       })
       .then(res => {
-        if (res.data.feedList) {
-          return res.data.feedList
-        } else {
-          return []
-        }
+        const feedList = res.data.feedList
+        return feedList ? feedList : []
       })
       .catch(err => {
         console.log(err)
       })
-      return x
     },
     getPortfolioFeeds: function () {
       // axios 요청 보낸후 받은 response.data return
@@ -103,7 +99,7 @@ export default {
       ];
       return data 
     },
-    FeedinfiniteHandler: function ($state) {
+    feedInfiniteHandler: function ($state) {
       const EACH_LEN = 10
       this.getNewFeeds()
       .then(data => {
@@ -129,34 +125,33 @@ export default {
 </script>
 
 <style>
-
 #mainfeed {
   width: 95%;
 }
 
-@media screen and (min-width: 576px) {
-  #mainfeed {
-    width: 80%;
-  } 
-}
-
-@media screen and (min-width: 940px) {
-  #mainfeed {
-    width: 614px;
-    padding-right: 3rem;
-  }
+#feedTabs {
+  position: sticky;
+  padding-top: 3rem;
+  top: 48px;
+  background-color: white;
+  z-index: 1;
 }
 
 #feedTabs span {
   font-family: 'Otomanopee One', sans-serif;
 }
 
-#feedTabs {
-  padding-top: 3rem;
-  position: sticky;
-  top: 48px;
-  background-color: white;
-  z-index: 1;
+@media screen and (min-width: 576px) {
+  #mainfeed {
+    width: 614px;
+  } 
 }
+
+@media screen and (min-width: 940px) {
+  #mainfeed {
+    padding-right: 3rem;
+  }
+}
+
 
 </style>

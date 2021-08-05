@@ -7,23 +7,23 @@
       <div v-else>
         <div v-for="(data, idx) in commentData" :key="idx">
           <div class="d-flex align-items-center mb-1">
-            <span>{{ data.userIdx }}</span>
-            <!-- <img src="@/assets/main/user.png" alt="user" style="width: 1em;"> -->
+            <!-- <span>{{ data.userIdx }}</span> -->
+            <img src="@/assets/main/user.png" alt="user" style="width: 1em;">
             <span class="px-2 fw-bold">{{ data.nickname }}</span>
           </div>
           <p>{{ data.content }}</p>
         </div>
         <v-pagination
           v-model="pageNum"
-          :length="6"
+          :length="pageCnt"
+          @input="getComments"
           prev-icon="mdi-menu-left"
           next-icon="mdi-menu-right"
-          @input="getComments"
         ></v-pagination>
       </div>
       <hr>
-      <!-- 댓글 작성 폼 -->
-      <form class="d-flex pb-2 w-100">
+      <!-- createComment Form -->
+      <form class="d-flex w-100">
         <v-icon>mdi-chat-processing-outline</v-icon>
         <input v-model="content" type="text" placeholder="댓글 작성" class="w-100 mx-3">
         <v-btn color="primary" class="fw-bold" text plain :disabled="!content.trim()" @click="createComment">게시</v-btn>
@@ -46,8 +46,9 @@ export default {
     return {
       commentData: [],
       content: '',
-      pageNum: 1,
       isLoading: true,
+      pageNum: 1,
+      pageCnt: 1,
     }
   },
   methods: {
@@ -57,8 +58,10 @@ export default {
         url: `/article/comment/${this.boardIdx}/${this.pageNum - 1}`
       })
       .then(res => {
-        if (res.data.commentList) {
-          this.commentData = res.data.commentList
+        const commentList = res.data.commentList
+        if (commentList) {
+          this.commentData = commentList
+          this.pageCnt = res.data.totalPageCnt
         }
         this.isLoading = false
       })

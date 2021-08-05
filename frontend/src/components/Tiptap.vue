@@ -4,7 +4,7 @@
    rounded
    id="Tiptap"
   >
-    <div v-if="editor" class="w-100 d-flex justify-content-center align-items-center py-2 bg-white border">
+    <div v-if="editor" class="w-100 d-flex flex-wrap justify-content-center align-items-center py-2 bg-white border">
       <button type="button" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         <i class="ri-bold"></i>
       </button>

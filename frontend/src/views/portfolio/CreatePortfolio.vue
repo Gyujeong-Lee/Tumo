@@ -221,7 +221,7 @@ export default {
   margin-right: 5%;
 }
   
-h1 {
+#createPortfolio h1 {
   color: #00BFFE;
 }
 </style>

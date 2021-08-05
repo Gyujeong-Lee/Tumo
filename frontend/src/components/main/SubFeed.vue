@@ -15,13 +15,6 @@
 <script>
 export default {
   name: 'SubFeed',
-  data: function () {
-    return {
-    }
-  },
-  // created: function () {
-  //   console.log(this.$route)
-  // }
 }
 </script>
 
@@ -42,7 +35,7 @@ export default {
   position: sticky;
   top: 48px;
   padding-top: 2rem;
-  margin-left: 3rem;
+  margin-left: 2rem;
 }
 
 #subfeed h1 {
