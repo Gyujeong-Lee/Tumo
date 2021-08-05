@@ -21,7 +21,7 @@ import com.tumo.model.service.FeedService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/feed")
+@RequestMapping("/api/feed")
 @CrossOrigin("*")
 public class FeedController {
 
