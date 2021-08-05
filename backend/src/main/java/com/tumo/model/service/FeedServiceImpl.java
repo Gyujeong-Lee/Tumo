@@ -84,4 +84,11 @@ public class FeedServiceImpl implements FeedService {
 		return null;
 	}
 
+	@Override
+	public int readFeedPageCnt(int userIdx) {
+		int totalCnt = sqlSession.getMapper(FeedDao.class).readFeedPageCnt(userIdx);
+		
+		return totalCnt % 10 == 0 ? totalCnt / 10 : totalCnt / 10 + 1;
+	}
+
 }

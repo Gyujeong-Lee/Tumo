@@ -52,7 +52,7 @@
 		values (#{userIdx}, #{boardIdx}, #{content}, now())
 	</insert>
 	
-	<select id="countCommentInFeed" parameterType="map" resultType="integer">
+	<select id="countCommentInFeed" parameterType="int" resultType="integer">
 		select count(*)
 		from feed_comment
 		where board_idx = #{boardIdx}
@@ -71,4 +71,5 @@
 		delete from feed_comment
 		where comment_idx = #{commentIdx}
 	</delete>
+
 </mapper>
