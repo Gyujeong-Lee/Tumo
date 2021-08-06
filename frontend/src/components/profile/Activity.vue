@@ -66,25 +66,8 @@ export default {
         url: `/api/sns/board/${this.userId}`
       })
       .then(res => {
-        // const response = {
-        //   "myFeed": [
-        //     {
-        //       "userIdx": 1,
-        //       "nickname": "admin",
-        //       "stock": null,
-        //       "title": "얼마 전에 샀는데",
-        //       "content": "오르겠죠...",
-        //       "boardIdx": 3,
-        //       "likes": 0,
-        //       "createAt": "2021-08-03 10:43:29",
-        //       "updateAt": "2021-08-03 10:57:00"
-        //     }
-        //   ],
-        //   "message": "success"
-        // }
-        // api 응답 변경해야함. scrap 바꿀 것.
         console.log(res)
-        this.activityList = res.data.scrap
+        this.activityList = res.data.myFeed
       })
       .catch(err => {
         console.log(err)

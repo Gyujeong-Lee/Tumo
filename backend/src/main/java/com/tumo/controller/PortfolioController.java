@@ -39,7 +39,7 @@ public class PortfolioController {
 		
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
-		List<Map> asset =(List<Map>) portfolioMap.get("asset");	
+		List<Map> asset =(List<Map>) portfolioMap.get("assets");	
 		PortfolioDto portfoliodto = new PortfolioDto((int)(portfolioMap.get("userIdx")),(String)portfolioMap.get("title") ,
 				(String)portfolioMap.get("content"),(double)(portfolioMap.get("goal")));
 		boolean result=portfolioService.createList(portfoliodto);
@@ -48,7 +48,7 @@ public class PortfolioController {
 			for (int i = 0; i < asset.size(); i++) {
 				AssetDto assetdto= new AssetDto();
 				assetdto.setPortfolioIdx(portfolioIdx);
-				assetdto.setGoal((double) asset.get(i).get("goal"));
+				assetdto.setGoal(Double.parseDouble(String.valueOf(asset.get(i).get("goal"))) );
 				assetdto.setStock_code((String) asset.get(i).get("stock_code"));
 				assetdto.setPrice((int) asset.get(i).get("price"));
 				assetdto.setQuantity((int)asset.get(i).get("quantity"));

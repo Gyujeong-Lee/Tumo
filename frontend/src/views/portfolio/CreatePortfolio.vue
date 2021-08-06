@@ -26,7 +26,7 @@
           <v-text-field
             solo
             dense
-            v-model="data.goal" 
+            v-model.number="data.goal" 
             placeholder="포트폴리오의 목표 수익률"
           ></v-text-field>
         </div>
@@ -165,7 +165,10 @@ export default {
     submitForm: function () {
       for (let i = 0; i < this.data.assets.length; i++) {
        delete this.data.assets[i].name
+      //  this.data.assets[i].goal = this.data.assets[i].goal.parseFloat
       }
+      // this.data.goal = parseFloat(this.data.goal)
+      console.log(typeof(this.data.goal))
       // 포폴 제작 axios 요청
       axios({
         method: 'POST',
