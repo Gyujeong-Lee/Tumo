@@ -47,7 +47,7 @@
               id="stockType"
             ></v-select>
           </div>
-          <div class="w-100">
+          <div class="w-100" v-if="!searchItems.length">
             <label for="searchStock">검색</label>
             <v-text-field
               id="searchStock"
@@ -57,6 +57,10 @@
               placeholder="Enter"
               v-model="searchItem"
             ></v-text-field>
+          </div>
+          <div class="w-100" v-else>
+            <label for="searchStock">검색</label>
+            <SearchCorp v-if="searchItems.length" :searchItems="searchItems" :tmpAsset="tmpAsset"/>
           </div>
           <v-btn 
           color="#00BFFE" 
@@ -109,12 +113,14 @@
 import axios from 'axios'
 import Tiptap from '@/components/Tiptap.vue'
 import PortfolioAssetList from './PortfolioAssetList.vue'
+import SearchCorp from './SearchCorp.vue'
 
 export default {
   name: 'CreatePortfolio',
   components: {
     Tiptap,
     PortfolioAssetList,
+    SearchCorp,
   },
   data: function () {
     return {
@@ -122,6 +128,7 @@ export default {
       isSubmit: false,
       inputTag: '',
       searchItem: '',
+      searchItems: [],
       pageNum: 1,
       items: ['국내주식', '해외주식', '국내채권', '해외채권'],
       type: "국내주식",
@@ -177,6 +184,8 @@ export default {
       })
       .then(res => {
         console.log(res)
+        const searchResult = res.data
+        this.searchItems = searchResult
       })
       .catch(err => {
         console.log(err)
@@ -187,11 +196,13 @@ export default {
       // 이름과 코드
       // 포트폴리오에 자산 추가
       this.isSubmit = false
-      this.tmpAsset.name = this.searchItem
+      // this.tmpAsset.name = this.searchItem
       //딥 카피
       let temp = JSON.parse(JSON.stringify(this.tmpAsset))
       this.data.assets.push(temp)
       this.searchItem = ''
+      this.searchItems = []
+      console.log(this.data.assets)
     },
   },
   computed: {
