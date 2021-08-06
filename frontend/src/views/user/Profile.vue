@@ -5,7 +5,7 @@
       <!-- img와 (팔로우 요청, 정보 수정) 분기 -->
       <div id="user_image_block" class="d-flex flex-column me-5">
         <img src="@/assets/temp_user_image.jpg" alt="user image" id="user_image">
-        <p v-if="itsMe" @click="edit_profile">Edit</p>
+        <p v-if="itsMe" @click="edit_profile" type="button">Edit</p>
         <!-- v-else-if로 팔로우 언팔로우 분기처리 -->
         <p v-else-if="!isFollow">Follow</p>
         <p v-else> Unfollow</p>
@@ -34,9 +34,9 @@
     </div>
     <!-- 포트폴리오  -->
     <div class="d-flex justify-center my-auto">
-      <div class="col-5">
+      <div class="col-5 me-5">
         <h3>portfolio</h3>
-        <Portfolio/>
+        <Portfolio v-if="user_info.userIdx" :userIdx="user_info.userIdx"/>
       </div>
     <!-- 작성글, 스크랩 탭 -->
       <div class="col-5">
@@ -168,7 +168,7 @@ export default {
       this.$store.state.drawFollowingList = true
     },
     edit_profile: function () {
-
+      // 프로필 수정 페이지로 이동
     }
   }
 }
@@ -198,5 +198,7 @@ export default {
   background-color: white;
   z-index: 1;
 }
-
+p {
+ color: #00BFFE; 
+}
 </style>

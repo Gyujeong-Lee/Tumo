@@ -11,7 +11,7 @@
       <input type="text" v-model="tempInfo.quantity">
     </td>
     <td>
-      <span type="button" v-if="!isconfirm" @click="confirmInfo">확정</span>
+      <span type="button" v-if="!isConfirm" @click="confirmInfo">확정</span>
       <span v-else>완료</span>
     </td>
   </tr>
@@ -40,7 +40,7 @@ export default {
       this.asset.goal = this.tempInfo.goal
       this.asset.quantity = this.tempInfo.quantity
       this.isConfirm= true
-      console.log(this.isConfirm)
+      console.log(this.asset)
     }
   }
 }
