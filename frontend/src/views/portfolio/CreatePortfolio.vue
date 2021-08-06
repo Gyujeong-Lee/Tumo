@@ -60,7 +60,11 @@
           </div>
           <div class="w-100" v-else>
             <label for="searchStock">검색</label>
-            <SearchCorp v-if="searchItems.length" :searchItems="searchItems" :tmpAsset="tmpAsset"/>
+            <SearchCorp v-if="searchItems.length" 
+            :searchItems="searchItems" 
+            :tmpAsset="tmpAsset"
+            v-on:checked="canSubmit"/>
+            
           </div>
           <v-btn 
           color="#00BFFE" 
@@ -112,8 +116,8 @@
 <script>
 import axios from 'axios'
 import Tiptap from '@/components/Tiptap.vue'
-import PortfolioAssetList from './PortfolioAssetList.vue'
-import SearchCorp from './SearchCorp.vue'
+import PortfolioAssetList from '../../components/portfolio/PortfolioAssetList.vue'
+import SearchCorp from '../../components/portfolio/SearchCorp.vue'
 
 export default {
   name: 'CreatePortfolio',
@@ -135,7 +139,7 @@ export default {
       // 요청 보내기 전 임시 데이터 뭘 넣을 수 있을 지 몰라 object로 만듬
       tmpAsset: {
         name: '',
-        code: null,
+        stock_code: null,
         price: null,
         goal: null,
         quantity: null,
@@ -159,7 +163,10 @@ export default {
       this.$store.state.drawCreatePortfolio = false
     },
     submitForm: function () {
-      // axios 요청 추후 작업 예정
+      for (let i = 0; i < this.data.assets.length; i++) {
+       delete this.data.assets[i].name
+      }
+      // 포폴 제작 axios 요청
       axios({
         method: 'POST',
         url: '/api/portfolio/list',
@@ -172,25 +179,21 @@ export default {
         console.log(err)
       })
       // alert
-      this.$store.state.drawCreatePortfolio = false
+      this.closeModal
     },
     searchStock: function () {      
-      // 기업 검색 시 해외주식, 국내주식 분기해서 보낼 것, type을 통해
-      // 현재 404 에러, api 진행 후 재작업 예정
-      // 여기서 이름과 코드를 넣자
       axios({
         method: 'GET',
         url: `/api/company/search/${this.searchItem}/${this.pageNum}`,
       })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         const searchResult = res.data
         this.searchItems = searchResult
       })
       .catch(err => {
         console.log(err)
       })
-      this.isSubmit = true
     },
     addStock: function () {
       // 이름과 코드
@@ -204,6 +207,9 @@ export default {
       this.searchItems = []
       console.log(this.data.assets)
     },
+    canSubmit: function () {
+      this.isSubmit = true
+    }
   },
   computed: {
     isDrawCreatePortfolio: function () {
