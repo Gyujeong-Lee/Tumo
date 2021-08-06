@@ -140,6 +140,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 		HashMap<String, Object> tmp=new HashMap<String, Object>();
 		tmp.put("userIdx", userIdx);
 		tmp.put("pageNum", pageNum*5);
+		System.out.println(userIdx);
 		return sqlSession.getMapper(PortfolioDao.class).readFeedList(tmp);
 	}
 
