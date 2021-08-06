@@ -137,8 +137,10 @@ public class PortfolioServiceImpl implements PortfolioService {
 
 	@Override
 	public List<Map<Object, Object>> readFeedList(int userIdx,int pageNum) {
-			
-		return sqlSession.getMapper(PortfolioDao.class).readFeedList(userIdx,pageNum*5);
+		HashMap<String, Object> tmp=new HashMap<String, Object>();
+		tmp.put("userIdx", userIdx);
+		tmp.put("pageNum", pageNum*5);
+		return sqlSession.getMapper(PortfolioDao.class).readFeedList(tmp);
 	}
 
 
@@ -147,7 +149,10 @@ public class PortfolioServiceImpl implements PortfolioService {
 		System.out.println(searchContent+" "+ pageNum);
 		int temp=Integer.parseInt(pageNum);
 		pageNum=Integer.toString(temp*5);
-		return sqlSession.getMapper(PortfolioDao.class).searchPortfolio(searchContent,pageNum);
+		HashMap<String, Object> tmp=new HashMap<String, Object>();
+		tmp.put("userIdx", searchContent);
+		tmp.put("pageNum", pageNum);
+		return sqlSession.getMapper(PortfolioDao.class).searchPortfolio(tmp);
 	}
 
 

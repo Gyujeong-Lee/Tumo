@@ -1,5 +1,6 @@
 package com.tumo.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +21,9 @@ public interface PortfolioDao {
 	
 	boolean deleteAsset(int assetIdx);
 
-	List<Map<Object, Object>> readFeedList(int userIdx, int pageNum);
+	List<Map<Object, Object>> readFeedList(HashMap<String, Object> tmp);
 
-	List<Map<Object, Object>> searchPortfolio(String searchContent, String pageNum);
+	List<Map<Object, Object>> searchPortfolio(HashMap<String, Object> tmp);
 
 	int recentPortfolio(int userIdx);
 }
