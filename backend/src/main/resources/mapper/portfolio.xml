@@ -13,11 +13,15 @@
 		 select * from portfolio where user_idx=#{userIdx}
 	</select>
 	
+	<select id="recentPortfolio" parameterType="int" resultType="int" >
+		 select portfolio_idx from portfolio where user_idx=#{userIdx} order by portfolio_idx desc limit 1;
+	</select>
+	
 	<delete id="deleteList" parameterType="int" >
 		 delete from portfolio where portfolio_idx=#{portfolioIdx}
 	</delete>
 	
-	<insert id="createAsset" parameterType="portfolioDto" >
+	<insert id="createAsset" parameterType="assetDto" >
 		 insert into asset(portfolio_idx,stock_code,quantity,price,goal) 
 		 values(#{portfolioIdx},#{stock_code},#{quantity},#{price},#{goal})
 	</insert>
@@ -28,4 +32,12 @@
 		 delete from asset where asset_idx=#{assetIdx}
 	</delete>
 	
+	<select id="readFeedList" parameterType="Map" resultType="Map" >
+		select portfolio.* ,nickname from portfolio join user on portfolio.user_idx= user.user_idx
+		where portfolio.user_idx in(select following_idx from following where following.user_idx=${userIdx}) limit ${pageNum},5
+	</select>
+	
+	<select id="searchPortfolio" parameterType="Map" resultType="Map" >
+		select portfolio.* ,nickname from portfolio join user on portfolio.user_idx= user.user_idx where title like "%${searchContent}%" or content like "%${searchContent}%"  or  nickname like "%${searchContent}%" limit ${pageNum},5
+	</select>
 </mapper>

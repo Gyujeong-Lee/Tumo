@@ -19,4 +19,10 @@ public interface PortfolioDao {
 	List<Map<Object, Object>> readAsset(int portfolioIdx);
 	
 	boolean deleteAsset(int assetIdx);
+
+	List<Map<Object, Object>> readFeedList(int userIdx, int pageNum);
+
+	List<Map<Object, Object>> searchPortfolio(String searchContent, String pageNum);
+
+	int recentPortfolio(int userIdx);
 }

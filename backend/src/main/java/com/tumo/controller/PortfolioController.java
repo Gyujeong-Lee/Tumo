@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,29 +25,60 @@ import com.tumo.model.service.PortfolioService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/portfolio")
+@RequestMapping("/api/portfolio")
 @CrossOrigin("*")
 public class PortfolioController {
 
 	@Autowired 
 	PortfolioService portfolioService;
 	
-	
+	@Transactional
 	@PostMapping(value ="/list")
 	@ApiOperation(value = "포트폴리오 생성")
-	public ResponseEntity createList(@RequestBody PortfolioDto portfoliodto ){
+	public ResponseEntity createListt(@RequestBody Map<String, Object> portfolioMap){
 		
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
+		List<Map> asset =(List<Map>) portfolioMap.get("asset");	
+		PortfolioDto portfoliodto = new PortfolioDto((int)(portfolioMap.get("userIdx")),(String)portfolioMap.get("title") ,
+				(String)portfolioMap.get("content"),(double)(portfolioMap.get("goal")));
 		boolean result=portfolioService.createList(portfoliodto);
-		if(result) {resultMap.put("message", "success");
+		if(result) {
+			int portfolioIdx=portfolioService.recentPortfolio(portfoliodto.getUserIdx());
+			for (int i = 0; i < asset.size(); i++) {
+				AssetDto assetdto= new AssetDto();
+				assetdto.setPortfolioIdx(portfolioIdx);
+				assetdto.setGoal((double) asset.get(i).get("goal"));
+				assetdto.setStock_code((String) asset.get(i).get("stock_code"));
+				assetdto.setPrice((int) asset.get(i).get("price"));
+				assetdto.setQuantity((int)asset.get(i).get("quantity"));
+				portfolioService.createAsset(assetdto);
+			}
+			resultMap.put("message", "success");
 		response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.CREATED);
 		}else {
 			resultMap.put("message", "fail");
 			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
 		return response;
 	}
+	
+//	@PostMapping(value ="/list")
+//	@ApiOperation(value = "포트폴리오 생성")
+//	public ResponseEntity createList(@RequestBody PortfolioDto portfoliodto ){
+//		
+//		ResponseEntity response = null;
+//		Map<String, Object> resultMap = new HashMap<>();
+//		boolean result=portfolioService.createList(portfoliodto);
+//		if(result) {resultMap.put("message", "success");
+//		response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.CREATED);
+//		}else {
+//			resultMap.put("message", "fail");
+//			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//		return response;
+//	}
 	
 	@GetMapping(value ="/list/{userIdx}")
 	@ApiOperation(value = "포트폴리오 리스트")
@@ -65,7 +97,7 @@ public class PortfolioController {
 	}
 	
 	@DeleteMapping(value ="/list/{portfolioIdx}")
-	@ApiOperation(value = "포트폴리오 리스트")
+	@ApiOperation(value = "포트폴리오 리스트 삭제")
 	public ResponseEntity deleteList(@PathVariable int portfolioIdx){
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
@@ -138,6 +170,40 @@ public class PortfolioController {
 			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return response;
+		
+	}
+	
+	@GetMapping(value ="/feedlist/{userIdx}/{pageNum}")
+	@ApiOperation(value = "포트폴리오 피드리스트")
+	public ResponseEntity feedList(@PathVariable("userIdx") int userIdx, @PathVariable("pageNum") int pageNum){
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		List<Map<Object, Object>> portfolioList=portfolioService.readFeedList(userIdx,pageNum);
+		if (portfolioList == null || portfolioList.size() == 0) {
+			resultMap.put("message", "fail");
+			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NO_CONTENT);
+		}
+		resultMap.put("portfolio", portfolioList);
+		resultMap.put("message", "success");
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping(value ="/search/{searchContent}/{pageNum}")
+	@ApiOperation(value = "포트폴리오 검색")
+	public ResponseEntity searchPortfolio(@PathVariable("searchContent") String searchContent, @PathVariable("pageNum") String pageNum){
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		List<Map<Object, Object>> portfolioList=portfolioService.searchPortfolio(searchContent,pageNum);
+		if (portfolioList == null || portfolioList.size() == 0) {
+			resultMap.put("message", "fail");
+			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NO_CONTENT);
+		}
+		resultMap.put("portfolio", portfolioList);
+		resultMap.put("message", "success");
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		
+		
 		
 	}
 }

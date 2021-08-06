@@ -92,7 +92,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 				int price=(int) assetList.get(i).get("price");
 				double percent=((curprice*100-price*100)/price);
 				String result=String.format("%.2f",percent);
-				System.out.println(result);
+				//System.out.println(result);
 				assetList.get(i).put("percent", Double.parseDouble(result));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -132,5 +132,28 @@ public class PortfolioServiceImpl implements PortfolioService {
 	public boolean deleteAsset(int assetIdx) {
 		sqlSession.getMapper(PortfolioDao.class).deleteAsset(assetIdx);
 		return true;
+	}
+
+
+	@Override
+	public List<Map<Object, Object>> readFeedList(int userIdx,int pageNum) {
+			
+		return sqlSession.getMapper(PortfolioDao.class).readFeedList(userIdx,pageNum*5);
+	}
+
+
+	@Override
+	public List<Map<Object, Object>> searchPortfolio(String searchContent, String pageNum) {
+		System.out.println(searchContent+" "+ pageNum);
+		int temp=Integer.parseInt(pageNum);
+		pageNum=Integer.toString(temp*5);
+		return sqlSession.getMapper(PortfolioDao.class).searchPortfolio(searchContent,pageNum);
+	}
+
+
+	@Override
+	public int recentPortfolio(int userIdx) {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(PortfolioDao.class).recentPortfolio(userIdx);
 	}
 }

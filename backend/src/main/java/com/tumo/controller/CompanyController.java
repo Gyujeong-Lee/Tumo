@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tumo.model.service.CompanyService;
 
 @RestController
-@RequestMapping("/company")
+@RequestMapping("/api/company")
 @CrossOrigin("*")
 public class CompanyController {
 
@@ -25,6 +25,13 @@ public class CompanyController {
 		public List<Map<Object,Object>> searchCompany(@PathVariable("searchContent") String searchContent, @PathVariable("pageNum") String pageNum){
 			
 			return companyService.searchCompany(searchContent,pageNum);
+			
+		}
+		
+		@GetMapping(value ="/searchforeign/{searchContent}/{pageNum}")
+		public List<Map<Object,Object>> searchForeign(@PathVariable("searchContent") String searchContent, @PathVariable("pageNum") int pageNum){
+			//System.out.println(searchContent);
+			return companyService.searchCompanyForeign(searchContent,pageNum);
 			
 		}
 }
