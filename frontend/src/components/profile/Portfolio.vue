@@ -1,14 +1,57 @@
 <template>
-  <div>
-  </div>
+  <v-sheet 
+    elevation="5"
+    rounded="xl"
+    class="mx-2 my-5"
+    height="auto"
+    width="auto">
+    <p v-for="(portfolio, idx) in portfolios" :key="idx">{{ portfolio.title }}</p>
+  </v-sheet>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Portfolio',
   data: function () {
       return {
+        userId: this.userIdx,
+        // 이 중 하나 정해서 출력해야 함.
+        portfolios: [ 
+          {
+            "portfolioIdx":1,
+            "userIdx":1,
+            "title":"나의 첫 포트폴리오",
+            "content":"처음으로 만든 포트폴리오",
+            "goal":10.0
+          },
+          {
+            "portfolioIdx":2,
+            "userIdx":1,
+            "title":"나의 두번쨰 포트폴리오",
+            "content":"처음으로 만든 포트폴리오",
+            "goal":10.9
+          }
+        ],
       }
   },
+  props: {
+    userIdx: Number,
+  },
+  created: function () {
+    // 포트폴리오 가져오기
+    axios({
+      method: 'GET',
+      url: `/api/portfolio/list/${this.userId}`
+    })
+    .then(res => {
+      // for문 돌려서 가장 수익률이 높은 포트폴리오 가져오기
+      console.log(res)
+      // this.portfolios = res.data.portfolio
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
 }
 </script>

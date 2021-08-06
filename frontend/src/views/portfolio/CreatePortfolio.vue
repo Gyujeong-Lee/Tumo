@@ -38,13 +38,13 @@
         <!-- 상품 검색 -->
         <div class="d-flex flex-column flex-sm-row align-items-center">
           <div>
-            <label for="formStock">상품 종류</label>
+            <label for="stockType">상품 종류</label>
             <v-select
-              :types="types"
+              :items="items"
               dense
               solo
               v-model="type"
-              id="formStock"
+              id="stockType"
             ></v-select>
           </div>
           <div class="w-100">
@@ -122,6 +122,10 @@ export default {
       isSubmit: false,
       inputTag: '',
       searchItem: '',
+      pageNum: 1,
+      items: ['국내주식', '해외주식', '국내채권', '해외채권'],
+      type: "국내주식",
+      // 요청 보내기 전 임시 데이터 뭘 넣을 수 있을 지 몰라 object로 만듬
       tmpAsset: {
         name: '',
         code: null,
@@ -129,14 +133,12 @@ export default {
         goal: null,
         quantity: null,
       },
-      types: ['국내주식', '해외주식', '국내채권', '해외채권'],
-      type: "",
+      // axios 요청 보낼 데이터
       data: {
         userIdx: null,
         title: null,
         content: null,
         goal: null,
-        // 요청 보낼 데이터
         assets: [],
       },
 
@@ -150,10 +152,10 @@ export default {
       this.$store.state.drawCreatePortfolio = false
     },
     submitForm: function () {
-      // axios 요청
+      // axios 요청 추후 작업 예정
       axios({
         method: 'POST',
-        url: '/article/',
+        url: '/api/portfolio/list',
         data: this.data
       })
       .then(res => {
@@ -165,15 +167,28 @@ export default {
       // alert
       this.$store.state.drawCreatePortfolio = false
     },
-    searchStock: function () {
-      // 기업 검색
-      // axios
+    searchStock: function () {      
+      // 기업 검색 시 해외주식, 국내주식 분기해서 보낼 것, type을 통해
+      // 현재 404 에러, api 진행 후 재작업 예정
+      // 여기서 이름과 코드를 넣자
+      axios({
+        method: 'GET',
+        url: `/api/company/search/${this.searchItem}/${this.pageNum}`,
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
       this.isSubmit = true
     },
     addStock: function () {
-      // 추가
+      // 이름과 코드
+      // 포트폴리오에 자산 추가
       this.isSubmit = false
       this.tmpAsset.name = this.searchItem
+      //딥 카피
       let temp = JSON.parse(JSON.stringify(this.tmpAsset))
       this.data.assets.push(temp)
       this.searchItem = ''
