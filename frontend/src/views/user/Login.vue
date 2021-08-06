@@ -132,6 +132,11 @@ export default {
       return [(v) => !!v]
     }
   },
+  mounted: function () {
+    if (this.$store.state.config.Authorization) {
+      this.$router.push({ name: 'main' })
+    }
+  }
 };
 </script>
 

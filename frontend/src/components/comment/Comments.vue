@@ -1,12 +1,12 @@
 <template>
   <div id="comments">
-    <hr>
+    <hr class="mt-2">
     <div v-if="isLoading">로딩중 입니다.</div>
     <div v-else>
       <h3 v-if="!commentData.length" class="text-center">댓글이 없습니다.</h3>
       <div v-else>
         <div v-for="(data, idx) in commentData" :key="idx">
-          <div class="d-flex align-items-center mb-1">
+          <div class="d-flex align-items-center">
             <img src="@/assets/main/user.png" alt="user" style="width: 1em;">
             <span class="px-2 fw-bold">{{ data.nickname }}</span>
             <span class="me-2" style="font-size: 0.75rem;">{{ data.updateAt.substring(0, 16) }}</span>
@@ -24,12 +24,13 @@
               <v-btn x-small icon slot="reference"><v-icon color="secondary">mdi-close-circle-outline</v-icon></v-btn>
             </el-popconfirm>
           </div>
-          <p>{{ data.content }}</p>
+          <p style="font-size: 0.9rem;">{{ data.content }}</p>
         </div>
         <v-pagination
           v-model="pageNum"
           :length="pageCnt"
           @input="getComments"
+          color="#00BFFE"
           prev-icon="mdi-menu-left"
           next-icon="mdi-menu-right"
         ></v-pagination>
@@ -139,5 +140,4 @@ export default {
 #comments input:focus {
   outline: none;
 }
-
 </style>

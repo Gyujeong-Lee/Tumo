@@ -10,7 +10,7 @@
       <div class="d-flex align-items-center">
         <img src="@/assets/main/user.png" alt="user_img" style="width: 35px;">
         <div class="ms-3">
-          <h4 class="mb-1">{{ title }}</h4>
+          <h4 class="mb-0">{{ title }}</h4>
           <div style="font-size: 0.75rem;">
             <router-link 
               class="text-secondary nickname" 
@@ -23,8 +23,8 @@
         </div>
       </div>
       <div>
-        <v-btn icon large v-if="isScrap" @click="cancelScrapArticle" color="yellow"><v-icon color="yellow">mdi-bookmark</v-icon></v-btn>
-        <v-btn icon large v-else @click="scrapArticle"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
+        <v-btn icon v-if="isScrap" @click="cancelScrapArticle" color="yellow"><v-icon color="yellow">mdi-bookmark</v-icon></v-btn>
+        <v-btn icon v-else @click="scrapArticle"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
       </div>
     </div>
     <!-- content & tags -->
@@ -35,12 +35,12 @@
     <!-- Btn Group -->
     <div class="d-flex justify-content-between">
       <div>
-        <v-btn icon large v-if="isLike" @click="cancelLikeArticle" color="error"><v-icon color="error">mdi-heart</v-icon></v-btn>
-        <v-btn icon large v-else @click="likeArticle"><v-icon>mdi-heart-outline</v-icon></v-btn>
+        <v-btn icon v-if="isLike" @click="cancelLikeArticle" color="error"><v-icon color="error">mdi-heart</v-icon></v-btn>
+        <v-btn icon v-else @click="likeArticle"><v-icon>mdi-heart-outline</v-icon></v-btn>
         <span>{{ likes }}</span>
       </div>
-      <v-btn icon large @click="commentDrawer = !commentDrawer"><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
-      <v-btn icon large><v-icon>mdi-share-variant-outline</v-icon></v-btn>
+      <v-btn icon @click="commentDrawer = !commentDrawer"><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
+      <v-btn icon><v-icon>mdi-share-variant-outline</v-icon></v-btn>
     </div>
     <Comments v-if="commentDrawer" :boardIdx="boardIdx"/>
   </v-sheet>
@@ -153,5 +153,4 @@ export default {
 .nickname:hover {
   text-decoration: underline;
 }
-
 </style>

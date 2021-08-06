@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     persistent
-    width="640"
+    width="555"
     v-model="isDrawCreateArticle" 
   >
     <v-card id="createArticle">

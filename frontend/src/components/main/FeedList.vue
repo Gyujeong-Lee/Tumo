@@ -144,12 +144,13 @@ export default {
 @media screen and (min-width: 576px) {
   #mainfeed {
     width: 614px;
+    padding: 0 1.5rem;
   } 
 }
 
 @media screen and (min-width: 940px) {
   #mainfeed {
-    padding-right: 3rem;
+    padding: 0 3rem 0 0;
   }
 }
 

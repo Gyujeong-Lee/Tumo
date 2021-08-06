@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-content-center">
     <v-sheet 
-      elevation="4"
+      elevation="8"
       rounded
       id="articleDetail"
     >
@@ -181,7 +181,7 @@ export default {
 
 <style>
 #articleDetail {
-  width: 614px;
+  width: 526px;
   padding: 2rem 2rem 1rem;
   margin: 3rem 0rem 1rem;
 }
@@ -194,7 +194,7 @@ export default {
 
 @media screen and (min-width: 940px) {
   #articleDetail {
-    margin-right: 1rem;
+    margin-right: 3rem;
   }
 }
 </style>
