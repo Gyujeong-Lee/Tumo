@@ -2,10 +2,10 @@
   <v-dialog
     persistent
     width="640"
-    v-model="isDrawCreateArticle" 
+    v-model="isDrawUpdateArticle" 
   >
-    <v-card id="createArticle">
-      <h1 class="text-center mb-5"><v-icon large color="#00BFFE" class="me-2">mdi-pencil</v-icon> 새 게시물</h1>
+    <v-card id="updateArticle">
+      <h1 class="text-center mb-5"><v-icon large color="#00BFFE" class="me-2">mdi-pencil</v-icon> 게시물 수정</h1>
       <v-form
         ref="form"
         v-model="valid"
@@ -71,7 +71,7 @@ import axios from 'axios'
 import Tiptap from '@/components/Tiptap.vue'
 
 export default {
-  name: 'CreateArticle',
+  name: 'UpdateArticle',
   components: {
     Tiptap,
   },
@@ -100,31 +100,43 @@ export default {
       this.data.tags.splice(idx, 1)
     },
     closeModal: function () {
-      this.$store.state.drawCreateArticle = false
+      this.$store.state.drawUpdateArticle = false
     },
     submitForm: function () {
+      const data = {
+        userIdx: this.data.userIdx,
+        title: this.data.title,
+        content: this.data.content,
+        stock: this.data.stock,
+        tags: this.data.tags,
+      }
       axios({
-        method: 'POST',
-        url: '/api/article/',
-        data: this.data
+        method: 'PUT',
+        url: `/api/article/${this.data.boardIdx}`,
+        data: data
       })
       .then(() => {
-        this.closeModal()
-        this.$alert("성공적으로 게시물이 작성되었습니다.", "작성 완료", 'success')
+        this.getArticleDetail()
         .then(() => {
-          if (this.$route.name === 'main') {
-            this.$router.go(this.$router.currentRoute)
-          }
+          this.$emit('update')
+          this.closeModal()
+          this.$alert("성공적으로 게시물이 수정되었습니다.", "수정 성공", "success")
         })
       })
-      .catch(err => {
-        console.log(err)
+    },
+    getArticleDetail: function () {
+      return axios({
+        method: 'GET',
+        url: `/api/article/${this.data.boardIdx}/${this.data.userIdx}`
       })
-    }
+      .then(res => {
+        this.$store.state.selectedArticle = res.data.feed
+      })
+    },
   },
   computed: {
-    isDrawCreateArticle: function () {
-      return this.$store.state.drawCreateArticle
+    isDrawUpdateArticle: function () {
+      return this.$store.state.drawUpdateArticle
     },
     titleRules: function () {
       return [
@@ -138,31 +150,37 @@ export default {
       ]
     }
   },
+  created: function () {
+    this.data = {
+      ...this.data,
+      ...this.$store.state.selectedArticle
+    }
+  }
 }
 </script>
 
 <style>
-#createArticle {
+#updateArticle {
   padding: 5% 7%;
 }
 
-#createArticle h1 {
+#updateArticle h1 {
   font-family: 'Gothic A1', sans-serif;
   font-weight: 800;
 }
 
-#createArticle label, 
-#createArticle span {
+#updateArticle label, 
+#updateArticle span {
   font-family: 'Nanum Gothic', sans-serif;
   font-weight: 700;
 }
 
-#createArticle form {
+#updateArticle form {
   width: 100%;
   margin-top: 5%;
 }
 
-#createArticle form > div > div:first-child {
+#updateArticle form > div > div:first-child {
   margin-right: 5%;
 }
   

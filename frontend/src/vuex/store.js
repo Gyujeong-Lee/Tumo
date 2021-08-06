@@ -13,6 +13,7 @@ const state = {
   search_result: [],
   //모달 Flag
   drawCreateArticle: false,
+  drawUpdateArticle: false,
   drawCreatePortfolio: false,
   drawUpdatePassword: false,
   drawFindPassword: false,

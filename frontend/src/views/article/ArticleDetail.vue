@@ -38,10 +38,31 @@
           <v-btn icon large v-else @click="likeArticle"><v-icon>mdi-heart-outline</v-icon></v-btn>
           <span>{{ likes }}</span>
         </div>
-        <v-btn icon large><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
         <div>
-          <v-btn icon large v-if="isScrap" @click="cancelScrapArticle" color="yellow"><v-icon color="yellow">mdi-bookmark</v-icon></v-btn>
-          <v-btn icon large v-else @click="scrapArticle"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
+          <div v-if="isMyArticle" >
+            <v-btn icon large @click="drawUpdateArticle"><v-icon>mdi-pencil-plus</v-icon></v-btn>
+            <UpdateArticle v-if="$store.state.drawUpdateArticle" @update="update_content"/>
+          </div>
+          <div v-else>
+            <v-btn icon large v-if="isScrap" @click="cancelScrapArticle" color="yellow"><v-icon color="yellow">mdi-bookmark</v-icon></v-btn>
+            <v-btn icon large v-else @click="scrapArticle"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
+          </div>
+        </div>
+        <div>
+          <el-popconfirm
+            v-if="isMyArticle"
+            @confirm="deleteArticle"
+            confirm-button-type='danger'
+            cancel-button-type='primary'
+            confirm-button-text='삭제'
+            cancel-button-text='취소'
+            icon="el-icon-warning"
+            icon-color="red"
+            title="정말 게시물을 삭제하시겠어요?"
+          >
+            <v-btn icon large slot="reference" @click="drawDeleteArticle"><v-icon>mdi-delete</v-icon></v-btn>
+          </el-popconfirm>
+          <v-btn v-else icon large><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
         </div>
         <v-btn icon large><v-icon>mdi-share-variant-outline</v-icon></v-btn>
       </div>
@@ -55,16 +76,19 @@
 import axios from 'axios'
 import SubFeed from '@/components/main/SubFeed'
 import Comments from '@/components/comment/Comments'
+import UpdateArticle from './UpdateArticle'
 
 export default {
   name: 'ArticleDetail',
   components: {
     SubFeed,
     Comments,
+    UpdateArticle,
   },
   data: function () {
     return {
       ...this.$store.state.selectedArticle,
+      isMyArticle: false,
     }
   },
   methods: {
@@ -120,8 +144,36 @@ export default {
       .then(() => {
       })
     },
+    drawUpdateArticle: function () {
+      this.$store.state.drawUpdateArticle = true
+    },
+    drawDeleteArticle: function () {
+      this.$store.state.drawDeleteArticle = true
+    },
+    deleteArticle: function () {
+      axios({
+        method: 'DELETE',
+        url: `/api/article/${this.boardIdx}`
+      })
+      .then(() => {
+        this.$alert("게시물이 성공적으로 삭제되었습니다.", "삭제 성공", "success")
+        .then(() => {
+          this.$router.push({ name: 'main' })
+        })
+      })
+    },
+    update_content: function () {
+      const temp = {
+        ...this.$data,
+        ...this.$store.state.selectedArticle,
+      }
+      Object.assign(this.$data, temp)
+    }
   },
   created: function () {
+    if (this.userIdx === this.$store.state.user_info.id) {
+      this.isMyArticle = true
+    }
     // 새로고침 시 data 없음
   }
 }
@@ -132,6 +184,12 @@ export default {
   width: 614px;
   padding: 2rem 2rem 1rem;
   margin: 3rem 0rem 1rem;
+}
+
+.el-popconfirm__action {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 }
 
 @media screen and (min-width: 940px) {
