@@ -47,4 +47,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
+.swal2-confirm {
+  padding: 5px 20px 7px !important;
+}
 </style>

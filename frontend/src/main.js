@@ -4,7 +4,7 @@ import router from "./router";
 import store from "./vuex/store";
 import vuetify from "./plugins/vuetify";
 import VueSimpleAlert from "vue-simple-alert";
-import { Popconfirm } from "element-ui";
+import { Popconfirm, Message } from "element-ui";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 
 import "remixicon/fonts/remixicon.css";
@@ -18,6 +18,8 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(Popconfirm);
 Vue.use(VueSimpleAlert);
+
+Vue.prototype.$message = Message;
 
 new Vue({
   router,

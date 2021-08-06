@@ -7,9 +7,22 @@
       <div v-else>
         <div v-for="(data, idx) in commentData" :key="idx">
           <div class="d-flex align-items-center mb-1">
-            <!-- <span>{{ data.userIdx }}</span> -->
             <img src="@/assets/main/user.png" alt="user" style="width: 1em;">
             <span class="px-2 fw-bold">{{ data.nickname }}</span>
+            <span class="me-2" style="font-size: 0.75rem;">{{ data.updateAt.substring(0, 16) }}</span>
+            <el-popconfirm
+              v-if="data.userIdx === $store.state.user_info.id"
+              @confirm="deleteComment(data.commentIdx)"
+              confirm-button-type='danger'
+              cancel-button-type='primary'
+              confirm-button-text='삭제'
+              cancel-button-text='취소'
+              icon="el-icon-warning"
+              icon-color="red"
+              title="댓글을 삭제하시겠습니까?"
+            >
+              <v-btn x-small icon slot="reference"><v-icon color="secondary">mdi-close-circle-outline</v-icon></v-btn>
+            </el-popconfirm>
           </div>
           <p>{{ data.content }}</p>
         </div>
@@ -75,26 +88,46 @@ export default {
         userIdx: this.$store.state.user_info.id,
         content: this.content
       }
-      // axios 요청
       axios({
         method: 'POST',
         url: '/api/article/comment',
         data: data
       })
       .then(() => {
-        const pushData = {
-          ...data,
-          nickname: this.$store.state.user_info.nickname
-        }
-        // pageNum이 0이면 4개 slicing 및 앞에 추가
-        // pageNum이 0이 아니면 getComment pageNum 0 & pageNum 0
-        this.commentData.push(pushData)
+        this.$message({
+          message: '댓글이 성공적으로 작성되었습니다.',
+          type: 'success',
+          offset: 70,
+        })
         this.content = ''
-      })
-      .catch(err => {
-        console.log(err)
+        this.pageNum = 1
+        this.getComments()
       })
     },
+    deleteComment: function (commentIdx) {
+      axios({
+        method: 'DELETE',
+        url: `/api/article/comment/${commentIdx}`
+      })
+      .then(() => {
+        this.$message({
+          message: '댓글이 성공적으로 삭제되었습니다.',
+          type: 'success',
+          offset: 70,
+        })
+        if (this.commentData.length === 1) {
+          if (this.pageNum === 1) {
+            this.commentData.pop()
+          } else {
+            this.pageNum -= 1
+            this.pageCnt -= 1
+            this.getComments()
+          }
+        } else {
+          this.getComments()
+        }
+      })
+    }
   },
   created: function () {
     this.getComments()
