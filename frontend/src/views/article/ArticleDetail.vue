@@ -7,21 +7,21 @@
     >
       <div class="d-flex justify-content-between mb-3">
         <div class="d-flex align-items-center">
-          <img src="@/assets/main/user.png" alt="user_img" style="width: 55px;">
+          <img src="@/assets/main/user.png" alt="user_img" style="width: 45px;">
           <div class="ms-3">
-            <h3 class="mb-1">{{ title }}</h3>
-            <div style="font-size: 1rem;">
+            <h4 class="mb-0 fw-bold">{{ title }}</h4>
+            <div style="font-size: 0.9rem;">
               <router-link 
                 class="my-0 text-secondary nickname" 
                 :to="{ name: 'profile', params: { nickname: `${nickname}` }}"
               >
                 @{{ nickname }}
               </router-link>
-              <span class="mx-3 text-primary"><v-icon dense color="primary">mdi-chart-bar</v-icon> {{ stock }}</span>
+              <span class="mx-3 text-primary"><v-icon small color="primary">mdi-chart-bar</v-icon> {{ stock }}</span>
             </div>
           </div>
         </div>
-        <div>
+        <div style="font-size: 0.75rem;">
           <p class="my-0">작성 : {{ createAt.substring(2, 16) }}</p>
           <p class="my-0">수정 : {{ updateAt.substring(2, 16) }}</p>
         </div>
@@ -34,18 +34,18 @@
       <!-- Btn Group -->
       <div class="d-flex justify-content-between">
         <div>
-          <v-btn icon large v-if="isLike" @click="cancelLikeArticle" color="error"><v-icon color="error">mdi-heart</v-icon></v-btn>
-          <v-btn icon large v-else @click="likeArticle"><v-icon>mdi-heart-outline</v-icon></v-btn>
-          <span>{{ likes }}</span>
+          <v-btn icon v-if="isLike" @click="cancelLikeArticle" color="error"><v-icon color="error">mdi-heart</v-icon></v-btn>
+          <v-btn icon v-else @click="likeArticle"><v-icon>mdi-heart-outline</v-icon></v-btn>
+          <span style="font-size: 0.85rem;">{{ likes }}</span>
         </div>
         <div>
           <div v-if="isMyArticle" >
-            <v-btn icon large @click="drawUpdateArticle"><v-icon>mdi-pencil-plus</v-icon></v-btn>
+            <v-btn icon @click="drawUpdateArticle"><v-icon>mdi-pencil-plus</v-icon></v-btn>
             <UpdateArticle v-if="$store.state.drawUpdateArticle" @update="update_content"/>
           </div>
           <div v-else>
-            <v-btn icon large v-if="isScrap" @click="cancelScrapArticle" color="yellow"><v-icon color="yellow">mdi-bookmark</v-icon></v-btn>
-            <v-btn icon large v-else @click="scrapArticle"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
+            <v-btn icon v-if="isScrap" @click="cancelScrapArticle" color="yellow"><v-icon color="yellow">mdi-bookmark</v-icon></v-btn>
+            <v-btn icon v-else @click="scrapArticle"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
           </div>
         </div>
         <div>
@@ -60,11 +60,11 @@
             icon-color="red"
             title="정말 게시물을 삭제하시겠어요?"
           >
-            <v-btn icon large slot="reference" @click="drawDeleteArticle"><v-icon>mdi-delete</v-icon></v-btn>
+            <v-btn icon slot="reference" @click="drawDeleteArticle"><v-icon>mdi-delete</v-icon></v-btn>
           </el-popconfirm>
-          <v-btn v-else icon large><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
+          <v-btn v-else icon><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
         </div>
-        <v-btn icon large><v-icon>mdi-share-variant-outline</v-icon></v-btn>
+        <v-btn icon><v-icon>mdi-share-variant-outline</v-icon></v-btn>
       </div>
       <Comments :boardIdx="boardIdx"/>
     </v-sheet>

@@ -49,4 +49,8 @@ export default {
 .swal2-confirm {
   padding: 5px 20px 7px !important;
 }
+
+.v-pagination li button {
+  width: 20px;
+}
 </style>

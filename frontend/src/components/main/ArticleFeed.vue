@@ -37,7 +37,7 @@
       <div>
         <v-btn icon v-if="isLike" @click="cancelLikeArticle" color="error"><v-icon color="error">mdi-heart</v-icon></v-btn>
         <v-btn icon v-else @click="likeArticle"><v-icon>mdi-heart-outline</v-icon></v-btn>
-        <span>{{ likes }}</span>
+        <span style="font-size: 0.85rem;">{{ likes }}</span>
       </div>
       <v-btn icon @click="commentDrawer = !commentDrawer"><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
       <v-btn icon><v-icon>mdi-share-variant-outline</v-icon></v-btn>

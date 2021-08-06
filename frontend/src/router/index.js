@@ -29,7 +29,7 @@ const routes = [
   },
   {
     path: "/user/update",
-    name: "update",
+    name: "updateInfo",
     component: UpdateInfo,
   },
   {

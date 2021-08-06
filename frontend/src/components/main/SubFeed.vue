@@ -6,15 +6,20 @@
       </div>
       <div>
         <h1 class="mb-4 fw-bold text-center">TOP KeyWords</h1>
-        <router-link :to="{ name: 'update'}">update</router-link>
       </div>
+      <Loading />
     </div>
   </div>
 </template>
 
 <script>
+import Loading from '@/components/Loading'
+
 export default {
   name: 'SubFeed',
+  components: {
+    Loading,
+  }
 }
 </script>
 

@@ -169,6 +169,7 @@ export default {
     },
     edit_profile: function () {
       // 프로필 수정 페이지로 이동
+      this.$router.push({ name: 'updateInfo' })
     }
   }
 }
