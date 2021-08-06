@@ -2,13 +2,13 @@
   <tr>
     <td>{{ name }}</td>
     <td>
-      <input type="text" v-model="tempInfo.price">
+      <input type="text" v-model.number="tempInfo.price">
     </td>
     <td>
-      <input type="text" v-model="tempInfo.goal">
+      <input type="text" v-model.number="tempInfo.goal">
     </td>
     <td>
-      <input type="text" v-model="tempInfo.quantity">
+      <input type="text" v-model.number="tempInfo.quantity">
     </td>
     <td>
       <span type="button" v-if="!isConfirm" @click="confirmInfo">확정</span>
