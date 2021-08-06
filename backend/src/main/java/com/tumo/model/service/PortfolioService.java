@@ -17,4 +17,7 @@ public interface PortfolioService {
 	int sumCurAsset(List<Map<Object, Object>> assetList);
 	int sumAsset(List<Map<Object, Object>> assetList);
 	boolean deleteAsset(int assetIdx);
+	List<Map<Object, Object>> readFeedList(int userIdx, int pageNum);
+	List<Map<Object, Object>> searchPortfolio(String searchContent, String pageNum);
+	int recentPortfolio(int userIdx);
 }

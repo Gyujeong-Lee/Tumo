@@ -27,4 +27,11 @@ public class CompanyController {
 			return companyService.searchCompany(searchContent,pageNum);
 			
 		}
+		
+		@GetMapping(value ="/searchforeign/{searchContent}/{pageNum}")
+		public List<Map<Object,Object>> searchForeign(@PathVariable("searchContent") String searchContent, @PathVariable("pageNum") int pageNum){
+			//System.out.println(searchContent);
+			return companyService.searchCompanyForeign(searchContent,pageNum);
+			
+		}
 }

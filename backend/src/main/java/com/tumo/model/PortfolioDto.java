@@ -1,7 +1,6 @@
 package com.tumo.model;
 
-import java.util.List;
-import java.util.Map;
+
 
 public class PortfolioDto {
 	
@@ -19,13 +18,16 @@ public class PortfolioDto {
 	public int getUserIdx() {
 		return userIdx;
 	}
-	public PortfolioDto(int portfolioIdx, int userIdx, String title, String content, double goal) {
+	
+	public PortfolioDto(int userIdx, String title, String content, double goal) {
 		super();
-		this.portfolioIdx = portfolioIdx;
 		this.userIdx = userIdx;
 		this.title = title;
 		this.content = content;
 		this.goal = goal;
+	}
+	public PortfolioDto() {
+		super();
 	}
 	public void setUserIdx(int userIdx) {
 		this.userIdx = userIdx;

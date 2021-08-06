@@ -40,6 +40,11 @@
 			where user_idx = #{userIdx} and content = #{content}
 	</select>
 	
+	<select id="findUserTagByUserIdx" parameterType="int" resultType="string">
+		select content from user_tag
+			where user_idx = #{userIdx}
+	</select>
+	
 	<update id="updateUpdateAtByEmail" parameterType="string">
 		update user
 			set update_at = CURRENT_TIMESTAMP
@@ -52,10 +57,25 @@
 			where user_idx = #{userIdx}
 	</update>
 	
-	<update id="updateNicknameByUserIdx" parameterType="map">
+	<update id="updateUserByUserIdx" parameterType="updateuserdto">
+		<!-- nickname, introduce, disclosure 변경 -->
 		update user
-			set nickname = #{nickname}
-			where user_idx = #{userIdx}
+			set nickname = #{nickname}, introduce = #{introduce}, disclosure = #{disclosure}
+			where user_idx = #{userIdx};
+		
+		<!-- user_tag 테이블 전부 삭제후 다시 삽입 -->
+		delete from user_tag
+			where user_idx = #{userIdx};
+		<if test="tags.size != 0">
+	        insert into user_tag (user_idx, content)
+	        	values
+	        <foreach collection="tags" item="content" separator=",">
+	        (
+	            #{userIdx},
+	            #{content}
+	        )
+	        </foreach>
+    	</if>
 	</update>
 	
 	<delete id="deleteUserByUserIdx" parameterType="int">

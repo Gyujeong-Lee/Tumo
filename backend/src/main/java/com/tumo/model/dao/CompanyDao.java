@@ -1,9 +1,14 @@
 package com.tumo.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public interface CompanyDao {
-	public List<Map<Object,Object>> searchCompany(String keyword,String pageNum);
+
+
+
+	public List<Map<Object, Object>> searchCompanyForeign(HashMap<String, Object> tmp);
+	public List<Map<Object, Object>> searchCompany(HashMap<String, Object> tmp);
 	
  }
