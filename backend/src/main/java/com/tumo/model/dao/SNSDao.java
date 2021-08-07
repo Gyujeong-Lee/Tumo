@@ -7,6 +7,7 @@ import java.util.Map;
 import com.tumo.model.FavorScrapDto;
 import com.tumo.model.FeedDto;
 import com.tumo.model.FeedLikeDto;
+import com.tumo.model.FollowDto;
 import com.tumo.model.NotificationDto;
 import com.tumo.model.ProfileDto;
 import com.tumo.model.ScrapDto;
@@ -47,20 +48,20 @@ public interface SNSDao {
 
 	List<ProfileDto> readFollowingList(int userIdx);
 
-	Map<String, Integer> readIsFollow(Map<String, Object> param);
+	FollowDto readIsFollow(FollowDto followDto);
 
-	void deleteFollowing(Map<String, Object> param);
+	void deleteFollowing(FollowDto followDto);
 
-	void createFollowing(HashMap<String, Integer> info);
+	void createFollowing(FollowDto followDto);
 
-	void notifyFollowRequest(HashMap<String, Integer> info);
-
-	void deleteNotifiedFollowRequest(HashMap<String, Integer> info);
+	void deleteNotifiedFollowRequest(Map<String, Object> param);
 
 	void deleteFollowRequest(Map<String, Object> param);
 
 	List<NotificationDto> readAlarmList(int userIdx);
 
 	void updateAlarm(int notificationIdx);
+
+	void createNotification(Map<String, Object> param);
 
 }

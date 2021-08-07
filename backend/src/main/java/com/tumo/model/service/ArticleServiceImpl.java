@@ -127,6 +127,13 @@ public class ArticleServiceImpl implements ArticleService {
 
 		sqlSession.getMapper(FeedDao.class).createComment(commentDto);
 
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("userIdx", sqlSession.getMapper(FeedDao.class).readArticle(commentDto.getBoardIdx()).getUserIdx());
+		param.put("otheruserIdx", commentDto.getUserIdx());
+		param.put("type", 3);
+		param.put("boardIdx", commentDto.getBoardIdx());
+		sqlSession.getMapper(SNSDao.class).createNotification(param);
+		
 		return true;
 	}
 

@@ -99,43 +99,38 @@
 	</select>
 	
 	<select id="readFollowerList" parameterType="int" resultType="profileDto">
-		select u.user_idx as userIdx, u.nickname as nickname, u.introduce as introduce
+		select u.user_idx as userIdx, u.nickname, u.introduce, u.disclosure
 		from following f left join user u
 		on f.user_idx = u.user_idx
 		where u.deleted is null and f.following_idx = #{userIdx}
 	</select>
 	
 	<select id="readFollowingList" parameterType="int" resultType="profileDto">
-		select u.user_idx as userIdx, u.nickname as nickname, u.introduce as introduce
+		select u.user_idx as userIdx, u.nickname, u.introduce, u.disclosure
 		from following f left join user u
 		on f.following_idx = u.user_idx
 		where u.deleted is null and f.user_idx = #{userIdx}
 	</select>
 	
-	<select id="readIsFollow" parameterType="map" resultType="map">
-		select user_idx, following_idx
+	<select id="readIsFollow" parameterType="followDto" resultType="followDto">
+		select user_idx as userIdx, following_idx as followingIdx
 		from following
-		where user_idx = #{userIdx} and following_idx = #{following_idx}
+		where user_idx = #{userIdx} and following_idx = #{followingIdx}
 	</select>
 	
 	<delete id="deleteFollowing" parameterType="map">
 		delete from following
-		where user_idx = #{userIdx} and following_idx = #{otherIdx}
+		where user_idx = #{userIdx} and following_idx = #{followingIdx}
 	</delete>
 	
 	<insert id="createFollowing" parameterType="map">
 		insert into following (user_idx, following_idx)
-		values (#{userIdx}, #{otherIdx})
-	</insert>
-	
-	<insert id="notifyFollowRequest" parameterType="map">
-		insert into notification (user_idx, otheruser_idx, type, create_at)
-		values (#{userIdx}, #{otherIdx}, 1, now())
+		values (#{userIdx}, #{followingIdx})
 	</insert>
 	
 	<delete id="deleteNotifiedFollowRequest" parameterType="map">
 		delete from notification
-		where user_idx = #{userIdx}0 and otheruser_idx = #{otherIdx} and type = 1
+		where user_idx = #{userIdx} and otheruser_idx = #{otheruserIdx} and type = 1
 	</delete>
 	
 	<select id="readAlarmList" parameterType="int" resultType="notificationDto">
@@ -150,4 +145,9 @@
 		update notification set read_at = now()
 		where notification_idx = #{notificationIdx}
 	</update>
+	
+	<insert id="createNotification" parameterType="map">
+		insert into notification (user_idx, otheruser_idx, board_idx, type, create_at)
+		values ( #{userIdx}, #{otheruserIdx}, #{boardIdx}, #{type}, now())
+	</insert>
 </mapper>
