@@ -55,6 +55,7 @@ public class FeedServiceImpl implements FeedService {
 	public List<HashMap<String, Object>> searchFeed(Map<String, Object> param) {
 		List<HashMap<String, Object>> result = new ArrayList<HashMap<String, Object>>();
 
+		param.put("searchContent", (param.get("searchContent").toString()).trim());
 		System.out.println(param.get("searchContent"));
 		List<FeedDto> feedDtoList = sqlSession.getMapper(FeedDao.class).searchFeed(param);
 		
