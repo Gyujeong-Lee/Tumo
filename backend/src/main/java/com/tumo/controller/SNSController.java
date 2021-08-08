@@ -142,6 +142,7 @@ public class SNSController {
 			@PathVariable int pageNum) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<Map<String, Object>> users = snsService.searchUser(searchContent, pageNum);
+		System.out.println(users+" 잘되니");
 		if (users == null || users.size() == 0) {
 			result.put("message", FAIL);
 			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);

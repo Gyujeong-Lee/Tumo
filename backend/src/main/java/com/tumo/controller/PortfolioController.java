@@ -41,7 +41,7 @@ public class PortfolioController {
 		Map<String, Object> resultMap = new HashMap<>();
 		List<Map> asset =(List<Map>) portfolioMap.get("assets");	
 		PortfolioDto portfoliodto = new PortfolioDto((int)(portfolioMap.get("userIdx")),(String)portfolioMap.get("title") ,
-				(String)portfolioMap.get("content"),(double)(portfolioMap.get("goal")));
+				(String)portfolioMap.get("content"),Double.parseDouble(String.valueOf(portfolioMap.get("goal"))));
 		boolean result=portfolioService.createList(portfoliodto);
 		if(result) {
 			int portfolioIdx=portfolioService.recentPortfolio(portfoliodto.getUserIdx());

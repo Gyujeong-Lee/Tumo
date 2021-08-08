@@ -47,7 +47,7 @@ export default {
     .then(res => {
       // for문 돌려서 가장 수익률이 높은 포트폴리오 가져오기
       console.log(res)
-      // this.portfolios = res.data.portfolio
+      this.portfolios = res.data.portfolio
     })
     .catch(err => {
       console.log(err)

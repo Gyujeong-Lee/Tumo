@@ -26,7 +26,7 @@
           <v-text-field
             solo
             dense
-            v-model.number="data.goal" 
+            v-model="data.goal" 
             placeholder="포트폴리오의 목표 수익률"
           ></v-text-field>
         </div>

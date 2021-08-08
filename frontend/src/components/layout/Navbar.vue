@@ -22,6 +22,7 @@
 
           <!-- 검색 목록 -->
           <datalist id="my-list-id">
+            <!-- 인기 키워드 배열로 담아서 출력할 것. -->
             <option>인기 검색어?</option>
             <option v-for="(item, idx) in search_list" :key="idx">{{ item }}</option>
           </datalist>
