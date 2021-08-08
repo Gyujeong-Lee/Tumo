@@ -73,7 +73,7 @@
 	<select id="countSearchedUser" parameterType="map" resultType="int">
 		select count(*)
 		from user
-		where (nickname like CONCAT('%', #{searchContent}, '%') or email like CONCAT('%', #{searchContent}, '%') ) and deleted is null
+		where nickname like CONCAT('%', #{searchContent}, '%') and deleted is null
 	</select>
 	
 	<select id="readUser" parameterType="int"  resultType="profileDto">
