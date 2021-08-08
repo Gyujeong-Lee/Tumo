@@ -44,7 +44,7 @@
 
 	<delete id="deleteArticle" parameterType="int">
 		delete from feed
-		where user_idx = #{userIdx} and board_idx = #{boardIdx}
+		where board_idx = #{boardIdx}
 	</delete>
 
 	<insert id="createComment" parameterType="commentDto">
