@@ -6,6 +6,7 @@ import Profile from "../views/user/Profile.vue";
 import ConfirmEmail from "../views/user/ConfirmEmail.vue";
 import UpdateInfo from "../views/user/UpdateInfo.vue";
 import ArticleDetail from "../views/article/ArticleDetail.vue";
+import PortfolioDetail from "../views/portfolio/PortfolioDetail.vue";
 import Main from "../views/Main.vue";
 import SearchResult from "../views/SearchResult.vue";
 
@@ -53,6 +54,12 @@ const routes = [
     name: "articleDetail",
     component: ArticleDetail,
     props: true,
+  },
+  {
+    path: "/portfolio/:userIdx/:portfolioIdx",
+    name: "portfolioDetail",
+    component: PortfolioDetail,
+    props: true
   },
 ];
 

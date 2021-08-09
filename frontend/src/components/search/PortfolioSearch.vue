@@ -1,6 +1,6 @@
 <template>
   <div v-if="resultExist">
-    <h3>피드 검색 결과</h3>
+    <h3>포트폴리오 검색 결과</h3>
     <div class="d-flex flex-row my-autoss">
       <v-card elevation="2" shaped v-for="(portfolio, idx) in portfolios" :key="idx" class="me-3">
         <v-card-title>{{ portfolio.title }}</v-card-title>
