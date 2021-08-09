@@ -32,8 +32,8 @@
             <p>목표 수익률</p>
           </div>
           <div class="col" align="right">
-            <p>{{ $data.amount.sum }}원</p>
-            <p><span :class="{ 'text-danger': $data.amount.percent > 0, 'text-primary': $data.amount.percent < 0 }">{{ $data.amount.percent }}</span> %</p>
+            <p>{{ feed.sum }}원</p>
+            <p><span :class="{ 'text-danger': feed.percent > 0, 'text-primary': feed.percent < 0 }">{{ feed.percent }}</span> %</p>
             <p><span :class="{ 'text-danger': feed.goal > 0, 'text-primary': feed.goal < 0 }">{{ feed.goal }}</span> %</p>
           </div>
         </div>
@@ -43,12 +43,14 @@
           <p class="col" align="right">수익률</p>
         </div>
         <div v-for="(asset, idx) in topAssets" :key="idx" class="row">
-          <p class="col-4">{{ asset.stock_code }}</p>
+          <p class="col-4">{{ asset.name }}</p>
           <p class="col-5" align="right">{{ asset.price }} 원</p>
           <p class="col" align="right"><span :class="{ 'text-danger': asset.percent > 0, 'text-primary': asset.percent < 0 }">{{ asset.percent }}</span> %</p>
         </div>
       </div>
     </div>
+    <br>
+    <div v-html="feed.content"></div>
   </v-sheet>
 </template>
 
@@ -87,14 +89,14 @@ export default {
         },
         Asset: []
       }
-      const data = res.data ? res.data : defaultData
+      const data = res.data || defaultData
       Object.assign(this.$data, data)
       this.topAssets = data.Asset.slice(0, 3)
       const stockData = data.Asset.map(data => {
-        return data.stock_code
+        return data.name
       })
       const priceData = data.Asset.map(data => {
-        return data.price
+        return data.curprice
       })
       return { stockData, priceData }
     })

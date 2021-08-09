@@ -1,19 +1,21 @@
 <template>
-  <div id="subfeed" class="d-flex flex-column align-items-center">
-    <vue-word-cloud
-      style="
-        height: 240px;
-        width: 240px;
-      "
-      :words="hotkeyList"
-      font-family="Jua"
-      id="wordcloud"
-    />
-    <div>
-      <h1 class="mb-4 fw-bold text-center">TOP KeyWords</h1>
+  <div id="subfeed">
+    <div class="d-flex flex-column align-items-center">
+      <vue-word-cloud
+        style="
+          height: 240px;
+          width: 240px;
+        "
+        :words="hotkeyList"
+        font-family="Jua"
+        id="wordcloud"
+      />
+      <div>
+        <h1 class="mb-4 fw-bold text-center">TOP KeyWords</h1>
+      </div>
+      <div v-for="(data, idx) in hotkeyList.slice(0, 3)" :key="idx">{{ idx+1 }}. {{ data.text }}</div>
+      <Loading />
     </div>
-    <div v-for="(data, idx) in hotkeyList.slice(0, 3)" :key="idx">{{ idx+1 }}. {{ data.text }}</div>
-    <Loading />
   </div>
 </template>
 
@@ -52,7 +54,7 @@ export default {
 
 <style>
 @media screen and (min-width: 576px) {
-  #subfeed {
+  #subfeed > div {
     width: 300px;
   }
 }
@@ -63,7 +65,7 @@ export default {
   }  
 }
 
-#subfeed {
+#subfeed > div {
   position: sticky;
   top: 48px;
   padding-top: 2rem;
