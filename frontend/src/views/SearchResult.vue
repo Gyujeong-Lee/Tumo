@@ -32,7 +32,6 @@ export default {
   name: 'SearchResult',
   data: function () {
     return {
-      searchItem: this.$route.params.keyword
     }
   },
   created: function () {
@@ -45,6 +44,11 @@ export default {
     CorpSearch,
     FeedSearch,
     PortfolioSearch,
+  },
+  computed: {
+    searchItem: function () {
+     return this.$route.params.keyword
+    }
   }
 }
 </script>

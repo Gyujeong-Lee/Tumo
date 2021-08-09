@@ -38,4 +38,9 @@
 		where f.create_at between date_add(now(),interval-1 week)and now() group by ft.content limit 10;
 	</select>
 	
+	<select id="readBoardIdx4Tags" parameterType="string" resultType="integer">
+		select board_idx
+		from feed_tag
+		where content = #{tag}
+	</select>
 </mapper>

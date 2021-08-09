@@ -159,7 +159,22 @@ public class PortfolioServiceImpl implements PortfolioService {
 
 	@Override
 	public int recentPortfolio(int userIdx) {
-		// TODO Auto-generated method stub
+		
 		return sqlSession.getMapper(PortfolioDao.class).recentPortfolio(userIdx);
+	}
+
+
+	@Override
+	public boolean updateRank() {
+
+		sqlSession.getMapper(PortfolioDao.class).updateRank();
+		return true;
+	}
+
+
+	@Override
+	public boolean updateYield() {
+		sqlSession.getMapper(PortfolioDao.class).updateYield();
+		return true;
 	}
 }
