@@ -155,7 +155,11 @@ public class PortfolioController {
 		assetList=portfolioService.calcAsset(assetList);
 		int sum=portfolioService.sumAsset(assetList);
 		int cursum=portfolioService.sumCurAsset(assetList);
-		double percent=((cursum*100-sum*100)/sum);
+		double percent=0;
+		double ssum=sum;
+		if(sum!=0 && cursum!=0) {
+			percent=((cursum*100-sum*100)/ssum);
+		}
 		String result=String.format("%.2f",percent);
 		Map<Object,Object> amount=new HashMap<Object, Object>();
 		amount.put("sum", sum);
