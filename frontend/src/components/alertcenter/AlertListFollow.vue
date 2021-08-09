@@ -41,6 +41,7 @@ export default {
       })
       // front 읽음 처리
       this.note.readAt = 'true'
+      this.$store.state.unreadAlert = this.$store.state.unreadAlert -1
     },
     acceptFollow: function () {
       // axios 팔로우 승낙

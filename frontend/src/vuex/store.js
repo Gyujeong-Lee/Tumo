@@ -37,6 +37,8 @@ const state = {
   },
   // 게시물 상세 페이지
   selectedArticle: null,
+  // 읽지 않은 알림
+  unreadAlert: null,
 };
 
 export default new Vuex.Store({

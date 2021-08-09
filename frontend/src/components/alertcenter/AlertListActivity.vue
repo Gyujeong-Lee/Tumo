@@ -36,7 +36,6 @@ export default {
   },
   methods: {
     readNote: function (noteIdx) {
-      
     // axios 요청 보내서 읽음 처리
       axios({
         method: 'PUT',
@@ -48,11 +47,20 @@ export default {
       .catch(err => {
         console.log(err)
       })
-    // front 읽음 처리
-    this.note.readAt = true
-    // 상세 페이지 이동 api 문서 수정 후 변경
-    this.$router.push({name: 'articleDetail', params: {boardIdx: `${this.note.boardIdx}`}})
-    }
+      // front 읽음 처리
+      this.note.readAt = true
+      this.$store.state.unreadAlert = this.$store.state.unreadAlert -1
+    
+      // 상세 페이지 이동 api 문서 수정 후 변경 
+      axios({
+        method: 'GET',
+        url: `/api/article/${this.note.boardIdx}/${this.$store.state.user_info.id}`
+      })
+      .then(res => {
+        this.$store.state.selectedArticle = res.data.feed
+        this.$router.push({ name: 'articleDetail', params: { boardIdx: this.note.boardIdx }})
+      })
+    } 
   }
 }
 </script>

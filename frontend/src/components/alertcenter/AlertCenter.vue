@@ -1,5 +1,5 @@
 <template>
-  <v-list>
+  <v-list class="w-100">
     <!-- 팔로우 요청, 좋아요, 댓글, 스크랩 알림 따로 처리 -->
     <AlertListFollow v-for="(notification, idx) in followNotifications" :key="idx" :notification="notification" />
     <!-- 그 외 -->
@@ -62,6 +62,7 @@ export default {
     AlertListActivity,
   },
   created: function () {
+    console.log(this.$store.state.unreadAlert)
     const userIdx = this.$store.state.user_info.id
     // type = 1번 : follow 요청 / 2번 : 좋아요 / 3번 : 댓글 / 4번 : 스크랩
     axios({
@@ -69,9 +70,16 @@ export default {
       url: `/api/sns/alarm/${userIdx}`
     })
     .then (res => {
-      console.log(res.data)
+      // 총 알림 개수
+      const cnt = res.data.notification.length
+      this.$store.state.unreadAlert = cnt
       // 결과 넣기
       for (const tmp in res.data.notification) {
+        //읽지 않은 알림 개수
+        if (tmp.readAt) {
+          this.$store.state.unreadAlert = this.$store.state.unreadAlert -1
+        }
+        // 분리해서 담기
         if (tmp.type === 1) {
           this.followNotifications.push(tmp)
         }

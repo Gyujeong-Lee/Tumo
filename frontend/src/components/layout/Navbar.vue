@@ -71,7 +71,14 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                <v-icon>mdi-heart</v-icon>
+                <v-badge
+                v-if="unreadAlert"
+                overlap
+                dot
+                >
+                  <v-icon>mdi-heart</v-icon>
+                </v-badge>
+                <v-icon v-else>mdi-heart</v-icon>
               </v-btn>
             </template>
             <!-- 알림 센터 popover -->
@@ -103,17 +110,17 @@
                 </router-link>
               </v-list-item>
               <!-- 계정 설정 변경 -->
-              <v-list-item>
+              <!-- <v-list-item>
                 <router-link 
                 :to="{ name: 'profile', params:{ nickname: `${user_nickname}`} }" 
                 style="text-decoration: none; color: inherit;"
                 >
                   change info
                 </router-link>
-              </v-list-item>
+              </v-list-item> -->
               <!-- 로그아웃 -->
               <v-list-item>
-                <p type="button" @click="logout">LogOut</p>
+                <p type="button" @click="logout">Log out</p>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -142,6 +149,9 @@ export default {
     // 스토어에서 현재 로그인한 사용자 닉네임 가져오기
     user_nickname () {
       return this.$store.state.user_info.nickname
+    },
+    unreadAlert () {
+      return this.$store.state.unreadAlert
     },
   },
   methods: {
