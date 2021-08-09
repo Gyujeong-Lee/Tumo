@@ -45,4 +45,6 @@ public interface FeedDao {
 	
 	List<Map<Object, Object>> readHotKeyword();
 
+	List<Integer> readBoardIdx4Tags(String tag);
+
 }

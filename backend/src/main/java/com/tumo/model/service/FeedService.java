@@ -16,4 +16,6 @@ public interface FeedService {
 
 	int readFeedPageCnt(int userIdx);
 
+	List<HashMap<String, Object>> readRecommendedArticles(int boardIdx);
+
 }

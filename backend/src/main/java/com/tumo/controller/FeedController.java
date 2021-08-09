@@ -68,6 +68,28 @@ public class FeedController {
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
 	
+<<<<<<< HEAD
+=======
+	@ApiOperation(value = "유사한 게시글", notes="태그를 바탕으로 유사 게시글 추천")
+	@GetMapping("/{boardIdx}")
+	public ResponseEntity<Map<String, Object>> readRecommendedArticles(@PathVariable int boardIdx) {
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		List<HashMap<String, Object>> feedList = feedService.readRecommendedArticles(boardIdx);
+		
+		if (feedList == null || feedList.size() == 0) {
+			result.put("message", FAIL);
+			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
+		}
+
+		result.put("message", SUCCESS);
+		result.put("feedList", feedList);
+
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+
+
+>>>>>>> feature/recommend
 	@ApiOperation(value = "인기 키워드")
 	@GetMapping("/hotkeyword")
 	public ResponseEntity<Map<String, Object>> readHotkey() {
