@@ -298,7 +298,7 @@ public class UserController {
 	}
 	
 	
-	@GetMapping(value = "/updateRank")
+	@GetMapping(value = "/updaterank")
 	@ApiOperation(value = "랭크 및 수익률 업데이트")
 	public ResponseEntity updateRank() {
 		ResponseEntity response = null;
