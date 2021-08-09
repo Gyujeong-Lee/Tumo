@@ -6,7 +6,7 @@
     height="auto"
     width="auto">
     <!-- 포문이 아니라 하나만 출력할 것임 -->
-    <p @click="moveToDetail(portfolios[0].portfolio_idx)"> {{ portfolios[0].title }} </p>
+    <p type="button" @click="moveToDetail(portfolios[0].portfolio_idx)"> {{ portfolios[0].title }} </p>
   </v-sheet>
 </template>
 

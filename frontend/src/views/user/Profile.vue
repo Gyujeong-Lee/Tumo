@@ -1,6 +1,5 @@
 <template>
-  <div id="highest_block" class="container d-flex flex-column" 
-  >    
+  <div id="highest_block" class="container d-flex flex-column">    
     <div class="d-flex justify-center mb-5">
       <!-- img와 (팔로우 요청, 정보 수정) 분기 -->
       <div id="user_image_block" class="d-flex flex-column me-5">

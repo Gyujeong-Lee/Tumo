@@ -3,7 +3,7 @@
     <h3>유저 검색 결과</h3>
     <div class="d-flex flex-row my-autoss">
       <v-card elevation="2" shaped v-for="(user, idx) in users" :key="idx" class="me-3">
-        <v-card-title>{{ user.nickName }}</v-card-title>
+        <v-card-title>{{ user.nickname }}</v-card-title>
       </v-card>
     </div>
   </div>
@@ -21,6 +21,7 @@ export default {
     return {
       searchWord: this.searchItem,
       resultExist: false,
+      pageNum: 0,
       users: [
         {
           "userIdx" : 1,
@@ -41,7 +42,7 @@ export default {
   created: function () {
     axios({
       method: 'GET',
-      url: `/api/sns/search/${this.$route.params.keyword}/1`
+      url: `/api/sns/search/${this.$route.params.keyword}/${this.pageNum}`
     })
     .then(res => {
       // console.log(res)
@@ -50,7 +51,8 @@ export default {
       } else {
         this.resultExist = true
         // 응답 담기
-        // this.users = res.data.users
+        this.users = res.data.users
+        console.log(this.users)
       }
     })
     .catch(err => {
