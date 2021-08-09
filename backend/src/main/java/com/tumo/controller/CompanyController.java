@@ -23,19 +23,19 @@ public class CompanyController {
 		@Autowired 
 		CompanyService companyService;
 		
-		@GetMapping(value ="/search/{searchContent}/{pageNum}")
+		@GetMapping(value ="/search/{searchContent}")
 		@ApiOperation(value = "국내회사 검색")
-		public List<Map<Object,Object>> searchCompany(@PathVariable("searchContent") String searchContent, @PathVariable("pageNum") String pageNum){
+		public List<Map<Object,Object>> searchCompany(@PathVariable("searchContent") String searchContent){
 			
-			return companyService.searchCompany(searchContent,pageNum);
+			return companyService.searchCompany(searchContent);
 			
 		}
 		
-		@GetMapping(value ="/searchforeign/{searchContent}/{pageNum}")
+		@GetMapping(value ="/searchforeign/{searchContent}")
 		@ApiOperation(value = "해외회사 검색")
-		public List<Map<Object,Object>> searchForeign(@PathVariable("searchContent") String searchContent, @PathVariable("pageNum") int pageNum){
+		public List<Map<Object,Object>> searchForeign(@PathVariable("searchContent") String searchContent){
 			//System.out.println(searchContent);
-			return companyService.searchCompanyForeign(searchContent,pageNum);
+			return companyService.searchCompanyForeign(searchContent);
 			
 		}
 }

@@ -9,7 +9,7 @@
 		 values(#{userIdx},#{title},#{content},#{goal})
 	</insert>
 	
-	<select id="readList" parameterType="int" resultType="portfolioDto" >
+	<select id="readList" parameterType="int" resultType="map" >
 		 select * from portfolio where user_idx=#{userIdx}
 	</select>
 	
@@ -34,7 +34,7 @@
 	
 	<select id="readFeedList" parameterType="Map" resultType="Map" >
 		select portfolio.* ,nickname from portfolio join user on portfolio.user_idx= user.user_idx
-		where portfolio.user_idx in((select following_idx from following where following.user_idx=${userIdx}),${userIdx}) limit ${pageNum},5
+		where portfolio.user_idx in(select following_idx from following where following.user_idx=${userIdx})  or portfolio.user_idx=${userIdx} limit ${pageNum},5
 	</select>
 	
 	<select id="searchPortfolio" parameterType="Map" resultType="Map" >

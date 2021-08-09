@@ -6,12 +6,12 @@
 
 	<select id="searchCompany" parameterType="map" resultType="map">
 		select * from company where name like "%${searchContent}%" or code like "%${searchContent}%" or industry like
-		 "%${searchContent}%" limit ${pageNum},5
+		 "%${searchContent}%" limit 5
 	</select>
 	
 	<select id="searchCompanyForeign" parameterType="map" resultType="map">
 		select * from company_foreign where name like "%${searchContent}%" or symbol like "%${searchContent}%" or industry like
-		 "%${searchContent}%" limit #{pageNum},5
+		 "%${searchContent}%" limit 5
 	</select>
 	
 	<select id="readFeedCompany" parameterType="Map" resultType="map">

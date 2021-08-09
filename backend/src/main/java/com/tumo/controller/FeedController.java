@@ -70,9 +70,9 @@ public class FeedController {
 
 	@ApiOperation(value = "인기 키워드")
 	@GetMapping("/hotkeyword")
-	public ResponseEntity<Map<String, Object>> readHotkey(@PathVariable int boardIdx) {
+	public ResponseEntity<Map<String, Object>> readHotkey() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<FeedDto> hotkeyList = feedService.readHotkey(boardIdx);
+		List<Map<Object, Object>> hotkeyList = feedService.readHotKeyword();
 		if (hotkeyList == null || hotkeyList.size() == 0) {
 			map.put("message", FAIL);
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);

@@ -42,5 +42,7 @@ public interface FeedDao {
 	List<FeedDto> searchFeed(Map<String, Object> param);
 
 	int readFeedPageCnt(int userIdx);
+	
+	List<Map<Object, Object>> readHotKeyword();
 
 }

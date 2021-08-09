@@ -12,7 +12,7 @@ public interface FeedService {
 
 	List<HashMap<String, Object>> searchFeed(Map<String, Object> param);
 
-	List<FeedDto> readHotkey(int boardIdx);
+	List<Map<Object, Object>> readHotKeyword();
 
 	int readFeedPageCnt(int userIdx);
 
