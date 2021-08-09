@@ -43,4 +43,6 @@ public interface FeedDao {
 
 	int readFeedPageCnt(int userIdx);
 
+	List<Integer> readBoardIdx4Tags(String tag);
+
 }

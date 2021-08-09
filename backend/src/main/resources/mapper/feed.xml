@@ -32,4 +32,10 @@
 		on f.user_idx = l.following_idx
 		where l.user_idx = #{userIdx} or f.user_idx = #{userIdx}
 	</select>
+	
+	<select id="readBoardIdx4Tags" parameterType="string" resultType="integer">
+		select board_idx
+		from feed_tag
+		where content = #{tag}
+	</select>
 </mapper>
