@@ -5,6 +5,8 @@
       rounded
       id="portfolioDetail"
       class="p-5"
+      width="auto"
+      height="auto"
     >
     <div class="d-flex justify-content-center">
       <div class="d-flex flex-column">
@@ -29,16 +31,19 @@
           <h5>국내 주식(100%)</h5>
           <div class="d-flex">
             <!-- 여기에 종목 이름 -->
-            <p v-for="(asset, idx) in assets" :key="idx">{{ asset.stock_code }}</p>
+            <p v-for="(asset, idx) in assets" :key="idx">{{ asset.name }} ({{asset.curprice / portfolio.cursum * 100}}%)</p>
             <ul v-for="(asset, idx) in assets" :key="idx+'A'">
               <li>
-                목표 가격 {{ asset.goal }}원
+                목표 가격 : {{ asset.goal }}원
               </li>
               <li>
-                현재 가격 {{ asset.curprice }}원
+                현재 가격 : {{ asset.curprice }}원
               </li>
-              <li>
-                수익률 {{ asset.percent }}%
+              <li v-if="asset.percent>0" style="color:#CE1D28">
+                수익률 : {{ asset.percent }}%
+              </li>
+              <li v-else style="color:#00BFFE">
+                수익률 : {{ asset.percent }}%
               </li>
             </ul>
           </div>
@@ -67,6 +72,7 @@ export default {
       userIdx: this.$route.params.userIdx,
       portfolioIdx: this.$route.params.portfolioIdx,
       portfolio: {},
+      // 수정 보낼 때 삭제해야 할 데이터 portion
       assets: [],
       amount: {}
     }
@@ -84,7 +90,7 @@ export default {
         if (res.data.portfolio[i].portfolio_idx == this.portfolioIdx) {
           this.portfolio = res.data.portfolio[i]
           this.$store.state.selectedPortfolio = this.portfolio
-          console.log(this.portfolio)
+          // console.log(this.portfolio)
         }
       }
     })
@@ -111,7 +117,7 @@ export default {
     .catch(err => {
       console.log(err)
     })
-  }
+  },
 }
 </script>
 
@@ -119,6 +125,7 @@ export default {
   #portfolioInfo {
     border: black;
     border-width: 2px;
+    margin-left: 1rem;
   }
   #assetInfo {
     border: black;
@@ -130,5 +137,11 @@ export default {
 
   #portfolioDescription {
     margin-top: 1rem;  
+  }
+  .plus {
+    color:'#CE1D28'
+  }
+  .minus {
+    color:'#00BFFE'
   }
 </style>
