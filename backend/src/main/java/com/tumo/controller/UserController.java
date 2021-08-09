@@ -306,20 +306,17 @@ public class UserController {
 		
 		boolean check = portfolioService.updateRank();
 		if(check) {
-			 portfolioService.updateYield();
-		}else {
+			check=portfolioService.updateYield();
+		}
 			if (check) {
-				// 임시비밀번호 메일 전송 성공
 				resultMap.put("message", "success");
 				response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 			} else {
-				// 실패사유
-				// 1. 전송받은 email이 회원 DB에 존재하지않음
-				// 2. MailJet 1일 메일 전송 제한 200회 초과
+
 				resultMap.put("message", "fail");
 				response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 			}
-		}
+		
 		return response;
 	}
 }
