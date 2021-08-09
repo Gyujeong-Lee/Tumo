@@ -26,4 +26,8 @@ public interface PortfolioDao {
 	List<Map<Object, Object>> searchPortfolio(HashMap<String, Object> tmp);
 
 	int recentPortfolio(int userIdx);
+
+	void updateRank();
+
+	void updateYield();
 }

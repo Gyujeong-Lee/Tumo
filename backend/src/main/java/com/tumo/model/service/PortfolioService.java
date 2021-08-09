@@ -20,4 +20,6 @@ public interface PortfolioService {
 	List<Map<Object, Object>> readFeedList(int userIdx, int pageNum);
 	List<Map<Object, Object>> searchPortfolio(String searchContent, String pageNum);
 	int recentPortfolio(int userIdx);
+	boolean updateRank();
+	boolean updateYield();
 }
