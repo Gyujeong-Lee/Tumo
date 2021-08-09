@@ -13,14 +13,14 @@
     </v-tabs>
     <!-- newFeed -->
     <div v-if="selectedTab === 'newfeeds'">
-      <ArticleFeed v-for="(feed, idx) in feedList" :key="idx" :feed="feed" />
+      <ArticleFeed v-for="(feed, idx) in articleFeedList" :key="idx" :feed="feed" />
       <infinite-loading @infinite="feedInfiniteHandler" spinner="waveDots" class="mt-5">
         <div slot="no-more" style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px;">목록의 끝입니다 :)</div>
       </infinite-loading>
     </div>
     <!-- Portfolio -->
     <div v-else-if="selectedTab === 'portfolio'">
-      <PortfolioFeed v-for="(data, idx) in feedList" :key="idx" :data="data" />
+      <PortfolioFeed v-for="(feed, idx) in portfolioFeedList" :key="idx" :feed="feed" />
     </div>
   </div>
 </template>
@@ -37,7 +37,8 @@ export default {
     return {
       selectedTab: 'newfeeds',
       tabColor: 'primary',
-      feedList: [],
+      articleFeedList: [],
+      portfolioFeedList: [],
       pageNum: 0,
     }
   },
@@ -49,7 +50,7 @@ export default {
   methods: {
     selectNewFeeds: function () {
       if (this.selectedTab !== 'newfeeds') {
-        this.feedList = []
+        this.articleFeedList = []
         this.pageNum = 0
         this.tabColor = 'primary'
         this.selectedTab = 'newfeeds'
@@ -57,10 +58,10 @@ export default {
     },
     selectPortfolio: function () {
       if (this.selectedTab !== 'portfolio') {
-        this.feedList = []
+        this.portfolioFeedList = []
         this.pageNum = 0
         let feedData = this.getPortfolioFeeds()
-        this.feedList = feedData
+        this.portfolioFeedList = feedData
       }
       this.tabColor = 'error'
       this.selectedTab = 'portfolio'
@@ -80,23 +81,24 @@ export default {
     },
     getPortfolioFeeds: function () {
       // axios 요청 보낸후 받은 response.data return
+      // axios({
+      //   method: 'GET',
+      //   url: `/api/portfolio/feedlist/${this.$store.state.user_info.id}/${this.pageNum}`
+      // })
+      // .then(res => {
+      //   console.log(res)
+      // })
       // data = dump data
       const data = [
         {
-          "user_idx" : 1,
-          "portfolio_idx" : 1,
-          "title" : "포트폴리오1",
-          "contents" : "내용",
-          "goal" : 10
+          portfolio_idx: 1,
+          goal: 10.0,
+          nickname: "admin",
+          user_idx: 1,
+          title: "나의 첫 포트폴리오",
+          content: "처음으로 만든 포트폴리오"
         },
-        {
-          "user_idx" : 1,
-          "portfolio_idx" : 2,
-          "title" : "포트폴리오2",
-          "contents" : "내용2",
-          "goal" : 10
-        }
-      ];
+      ]
       return data 
     },
     feedInfiniteHandler: function ($state) {
@@ -105,7 +107,7 @@ export default {
       .then(data => {
         setTimeout(() => {
           if (data.length) {
-            this.feedList = this.feedList.concat(data)
+            this.articleFeedList = this.articleFeedList.concat(data)
             $state.loaded()
             this.pageNum += 1
             if (data.length / EACH_LEN < 1) {
@@ -115,9 +117,6 @@ export default {
             $state.complete()
           }
         }, 1000)
-      })
-      .catch(err => {
-        console.log(err)
       })
     }
   },

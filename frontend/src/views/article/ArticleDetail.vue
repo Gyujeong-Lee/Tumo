@@ -39,14 +39,12 @@
           <span style="font-size: 0.85rem;">{{ likes }}</span>
         </div>
         <div>
-          <div v-if="isMyArticle" >
-            <v-btn icon @click="drawUpdateArticle"><v-icon>mdi-pencil-plus</v-icon></v-btn>
-            <UpdateArticle v-if="$store.state.drawUpdateArticle" @update="update_content"/>
-          </div>
-          <div v-else>
-            <v-btn icon v-if="isScrap" @click="cancelScrapArticle" color="yellow"><v-icon color="yellow">mdi-bookmark</v-icon></v-btn>
-            <v-btn icon v-else @click="scrapArticle"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
-          </div>
+          <v-btn icon v-if="isScrap" @click="cancelScrapArticle" color="yellow"><v-icon color="yellow">mdi-bookmark</v-icon></v-btn>
+          <v-btn icon v-else @click="scrapArticle"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
+        </div>
+        <div v-if="isMyArticle" >
+          <v-btn icon @click="drawUpdateArticle"><v-icon>mdi-pencil-plus</v-icon></v-btn>
+          <UpdateArticle v-if="$store.state.drawUpdateArticle" @update="update_content"/>
         </div>
         <div>
           <el-popconfirm

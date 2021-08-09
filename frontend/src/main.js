@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./vuex/store";
 import vuetify from "./plugins/vuetify";
+import VueWordCloud from "vuewordcloud";
 import VueSimpleAlert from "vue-simple-alert";
 import { Popconfirm, Message } from "element-ui";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
@@ -18,6 +19,8 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(Popconfirm);
 Vue.use(VueSimpleAlert);
+
+Vue.component(VueWordCloud.name, VueWordCloud);
 
 Vue.prototype.$message = Message;
 

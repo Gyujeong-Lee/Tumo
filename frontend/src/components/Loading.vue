@@ -16,7 +16,7 @@ export default {
 <style>
 #loading {
   position: relative;
-  transform: translateX(-20px) translateY(30px);
+  transform: translateX(-180px) translateY(30px);
 }
 
 #loading img {
