@@ -25,6 +25,7 @@ import com.tumo.model.SignupDto;
 import com.tumo.model.TokenDto;
 import com.tumo.model.UpdateUserDto;
 import com.tumo.model.UserDto;
+import com.tumo.model.service.PortfolioService;
 import com.tumo.model.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +38,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private PortfolioService portfolioService;
+	
 	@PostMapping(value = "/signup")
 	@ApiOperation(value = "회원가입")
 	public ResponseEntity createSignup(@RequestBody SignupDto signupDto) {
@@ -293,4 +297,26 @@ public class UserController {
 		return response;
 	}
 	
+	
+	@GetMapping(value = "/updaterank")
+	@ApiOperation(value = "랭크 및 수익률 업데이트")
+	public ResponseEntity updateRank() {
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		boolean check = portfolioService.updateRank();
+		if(check) {
+			check=portfolioService.updateYield();
+		}
+			if (check) {
+				resultMap.put("message", "success");
+				response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			} else {
+
+				resultMap.put("message", "fail");
+				response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+		
+		return response;
+	}
 }

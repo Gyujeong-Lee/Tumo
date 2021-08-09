@@ -85,7 +85,7 @@ public class FeedServiceImpl implements FeedService {
 
 	@Override
 	public List<Map<Object, Object>> readHotKeyword() {
-		// TODO Auto-generated method stub
+		
 		return sqlSession.getMapper(FeedDao.class).readHotKeyword();
 	}
 
