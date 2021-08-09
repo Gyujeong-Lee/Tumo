@@ -68,8 +68,6 @@ public class FeedController {
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
 	
-<<<<<<< HEAD
-=======
 	@ApiOperation(value = "유사한 게시글", notes="태그를 바탕으로 유사 게시글 추천")
 	@GetMapping("/{boardIdx}")
 	public ResponseEntity<Map<String, Object>> readRecommendedArticles(@PathVariable int boardIdx) {
@@ -88,8 +86,6 @@ public class FeedController {
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
 
-
->>>>>>> feature/recommend
 	@ApiOperation(value = "인기 키워드")
 	@GetMapping("/hotkeyword")
 	public ResponseEntity<Map<String, Object>> readHotkey() {
