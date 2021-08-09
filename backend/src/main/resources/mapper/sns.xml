@@ -12,7 +12,7 @@
 		from scrap s join feed f
 		on s.board_idx = f.board_idx
 		join user u
-		on s.user_idx = u.user_idx
+		on f.user_idx = u.user_idx
 		where s.user_idx = #{userIdx}
 		order by s.create_at desc;
 	</select>
