@@ -39,6 +39,10 @@ const state = {
   selectedArticle: null,
   // 읽지 않은 알림
   unreadAlert: null,
+  // 포트폴리오 상세 페이지
+  selectedPortfolio: null,
+  portfolioAssets: null,
+  portfolioAmount: null,
 };
 
 export default new Vuex.Store({
