@@ -40,4 +40,31 @@
 	<select id="searchPortfolio" parameterType="Map" resultType="Map" >
 		select portfolio.* ,nickname from portfolio join user on portfolio.user_idx= user.user_idx where title like "%${searchContent}%" or content like "%${searchContent}%"  or  nickname like "%${searchContent}%" limit ${pageNum},5
 	</select>
+	
+	<update id="updateRank">
+		UPDATE user A
+		    SET A.rank = (
+		   SELECT B.ranking 
+		       FROM (
+		                     select rank() over(order by (sum(quantity*cp.price)/sum(quantity*a.price))) as ranking, u.user_idx 
+		                     from asset as a join company_price as cp on stock_code=code join portfolio as p on p.portfolio_idx=a.portfolio_idx
+		                      join user as u on u.user_idx=p.user_idx group by u.user_idx
+		                    )B
+		    WHERE 
+		    A.user_idx= B.user_idx)
+	</update>
+	
+	<update id="updateYield">
+		UPDATE user A
+		    SET A.yield = (
+		   SELECT B.yield 
+		       FROM (
+                     select  (sum(quantity*cp.price)/sum(quantity*a.price)) as yield, u.user_idx from 
+                     asset as a join company_price as cp on stock_code=code join portfolio as p on p.portfolio_idx=a.portfolio_idx
+                      join user as u on u.user_idx=p.user_idx group by u.user_idx
+                    )B
+			    WHERE 
+			    A.user_idx= B.user_idx
+			    )
+	</update>
 </mapper>

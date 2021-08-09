@@ -25,6 +25,7 @@ import com.tumo.model.SignupDto;
 import com.tumo.model.TokenDto;
 import com.tumo.model.UpdateUserDto;
 import com.tumo.model.UserDto;
+import com.tumo.model.service.PortfolioService;
 import com.tumo.model.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +38,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private PortfolioService portfolioService;
+	
 	@PostMapping(value = "/signup")
 	@ApiOperation(value = "회원가입")
 	public ResponseEntity createSignup(@RequestBody SignupDto signupDto) {
@@ -293,4 +297,29 @@ public class UserController {
 		return response;
 	}
 	
+	
+	@GetMapping(value = "/updateRank")
+	@ApiOperation(value = "랭크 및 수익률 업데이트")
+	public ResponseEntity updateRank() {
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		boolean check = portfolioService.updateRank();
+		if(check) {
+			 portfolioService.updateYield();
+		}else {
+			if (check) {
+				// 임시비밀번호 메일 전송 성공
+				resultMap.put("message", "success");
+				response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			} else {
+				// 실패사유
+				// 1. 전송받은 email이 회원 DB에 존재하지않음
+				// 2. MailJet 1일 메일 전송 제한 200회 초과
+				resultMap.put("message", "fail");
+				response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+		}
+		return response;
+	}
 }
