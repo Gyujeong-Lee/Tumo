@@ -1,21 +1,19 @@
 <template>
-  <div>
-    <div id="subfeed" class="d-flex flex-column align-items-center">
-      <vue-word-cloud
-        style="
-          height: 240px;
-          width: 240px;
-        "
-        :words="hotkeyList"
-        font-family="Jua"
-        id="wordcloud"
-      />
-      <div>
-        <h1 class="mb-4 fw-bold text-center">TOP KeyWords</h1>
-      </div>
-      <div v-for="(data, idx) in hotkeyList.slice(0, 3)" :key="idx">{{ idx+1 }}. {{ data.text }}</div>
-      <Loading />
+  <div id="subfeed" class="d-flex flex-column align-items-center">
+    <vue-word-cloud
+      style="
+        height: 240px;
+        width: 240px;
+      "
+      :words="hotkeyList"
+      font-family="Jua"
+      id="wordcloud"
+    />
+    <div>
+      <h1 class="mb-4 fw-bold text-center">TOP KeyWords</h1>
     </div>
+    <div v-for="(data, idx) in hotkeyList.slice(0, 3)" :key="idx">{{ idx+1 }}. {{ data.text }}</div>
+    <Loading />
   </div>
 </template>
 
@@ -53,6 +51,18 @@ export default {
 </script>
 
 <style>
+@media screen and (min-width: 576px) {
+  #subfeed {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 940px) {
+  #subfeed {
+    display: none !important;
+  }  
+}
+
 #subfeed {
   position: sticky;
   top: 48px;
@@ -69,15 +79,4 @@ export default {
   margin: 2rem 0rem;
 }
 
-@media screen and (min-width: 576px) {
-  #subfeed {
-    width: 300px;
-  }
-}
-
-@media screen and (max-width: 940px) {
-  #subfeed {
-    display: none;
-  }  
-}
 </style>

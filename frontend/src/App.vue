@@ -53,4 +53,5 @@ export default {
 .v-pagination li button {
   width: 20px;
 }
+
 </style>

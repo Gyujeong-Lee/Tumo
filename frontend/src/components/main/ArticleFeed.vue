@@ -6,7 +6,7 @@
     @mouseover="elevation=10"
     @mouseleave="elevation=4"
   >
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between mb-3">
       <div class="d-flex align-items-center">
         <img src="@/assets/main/user.png" alt="user_img" style="width: 35px;">
         <div class="ms-3">
@@ -126,16 +126,6 @@ export default {
 .articleFeed {
   padding: 1rem 0rem;
   transition: 0.5s;
-}
-
-.articleFeed h6 {
-  font-family: 'Nanum Gothic', sans-serif;
-  font-weight: 800
-}
-
-.articleFeed p {
-  font-family: 'Nanum Gothic', sans-serif;
-  font-weight: 400;
 }
 
 .articleFeed > * {

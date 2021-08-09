@@ -20,7 +20,7 @@
     </div>
     <!-- Portfolio -->
     <div v-else-if="selectedTab === 'portfolio'">
-      <PortfolioFeed v-for="(feed, idx) in portfolioFeedList" :key="idx" :feed="feed" />
+      <PortfolioFeed v-for="(feed, idx) in portfolioFeedList" :key="idx" :feed="feed" :idx="idx"/>
     </div>
   </div>
 </template>
@@ -60,8 +60,10 @@ export default {
       if (this.selectedTab !== 'portfolio') {
         this.portfolioFeedList = []
         this.pageNum = 0
-        let feedData = this.getPortfolioFeeds()
-        this.portfolioFeedList = feedData
+        this.getPortfolioFeeds()
+        .then(res => {
+          this.portfolioFeedList = res
+        })
       }
       this.tabColor = 'error'
       this.selectedTab = 'portfolio'
@@ -73,33 +75,18 @@ export default {
       })
       .then(res => {
         const feedList = res.data.feedList
-        return feedList ? feedList : []
-      })
-      .catch(err => {
-        console.log(err)
+        return feedList ?? []
       })
     },
     getPortfolioFeeds: function () {
-      // axios 요청 보낸후 받은 response.data return
-      // axios({
-      //   method: 'GET',
-      //   url: `/api/portfolio/feedlist/${this.$store.state.user_info.id}/${this.pageNum}`
-      // })
-      // .then(res => {
-      //   console.log(res)
-      // })
-      // data = dump data
-      const data = [
-        {
-          portfolio_idx: 1,
-          goal: 10.0,
-          nickname: "admin",
-          user_idx: 1,
-          title: "나의 첫 포트폴리오",
-          content: "처음으로 만든 포트폴리오"
-        },
-      ]
-      return data 
+      return axios({
+        method: 'GET',
+        url: `/api/portfolio/feedlist/${this.$store.state.user_info.id}/${this.pageNum}`
+      })
+      .then(res => {
+        const feedList = res.data.portfolio
+        return feedList ?? []
+      })
     },
     feedInfiniteHandler: function ($state) {
       const EACH_LEN = 10
