@@ -9,7 +9,7 @@ import com.tumo.model.PortfolioDto;
 public interface PortfolioService {
 
 	boolean createList(PortfolioDto portfoliodto);
-	List<PortfolioDto> readList(int userIdx); 
+	List<Map<Object, Object>> readList(int userIdx); 
 	boolean deleteList(int userIdx);
 	boolean createAsset(AssetDto assetDto);
 	List<Map<Object, Object>> readAsset(int portfolioIdx);

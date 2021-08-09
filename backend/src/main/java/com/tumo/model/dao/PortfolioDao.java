@@ -11,7 +11,7 @@ public interface PortfolioDao {
 
 	boolean createList(PortfolioDto portfoliodto);
 
-	List<PortfolioDto> readList(int userIdx);
+	List<Map<Object, Object>> readList(int userIdx);
 	
 	boolean deleteList(int userIdx);
 

@@ -35,7 +35,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 
 
 	@Override
-	public List<PortfolioDto> readList(int userIdx) {
+	public List<Map<Object, Object>> readList(int userIdx) {
 		
 		return sqlSession.getMapper(PortfolioDao.class).readList(userIdx);
 	}

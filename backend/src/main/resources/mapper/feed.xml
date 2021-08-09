@@ -32,4 +32,10 @@
 		on f.user_idx = l.following_idx
 		where l.user_idx = #{userIdx} or f.user_idx = #{userIdx}
 	</select>
+	
+	<select id="readHotKeyword" resultType="map">
+		select ft.content as keyword,count(*) as amount from feed_tag as ft join feed as f on f.board_idx =ft.board_idx 
+		where f.create_at between date_add(now(),interval-1 week)and now() group by ft.content limit 10;
+	</select>
+	
 </mapper>
