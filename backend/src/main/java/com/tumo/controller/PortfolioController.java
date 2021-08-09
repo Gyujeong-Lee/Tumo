@@ -167,7 +167,7 @@ public class PortfolioController {
 		amount.put("percent", Double.parseDouble(result));
 		if(assetList==null || assetList.size()==0) {
 			resultMap.put("message", "fail");
-			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NO_CONTENT);
 		}else {
 			resultMap.put("Asset", assetList);
 			resultMap.put("amount", amount);
