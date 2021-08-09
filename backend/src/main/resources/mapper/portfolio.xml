@@ -26,7 +26,7 @@
 		 values(#{portfolioIdx},#{stock_code},#{quantity},#{price},#{goal})
 	</insert>
 	<select id="readAsset" parameterType="int" resultType="map" >
-		 select * from asset where portfolio_idx=#{portfolioIdx}
+		 select a.*,name from asset as a join company as c on a.stock_code = c.code where portfolio_idx=#{portfolioIdx}
 	</select>
 	<delete id="deleteAsset" parameterType="int" >
 		 delete from asset where asset_idx=#{assetIdx}
