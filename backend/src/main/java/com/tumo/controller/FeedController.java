@@ -67,7 +67,7 @@ public class FeedController {
 		result.put("message", SUCCESS);
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
-
+	
 	@ApiOperation(value = "인기 키워드")
 	@GetMapping("/hotkeyword")
 	public ResponseEntity<Map<String, Object>> readHotkey() {
