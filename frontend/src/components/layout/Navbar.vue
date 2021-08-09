@@ -157,7 +157,7 @@ export default {
   methods: {
     search: function () {
       // 검색 결과 페이지 이동 
-      console.log(this.search_item)
+      // console.log(this.search_item)
       this.$router.push({name: 'search', params: {keyword: `${this.search_item}`}})
       // vuex에 최신 검색 목록 저장
       this.$store.dispatch('search', this.search_item)
