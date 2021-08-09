@@ -5,12 +5,12 @@
     class="mx-2 my-5"
     height="auto"
     width="auto">
-    <p class="p-3" @click="moveToDetail">{{ myArticle.title }}</p>
+    <p class="p-3" type="button" @click="moveToDetail">{{ myArticle.title }}</p>
   </v-sheet>
 </template>
 
 <script>
-
+import axios from 'axios'
 export default {
   name: 'ArticleList',
   data: function () {
@@ -25,8 +25,15 @@ export default {
   },
   methods: {
     moveToDetail: function () {
-      this.$router.push({name: 'articleDetail', params: {boardIdx: this.myArticle.boardIdx}})
+      axios({
+        method: 'GET',
+        url: `/api/article/${this.myArticle.boardIdx}/${this.myArticle.userIdx}`
+      })
+      .then(res => {
+        this.$store.state.selectedArticle = res.data.feed
+        this.$router.push({name: 'articleDetail', params: {boardIdx: this.myArticle.boardIdx}})
+      })
     }
-  }
+  },
 }
 </script>

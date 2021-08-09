@@ -1,6 +1,6 @@
 <template>
   <div id="highest_block" class="container d-flex flex-column" 
-  >
+  >    
     <div class="d-flex justify-center mb-5">
       <!-- img와 (팔로우 요청, 정보 수정) 분기 -->
       <div id="user_image_block" class="d-flex flex-column me-5">
@@ -12,11 +12,13 @@
       </div>
       <!-- 유저 정보 -->
       <div id="user_info_block">
-        <h2>{{ user_info.nickname }}'s profile</h2>
+        <v-badge color="#ffd700" icon="mdi-star" v-bind:class="{gold: gold, silver: silver, bronze: bronze}">
+          <h2>{{ user_info.nickname }}'s profile</h2>
           <span type="button" @click="openFollowerList" class="me-5"> Follwer : {{ user_info.followerCnt }}</span>
           <span type="button" @click="openFollowingList"> Follwing : {{ user_info.followingCnt }}</span>
           <FollowerList :followerList="followerList"/>
           <FollowingList :followingList="followingList"/>
+        </v-badge>
           <div id="hash_tags" class="mt-5">
             <v-chip 
             v-for="(tag, idx) in user_info.tags" 
@@ -59,6 +61,10 @@ export default {
   data: function () {
     return {
       portfolios: [],
+      // created 될 때 랭크 기준 부여
+      gold: false,
+      silver: false,
+      bronze: false,
       // img, follower, following, tag
       user_info: [],
       isFollow: false,
@@ -104,6 +110,14 @@ export default {
     .then (res => {
       console.log(res)
       this.user_info = res.data.users
+      // rank 
+      // if (res.dat.users.rank <= 10) {
+      //   this.gold = true
+      // } else if ( 10 < res.dat.users.rank <= 50) {
+      //   this.silver = true
+      // } else {
+      //   this.bronze = true
+      // }
     })
     .catch (err => {
       console.log(err)
@@ -177,7 +191,7 @@ export default {
 
 <style scoped>
  #highest_block {
-   padding-top: 6rem;
+   padding-top: 5rem;
  }
  #user_image {
    width: 5rem;
@@ -202,4 +216,13 @@ export default {
 p {
  color: #00BFFE; 
 }
+ .gold {
+   color: #ffd700;
+ }
+ .silver {
+   color: #c0c0c0;
+ }
+ .bronze {
+   color: #008b8b;
+ }
 </style>

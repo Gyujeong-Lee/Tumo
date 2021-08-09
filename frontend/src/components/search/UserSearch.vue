@@ -46,7 +46,7 @@ export default {
     .then(res => {
       // console.log(res)
       if (res.request.status === 204) {
-        console.log('자료 x')
+        console.log(res)
       } else {
         this.resultExist = true
         // 응답 담기

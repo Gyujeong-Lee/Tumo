@@ -12,12 +12,10 @@
     </v-tabs>
     <div v-if="selectedTab === 'article'">
       <!-- article -->
-      <h4>article</h4>
       <ArticleList v-for="(article, idx) of activityList" :key="idx" :article="article"/>
     </div>
     <div v-else-if="selectedTab === 'scrap'">
       <!-- scrap -->
-      <h4>scrap</h4>
       <ScrapList v-for="(scrap, idx) of activityList" :key="idx" :scrap="scrap"/>
     </div>
   </div>
