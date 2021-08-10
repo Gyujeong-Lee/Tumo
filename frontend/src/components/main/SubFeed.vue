@@ -12,11 +12,10 @@
           >
            @{{ feed.nickname }}
           </router-link>
-          <div class="my-2">Title</div>
+          <div class="my-2 fw-bold h6" @click="moveToDetail(feed.userIdx, feed.boardIdx)" style="cursor: pointer;">{{ feed.title }}</div>
           <div>
-            <v-chip v-for="(tag, idx) in feed.tag.slice(0,3)" :key="idx" label class="px-2 me-1 mb-1">#{{ tag }}</v-chip>
+            <v-chip v-for="(tag, idx) in feed.tags.slice(0, 3)" :key="idx" label class="px-2 me-1 mb-1">#{{ tag }}</v-chip>
           </div>
-          <div>{{ feed }}</div>
         </v-card>
       </div>
       <Loading />
@@ -37,7 +36,6 @@
       <div>
         <h1 class="mb-4 fw-bold text-center">TOP KeyWords</h1>
       </div>
-      <!-- <div v-for="(data, idx) in hotkeyList.slice(0, 3)" :key="idx">{{ idx+1 }}. {{ data.text }}</div> -->
       <br>
       <Newspaper v-if="hotkeyList.length" :keyList="hotkeyList.slice(0, 3)"/>
     </div>
@@ -85,9 +83,20 @@ export default {
       })
       .then(res => {
         const feedList = res.data.feedList
-        console.log(feedList)
         this.relatedFeeds = feedList ? feedList.slice(0, 3) : []
       })
+    },
+    moveToDetail: function (userIdx, boardIdx) {
+      axios({
+        method: 'GET',
+        url: `/api/article/${boardIdx}/${userIdx}`
+      })
+      .then(res => {
+        this.$store.state.selectedArticle = res.data.feed
+        this.$router.push({ name: 'articleDetail', params: { userIdx, boardIdx }})
+        this.$router.go()
+      })
+
     }
   },
   created: function () {

@@ -69,23 +69,24 @@ export default {
   left: 0;
   overflow-y: hidden;
   border-bottom: 2px solid;
+  box-shadow: 3px;
 }
 
 .news > div {
   position: relative;
   cursor: pointer;
+  transition: 0.5s;
 }
 
 .news > div:hover {
-  transition: 0.5s;
   transform: translateY(-50px);
 }
 
 .news p {
   position: absolute;
-  width: 250px;
+  width: 220px;
   top: 40px;
-  left: 5px;
+  left: 18px;
   text-align: center;
   font-weight: 700;
   font-size: 1.4rem;

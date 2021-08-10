@@ -10,7 +10,7 @@
       <div class="d-flex align-items-center">
         <img src="@/assets/main/user.png" alt="user_img" style="width: 35px;">
         <div class="ms-3">
-          <h4 class="mb-0">{{ title }}</h4>
+          <h5 class="mb-0 fw-bold">{{ title }}</h5>
           <div style="font-size: 0.75rem;">
             <router-link 
               class="text-secondary nickname" 

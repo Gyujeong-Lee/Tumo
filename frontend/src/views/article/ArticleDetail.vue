@@ -9,7 +9,7 @@
         <div class="d-flex align-items-center">
           <img src="@/assets/main/user.png" alt="user_img" style="width: 45px;">
           <div class="ms-3">
-            <h4 class="mb-0 fw-bold">{{ $data.title }}</h4>
+            <h5 class="mb-0 fw-bold">{{ $data.title }}</h5>
             <div style="font-size: 0.9rem;">
               <router-link 
                 class="my-0 text-secondary nickname" 
@@ -21,7 +21,7 @@
             </div>
           </div>
         </div>
-        <div style="font-size: 0.75rem;">
+        <div style="font-size: 0.75rem; min-width: 113px;">
           <p class="my-0">작성 : {{ $data.createAt.substring(2, 16) }}</p>
           <p class="my-0">수정 : {{ $data.updateAt.substring(2, 16) }}</p>
         </div>
