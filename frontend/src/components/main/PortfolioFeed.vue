@@ -3,6 +3,7 @@
     :elevation="elevation"
     rounded
     class="portfolioFeed mx-2 my-5"
+    @click="moveToDetail"
     @mouseover="elevation=10"
     @mouseleave="elevation=4"
   >
@@ -49,8 +50,7 @@
         </div>
       </div>
     </div>
-    <br>
-    <div v-html="feed.content"></div>
+    <div v-if="feed.content" v-html="feed.content" class="mt-5"></div>
   </v-sheet>
 </template>
 
@@ -73,6 +73,11 @@ export default {
       elevation: 4,
       myChart: false,
       topAssets: [],
+    }
+  },
+  methods: {
+    moveToDetail: function () {
+      this.$router.push({ name: 'portfolioDetail', params: { userIdx: this.feed.user_idx, portfolioIdx: this.feed.portfolio_idx }})
     }
   },
   mounted: function () {
@@ -140,6 +145,7 @@ export default {
 .portfolioFeed {
   padding: 1rem 0rem;
   transition: 0.5s;
+  cursor: pointer;
 }
 
 .portfolioFeed > * {

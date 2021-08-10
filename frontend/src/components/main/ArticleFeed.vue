@@ -30,7 +30,7 @@
     <!-- content & tags -->
     <div v-html="content" @click="moveToDetail" style="cursor: pointer;"></div>
     <div class="mb-3">
-      <v-chip v-for="(tag, idx) in tags" :key="idx" label class="px-3"># {{ tag }}</v-chip>
+      <v-chip v-for="(tag, idx) in tags" :key="idx" label class="px-2 me-2 mb-2"># {{ tag }}</v-chip>
     </div>
     <!-- Btn Group -->
     <div class="d-flex justify-content-between">
@@ -115,7 +115,7 @@ export default {
       })
       .then(res => {
         this.$store.state.selectedArticle = res.data.feed
-        this.$router.push({ name: 'articleDetail', params: { boardIdx: this.boardIdx }})
+        this.$router.push({ name: 'articleDetail', params: { userIdx: res.data.feed.userIdx ,boardIdx: this.boardIdx }})
       })
     },
   }

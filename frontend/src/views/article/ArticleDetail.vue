@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center">
+  <div v-if="!isLoading" class="d-flex justify-content-center">
     <v-sheet 
       elevation="8"
       rounded
@@ -9,37 +9,37 @@
         <div class="d-flex align-items-center">
           <img src="@/assets/main/user.png" alt="user_img" style="width: 45px;">
           <div class="ms-3">
-            <h4 class="mb-0 fw-bold">{{ title }}</h4>
+            <h4 class="mb-0 fw-bold">{{ $data.title }}</h4>
             <div style="font-size: 0.9rem;">
               <router-link 
                 class="my-0 text-secondary nickname" 
-                :to="{ name: 'profile', params: { nickname: `${nickname}` }}"
+                :to="{ name: 'profile', params: { nickname: `${$data.nickname}` }}"
               >
-                @{{ nickname }}
+                @{{ $data.nickname }}
               </router-link>
-              <span class="mx-3 text-primary"><v-icon small color="primary">mdi-chart-bar</v-icon> {{ stock }}</span>
+              <span class="mx-3 text-primary"><v-icon small color="primary">mdi-chart-bar</v-icon> {{ $data.stock }}</span>
             </div>
           </div>
         </div>
         <div style="font-size: 0.75rem;">
-          <p class="my-0">작성 : {{ createAt.substring(2, 16) }}</p>
-          <p class="my-0">수정 : {{ updateAt.substring(2, 16) }}</p>
+          <p class="my-0">작성 : {{ $data.createAt.substring(2, 16) }}</p>
+          <p class="my-0">수정 : {{ $data.updateAt.substring(2, 16) }}</p>
         </div>
       </div>
       <!-- content & tags -->
-      <div v-html="content" class="my-3"></div>
+      <div v-html="$data.content" class="my-3"></div>
       <div class="mb-3">
-        <v-chip v-for="(tag, idx) in tags" :key="idx" label class="px-3">#{{ tag }}</v-chip>
+        <v-chip v-for="(tag, idx) in $data.tags" :key="idx" label class="px-2 me-2 mb-2">#{{ tag }}</v-chip>
       </div>
       <!-- Btn Group -->
       <div class="d-flex justify-content-between">
         <div>
-          <v-btn icon v-if="isLike" @click="cancelLikeArticle" color="error"><v-icon color="error">mdi-heart</v-icon></v-btn>
+          <v-btn icon v-if="$data.isLike" @click="cancelLikeArticle" color="error"><v-icon color="error">mdi-heart</v-icon></v-btn>
           <v-btn icon v-else @click="likeArticle"><v-icon>mdi-heart-outline</v-icon></v-btn>
-          <span style="font-size: 0.85rem;">{{ likes }}</span>
+          <span style="font-size: 0.85rem;">{{ $data.likes }}</span>
         </div>
         <div>
-          <v-btn icon v-if="isScrap" @click="cancelScrapArticle" color="yellow"><v-icon color="yellow">mdi-bookmark</v-icon></v-btn>
+          <v-btn icon v-if="$data.isScrap" @click="cancelScrapArticle" color="yellow"><v-icon color="yellow">mdi-bookmark</v-icon></v-btn>
           <v-btn icon v-else @click="scrapArticle"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
         </div>
         <div v-if="isMyArticle" >
@@ -64,7 +64,7 @@
         </div>
         <v-btn icon><v-icon>mdi-share-variant-outline</v-icon></v-btn>
       </div>
-      <Comments :boardIdx="boardIdx"/>
+      <Comments :boardIdx="$data.boardIdx"/>
     </v-sheet>
     <SubFeed/>
   </div>
@@ -87,6 +87,7 @@ export default {
     return {
       ...this.$store.state.selectedArticle,
       isMyArticle: false,
+      isLoading: true,
     }
   },
   methods: {
@@ -169,10 +170,24 @@ export default {
     }
   },
   created: function () {
+    if (!this.$store.state.selectedArticle) {
+      const userIdx = this.$route.params.userIdx
+      const boardIdx = this.$route.params.boardIdx
+      axios({
+        method: 'GET',
+        url: `/api/article/${boardIdx}/${userIdx}`
+      })
+      .then(res => {
+        Object.assign(this.$data, res.data.feed)
+        this.$store.state.selectedArticle = res.data.feed
+      })
+    }
+    setTimeout(() => {
+      this.isLoading = false
+    }, 1000);
     if (this.userIdx === this.$store.state.user_info.id) {
       this.isMyArticle = true
     }
-    // 새로고침 시 data 없음
   }
 }
 </script>

@@ -50,7 +50,7 @@ const routes = [
     component: SearchResult,
   },
   {
-    path: "/article/:boardIdx",
+    path: "/article/:userIdx/:boardIdx",
     name: "articleDetail",
     component: ArticleDetail,
     props: true,
@@ -59,7 +59,7 @@ const routes = [
     path: "/portfolio/:userIdx/:portfolioIdx",
     name: "portfolioDetail",
     component: PortfolioDetail,
-    props: true
+    props: true,
   },
 ];
 
