@@ -12,7 +12,7 @@
       <div class="d-flex flex-column">
         <h1>Portfolio</h1>
         <h2>{{ portfolio.title }}</h2>
-        <PortfolioChart v-if="assets.length" :portfolio="portfolio" :assets="assets" />
+        <PortfolioChart v-if="assets.length && Object.keys(portfolio).length" :portfolio="portfolio" :assets="assets" />
       </div>
       <div class="d-flex align-center">
         <div class="d-flex flex-column border p-2" id="portfolioInfo">
@@ -31,21 +31,23 @@
           <h5>국내 주식(100%)</h5>
           <div class="d-flex">
             <!-- 여기에 종목 이름 -->
-            <p v-for="(asset, idx) in assets" :key="idx">{{ asset.name }} ({{asset.curprice / portfolio.cursum * 100}}%)</p>
-            <ul v-for="(asset, idx) in assets" :key="idx+'A'">
-              <li>
-                목표 가격 : {{ asset.goal }}원
-              </li>
-              <li>
-                현재 가격 : {{ asset.curprice }}원
-              </li>
-              <li v-if="asset.percent>0" style="color:#CE1D28">
-                수익률 : {{ asset.percent }}%
-              </li>
-              <li v-else style="color:#00BFFE">
-                수익률 : {{ asset.percent }}%
-              </li>
-            </ul>
+            <div v-for="(asset, idx) in assets" :key="idx">
+              <p class="mt-1 mb-0" style="font-weight:bolder" :class="{ 'text-danger': asset.percent > 0, 'text-primary': asset.percent < 0 }">{{ asset.name }} ({{asset.curprice / portfolio.cursum * 100}}%)</p>
+              <ul>
+                <li>
+                  목표 가격 : {{ asset.goal }}원
+                </li>
+                <li>
+                  현재 가격 : {{ asset.curprice }}원
+                </li>
+                <li v-if="asset.percent>0" class="text-danger">
+                  수익률 : {{ asset.percent }}%
+                </li>
+                <li v-else style="color:#00BFFE">
+                  수익률 : {{ asset.percent }}%
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <div id="foreignStock">
@@ -65,6 +67,7 @@
 // import Chart from 'chart.js'
 import axios from 'axios'
 import PortfolioChart from '@/components/portfolio/PortfolioChart.vue'
+
 export default {
   name: 'PortfolioDetail',
   data: function () {
@@ -143,5 +146,8 @@ export default {
   }
   .minus {
     color:'#00BFFE'
+  }
+  ul {
+    list-style: none;
   }
 </style>
