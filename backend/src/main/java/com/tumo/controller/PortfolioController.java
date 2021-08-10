@@ -105,7 +105,7 @@ public class PortfolioController {
 		boolean result=portfolioService.updateList(portfoliodto);
 		if(result) {
 			resultMap.put("message", "success");
-		response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.CREATED);
+		response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		}else {
 			resultMap.put("message", "fail");
 			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -154,7 +154,7 @@ public class PortfolioController {
 		Map<String, Object> resultMap = new HashMap<>();
 		boolean result=portfolioService.deleteList(portfolioIdx);
 		if(result) {resultMap.put("message", "success");
-		response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.CREATED);
+		response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		}else {
 			resultMap.put("message", "fail");
 			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
