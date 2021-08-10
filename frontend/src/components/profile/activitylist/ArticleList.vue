@@ -7,7 +7,20 @@
   @mouseleave="elevation=4"
   height="auto"
   width="auto">
-  <p class="p-3" type="button" @click="moveToDetail">{{ myArticle.title }}</p>
+  <div>
+    <p style="font-weight:bold" type="button" @click="moveToDetail">{{ myArticle.title }}</p>
+    <p v-html="myArticle.content"></p>
+    <p >{{ myArticle.createdAt }}</p>
+    <v-btn icon>
+      <v-icon>mdi-heart</v-icon>
+    </v-btn>
+    <span>: {{ myArticle.likes }}</span>
+    <v-btn icon>
+      <v-icon>mdi-bookmark</v-icon>
+    </v-btn>
+    <!-- scrap 수가 없음 ㅠ -->
+    <span>: {{ myArticle.likes }}</span>
+  </div>
 </v-sheet>
 </template>
 

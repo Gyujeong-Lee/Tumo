@@ -40,7 +40,6 @@
           <p>총 자산 : {{ amount.cursum }}원</p>
           <p>현재 수익률 : {{ amount.percent }}%</p>
           <p>목표 수익률 : {{ portfolio.goal }}%</p>
-          <p>Tag</p>
         </div>
       </div>
     </div>
@@ -79,7 +78,7 @@
     </div>
     <div id="portfolioDescription">
       <h3>Description</h3>
-      <p>{{ portfolio.content }}</p>
+      <p v-html="portfolio.content"></p>
     </div>
     </v-sheet>
   </div>

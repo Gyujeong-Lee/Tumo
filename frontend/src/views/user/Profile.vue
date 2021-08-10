@@ -34,8 +34,8 @@
       </div>
     </div>
     <!-- 포트폴리오  -->
-    <div class="d-flex justify-center my-auto me-10">
-      <div class="col-5 me-5">
+    <div class="d-flex justify-center my-auto">
+      <div class="col-5 me-10 col-12-sm" >
         <h3>portfolio</h3>
         <Portfolio v-if="user_info.userIdx" :userIdx="user_info.userIdx"/>
       </div>

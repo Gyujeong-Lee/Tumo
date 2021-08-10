@@ -1,6 +1,7 @@
 <template>
   <div>
-    <canvas id="portfolioChart" width="300" height="300"></canvas>  
+    <canvas v-if="$route.name === 'portfolioDetail'" id="portfolioChart" width="300" height="300"></canvas>  
+    <canvas v-else id="portfolioChart" width="100" height="100"></canvas>  
   </div>
 </template>
 
