@@ -8,10 +8,31 @@
       width="auto"
       height="auto"
     >
+    <div v-if="itsMe" class="d-flex justify-end">
+      <div>
+        <v-icon color="#00BFFE" class="me-1" @click="drawUpdatePortfolio">mdi-pencil</v-icon>
+        <el-popconfirm
+          v-if="itsMe"
+          @confirm="deletePortfolio"
+          confirm-button-type='danger'
+          cancel-button-type='primary'
+          confirm-button-text='삭제'
+          cancel-button-text='취소'
+          icon="el-icon-warning"
+          icon-color="red"
+          title="정말 포트폴리오를 삭제하시겠어요?"
+        >
+          <v-btn icon slot="reference"><v-icon color="CE1D28">mdi-delete</v-icon></v-btn>
+        </el-popconfirm>
+        <v-btn v-else icon><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
+      </div>
+    </div>
     <div class="d-flex justify-content-center">
       <div class="d-flex flex-column">
         <h1>Portfolio</h1>
         <h2>{{ portfolio.title }}</h2>
+        <UpdatePortfolio :portfolio="portfolio"/>
+        <UpdateAssets :assets="assets" :userIdx="userIdx"/>
         <PortfolioChart v-if="assets.length && Object.keys(portfolio).length" :portfolio="portfolio" :assets="assets" />
       </div>
       <div class="d-flex align-center">
@@ -24,7 +45,8 @@
       </div>
     </div>
     <div id="portfolioPortion">
-      <h3>Portion</h3>
+      <h3 style="display:inline">Portion</h3>
+      <v-icon color="#00BFFE" class="mb-2" @click="drawUpdateAssets">mdi-pencil</v-icon>
       <div class="d-flex flex-column border p-2" id="assetInfo">
         <div id="domesticStock">
           <!-- 추후 국내, 해외 주식 비중 추가할 예정 -->
@@ -67,6 +89,8 @@
 // import Chart from 'chart.js'
 import axios from 'axios'
 import PortfolioChart from '@/components/portfolio/PortfolioChart.vue'
+import UpdatePortfolio from './UpdatePortfolio.vue'
+import UpdateAssets from '../../components/portfolio/UpdateAssets.vue'
 
 export default {
   name: 'PortfolioDetail',
@@ -77,13 +101,24 @@ export default {
       portfolio: {},
       // 수정 보낼 때 삭제해야 할 데이터 portion
       assets: [],
-      amount: {}
+      amount: {},
+      itsMe: false,
     }
   },
   components: {
-    PortfolioChart
+    PortfolioChart,
+    UpdatePortfolio,
+    UpdateAssets,
   },
+
   created: function () {
+    // 본인 인증
+    if (this.$store.state.user_info.id == this.$route.params.userIdx) {
+      console.log('check')
+      this.itsMe = true
+    }
+
+    // 포트폴리오 요청
     axios({
       method: 'GET',
       url: `/api/portfolio/list/${this.userIdx}`
@@ -100,6 +135,7 @@ export default {
     .catch(err => {
       console.log(err)
     })
+    // 개별 자산 요청 
     axios({
       method: 'GET',
       url: `/api/portfolio/asset/${this.portfolioIdx}`
@@ -114,13 +150,36 @@ export default {
       this.amount = res.data.amount
       this.$store.state.portfolioAssets = this.portfolio.assets
       this.$store.state.portfolioAmount = this.portfolio.amount
-      //amount도 담아야 함.
-      // console.log(this.assets)
     })
     .catch(err => {
       console.log(err)
     })
   },
+  methods: {
+    drawUpdatePortfolio: function () {
+      //모달 띄우기
+      this.$store.state.drawUpdatePortfolio = true
+    },
+    drawUpdateAssets: function () {
+      //모달 띄우기 자산관리
+      this.$store.state.drawUpdateAssets = true
+    },
+    deletePortfolio: function () {
+      //삭제
+      axios({
+        method: 'DELETE',
+        url: `/api/portfolio/list/${this.portfolioIdx}`
+      })
+      .then(res => {
+        console.log(`삭제 ${res}`)
+        // 이동
+        this.$router.push({name: 'main'})
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+  }
 }
 </script>
 

@@ -95,6 +95,7 @@ export default {
         "message" : "success"
         }
         console.log(res)
+
         //204 때문에 임의 데이터 삽입함.
         this.activityList = response.scrap
       })
@@ -102,6 +103,9 @@ export default {
         console.log(err)
       })
     },
+  },
+  created: function () {
+    this.getArticleList()
   },
   components: {
     ArticleList,
