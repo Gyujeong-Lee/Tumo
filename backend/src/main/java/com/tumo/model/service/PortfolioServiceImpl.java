@@ -177,4 +177,20 @@ public class PortfolioServiceImpl implements PortfolioService {
 		sqlSession.getMapper(PortfolioDao.class).updateYield();
 		return true;
 	}
+
+
+	@Override
+	public boolean updateList(PortfolioDto portfoliodto) {
+		
+		sqlSession.getMapper(PortfolioDao.class).updateList(portfoliodto);
+		
+		return true;
+	}
+
+
+	@Override
+	public boolean updateAsset(AssetDto assetDto) {
+		sqlSession.getMapper(PortfolioDao.class).updateAsset(assetDto);
+		return true;
+	}
 }

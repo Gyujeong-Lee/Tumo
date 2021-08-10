@@ -1,11 +1,20 @@
 package com.tumo.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +23,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import com.google.common.io.ByteStreams;
 import com.tumo.model.AssetDto;
 import com.tumo.model.PortfolioDto;
 import com.tumo.model.service.PortfolioService;
@@ -79,6 +93,26 @@ public class PortfolioController {
 //		}
 //		return response;
 //	}
+	
+	
+	@PutMapping(value ="/list")
+	@ApiOperation(value = "포트폴리오 수정")
+	public ResponseEntity createList(@RequestBody PortfolioDto portfoliodto ){
+		
+		ResponseEntity response = null;
+		System.out.println(1234);
+		Map<String, Object> resultMap = new HashMap<>();
+		boolean result=portfolioService.updateList(portfoliodto);
+		if(result) {
+			resultMap.put("message", "success");
+		response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.CREATED);
+		}else {
+			resultMap.put("message", "fail");
+			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return response;
+	}
+	
 	
 	@GetMapping(value ="/list/{userIdx}")
 	@ApiOperation(value = "포트폴리오 리스트")
@@ -172,11 +206,28 @@ public class PortfolioController {
 			resultMap.put("Asset", assetList);
 			resultMap.put("amount", amount);
 			resultMap.put("message", "success");
-			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.CREATED);
+			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 			
 		}
 		return response;
 	}
+	
+	@PutMapping(value ="/asset")
+	@ApiOperation(value = "개별자산 수정")
+	public ResponseEntity updateAsset(@RequestBody AssetDto assetDto){
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		boolean result=portfolioService.updateAsset(assetDto);
+		if(result) {resultMap.put("message", "success");
+		response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		}else {
+			resultMap.put("message", "fail");
+			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return response;
+		
+	}
+	
 	
 	@DeleteMapping(value ="/asset/{assetIdx}")
 	@ApiOperation(value = "개별자산 삭제")
@@ -185,7 +236,7 @@ public class PortfolioController {
 		Map<String, Object> resultMap = new HashMap<>();
 		boolean result=portfolioService.deleteAsset(assetIdx);
 		if(result) {resultMap.put("message", "success");
-		response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.CREATED);
+		response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		}else {
 			resultMap.put("message", "fail");
 			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -264,4 +315,7 @@ public class PortfolioController {
 		
 		
 	}
+	
+	
+	
 }

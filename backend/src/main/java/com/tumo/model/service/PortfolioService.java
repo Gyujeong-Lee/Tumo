@@ -22,4 +22,6 @@ public interface PortfolioService {
 	int recentPortfolio(int userIdx);
 	boolean updateRank();
 	boolean updateYield();
+	boolean updateList(PortfolioDto portfoliodto);
+	boolean updateAsset(AssetDto assetDto);
 }

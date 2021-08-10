@@ -50,5 +50,10 @@ public class PortfolioDto {
 	public void setGoal(double goal) {
 		this.goal = goal;
 	}
+	@Override
+	public String toString() {
+		return "PortfolioDto [portfolioIdx=" + portfolioIdx + ", userIdx=" + userIdx + ", title=" + title + ", content="
+				+ content + ", goal=" + goal + "]";
+	}
 	
 }
