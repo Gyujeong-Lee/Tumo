@@ -1,5 +1,7 @@
 <template>
-  <canvas id="portfolioChart"></canvas>
+  <div>
+    <canvas id="portfolioChart" width="300" height="300"></canvas>  
+  </div>
 </template>
 
 <script>
@@ -11,6 +13,8 @@ export default {
     return {
       curPortfolio: this.portfolio,
       curAssets: this.assets,
+      stocks: [],
+      stockPortion: []
     }
   },
   props: {
@@ -18,25 +22,25 @@ export default {
     assets: Array,
   },
   mounted: function () {
-    const stocks = []
-    const stockPortion = []
-
+    // const stocks = []
+    // const stockPortion = []
     for (let i = 0; i < this.curAssets.length; i ++) {
       //개별 주식
-      stocks.push(this.curAssets[i].name)
+      this.stocks.push(this.curAssets[i].name)
       //개별 주식 비중 = 개별 주식의 현재가격 / 포트폴리오 현재가치 * 100
-      const portion = this.curAssets[i].curprice / this.portfolio.cursum * 100
-      stockPortion.push(portion)
+      const portion = this.curAssets[i].curprice / this.curPortfolio.cursum * 100
+      this.stockPortion.push(portion)
     }
 
+    // dataset.data에서 NaN 오류 발생 (새로고침 시, 마운티드 속성 때문인가)
     const ctx = document.getElementById('portfolioChart')
     const myChart = new Chart(ctx, {
         type: 'pie',
         data: {
-          labels: stocks,
+          labels: this.stocks,
           datasets: [{
             label: 'portfolio',
-            data: stockPortion,
+            data: this.stockPortion,
             backgroundColor: [
               '#00BFFE',
               '#CE1D28',

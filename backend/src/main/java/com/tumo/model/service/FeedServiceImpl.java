@@ -132,8 +132,10 @@ public class FeedServiceImpl implements FeedService {
 			HashMap<String, Object> tmp = new HashMap<String, Object>();
 			tmp.put("boardIdx", bidx);
 			FeedDto feed = sqlSession.getMapper(FeedDao.class).readArticle(bidx);
+			tmp.put("userIdx", feed.getUserIdx());
+			tmp.put("title", feed.getTitle());
 			tmp.put("nickname", sqlSession.getMapper(UserDao.class).findUserByUserIdx(feed.getUserIdx()).getNickname());
-			tmp.put("tag",  sqlSession.getMapper(FeedDao.class).readFeedTag(bidx));
+			tmp.put("tags",  sqlSession.getMapper(FeedDao.class).readFeedTag(bidx));
 			
 			result.add(tmp);
 		}
