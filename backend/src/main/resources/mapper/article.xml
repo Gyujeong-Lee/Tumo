@@ -13,10 +13,11 @@
 		select board_idx
 		from feed
 		where user_idx = #{userIdx} and stock = #{stock} and title = #{title} and content = #{content}
+		limit 0, 1
 	</select>
 	
 	<insert id="createFeedTag" parameterType="map">
-		insert into feed_tag (board_idx, content)
+		insert ignore into feed_tag (board_idx, content)
 		values (#{board_idx}, #{content})
 	</insert>
 
