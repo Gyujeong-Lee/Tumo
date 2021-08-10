@@ -21,7 +21,7 @@
       </div>
       <Loading />
     </div>
-    <div v-else class="d-flex flex-column align-items-center">
+    <div v-else class="d-flex flex-column">
       <vue-word-cloud
         class="w-100"
         style="
@@ -37,20 +37,23 @@
       <div>
         <h1 class="mb-4 fw-bold text-center">TOP KeyWords</h1>
       </div>
-      <div v-for="(data, idx) in hotkeyList.slice(0, 3)" :key="idx">{{ idx+1 }}. {{ data.text }}</div>
+      <!-- <div v-for="(data, idx) in hotkeyList.slice(0, 3)" :key="idx">{{ idx+1 }}. {{ data.text }}</div> -->
+      <br>
+      <Newspaper v-if="hotkeyList.length" :keyList="hotkeyList.slice(0, 3)"/>
     </div>
-
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import Loading from '@/components/Loading'
+import Newspaper from '@/components/Newspaper'
 
 export default {
   name: 'SubFeed',
   components: {
     Loading,
+    Newspaper,
   },
   data: function () {
     return  {
