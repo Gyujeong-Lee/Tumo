@@ -1,8 +1,10 @@
 <template>
   <v-sheet 
-    elevation="5"
-    rounded="xl"
-    class="mx-2 my-5"
+    :elevation="elevation"
+    rounded
+    class="articleFeed mx-2 my-5"
+    @mouseover="elevation=10"
+    @mouseleave="elevation=4"
     height="auto"
     width="auto">
     <p class="p-3" type="button" @click="moveToDetail">{{ scrap.title }}</p>
@@ -16,7 +18,8 @@ export default {
   name: 'ScrapList',
   data: function () {
     return {
-      myScrap: this.scrap
+      myScrap: this.scrap,
+      elevation: 4,
     }
   },
   props: {

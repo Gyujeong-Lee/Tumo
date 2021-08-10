@@ -112,7 +112,7 @@ export default {
   },
   props: {
     assets: Array,
-    userIdx: String,
+    userIdx: Number,
   },
   components: {
     UpdateAssetList,
