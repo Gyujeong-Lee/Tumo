@@ -187,7 +187,7 @@ export default {
     searchStock: function () {      
       axios({
         method: 'GET',
-        url: `/api/company/search/${this.searchItem}/${this.pageNum}`,
+        url: `/api/company/search/${this.searchItem}`,
       })
       .then(res => {
         // console.log(res)

@@ -15,6 +15,8 @@ const state = {
   drawCreateArticle: false,
   drawUpdateArticle: false,
   drawCreatePortfolio: false,
+  drawUpdatePortfolio: false,
+  drawUpdateAssets: false,
   drawUpdatePassword: false,
   drawFindPassword: false,
   drawDeleteAccount: false,
