@@ -196,7 +196,7 @@ export default {
 #articleDetail {
   width: 526px;
   padding: 2rem 2rem 1rem;
-  margin: 3rem 0rem 1rem;
+  margin: 3rem 0rem auto;
 }
 
 .el-popconfirm__action {

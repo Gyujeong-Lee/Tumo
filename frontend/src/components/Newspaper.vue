@@ -1,20 +1,8 @@
 <template>
   <div id="KeywordNews">
-    <div class="news">
-      <div>
-        <p>1. {{ keywords[0] }}</p>
-        <img src="@/assets/main/newspaper.png" alt="newspaper" class="newspaper">
-      </div>
-    </div>
-    <div class="news">
-      <div>
-        <p>2. {{ keywords[1] }}</p>
-        <img src="@/assets/main/newspaper.png" alt="newspaper" class="newspaper">
-      </div>
-    </div>
-    <div class="news">
-      <div>
-        <p>3. {{ keywords[2] }}</p>
+    <div v-for="(keyword, idx) in keywords" :key="idx" class="news">
+      <div @click="moveToSearch(keyword)">
+        <p>{{ idx+1 }}. {{ keyword }}</p>
         <img src="@/assets/main/newspaper.png" alt="newspaper" class="newspaper">
       </div>
     </div>
@@ -29,8 +17,9 @@ export default {
       type: Array
     }
   },
-  data: function () {
-    return {
+  methods: {
+    moveToSearch: function (keyword) {
+      window.open(`https://search.naver.com/search.naver?where=news&query=${keyword}`)
     }
   },
   computed: {

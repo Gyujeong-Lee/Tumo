@@ -1,10 +1,10 @@
 <template>
   <div id="subfeed">
+    <!-- article Detail Subfeed -->
     <div v-if="$route.name === 'articleDetail'" class="d-flex flex-column">
-      <h3 class="fw-bold text-center">유사한 게시물</h3>
-      <div v-if="!relatedFeeds.length">유사한 게시물이 없네요 ㅜㅜ</div>
-      <div v-else>
-        <v-card v-for="(feed, idx) in relatedFeeds" :key="idx" outlined elevation="4" class="px-4 pt-3 pb-2 my-3">
+      <h3 class="fw-bold text-center mb-4">유사한 게시물</h3>
+      <div>
+        <v-card v-for="(feed, idx) in relatedFeeds" :key="idx" outlined elevation="4" class="px-4 pt-3 pb-2 mb-4">
           <img src="@/assets/main/user.png" alt="default" style="width: 30px;">
           <router-link 
             class="text-secondary nickname ms-2" 
@@ -17,9 +17,17 @@
             <v-chip v-for="(tag, idx) in feed.tags.slice(0, 3)" :key="idx" label class="px-2 me-1 mb-1">#{{ tag }}</v-chip>
           </div>
         </v-card>
+        <v-skeleton-loader
+          v-for="n in 3-relatedFeeds.length" :key="n"
+          class="mb-4"
+          type="avatar, heading, text, chip"
+          elevation="4"
+        ></v-skeleton-loader>
       </div>
       <Loading />
     </div>
+
+    <!-- Main Subfeed -->
     <div v-else class="d-flex flex-column">
       <vue-word-cloud
         class="w-100"
@@ -34,7 +42,7 @@
         id="wordcloud"
       />
       <div>
-        <h1 class="mb-4 fw-bold text-center">TOP KeyWords</h1>
+        <h1 class="fw-bold text-center">TOP KeyWords</h1>
       </div>
       <br>
       <Newspaper v-if="hotkeyList.length" :keyList="hotkeyList.slice(0, 3)"/>
@@ -134,4 +142,17 @@ export default {
   margin-bottom: 2rem;
 }
 
+.v-skeleton-loader > div {
+  margin: 0rem 1rem 0.8rem;
+}
+
+.v-skeleton-loader > div:first-child,
+.v-skeleton-loader > div:nth-child(2) {
+  display: inline-block;
+  margin: 0.5rem 1rem 0.3rem;
+}
+
+.v-skeleton-loader > div:nth-child(2) {
+  margin: 0rem 0rem 1rem;
+}
 </style>

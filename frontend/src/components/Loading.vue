@@ -15,6 +15,7 @@ export default {
 
 <style>
 #loading {
+  height: 200px;
   position: relative;
   transform: translateX(-25px) translateY(50px);
 }
