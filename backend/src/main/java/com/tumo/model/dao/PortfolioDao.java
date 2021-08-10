@@ -30,4 +30,8 @@ public interface PortfolioDao {
 	void updateRank();
 
 	void updateYield();
+
+	void updateList(PortfolioDto portfoliodto);
+
+	void updateAsset(AssetDto assetDto);
 }

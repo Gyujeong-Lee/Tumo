@@ -41,6 +41,16 @@
 		select portfolio.* ,nickname from portfolio join user on portfolio.user_idx= user.user_idx where title like "%${searchContent}%" or content like "%${searchContent}%"  or  nickname like "%${searchContent}%" limit ${pageNum},5
 	</select>
 	
+	
+	<update id="updateList" parameterType="portfolioDto">
+		update portfolio p set p.title=#{title}, p.content=#{content},p.goal=#{goal} where portfolio_idx=#{portfolioIdx}
+	</update>
+	
+	
+	<update id="updateAsset" parameterType="assetDto">
+		update asset a set a.quantity=#{quantity},a.price =#{price},a.goal=#{goal} where a.asset_idx=#{assetIdx}
+	</update>
+	
 	<update id="updateRank">
 		UPDATE user A
 		    SET A.rank = (
