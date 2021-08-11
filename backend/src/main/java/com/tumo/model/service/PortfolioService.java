@@ -24,4 +24,5 @@ public interface PortfolioService {
 	boolean updateYield();
 	boolean updateList(PortfolioDto portfoliodto);
 	boolean updateAsset(AssetDto assetDto);
+	int readRank(String nickname);
 }

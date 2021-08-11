@@ -193,4 +193,18 @@ public class PortfolioServiceImpl implements PortfolioService {
 		sqlSession.getMapper(PortfolioDao.class).updateAsset(assetDto);
 		return true;
 	}
+
+
+	@Override
+	public int readRank(String nickname) {
+		String temp=sqlSession.getMapper(PortfolioDao.class).readRank(nickname);
+		 
+		 if(temp==null) {
+			 return 0;
+		 }else {
+			 return		Integer.parseInt(temp);
+		 }
+		 
+		 
+	}
 }

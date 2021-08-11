@@ -316,6 +316,21 @@ public class PortfolioController {
 		
 	}
 	
-	
+	@GetMapping(value ="/rank/{nickname}")
+	@ApiOperation(value = "포트폴리오 리스트")
+	public ResponseEntity readRank(@PathVariable String nickname){
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		int rank=0;
+		 rank=portfolioService.readRank(nickname);
+		 if(rank==0) {
+			 resultMap.put("message", "fail");
+			 return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NO_CONTENT);
+		 }
+		resultMap.put("rank", rank);
+		resultMap.put("message", "success");
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		
+	}
 	
 }

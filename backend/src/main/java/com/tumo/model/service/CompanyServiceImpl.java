@@ -24,11 +24,8 @@ public class CompanyServiceImpl implements CompanyService {
 	
 	@Override
 	public List<Map<Object, Object>> searchCompany(String searchContent) {
-//				//0시작
-//				int temp=Integer.parseInt(pageNum);
-//				pageNum=Integer.toString(temp*5);
+
 				HashMap<String, Object> tmp = new HashMap<String, Object>();
-//				tmp.put("pageNum", pageNum);
 				tmp.put("searchContent", searchContent);
 		return sqlSession.getMapper(CompanyDao.class).searchCompany(tmp);
 	}
@@ -38,8 +35,7 @@ public class CompanyServiceImpl implements CompanyService {
 	public List<Map<Object, Object>> searchCompanyForeign( String searchContent) {
 			
 		HashMap<String, Object> tmp = new HashMap<String, Object>();
-		
-//		tmp.put("pageNum", pageNum);
+
 		tmp.put("searchContent", searchContent);
 		return sqlSession.getMapper(CompanyDao.class).searchCompanyForeign(tmp);
 	}
@@ -70,6 +66,20 @@ public class CompanyServiceImpl implements CompanyService {
 				e.printStackTrace();
 			}
 		
+		return null;
+	}
+
+
+	@Override
+	public String readCorp(String stock_code) {
+		
+		return sqlSession.getMapper(CompanyDao.class).readCorp(stock_code);
+	}
+
+
+	@Override
+	public List<Map<Object, Object>> detailList(String userIdx) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

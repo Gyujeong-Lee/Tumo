@@ -10,4 +10,8 @@ public interface CompanyService {
 	public List<Map<Object, Object>> searchCompanyForeign(String searchContent);
 	
 	public List<Map<Object, Object>> CompanyNews(String code);
+
+	public String readCorp(String stock_code);
+
+	public List<Map<Object, Object>> detailList(String userIdx);
 }
