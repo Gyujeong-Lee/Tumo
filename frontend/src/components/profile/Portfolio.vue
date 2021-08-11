@@ -11,13 +11,15 @@
     <h5 type="button" @click="moveToDetail(bestPortfolio.portfolio_idx)" >
       {{ bestPortfolio.title }}
     </h5>
-    <PortfolioChart v-if="assets.length && Object.keys(bestPortfolio).length" :portfolio="bestPortfolio" :assets="assets"/>
-    <div class="d-flex align-center justify-center mt-3">
-      <div class="d-flex flex-column border p-2" id="portfolioInfo">
-        <p>총 자산 : {{ amount.cursum }}원</p>
-        <p v-if="bestPortfolio.percent > 0" class="text-danger">현재 수익률 : {{ amount.percent }}%</p>
-        <p v-else class="text-primary">현재 수익률 : {{ amount.percent }}%</p>
-        <p >목표 수익률 : {{ bestPortfolio.goal }}%</p>
+    <div v-if="portfolios.length">
+      <PortfolioChart v-if="assets.length && Object.keys(bestPortfolio).length" :portfolio="bestPortfolio" :assets="assets"/>
+      <div class="d-flex align-center justify-center mt-3">
+        <div class="d-flex flex-column border p-2" id="portfolioInfo">
+          <p>총 자산 : {{ amount.cursum }}원</p>
+          <p v-if="bestPortfolio.percent > 0" class="text-danger">현재 수익률 : {{ amount.percent / 100 }} %</p>
+          <p v-else class="text-primary">현재 수익률 : {{ amount.percent }}%</p>
+          <p >목표 수익률 : {{ bestPortfolio.goal }}%</p>
+        </div>
       </div>
     </div>
   </v-sheet>
@@ -64,22 +66,7 @@ export default {
       // best portfolio asset
       assets: [],
       amount: {},
-      portfolios: [ 
-        {
-          "portfolio_idx":1,
-          "userIdx":1,
-          "title":"나의 첫 포트폴리오",
-          "content":"처음으로 만든 포트폴리오",
-          "goal":10.0
-        },
-        {
-          "portfolio_idx":2,
-          "userIdx":1,
-          "title":"나의 두번쨰 포트폴리오",
-          "content":"처음으로 만든 포트폴리오",
-          "goal":10.9
-        }
-      ],
+      portfolios: [],
     }
   },
   components: {
@@ -126,7 +113,11 @@ export default {
       this.$router.push({name: 'portfolioDetail', params: {userIdx: this.userId, portfolioIdx: idx}})
     },
     viewMore: function () {
-      this.clickMore = true
+      if (this.clickMore) {
+        this.clickMore = false
+      } else {
+        this.clickMore = true
+      }
     }
   }
 }

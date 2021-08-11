@@ -1,5 +1,5 @@
 <template>
-  <div v-if="resultExist">
+  <div v-if="portfolios.lengths">
     <h4>포트폴리오 검색 결과</h4>
     <div class="d-flex flex-row my-auto">
       <v-card elevation="2" shaped v-for="(portfolio, idx) in portfolios" :key="idx" class="me-3">

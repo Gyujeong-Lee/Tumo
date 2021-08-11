@@ -16,11 +16,13 @@
         </router-link>
       </div>
     </div>
+    <!-- <Loading v-else/> -->
   </v-sheet>
 </template>
 
 <script>
 import axios from 'axios'
+// import Loading from '@/components/Loading.vue'
 
 export default {
   name: 'ScrapList',
@@ -34,6 +36,9 @@ export default {
     scrap: {
       type: Object
     }
+  },
+  components: {
+    // Loading,
   },
   methods: {
     moveToDetail: function () {
