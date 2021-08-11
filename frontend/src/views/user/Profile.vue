@@ -6,12 +6,12 @@
         <img src="@/assets/temp_user_image.jpg" alt="user image" id="user_image">
         <p v-if="itsMe" @click="edit_profile" type="button">Edit</p>
         <!-- v-else-if로 팔로우 언팔로우 분기처리 -->
-        <p v-else-if="!isFollow">Follow</p>
-        <p v-else> Unfollow</p>
+        <p type="button" v-else-if="!isFollow" @click="askFollow">Follow</p>
+        <p type="button" v-else @click="askUnfollow"> Unfollow</p>
       </div>
       <!-- 유저 정보 -->
       <div id="user_info_block">
-        <v-badge color="#ffd700" icon="mdi-star" v-bind:class="{gold: gold, silver: silver, bronze: bronze}">
+        <v-badge icon="mdi-star" v-bind:class="{gold: gold, silver: silver, bronze: bronze}">
           <h2>{{ user_info.nickname }}'s profile</h2>
           <span type="button" @click="openFollowerList" class="me-5"> Follwer : {{ user_info.followerCnt }}</span>
           <span type="button" @click="openFollowingList"> Follwing : {{ user_info.followingCnt }}</span>
@@ -69,27 +69,13 @@ export default {
       isFollow: false,
       followerList: [		
         {
-          "user_idx" : 1,
-          "nickname" : "gyoo",
-          "introduce" : "안녕하세요.\n잘부탁드립니다."
+          "nickname" : "팔로워가 없어요 ㅠ.ㅠ",
         },
-        {
-          "user_idx" : 2,
-          "nickname" : "joon2",
-          "introduce" : ""
-        }
       ],
       followingList: [		
         {
-          "user_idx" : 1,
-          "nickname" : "gyoo",
-          "introduce" : "안녕하세요.\n잘부탁드립니다."
+          "nickname" : "팔로잉한 사람이 없어요 ㅠ.ㅠ",
         },
-        {
-          "user_idx" : 2,
-          "nickname" : "joon2",
-          "introduce" : ""
-        }
       ],
     }
   },
@@ -101,7 +87,6 @@ export default {
   },
   //유저 데이터 받아오기
   created: function () {
-    // 추후 파라미터 닉네임으로 변경 예정
     axios({
       method: 'GET',
       url: `/api/sns/profile/${this.$route.params.nickname}`,
@@ -109,14 +94,38 @@ export default {
     .then (res => {
       console.log(res)
       this.user_info = res.data.users
-      // rank 
-      // if (res.dat.users.rank <= 10) {
-      //   this.gold = true
-      // } else if ( 10 < res.dat.users.rank <= 50) {
-      //   this.silver = true
-      // } else {
-      //   this.bronze = true
-      // }
+      const profileUserIdx = res.data.users.userIdx
+      const loginUserIdx = this.$store.state.user_info.id
+      // 팔로잉 여부 조회
+      axios({
+        method: 'GET',
+        url: `/api/sns/follow/${loginUserIdx}/${profileUserIdx}`,
+      })
+      .then(res => {
+        this.isFollow = res.data.isFollow
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      // 랭크 조회
+      axios({
+        method: 'GET',
+        url: `/api/portfolio/rank/${this.$route.params.nickname}`,
+      })
+      .then(res => {
+        console.log(res)
+        const rank = res.data.rank
+        if (rank <= 10) {
+          this.gold = true
+        } else if ( 10 < rank <= 20 ) {
+          this.silver = true
+        } else {
+          this.bronze = true
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
     })
     .catch (err => {
       console.log(err)
@@ -132,22 +141,45 @@ export default {
     },
   },
   methods: {
-    // 로그인 유저와 프로필 유저의 팔로우 관계, 버튼 분기 처리
-    checkFollow: function () {
+    askFollow: function () {
+      // follow 요청
       const login_user_idx = this.$store.state.user_info.id
       const profile_user_idx = this.user_info.userIdx
+      //axios
       axios({
-        method: 'GET',
-        url: `/api/sns/follow/${login_user_idx}/${profile_user_idx}`
+        method: 'POST',
+        url: `/api/sns/follow`,
+        data: {
+          followingIdx: profile_user_idx,
+          userIdx: login_user_idx,
+        }
       })
       .then(res => {
         console.log(res)
-        this.isFollow = res.isFollow
-
       })
       .catch(err => {
         console.log(err)
       })
+      //btn 분기
+      this.isFollow = true
+    },
+    askUnfollow: function () {
+      // unfollow
+      const login_user_idx = this.$store.state.user_info.id
+      const profile_user_idx = this.user_info.userIdx
+      axios({
+        method: 'DELETE',
+        url: `/api/sns/follow/${login_user_idx}/${profile_user_idx}`
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+      //btn 분기
+      this.isFollow = false
     },
     // profile 유저의 팔로워 리스트
     openFollowerList: function () {
@@ -156,8 +188,8 @@ export default {
         url: `/api/sns/follower/${this.user_info.userIdx}`,
       })
       .then(res => {
-        console.log(`follower${res}`)
-        // this.followerList에 추가할 것. 
+        console.log(res)
+        this.followerList = res.data.follower
       })
       .catch(err => {
         console.log(err)
@@ -172,8 +204,8 @@ export default {
       })
       .then(res => {
 
-        console.log(`following${res}`)
-        // this.followingList에 추가할 것. 
+        console.log(res)
+        this.followingList = res.data.followers
       })
       .catch(err => {
         console.log(err)

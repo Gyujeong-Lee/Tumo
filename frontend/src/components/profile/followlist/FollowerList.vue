@@ -11,7 +11,9 @@
           {{ follower.nickname }}
         </v-list-item>
       </v-list>
-      <button @click="closeModal" style="background-color:#00BFFE">닫기</button>
+      <div class="d-flex justify-end">
+        <v-btn @click="closeModal" style="background-color:#00BFFE; color:white">close</v-btn>
+      </div>
     </v-sheet>
   </v-dialog>
 </template>

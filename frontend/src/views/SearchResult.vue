@@ -10,7 +10,7 @@
       <CorpSearch v-if="searchItem" :searchItem="searchItem" />
     </div>
     <div>
-      <h2>PortfolioSearch</h2>
+      <h2>Portfolio</h2>
       <PortfolioSearch v-if="searchItem" :searchItem="searchItem" />
     </div>
     <hr>

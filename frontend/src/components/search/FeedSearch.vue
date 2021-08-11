@@ -1,6 +1,6 @@
 <template>
-  <div v-if="resultExist">
-    <h3>피드 검색 결과</h3>
+  <div v-if="feeds.length">
+    <h4>피드 검색 결과</h4>
     <div class="d-flex flex-column my-autoss">
       <v-card elevation="2" shaped v-for="(feed, idx) in feeds" :key="idx" class="mb-3">
         <v-card-title>{{ feed.title }}</v-card-title>
@@ -8,7 +8,7 @@
     </div>
   </div>
   <div v-else>
-    <h3>피드 검색 결과가 없습니다...</h3>
+    <h4 style="color:#CE1D28">피드 검색 결과가 없습니다...</h4>
   </div>
 </template>
 
@@ -91,7 +91,7 @@ export default {
       } else {
         this.resultExist = true
         // 응답 담기
-        // this.feeds = res.data.feedList
+        this.feeds = res.data.feedList
       }
     })
     .catch(err => {
