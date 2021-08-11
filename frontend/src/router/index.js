@@ -9,6 +9,7 @@ import ArticleDetail from "../views/article/ArticleDetail.vue";
 import PortfolioDetail from "../views/portfolio/PortfolioDetail.vue";
 import CorporationDetail from "../views/CorporationDetail.vue";
 import Main from "../views/Main.vue";
+import Explore from "../views/Explore.vue";
 import SearchResult from "../views/SearchResult.vue";
 
 Vue.use(VueRouter);
@@ -28,6 +29,11 @@ const routes = [
     path: "/main",
     name: "main",
     component: Main,
+  },
+  {
+    path: "/explore",
+    name: "explore",
+    component: Explore,
   },
   {
     path: "/user/update",

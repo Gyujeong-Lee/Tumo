@@ -7,11 +7,13 @@ import VueWordCloud from "vuewordcloud";
 import VueSimpleAlert from "vue-simple-alert";
 import { Popconfirm, Message } from "element-ui";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+import VueGlide from "vue-glide-js";
 
 import "remixicon/fonts/remixicon.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "element-ui/lib/theme-chalk/index.css";
+import "vue-glide-js/dist/vue-glide.css";
 
 Vue.config.productionTip = false;
 
@@ -19,6 +21,7 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(Popconfirm);
 Vue.use(VueSimpleAlert);
+Vue.use(VueGlide);
 
 Vue.component(VueWordCloud.name, VueWordCloud);
 
