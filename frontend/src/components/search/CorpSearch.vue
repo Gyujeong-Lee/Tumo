@@ -1,5 +1,5 @@
 <template>
-  <div v-if="resultExist">
+  <div v-if="companies.length">
     <h4>기업 검색 결과</h4>
     <div class="d-flex flex-row my-auto">
       <v-card elevation="2" shaped v-for="(company, idx) in companies" :key="idx" class="me-3" @click="moveToDetail(company.name)">
@@ -54,7 +54,7 @@ export default {
         console.log('자료 x')
       } else {
         this.resultExist = true
-        // 응답 담기
+        // 응답 담기s
         this.companies = res.data
       }
     })

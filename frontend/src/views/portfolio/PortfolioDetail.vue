@@ -45,7 +45,7 @@
     </div>
     <div id="portfolioPortion">
       <h3 style="display:inline">Portion</h3>
-      <v-icon color="#00BFFE" class="mb-2" @click="drawUpdateAssets">mdi-pencil</v-icon>
+      <v-icon v-if="itsMe" color="#00BFFE" class="mb-2" @click="drawUpdateAssets">mdi-pencil</v-icon>
       <div class="d-flex flex-column border p-2" id="assetInfo">
         <div id="domesticStock">
           <!-- 추후 국내, 해외 주식 비중 추가할 예정 -->
@@ -53,7 +53,7 @@
           <div class="d-flex">
             <!-- 여기에 종목 이름 -->
             <div v-for="(asset, idx) in assets" :key="idx">
-              <p class="mt-1 mb-0" style="font-weight:bolder" :class="{ 'text-danger': asset.percent > 0, 'text-primary': asset.percent < 0 }">{{ asset.name }} ({{asset.curprice / portfolio.cursum * 100}}%)</p>
+              <p class="mt-1 mb-0" style="font-weight:bolder" :class="{ 'text-danger': asset.percent > 0, 'text-primary': asset.percent < 0 }">{{ asset.name }} ({{asset.curprice*asset.quantity / portfolio.cursum * 100}}%)</p>
               <ul>
                 <li>
                   목표 가격 : {{ asset.goal }}원

@@ -11,26 +11,34 @@
       </div>
       <!-- 유저 정보 -->
       <div id="user_info_block">
-        <v-badge icon="mdi-star" v-bind:class="{gold: gold, silver: silver, bronze: bronze}">
+        <v-badge icon="mdi-star" color="#ffd700" v-if="gold">
           <h2>{{ user_info.nickname }}'s profile</h2>
+        </v-badge>
+        <v-badge icon="mdi-star" color="#c0c0c0" v-else-if="silver">
+          <h2>{{ user_info.nickname }}'s profile</h2>
+        </v-badge>
+        <v-badge icon="mdi-star" color="#CD7F32" v-else-if="bronze">
+          <h2>{{ user_info.nickname }}'s profile</h2>
+        </v-badge>
+        <div>
           <span type="button" @click="openFollowerList" class="me-5"> Follwer : {{ user_info.followerCnt }}</span>
           <span type="button" @click="openFollowingList"> Follwing : {{ user_info.followingCnt }}</span>
           <FollowerList :followerList="followerList"/>
           <FollowingList :followingList="followingList"/>
-        </v-badge>
-          <div id="hash_tags" class="mt-5">
-            <v-chip 
-            v-for="(tag, idx) in user_info.tags" 
-            :key="idx"
-            class="me-2"
-            color="#00BFFE"
-            text-color="white"
-            >
-            {{ tag }}
-            </v-chip>
-          </div>
-          <!-- 소개 -->
-          <p class="fw-bold mt-3">{{ user_info.introduce }}</p>
+        </div>
+        <div id="hash_tags" class="mt-5">
+          <v-chip 
+          v-for="(tag, idx) in user_info.tags" 
+          :key="idx"
+          class="me-2"
+          color="#00BFFE"
+          text-color="white"
+          >
+          {{ tag }}
+          </v-chip>
+        </div>
+        <!-- 소개 -->
+        <p class="fw-bold mt-3">{{ user_info.introduce }}</p>
       </div>
     </div>
     <!-- 포트폴리오  -->
@@ -113,7 +121,7 @@ export default {
         url: `/api/portfolio/rank/${this.$route.params.nickname}`,
       })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         const rank = res.data.rank
         if (rank <= 10) {
           this.gold = true
@@ -189,7 +197,7 @@ export default {
       })
       .then(res => {
         console.log(res)
-        this.followerList = res.data.follower
+        this.followerList = res.data.followers
       })
       .catch(err => {
         console.log(err)
@@ -203,9 +211,8 @@ export default {
         url: `/api/sns/following/${this.user_info.userIdx}`,
       })
       .then(res => {
-
-        console.log(res)
         this.followingList = res.data.followers
+        console.log(this.followingList)
       })
       .catch(err => {
         console.log(err)
@@ -254,6 +261,6 @@ p {
    color: #c0c0c0;
  }
  .bronze {
-   color: #008b8b;
+   color: #CD7F32;
  }
 </style>

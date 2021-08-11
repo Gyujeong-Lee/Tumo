@@ -1,9 +1,15 @@
 <template>
   <v-list class="w-100">
     <!-- 팔로우 요청, 좋아요, 댓글, 스크랩 알림 따로 처리 -->
-    <AlertListFollow v-for="(notification, idx) in followNotifications" :key="idx" :notification="notification" />
+    <div v-if="followNotifications.length">
+      <AlertListFollow v-for="(notification, idx) in followNotifications" :key="idx" :notification="notification" />
+    </div>
+    <div v-else>
+      <v-list-item>팔로우 알림이 없습니다.</v-list-item>
+    </div>
     <!-- 그 외 -->
-    <AlertListActivity v-for="(activityNotification, idx) in activityNotifications" :key="'A'+idx" :activityNotification="activityNotification" />
+    <AlertListActivity v-for="(activityNotification, idx) in activityNotifications" :key="'xxx'+idx" :activityNotification="activityNotification" />
+
   </v-list>
 </template>
 
@@ -16,45 +22,8 @@ export default {
   data: () => ({
     // vuex로 처리할 것
     followNotifications: [
-      // 더미 데이터, 삭제할 것
-      {
-        "notificationIdx" : 7,
-        "userIdx" : 2,
-        "nickname" : "aaa",
-        "type" : 1,
-        "boardIdx" : -1,
-        "readAt" : null,
-        "createAt" : "2021-07-20 11:16:00"
-      },
-      {
-        "notificationIdx" : 5,
-        "userIdx" : 3,
-        "nickname" : "aaa",
-        "type" : 1,
-        "boardIdx" : -1,
-        "readAt" : "2021-07-10 06:16:00",
-        "createAt" : "2021-05-05 11:16:05"
-      }
     ],
     activityNotifications: [
-      {
-        "notificationIdx" : 5,
-        "userIdx" : 2,
-        "nickname" : "gyu",
-        "type" : 2,
-        "boardIdx" : -1,
-        "readAt" : null,
-        "createAt" : "2021-07-20 11:16:00"
-      },
-      {
-        "notificationIdx" : 5,
-        "userIdx" : 3,
-        "nickname" : "dong",
-        "type" : 3,
-        "boardIdx" : -1,
-        "readAt" : "2021-07-10 06:16:00",
-        "createAt" : "2021-05-05 11:16:05"
-      }
     ],
   }),
   components: {
@@ -70,11 +39,12 @@ export default {
       url: `/api/sns/alarm/${userIdx}`
     })
     .then (res => {
+      // console.log(res)
       // 총 알림 개수
       const cnt = res.data.notification.length
       this.$store.state.unreadAlert = cnt
       // 결과 넣기
-      for (const tmp in res.data.notification) {
+      for (const tmp of res.data.notification) {
         //읽지 않은 알림 개수
         if (tmp.readAt) {
           this.$store.state.unreadAlert = this.$store.state.unreadAlert -1

@@ -13,10 +13,12 @@
     <div v-if="selectedTab === 'article'">
       <!-- article -->
       <ArticleList v-for="(article, idx) of activityList" :key="idx" :article="article"/>
+      <Loading v-if="!activityList.length"/>
     </div>
     <div v-else-if="selectedTab === 'scrap'">
       <!-- scrap -->
       <ScrapList v-for="(scrap, idx) of activityList" :key="idx" :scrap="scrap"/>
+      <Loading v-if="!activityList.length"/>
     </div>
   </div>
 </template>
@@ -25,6 +27,7 @@
 import ArticleList from '@/components/profile/activitylist/ArticleList.vue'
 import ScrapList from '@/components/profile/activitylist/ScrapList.vue'
 import axios from 'axios'
+import Loading from '../Loading.vue'
 
 export default {
   name: 'Activity',
@@ -110,6 +113,7 @@ export default {
   components: {
     ArticleList,
     ScrapList,
+    Loading,
   }
 }
 </script>
