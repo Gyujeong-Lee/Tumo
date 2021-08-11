@@ -7,6 +7,7 @@ import ConfirmEmail from "../views/user/ConfirmEmail.vue";
 import UpdateInfo from "../views/user/UpdateInfo.vue";
 import ArticleDetail from "../views/article/ArticleDetail.vue";
 import PortfolioDetail from "../views/portfolio/PortfolioDetail.vue";
+import CorporationDetail from "../views/CorporationDetail.vue";
 import Main from "../views/Main.vue";
 import SearchResult from "../views/SearchResult.vue";
 
@@ -32,6 +33,11 @@ const routes = [
     path: "/user/update",
     name: "updateInfo",
     component: UpdateInfo,
+  },
+  {
+    path: "/corporation",
+    name: "corporationDetail",
+    component: CorporationDetail,
   },
   {
     path: "/user/:nickname",
