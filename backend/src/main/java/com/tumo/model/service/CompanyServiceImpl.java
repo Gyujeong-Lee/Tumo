@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,37 +48,50 @@ public class CompanyServiceImpl implements CompanyService {
 
 
 	@Override
-	public List<Map<Object, Object>> CompanyNews(String code) {
+	public List<Map<String, Object>> CompanyNews(String code) {
 		
 		while(code.length()!=6) {
 			code="0"+code;
 		}
+		List<Map<String, Object>> List= new ArrayList<Map<String, Object>>();
 		
-		//System.out.println(code);
-		String url="https://finance.naver.com/item/news.nhn?code="+code;
+		System.out.println(code);
+		String url="https://finance.naver.com/item/news_news.nhn?code="+code+"&page=&sm=title_entity_id.basic&clusterId=";
 		 Document doc;
 			try {
 				doc = Jsoup.connect(url).get();
-				//System.out.println(doc.toString());
-				Elements elem = doc.select("tbody");
-				System.out.println(elem.text().toString());
-				
-				StringTokenizer st = new StringTokenizer(elem.select("dd").get(3).text().toString());
-				String temp=st.nextToken();
-				temp=st.nextToken();
+				System.out.println(doc.toString()+1234);
+				Elements elem = doc.select("table > tbody > tr:not(.relation_tit)");
+				System.out.println(elem.toString());
+				Elements title = elem.select("td.title");
+				Elements info = elem.select("td.info");
+				Elements date = elem.select("td.date");
+				for (int i = 0; i < 5; i++) {
+					Map<String, Object> result= new HashMap<String, Object>();
+					result.put("title", title.get(i).text());
+					result.put("href", title.select("a[href]").attr("href"));
+					result.put("author", info.get(i).text());
+					result.put("date", date.get(i).text());
+					//System.out.println(title.get(i).select("a[href]").attr("href"));
+					List.add(result);
+				}
+				//System.out.println(elem.toString());
+//				StringTokenizer st = new StringTokenizer(elem.select("dd").get(3).text().toString());
+//				String temp=st.nextToken();
+//				temp=st.nextToken();
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
-		return null;
+		return List;
 	}
 
 
 	@Override
 	public String readCorp(String corp_name) {
-		System.out.println(corp_name);
+		
 		return sqlSession.getMapper(CompanyDao.class).readCorp(corp_name);
 	}
 
@@ -120,6 +134,13 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 
 		return resultMap;
+	}
+
+
+	@Override
+	public String readStock(String corp_name) {
+		
+		return sqlSession.getMapper(CompanyDao.class).readStock(corp_name);
 	}
 
 }

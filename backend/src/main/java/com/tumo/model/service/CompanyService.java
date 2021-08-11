@@ -9,11 +9,13 @@ public interface CompanyService {
 
 	public List<Map<Object, Object>> searchCompanyForeign(String searchContent);
 	
-	public List<Map<Object, Object>> CompanyNews(String code);
+	public List<Map<String, Object>> CompanyNews(String code);
 
 	public String readCorp(String corp_name);
 
 	public List<Map<Object, Object>> detailList(String userIdx);
 
 	public Map<String, Object> corpDetail(String corp_code, String corp_name);
+
+	public String readStock(String corp_name);
 }

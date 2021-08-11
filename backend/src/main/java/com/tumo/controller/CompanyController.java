@@ -97,14 +97,26 @@ public class CompanyController {
 			
 		}
 		
-//		@GetMapping(value ="/news/{corp_name}")
-//		@ApiOperation(value = "국내회사 검색")
-//		public List<Map<Object,Object>> news(@PathVariable("corp_name") String corp_name){
-//			
-//			
-//			return companyService.detailList(userIdx);
-//			
-//		}
+		@GetMapping(value ="/news/{corp_name}")
+		@ApiOperation(value = "국내회사 검색")
+		public ResponseEntity news(@PathVariable("corp_name") String corp_name){
+			
+			
+			 String stockcode=companyService.readStock(corp_name);
+			 List<Map<String, Object>> result =companyService.CompanyNews(stockcode);
+			 
+			 Map<String, Object> resultMap= new HashMap<String, Object>();
+			 resultMap.put("news", result);
+			if(resultMap.size()==0||resultMap==null) {
+				resultMap.put("message", "fail");
+				return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NO_CONTENT);
+			}else {
+				resultMap.put("message", "success");
+				return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+				
+			
+		}
 		
 //		@GetMapping(value ="/test")
 //		@ApiOperation(value = "api 파일 생성")
