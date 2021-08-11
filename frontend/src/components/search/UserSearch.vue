@@ -1,14 +1,14 @@
 <template>
   <div v-if="resultExist">
-    <h3>유저 검색 결과</h3>
+    <h4>유저 검색 결과</h4>
     <div class="d-flex flex-row my-autoss">
-      <v-card elevation="2" shaped v-for="(user, idx) in users" :key="idx" class="me-3">
+      <v-card elevation="2" shaped v-for="(user, idx) in users" :key="idx" class="me-3" @click="moveToProfile(user.nickname)">
         <v-card-title>{{ user.nickname }}</v-card-title>
       </v-card>
     </div>
   </div>
   <div v-else>
-    <h3>유저 검색 결과가 없습니다...</h3>
+    <h4 style="color:#CE1D28">유저 검색 결과가 없습니다...</h4>
   </div>
 </template>
 
@@ -59,6 +59,12 @@ export default {
       console.log(err)
     })
   },
+  methods: {
+    moveToProfile: function (userName) {
+      this.$router.push({name: 'profile', params: {nickname: userName}})
+    } 
+  }
+  
 
 }
 </script>

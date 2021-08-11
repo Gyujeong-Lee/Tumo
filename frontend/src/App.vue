@@ -4,7 +4,8 @@
     <!-- <Navbar/> -->
     <Navbar v-if="$store.state.config.Authorization"/>
     <v-main>
-      <router-view/>
+      <!-- router params 변화에 따른 동적 변화 -->
+      <router-view :key="$route.fullPath"/>
       <CreateArticle v-if="$store.state.drawCreateArticle"/>
       <CreatePortfolio v-if="$store.state.drawCreatePortfolio"/>
     </v-main>

@@ -70,9 +70,6 @@ export default {
           console.log(err)
         })
       }
-      //   this.asset.price = this.tempInfo.price
-      //   this.asset.goal = this.tempInfo.goal
-      //   this.asset.quantity = this.tempInfo.quantity
       this.isConfirm= true
       console.log(this.asset)
     }
