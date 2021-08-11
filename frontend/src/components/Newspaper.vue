@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     moveToSearch: function (keyword) {
-      window.open(`https://search.naver.com/search.naver?where=news&query=${keyword}`)
+      this.$router.push({ name: 'search', params: { keyword: keyword }})
     }
   },
   computed: {

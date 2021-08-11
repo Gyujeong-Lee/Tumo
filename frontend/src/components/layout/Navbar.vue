@@ -55,7 +55,7 @@
           </v-menu>
           <!-- 탐색 -->
           <v-btn icon>
-            <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;">
+            <router-link :to="{ name: 'explore' }" style="text-decoration: none; color: inherit;">
               <v-icon>mdi-apple-safari</v-icon>
             </router-link>
           </v-btn>
