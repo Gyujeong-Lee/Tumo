@@ -291,8 +291,9 @@ public class PortfolioController {
 			resultMap.put("message", "fail");
 			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NO_CONTENT);
 		}
+		System.out.println(portfolioList.get(0).get("portfolio_idx"));
 		for (int i = 0; i < portfolioList.size(); i++) {
-			List<Map<Object,Object>> assetList=portfolioService.readAsset(Integer.parseInt(portfolioList.get(i).get("portfolioIdx").toString()));
+			List<Map<Object,Object>> assetList=portfolioService.readAsset(Integer.parseInt(portfolioList.get(i).get("portfolio_idx").toString()));
 			assetList=portfolioService.calcAsset(assetList);
 			int sum=portfolioService.sumAsset(assetList);
 			int cursum=portfolioService.sumCurAsset(assetList);
