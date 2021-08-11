@@ -23,8 +23,9 @@
           <!-- 검색 목록 -->
           <datalist id="my-list-id">
             <!-- 인기 키워드 배열로 담아서 출력할 것. -->
-            <option>인기 검색어?</option>
-            <option v-for="(item, idx) in search_list" :key="idx">{{ item }}</option>
+            <option class="text-danger">📢인기 검색어📢</option>
+            <option v-for="(hotItem, idx) in hotSearchItems" :key="idx+'a'">{{ hotItem.keyword.substring(0, 9)}}</option>
+            <!-- <option v-for="(item, idx) in search_list" :key="idx">{{ item }}</option> -->
           </datalist>
         </div>
         <!-- 아이콘 -->
@@ -55,7 +56,7 @@
           </v-menu>
           <!-- 탐색 -->
           <v-btn icon>
-            <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: inherit;">
+            <router-link :to="{ name: 'explore' }" style="text-decoration: none; color: inherit;">
               <v-icon>mdi-apple-safari</v-icon>
             </router-link>
           </v-btn>
@@ -65,17 +66,8 @@
           offset-y
           >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                dark
-                icon
-                v-bind="attrs"
-                v-on="on"
-              >
-                <v-badge
-                v-if="unreadAlert"
-                overlap
-                dot
-                >
+              <v-btn dark icon v-bind="attrs" v-on="on">
+                <v-badge v-if="unreadAlert" overlap dot>
                   <v-icon>mdi-heart</v-icon>
                 </v-badge>
                 <v-icon v-else>mdi-heart</v-icon>
@@ -109,15 +101,6 @@
                   my profile
                 </router-link>
               </v-list-item>
-              <!-- 계정 설정 변경 -->
-              <!-- <v-list-item>
-                <router-link 
-                :to="{ name: 'profile', params:{ nickname: `${user_nickname}`} }" 
-                style="text-decoration: none; color: inherit;"
-                >
-                  change info
-                </router-link>
-              </v-list-item> -->
               <!-- 로그아웃 -->
               <v-list-item>
                 <p type="button" @click="logout">Log out</p>
@@ -131,6 +114,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import AlertCenter from '../alertcenter/AlertCenter.vue'
 
 export default {
@@ -138,6 +122,7 @@ export default {
   data: function () {
     return {
       // 검색어
+      hotSearchItems: [],
       search_item: "",
     }
   },
@@ -154,8 +139,29 @@ export default {
       return this.$store.state.unreadAlert
     },
   },
+  created: function () {
+    axios({
+      method: 'GET',
+      url: '/api/feed/hotkeyword'
+    })
+    .then(res => {
+      console.log(res)
+      res.data.hotkeyList.splice(5)
+      // for (let i = 0; i < 5; i++) {
+      //   if (res.data.hotkeyList[i].keyword.length > 10) {
+      //     res.data.hotkeyList[i].keyword = res.data.hotkeyList[i].keyword.slice(0, 10)
+      //   }
+      // }
+      this.hotSearchItems = res.data.hotkeyList
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
   methods: {
     search: function () {
+      console.log('hi')
       // 검색 결과 페이지 이동 
       // console.log(this.search_item)
       this.$router.push({name: 'search', params: {keyword: `${this.search_item}`}})

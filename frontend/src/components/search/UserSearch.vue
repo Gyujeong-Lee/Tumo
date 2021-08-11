@@ -1,9 +1,15 @@
 <template>
-  <div v-if="resultExist">
+  <div v-if="users.length">
     <h4>유저 검색 결과</h4>
     <div class="d-flex flex-row my-autoss">
       <v-card elevation="2" shaped v-for="(user, idx) in users" :key="idx" class="me-3" @click="moveToProfile(user.nickname)">
-        <v-card-title>{{ user.nickname }}</v-card-title>
+        <div class="d-flex flex-column p-1">
+          <div class="d-flex justify-center mt-1">
+            <img src="@/assets/main/user.png" alt="user_img" style="width: 30px; height: 30px">
+          </div>
+          <v-card-title class="text-center">{{ user.nickname }}</v-card-title>
+          <v-card-subtitle>{{ user.introduce }}</v-card-subtitle>
+        </div>
       </v-card>
     </div>
   </div>
@@ -22,18 +28,7 @@ export default {
       searchWord: this.searchItem,
       resultExist: false,
       pageNum: 0,
-      users: [
-        {
-          "userIdx" : 1,
-          "nickName" : "이규정",
-          "introduce" : "안녕하세요.\n잘 부탁드립니다."
-        },
-        {
-          "userIdx" : 3,
-          "nickName" : "이규빈",
-          "introduce" : "안녕하세요.\n잘 부탁드립니다.22"
-        }
-      ],
+      users: [],
     }
   },
   props: {
@@ -47,12 +42,12 @@ export default {
     .then(res => {
       // console.log(res)
       if (res.request.status === 204) {
-        console.log(res)
+        // console.log(유저 자료 x)
       } else {
         this.resultExist = true
         // 응답 담기
         this.users = res.data.users
-        console.log(this.users)
+        // console.log(this.users)
       }
     })
     .catch(err => {

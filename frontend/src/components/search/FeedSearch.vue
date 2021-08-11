@@ -2,8 +2,14 @@
   <div v-if="feeds.length">
     <h4>피드 검색 결과</h4>
     <div class="d-flex flex-column my-autoss">
-      <v-card elevation="2" shaped v-for="(feed, idx) in feeds" :key="idx" class="mb-3">
+      <v-card elevation="2" shaped v-for="(feed, idx) in feeds" :key="idx" class="mb-3" @click="moveToDetail(feed)">
         <v-card-title>{{ feed.title }}</v-card-title>
+        <v-card-subtitle>{{ feed.nickname }}</v-card-subtitle>
+        <v-card-text>{{ feed.content }}</v-card-text>
+        <v-btn icon>
+          <v-icon>mdi-heart</v-icon>
+        </v-btn>
+        <span>: {{ feed.likes }}</span>
       </v-card>
     </div>
   </div>
@@ -98,5 +104,10 @@ export default {
       console.log(err)
     })
   },
+  methods: {
+    moveToDetail: function (feedInfo) {
+      this.$router.push({name: 'articleDetail', params: {userIdx: feedInfo.user_idx, boardIdx: feedInfo.board_idx}})
+    }
+  }
 }
 </script>
