@@ -18,6 +18,6 @@ export default {
 <style>
 #explore {
   height: 100%;
-  margin: 50px 10%;
+  margin: 50px auto;
 }
 </style>
