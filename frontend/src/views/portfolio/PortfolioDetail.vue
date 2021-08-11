@@ -29,10 +29,10 @@
     </div>
     <div class="d-flex justify-content-center">
       <div class="d-flex flex-column">
-        <h1>Portfolio</h1>
-        <h2>{{ portfolio.title }}</h2>
+        <h2 style="color:#CE1D28">Portfolio</h2>
+        <h3>{{ portfolio.title }}</h3>
         <UpdatePortfolio :portfolio="portfolio"/>
-        <UpdateAssets :assets="assets" :userIdx="userIdx"/>
+        <UpdateAssets v-if="assets.length" :assets="assets" :userIdx="userIdx"/>
         <PortfolioChart v-if="assets.length && Object.keys(portfolio).length" :portfolio="portfolio" :assets="assets" />
       </div>
       <div class="d-flex align-center">
@@ -60,6 +60,9 @@
                 </li>
                 <li>
                   현재 가격 : {{ asset.curprice }}원
+                </li>
+                <li>
+                  구매 수량 : {{ asset.quantity }}주
                 </li>
                 <li v-if="asset.percent>0" class="text-danger">
                   수익률 : {{ asset.percent }}%
