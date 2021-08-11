@@ -41,6 +41,9 @@
 		select portfolio.* ,nickname from portfolio join user on portfolio.user_idx= user.user_idx where title like "%${searchContent}%" or content like "%${searchContent}%"  or  nickname like "%${searchContent}%" limit ${pageNum},5
 	</select>
 	
+	<select id="readRank" parameterType="String" resultType="String" >
+		select u.rank from user as u where u.nickname=#{nickname}
+	</select>
 	
 	<update id="updateList" parameterType="portfolioDto">
 		update portfolio p set p.title=#{title}, p.content=#{content},p.goal=#{goal} where portfolio_idx=#{portfolioIdx}
@@ -56,7 +59,7 @@
 		    SET A.rank = (
 		   SELECT B.ranking 
 		       FROM (
-		                     select rank() over(order by (sum(quantity*cp.price)/sum(quantity*a.price))) as ranking, u.user_idx 
+		                     select rank() over(order by (sum(quantity*cp.price)/sum(quantity*a.price)) desc) as ranking, u.user_idx 
 		                     from asset as a join company_price as cp on stock_code=code join portfolio as p on p.portfolio_idx=a.portfolio_idx
 		                      join user as u on u.user_idx=p.user_idx group by u.user_idx
 		                    )B

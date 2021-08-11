@@ -19,4 +19,9 @@
 		 "%${keyword}%" limit ${pageNum},5
 	</select>
 	
+	<select id="readCorp" parameterType="string" resultType="string">
+		select corp_code from dart where stock_code=#{stock_code}
+		 
+	</select>
+	
 </mapper>

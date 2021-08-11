@@ -34,4 +34,6 @@ public interface PortfolioDao {
 	void updateList(PortfolioDto portfoliodto);
 
 	void updateAsset(AssetDto assetDto);
+
+	String readRank(String nickname);
 }
