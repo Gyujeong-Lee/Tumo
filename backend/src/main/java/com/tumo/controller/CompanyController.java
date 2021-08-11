@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Files;
@@ -12,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tomcat.util.json.JSONParser;
+import org.apache.tomcat.util.json.ParseException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -25,8 +29,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.ByteStreams;
 import com.tumo.model.service.CompanyService;
+
 
 import io.swagger.annotations.ApiOperation;
 
@@ -68,43 +74,21 @@ public class CompanyController {
 		
 		
 		
-		@GetMapping(value ="/detail/{stock_code}")
+		@GetMapping(value ="/detail/{corp_name}")
 		@ApiOperation(value = "국내회사디테일")
-		public ResponseEntity companyDetail(@PathVariable("stock_code") String stock_code){
+		public ResponseEntity companyDetail(@PathVariable("corp_name") String corp_name){
+	    	
+			String corp_code=companyService.readCorp(corp_name);
 			
-		
-			while(stock_code.length()!=6) {
-				stock_code="0"+stock_code;
+			System.out.println(corp_code);
+			while(corp_code.length()!=8) {
+				corp_code="0"+corp_code;
 			}
-			
-	    	String key = "32b1e829ffb13df1927c85ec2936092a63b22fdf";
-	    	String result = "";
-			String corp_code="";
-			result=companyService.readCorp(stock_code);
-			
-			ResponseEntity response = null;
-			
-			try {
-
-	    		URL url = new URL("	https://opendart.fss.or.kr/api/fnlttSinglAcnt.json?crtfc_key="
-	    				+ key + "&corp_code="+corp_code);
-
-	    		BufferedReader bf;
-
-	    		bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-
-	    		result = bf.readLine();
-	        	
-
-	    	}catch(Exception e) {
-	    		e.printStackTrace();
-	    	}
-			Map<String, Object> resultMap = new HashMap<String, Object>();
-			if(result.equals("")||result==null) {
+			Map<String, Object> resultMap=companyService.corpDetail(corp_code,corp_name);
+			if(resultMap.size()==0||resultMap==null) {
 				resultMap.put("message", "fail");
 				return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NO_CONTENT);
 			}else {
-				resultMap.put("result", result);
 				resultMap.put("message", "success");
 				return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 			}
@@ -113,7 +97,14 @@ public class CompanyController {
 			
 		}
 		
-		
+//		@GetMapping(value ="/news/{corp_name}")
+//		@ApiOperation(value = "국내회사 검색")
+//		public List<Map<Object,Object>> news(@PathVariable("corp_name") String corp_name){
+//			
+//			
+//			return companyService.detailList(userIdx);
+//			
+//		}
 		
 //		@GetMapping(value ="/test")
 //		@ApiOperation(value = "api 파일 생성")

@@ -20,8 +20,7 @@
 	</select>
 	
 	<select id="readCorp" parameterType="string" resultType="string">
-		select corp_code from dart where stock_code=#{stock_code}
-		 
+		 select corp_code from dart where stock_code= cast( (select code from company where name=#{corp_name} )as unsigned )
 	</select>
 	
 </mapper>

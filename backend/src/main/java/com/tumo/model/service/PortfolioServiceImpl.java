@@ -151,7 +151,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 		int temp=Integer.parseInt(pageNum);
 		pageNum=Integer.toString(temp*5);
 		HashMap<String, Object> tmp=new HashMap<String, Object>();
-		tmp.put("userIdx", searchContent);
+		tmp.put("searchContent", searchContent);
 		tmp.put("pageNum", pageNum);
 		return sqlSession.getMapper(PortfolioDao.class).searchPortfolio(tmp);
 	}
