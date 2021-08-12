@@ -79,8 +79,6 @@ public class CompanyController {
 		public ResponseEntity companyDetail(@PathVariable("corp_name") String corp_name){
 	    	
 			String corp_code=companyService.readCorp(corp_name);
-			
-			System.out.println(corp_code);
 			while(corp_code.length()!=8) {
 				corp_code="0"+corp_code;
 			}
