@@ -1,5 +1,5 @@
 <template>
-  <div v-if="portfolios.lengths">
+  <div v-if="portfolios.length">
     <h4>포트폴리오 검색 결과</h4>
     <div class="d-flex flex-row my-auto">
       <v-card elevation="2" shaped v-for="(portfolio, idx) in portfolios" :key="idx" class="me-3">
@@ -24,23 +24,7 @@ export default {
       // 출력 확인을 위해 true로 바꿔놓음
       resultExist: true,
       pageNum: 0,
-      portfolios: [ 
-        {
-          "user_idx" : 1,
-          "nickname" : "이규빈",
-          "portfolio_idx" : 1,
-          "title" : "포트폴리오1",
-          "contents" : "내용",
-          "goal" : 10
-        },
-        {
-          "user_idx" : 1,
-          "nickname" : "이규빈",
-          "portfolio_idx" : 2,
-          "title" : "포트폴리오2",
-          "contents" : "내용2",
-          "goal" : 10
-        }
+      portfolios: [
       ],
     }
   },

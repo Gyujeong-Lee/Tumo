@@ -6,7 +6,7 @@
     >
       {{ note.nickname }}님이 팔로우 요청을 보냈습니다.
       <v-btn
-      v-if="!accepted"
+      v-if="!accepted && !isPublic"
       small class="ms-2" style="background-color:#00BFFE; color:white"
       @click="acceptFollow">수락</v-btn>
     </v-list-item>
@@ -25,6 +25,15 @@ export default {
   },
   props: {
     notification: Object
+  },
+  computed: {
+    isPublic: function () {
+      if (this.$store.state.user_info.disclosure === 'public') {
+        return true
+      } else {
+        return false
+      }
+    }
   },
   methods: {
     readNote: function (noteIdx) {

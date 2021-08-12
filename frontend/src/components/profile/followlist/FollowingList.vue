@@ -8,7 +8,7 @@
       <h3>Following</h3>
       <v-list>
         <v-list-item v-for="(following, idx) in list" :key="idx">
-          {{ following.nickname }}
+          <p type="button" @click="moveToOther(following.nickname)">{{ following.nickname }}</p>
         </v-list-item>
       </v-list>
       <div class="d-flex justify-end">
@@ -33,7 +33,10 @@ export default {
   methods: {
     closeModal: function () {
       this.$store.state.drawFollowingList = false
-    }
+    },
+    moveToOther: function (name) {
+      this.$router.push({name: 'profile', params: {nickname : name}})
+    } 
   },
   computed: {
     isDrawFollowingList: function () {

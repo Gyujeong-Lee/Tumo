@@ -56,7 +56,7 @@ export default {
         .then(res => {
           console.log(res)
           // 알림 띄우기 수정 완료
-          alert('수정완료')
+          this.$alert("자산을 수정하였습니다.", "수정 완료", 'success')
         })
       } else {
         // 추가 (신규자산)
@@ -68,7 +68,7 @@ export default {
         })
         .then(res => {
           console.log(res)
-          alert('추가완료')
+          this.$alert("자산을 추가하였습니다.", "추가 완료", 'success')
         })
         .catch(err => {
           console.log(err)
@@ -86,7 +86,7 @@ export default {
         })
         .then(res => {
           console.log(res)
-          alert('삭제 완료')
+          this.$alert("자산이 삭제되었습니다.", "삭제 완료", 'success')
         })
         .catch(err => {
           console.log(err)

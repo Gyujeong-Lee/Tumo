@@ -8,10 +8,10 @@
     @mouseleave="elevation=4"
     height="auto"
     width="auto">
-    <h5 type="button" @click="moveToDetail(bestPortfolio.portfolio_idx)" >
-      {{ bestPortfolio.title }}
-    </h5>
     <div v-if="portfolios.length">
+      <h5 type="button" @click="moveToDetail(bestPortfolio.portfolio_idx)" >
+        {{ bestPortfolio.title }}
+      </h5>
       <PortfolioChart v-if="assets.length && Object.keys(bestPortfolio).length" :portfolio="bestPortfolio" :assets="assets"/>
       <div class="d-flex align-center justify-center mt-3">
         <div class="d-flex flex-column border p-2" id="portfolioInfo">
@@ -21,6 +21,10 @@
           <p >목표 수익률 : {{ bestPortfolio.goal }}%</p>
         </div>
       </div>
+    </div>
+    <div v-else>
+      <v-btn icon @click="creatrePortfolio"><v-icon>mdi-file-plus-outline</v-icon></v-btn>
+      <h5>나만의 포트폴리오를 만들어보세요!</h5>
     </div>
   </v-sheet>
   <v-tabs grow class="p-0">
@@ -118,6 +122,9 @@ export default {
       } else {
         this.clickMore = true
       }
+    },
+    creatrePortfolio: function () {
+      this.$store.state.drawCreatePortfolio = true
     }
   }
 }
