@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/user/Login.vue";
 import Signup from "../views/user/Signup.vue";
+import OauthSignup from "../views/user/OauthSignup.vue";
 import Profile from "../views/user/Profile.vue";
 import ConfirmEmail from "../views/user/ConfirmEmail.vue";
 import UpdateInfo from "../views/user/UpdateInfo.vue";
@@ -30,6 +31,11 @@ const routes = [
     path: "/signup",
     name: "signup",
     component: Signup,
+  },
+  {
+    path: "/oauth-signup",
+    name: "oauthSignup",
+    component: OauthSignup,
   },
   {
     path: "/main",

@@ -31,10 +31,13 @@
             <EmailAuth v-if="$store.state.drawEmailAuth" :userIdx="userIdx" :email="credentials.email"/>
           </v-form>
           <v-alert v-if="error" dense text type="error" style="font-size: 0.8rem;">회원 정보를 다시 확인해 주세요.</v-alert>
+          <v-alert v-if="isOauthUserError" dense text type="error" style="font-size: 0.8rem;">소셜 로그인으로 가입된 이메일입니다.<br>GOOGLE 로그인을 클릭해주세요.</v-alert>
           <p @click="drawModal" class="text-primary" style="cursor: pointer;" >비밀번호를 잊으셨나요?</p>
           <FindPassword v-if="$store.state.drawFindPassword" />
           <p class="my-auto">투모에 처음 오셨나요? <router-link :to="{ name: 'signup' }">가입하기</router-link></p>
           <hr>
+          <div id="my-signin2"></div><p/>
+          <v-alert v-if="isNotOauthUserError" dense text type="error" style="font-size: 0.8rem;">일반 회원으로 가입된 이메일입니다.<br>일반 로그인 창을 이용해주세요.</v-alert>
           <v-btn color="error"><img src="@/assets/login/google.png" alt="googleIcon">Google 로그인</v-btn>
           <v-btn color="success"><img src="@/assets/login/naver.png" alt="naverIcon">Naver 로그인</v-btn>
           <v-btn color="yellow"><img src="@/assets/login/kakao.png" alt="kakaoIcon">Kakao 로그인</v-btn>
@@ -87,10 +90,14 @@ export default {
         email: "",
         password: "",
       },
+      googleUser: null,
+      isOauthUserError: false,
+      isNotOauthUserError: false,
     };
   },
   methods: {
     userLogin: function () {
+      this.isNotOauthUserError = false;
       this.isLoading = true
       axios({
         method: 'POST',
@@ -101,6 +108,8 @@ export default {
         const message = res.data.message
         if (message === 'fail') {
           this.error = true
+        } else if (message === 'isOauthUser') {
+          this.isOauthUserError = true;
         } else if (message === 'temp') {
           this.userIdx = res.data.userIdx
           this.$store.state.drawEmailAuth = true
@@ -122,7 +131,57 @@ export default {
     },
     drawModal: function () {
       this.$store.state.drawFindPassword = true
-    }
+    },
+    onSuccess: function (googleUser) {
+      // eslint-disable-next-line
+      this.isOauthUserError = false;
+      this.googleUser = googleUser.getBasicProfile();
+      const id_token = googleUser.getAuthResponse().id_token;
+      this.oauthLogin(id_token);
+    },
+    onFailure: function (error) {
+      // eslint-disable-next-line
+      console.log(error);
+    },
+    oauthLogout: function () {
+      const authInst = window.gapi.auth2.getAuthInstance();
+      authInst.signOut();
+    },
+    oauthLogin: function (id_token) {
+      const authInst = window.gapi.auth2.getAuthInstance();
+      authInst.signOut();
+      axios({
+        method: 'POST',
+        url: '/api/user/oauth-login',
+        data: id_token
+      })
+      .then(res => {
+        const message = res.data.message
+        if (message === 'isNotOauthUser') {
+          // 일반 회원으로 이미 가입된 이메일
+          this.isNotOauthUserError = true;
+          this.oauthLogout();
+        } else if (message === 'null') {
+          // 가입되지 않은 회원으로 회원 가입 페이지로 이동
+          this.$router.push({ name: "oauthSignup", params: { email: res.data.email } })
+        } else if (message === 'success') {
+          const userData = {
+            ...res.data.userDto,
+            'token': res.headers.authorization,
+            'tags': res.data.tags
+          }
+          localStorage.setItem('userData', JSON.stringify(userData))
+          this.$store.commit('LOGIN', userData)
+          this.$router.push({ name: 'main'})
+        } else {
+          this.error = true
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        this.oauthLogout();
+      })
+    },
   },
   computed: {
     emailRules: function () {
@@ -136,6 +195,15 @@ export default {
     if (this.$store.state.config.Authorization) {
       this.$router.push({ name: 'main' })
     }
+    window.gapi.signin2.render('my-signin2', {
+      scope: 'profile email',
+      width: 260,
+      height: 50,
+      longtitle: true,
+      theme: 'dark',
+      onsuccess: this.onSuccess,
+      onfailure: this.onFailure,
+    });
   }
 };
 </script>

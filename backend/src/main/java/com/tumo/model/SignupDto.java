@@ -8,6 +8,7 @@ public class SignupDto {
 	private String email;
 	private String password;
 	private String introduce;
+	private String oauth;
 	private List<String> tag;
 	
 	public String getNickname() {
@@ -21,6 +22,9 @@ public class SignupDto {
 	}
 	public String getIntroduce() {
 		return introduce;
+	}
+	public String getOauth() {
+		return oauth;
 	}
 	public List<String> getTag() {
 		return tag;

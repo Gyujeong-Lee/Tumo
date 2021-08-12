@@ -91,7 +91,7 @@
           </div>
         </div>
       </v-form>
-      <p class="my-3 text-primary" style="cursor: pointer;" @click="drawUpdatePassword">비밀번호를 변경하시겠어요?</p>
+      <p class="my-3 text-primary" style="cursor: pointer;" @click="drawUpdatePassword" v-if="this.$store.state.user_info.oauth !== 'google'">비밀번호를 변경하시겠어요?</p>
       <UpdatePassword v-if="$store.state.drawUpdatePassword"/>
       <p class="my-3 text-danger" style="cursor: pointer;" @click="drawDeleteAccount">계정을 삭제 할건가요.....?</p>
       <DeleteAccount v-if="$store.state.drawDeleteAccount"/>
@@ -187,7 +187,8 @@ export default {
         nickname: this.credentials.name,
         disclosure: (this.credentials.disclosure) ? 'public' : 'private',
         introduce: this.credentials.introduce,
-        tags: this.credentials.keywords
+        tags: this.credentials.keywords,
+        oauth: this.$store.state.user_info.oauth,
       }
       // axios 요청
       axios({

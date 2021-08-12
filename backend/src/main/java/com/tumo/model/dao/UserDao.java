@@ -9,6 +9,9 @@ import com.tumo.model.UserDto;
 
 public interface UserDao {
 	
+	// 소셜 로그인으로 회원 정보 insert
+	public void createOauthUser(UserDto userDto);
+	
 	// 회원 정보 insert
 	public void createUser(UserDto userDto) throws SQLException;
 	

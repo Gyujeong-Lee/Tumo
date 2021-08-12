@@ -23,6 +23,7 @@ export default {
       introduce: data.introduce,
       nickname: data.nickname,
       tags: data.tags,
+      oauth: data.oauth,
     };
     // token 저장
     state.config.Authorization = data.token;
@@ -36,6 +37,7 @@ export default {
       nickname: null,
       disclosure: null,
       tags: [],
+      oauth: null,
     };
     state.config.Authorization = null;
   },
@@ -46,6 +48,7 @@ export default {
       disclosure: data.disclosure,
       introduce: data.introduce,
       tags: [...data.tags],
+      oauth: data.oauth,
     };
   },
   ACTIVATE_ALERTCENTER(state) {

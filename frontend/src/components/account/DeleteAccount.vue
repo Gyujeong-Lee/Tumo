@@ -65,12 +65,24 @@ export default {
       }
       axios({
         method: 'DELETE',
-        url: '/api/user/',
+        url: '/api/user/delete',
         data: data,
       })
       .then(res => {
         console.log(res)
         alert('계정이 삭제되었습니다. ㅜㅜ')
+
+        if (this.$store.state.user_info.oauth === 'google') {
+          // 구글 계정 소셜 로그인 회원
+          const authInst = window.gapi.auth2.getAuthInstance();
+          authInst.signOut().then(() => {
+            this.$store.state.drawDeleteAccount = false
+            this.$store.commit('LOGOUT')
+            this.$router.push({ name: 'Login' })
+          });
+          return;
+        }
+
         this.$store.state.drawDeleteAccount = false
         this.$store.commit('LOGOUT')
         this.$router.push({ name: 'Login' })
