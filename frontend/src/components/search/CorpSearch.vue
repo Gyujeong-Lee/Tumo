@@ -52,7 +52,7 @@ export default {
     moveToDetail: function (corpName) {
       console.log(corpName)
       // 기업 정보 페이지로 이동
-      // this.$router.push({name: corporationDetail, params: {}})
+      this.$router.push({name: 'corporationDetail', params: {companyName: corpName}})
     },
   }
 

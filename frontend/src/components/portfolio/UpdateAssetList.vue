@@ -58,6 +58,7 @@ export default {
           // console.log(res)
           // 알림 띄우기 수정 완료
           this.$alert("자산을 수정하였습니다.", "수정 완료", `${res.data.message}`)
+          this.$router.go(this.$router.currentRoute)
         })
       } else {
         // 추가 (신규자산)
@@ -71,6 +72,7 @@ export default {
         .then(res => {
           // console.log(res)
           this.$alert("자산을 추가하였습니다.", "추가 완료", `${res.data.message}`)
+          this.$router.go(this.$router.currentRoute)
         })
         .catch(err => {
           console.log(err)
@@ -88,6 +90,7 @@ export default {
         })
         .then(res => {
           this.$alert("자산이 삭제되었습니다.", "삭제 완료", `${res.data.message}`)
+          this.$router.go(this.$router.currentRoute)
         })
         .catch(err => {
           console.log(err)

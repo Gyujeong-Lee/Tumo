@@ -272,23 +272,12 @@ export default {
 };
 </script>
 
-<style>
-#articleDetail {
-  width: 526px;
-  padding: 2rem 2rem 1rem;
-  margin: 3rem 0rem auto;
-}
+<style scoped>
 
 .el-popconfirm__action {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
-}
-
-@media screen and (min-width: 940px) {
-  #articleDetail {
-    margin-right: 3rem;
-  }
 }
 
 #highest_block {
