@@ -112,7 +112,9 @@ export default {
   },
   props: {
     assets: Array,
-    userIdx: String,
+    userIdx: {
+      type: Number
+    },
   },
   components: {
     UpdateAssetList,
@@ -122,9 +124,6 @@ export default {
     isDrawUpdateAssets: function () {
       return this.$store.state.drawUpdateAssets
     },
-  },
-  created: function () {
-    console.log('자산 수정 모달 생성')
   },
   methods: {
     popTag: function (idx) {

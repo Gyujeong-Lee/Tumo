@@ -6,9 +6,10 @@
   >
     <v-sheet>
       <h3>Following</h3>
-      <v-list>
-        <v-list-item v-for="(following, idx) in list" :key="idx">
-          <p type="button" @click="moveToOther(following.nickname)">{{ following.nickname }}</p>
+      <hr>
+      <v-list v-for="(following, idx) in list" :key="idx">
+        <v-list-item @click="moveToOther(following.nickname)" style="font-weight:bold">
+          {{ following.nickname }}
         </v-list-item>
       </v-list>
       <div class="d-flex justify-end">

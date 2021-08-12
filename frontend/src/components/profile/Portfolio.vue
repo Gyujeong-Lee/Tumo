@@ -87,17 +87,17 @@ export default {
     })
     .then(res => {
       // for문 돌려서 가장 수익률이 높은 포트폴리오 가져오기
-      console.log(res)
+      // console.log(res)
       this.portfolios = res.data.portfolio
       this.bestPortfolio = _.maxBy(res.data.portfolio, 'percent')
-      console.log(this.bestPortfolio)
+      // console.log(this.bestPortfolio)
       //여기부터 개별 자산
       axios({
         method: 'GET',
         url: `/api/portfolio/asset/${this.bestPortfolio.portfolio_idx}`
       })
       .then(res=> {
-        console.log(res)
+        // console.log(res)
         this.assets = res.data.Asset
         this.amount = res.data.amount
       })
@@ -112,9 +112,9 @@ export default {
   },
   methods: {
     moveToDetail: function (idx) {
-      console.log(this.userId)
-      console.log(idx)
-      this.$router.push({name: 'portfolioDetail', params: {userIdx: this.userId, portfolioIdx: idx}})
+      // console.log(this.userId)
+      // console.log(idx)
+      this.$router.push({name: 'portfolioDetail', params: {userIdx: this.userIdx, portfolioIdx: idx}})
     },
     viewMore: function () {
       if (this.clickMore) {
