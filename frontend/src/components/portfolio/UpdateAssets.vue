@@ -69,7 +69,7 @@
               </tr>
             </thead>
             <tbody>
-              <UpdateAssetList v-for="(asset, idx) in myAssets" :key="idx" :asset="asset" :portfolioIdx="myAssets[0].portfolio_idx"/>
+              <UpdateAssetList v-for="(asset, idx) in myAssets" :myAssets="myAssets" :key="idx" :asset="asset" :portfolioIdx="myAssets[0].portfolio_idx"/>
             </tbody>
           </template>
         </v-simple-table>
@@ -157,11 +157,11 @@ export default {
       // 포트폴리오에 자산 추가
       this.isSubmit = false
       //딥 카피
-     let temp = JSON.parse(JSON.stringify(this.tmpAsset))
-     this.myAssets.push(temp)
-     this.searchItem = ''
-     this.searchItems = []
-     console.log(this.myAssets)
+      let temp = JSON.parse(JSON.stringify(this.tmpAsset))
+      this.myAssets.push(temp)
+      this.searchItem = ''
+      this.searchItems = []
+      // console.log(this.myAssets)
 
     },
     canSubmit: function () {

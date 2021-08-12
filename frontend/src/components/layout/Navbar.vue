@@ -136,7 +136,12 @@ export default {
       return this.$store.state.user_info.nickname
     },
     unreadAlert () {
-      return this.$store.state.unreadAlert
+      if (this.$store.state.unreadAlert > 0) {
+        return true
+      } else {
+        return false
+      }
+      
     },
   },
   created: function () {
@@ -147,11 +152,6 @@ export default {
     .then(res => {
       console.log(res)
       res.data.hotkeyList.splice(5)
-      // for (let i = 0; i < 5; i++) {
-      //   if (res.data.hotkeyList[i].keyword.length > 10) {
-      //     res.data.hotkeyList[i].keyword = res.data.hotkeyList[i].keyword.slice(0, 10)
-      //   }
-      // }
       this.hotSearchItems = res.data.hotkeyList
       
     })
@@ -161,7 +161,6 @@ export default {
   },
   methods: {
     search: function () {
-      console.log('hi')
       // 검색 결과 페이지 이동 
       // console.log(this.search_item)
       this.$router.push({name: 'search', params: {keyword: `${this.search_item}`}})

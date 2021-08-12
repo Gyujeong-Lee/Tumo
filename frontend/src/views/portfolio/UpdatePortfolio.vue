@@ -78,7 +78,7 @@ export default {
       this.$store.state.drawUpdatePortfolio = false
     },
     submitForm: function () {
-      // 포폴 제작 axios 요청
+      // 포폴 수정 axios 요청
       axios({
         method: 'PUT',
         url: '/api/portfolio/list',
@@ -86,6 +86,7 @@ export default {
       })
       .then(res => {
         console.log(res)
+        this.$alert("성공적으로 포트폴리오를 수정하였습니다.", "수정 완료", 'success')
       })
       .catch(err => {
         console.log(err)

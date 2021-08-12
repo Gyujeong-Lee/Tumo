@@ -165,9 +165,7 @@ export default {
     submitForm: function () {
       for (let i = 0; i < this.data.assets.length; i++) {
        delete this.data.assets[i].name
-      //  this.data.assets[i].goal = this.data.assets[i].goal.parseFloat
       }
-      // this.data.goal = parseFloat(this.data.goal)
       console.log(typeof(this.data.goal))
       // 포폴 제작 axios 요청
       axios({
@@ -177,6 +175,13 @@ export default {
       })
       .then(res => {
         console.log(res)
+        this.closeModal()
+        this.$alert("성공적으로 포트폴리오가 작성되었습니다.", "작성 완료", 'success')
+        .then(() => {
+          if (this.$route.name === 'main') {
+            this.$router.go(this.$router.currentRoute)
+          }
+        })
       })
       .catch(err => {
         console.log(err)

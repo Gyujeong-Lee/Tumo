@@ -23,8 +23,8 @@
         <div>
           <span type="button" @click="openFollowerList" class="me-5"> Follwer : {{ user_info.followerCnt }}</span>
           <span type="button" @click="openFollowingList"> Follwing : {{ user_info.followingCnt }}</span>
-          <FollowerList :followerList="followerList"/>
-          <FollowingList :followingList="followingList"/>
+          <FollowerList v-if="followerList.length" :followerList="followerList"/>
+          <FollowingList v-if="followingList.length" :followingList="followingList"/>
         </div>
         <div id="hash_tags" class="mt-5">
           <v-chip 
@@ -41,17 +41,24 @@
         <p class="fw-bold mt-3">{{ user_info.introduce }}</p>
       </div>
     </div>
-    <!-- 포트폴리오  -->
-    <div class="d-flex justify-center my-auto">
-      <div class="col-5 me-10 col-12-sm" >
-        <h3>portfolio</h3>
-        <Portfolio v-if="user_info.userIdx" :userIdx="user_info.userIdx"/>
+    <div v-if="isPublic">
+      <!-- 포트폴리오  -->
+      <div class="d-flex justify-center my-auto">
+        <div class="col-5 me-10 col-12-sm" >
+          <h3>portfolio</h3>
+          <Portfolio v-if="user_info.userIdx" :userIdx="user_info.userIdx"/>
+        </div>
+      <!-- 작성글, 스크랩 탭 -->
+        <div class="col-5">
+          <h3>activity</h3>
+          <Activity v-if="user_info.userIdx" :userIdx="user_info.userIdx"/>
+        </div>
       </div>
-    <!-- 작성글, 스크랩 탭 -->
-      <div class="col-5">
-        <h3>activity</h3>
-        <Activity v-if="user_info.userIdx" :userIdx="user_info.userIdx"/>
-      </div>
+    </div>
+    <div v-else class="mt-10">
+      <v-sheet>
+        <h2><v-icon>mdi-lock</v-icon>  비공개 계정입니다.</h2>
+      </v-sheet>
     </div>
   </div>
 </template>
@@ -67,23 +74,18 @@ export default {
   name: "Profile",
   data: function () {
     return {
-      portfolios: [],
-      // created 될 때 랭크 기준 부여
+      isPublic: false,
+      isFollow: false,
       gold: false,
       silver: false,
       bronze: false,
+      portfolios: [],
+      // created 될 때 랭크 기준 부여
       // img, follower, following, tag
       user_info: [],
-      isFollow: false,
       followerList: [		
-        {
-          "nickname" : "팔로워가 없어요 ㅠ.ㅠ",
-        },
       ],
       followingList: [		
-        {
-          "nickname" : "팔로잉한 사람이 없어요 ㅠ.ㅠ",
-        },
       ],
     }
   },
@@ -102,6 +104,9 @@ export default {
     .then (res => {
       console.log(res)
       this.user_info = res.data.users
+      if (res.data.users.disclosure === 'public') {
+        this.isPublic = true
+      }
       const profileUserIdx = res.data.users.userIdx
       const loginUserIdx = this.$store.state.user_info.id
       // 팔로잉 여부 조회
@@ -111,6 +116,9 @@ export default {
       })
       .then(res => {
         this.isFollow = res.data.isFollow
+        if (res.data.isFollow) {
+          this.isPublic = true
+        }
       })
       .catch(err => {
         console.log(err)

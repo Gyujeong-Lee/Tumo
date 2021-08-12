@@ -29,7 +29,7 @@ export default {
       //개별 주식
       this.stocks.push(this.curAssets[i].name)
       //개별 주식 비중 = 개별 주식의 현재가격 / 포트폴리오 현재가치 * 100
-      const portion = this.curAssets[i].curprice / this.curPortfolio.cursum * 100
+      const portion = (this.curAssets[i].curprice* this.curAssets[i].quantity) / this.curPortfolio.cursum * 100
       this.stockPortion.push(portion)
     }
 

@@ -115,8 +115,8 @@ export default {
             label: 'portfolio',
             data: res.priceData,
             backgroundColor: [
-              'rgb(255, 99, 132)',
-              'rgb(54, 162, 235)',
+              '#00BFFE',
+              '#CE1D28',
               'rgb(255, 206, 86)',
               'rgb(75, 192, 192)',
               'rgb(153, 102, 255)',
