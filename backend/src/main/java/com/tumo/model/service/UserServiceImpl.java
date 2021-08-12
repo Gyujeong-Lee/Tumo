@@ -51,11 +51,49 @@ public class UserServiceImpl implements UserService {
     
 	@Override
 	@Transactional
+	public void createOauthUser(SignupDto signupDto) throws SQLException {
+
+		UserDto userDto = new UserDto(signupDto.getNickname(), signupDto.getEmail(), signupDto.getOauth());
+		userDto.setLogin_type("ROLE_USER");
+		
+		// DB 테이블 비밀번호 컬럼이 NOT NULL이라서 초기화는 하되 사용은 하지않습니다
+		String encodedPassword = passwordEncoder.encode("google1234");
+		userDto.setPassword(encodedPassword);
+		
+		// 회원정보 insert
+		sqlSession.getMapper(UserDao.class).createOauthUser(userDto);
+
+		// 회원정보 insert 성공시 태그 insert를 위한 user_idx 조회
+		UserDto signupUser = sqlSession.getMapper(UserDao.class).findUserByEmail(userDto.getEmail());
+		Integer userIdx = signupUser.getUserIdx();
+
+		List<String> tagList = signupDto.getTag();
+
+		Map<String, Object> tagMap = new HashMap<String, Object>();
+
+		// 태그 insert
+		for (String content : tagList) {
+			tagMap.clear();
+			tagMap.put("userIdx", userIdx);
+			tagMap.put("content", content);
+
+			// 중복되는 태그 insert 방지를 위한 검사
+			if (sqlSession.getMapper(UserDao.class).findUserTagByUserIdxAndContent(tagMap)) {
+				continue;
+			}
+
+			sqlSession.getMapper(UserDao.class).insertUserTag(tagMap);
+		}
+
+	}
+	
+	@Override
+	@Transactional
 	public void createUser(SignupDto signupDto) throws SQLException {
 
 		UserDto userDto = new UserDto(signupDto.getNickname(), signupDto.getEmail(), signupDto.getPassword(),
 				signupDto.getIntroduce());
-
+		
 		// 회원가입시 비밀번호 암호화 후 DB에 저장
 		String encodedPassword = passwordEncoder.encode(userDto.getPassword());
 		userDto.setPassword(encodedPassword);
@@ -288,6 +326,17 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public UserDto readUserByEmail(String email) {
+		UserDto userDto = sqlSession.getMapper(UserDao.class).findUserByEmail(email);
+		
+		if (userDto == null) {
+			return null;
+		}
+		
+		return userDto;
 	}
 	
 }

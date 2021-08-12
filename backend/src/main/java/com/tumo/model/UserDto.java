@@ -12,6 +12,7 @@ public class UserDto {
 	private String createAt;
 	private String updateAt;
 	private String deleted;
+	private String oauth;
 
 	public UserDto() {
 	}
@@ -31,8 +32,15 @@ public class UserDto {
 		this.introduce = introduce;
 	}
 
+	public UserDto(String nickname, String email, String oauth) {
+		super();
+		this.nickname = nickname;
+		this.email = email;
+		this.oauth = oauth;
+	}
+
 	public UserDto(int userIdx, String nickname, String email, String password, String loginType, String introduce,
-			String disclosure, String createAt, String updateAt, String deleted) {
+			String disclosure, String createAt, String updateAt, String deleted, String oauth) {
 		super();
 		this.userIdx = userIdx;
 		this.nickname = nickname;
@@ -44,6 +52,7 @@ public class UserDto {
 		this.createAt = createAt;
 		this.updateAt = updateAt;
 		this.deleted = deleted;
+		this.oauth = oauth;
 	}
 
 	public int getUserIdx() {
@@ -108,6 +117,14 @@ public class UserDto {
 
 	public String getDeleted() {
 		return deleted;
+	}
+
+	public String getOauth() {
+		return oauth;
+	}
+
+	public void setOauth(String oauth) {
+		this.oauth = oauth;
 	}
 
 	@Override

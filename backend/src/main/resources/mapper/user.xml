@@ -4,6 +4,11 @@
 
 <mapper namespace="com.tumo.model.dao.UserDao">
 
+	<insert id="createOauthUser"  parameterType="userdto">
+		insert into user (nickname, email, password, oauth, login_type)
+			values (#{nickname}, #{email}, #{password}, #{oauth}, #{loginType})
+	</insert>
+
 	<insert id="createUser"  parameterType="userdto">
 		insert into user (nickname, email, password, introduce)
 			values (#{nickname}, #{email}, #{password}, #{introduce})
@@ -31,21 +36,21 @@
 	
 	<select id="findUserByEmail" parameterType="string" resultType="userdto">
 		select user_idx as userIdx, password, nickname, email, login_type as loginType, introduce, 
-				disclosure, create_at as createAt, update_at as updateAt, deleted 
+				disclosure, create_at as createAt, update_at as updateAt, deleted, oauth 
 			from user
 			having email = #{email} 
 	</select>
 	
 	<select id="findUserByNickname" parameterType="string" resultType="userdto">
 		select user_idx as userIdx, password, nickname, email, login_type as loginType, introduce, 
-				disclosure, create_at as createAt, update_at as updateAt, deleted 
+				disclosure, create_at as createAt, update_at as updateAt, deleted, oauth
 			from user
 			having nickname = #{nickname} 
 	</select>
 	
 	<select id="findUserByUserIdx" parameterType="int" resultType="userdto">
 		select user_idx as userIdx, password, nickname, email, login_type as loginType, introduce, 
-				disclosure, create_at as createAt, update_at as updateAt, deleted 
+				disclosure, create_at as createAt, update_at as updateAt, deleted, oauth
 			from user
 			having user_idx = #{userIdx} 
 	</select>

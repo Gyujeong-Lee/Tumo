@@ -172,6 +172,17 @@ export default {
       this.$store.state.drawCreatePortfolio = true
     },
     logout: function () {
+      if (this.$store.state.user_info.oauth === 'google') {
+        // 구글 계정 소셜 로그인 회원
+        const authInst = window.gapi.auth2.getAuthInstance();
+        authInst.signOut().then(() => {
+          localStorage.removeItem('userData')
+          this.$store.commit('LOGOUT')
+          this.$router.push({ name: 'Login' })
+        });
+        return;
+      }
+
       localStorage.removeItem('userData')
       this.$store.commit('LOGOUT')
       this.$router.push({ name: 'Login' })

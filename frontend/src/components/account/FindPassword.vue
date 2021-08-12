@@ -23,6 +23,7 @@
             class="w-100 px-2"
           ></v-text-field>
           <v-alert v-if="isError" text type="error" dense class="w-100">존재하지 않는 계정입니다.</v-alert>
+          <v-alert v-if="isOauthUserError" dense text type="error" style="font-size: 0.8rem;">소셜 로그인으로 가입된 이메일입니다.<br>GOOGLE 로그인을 클릭해주세요.</v-alert>
           <div class="d-flex justify-content-between w-100">
             <v-btn
               color="error darken-1"
@@ -71,10 +72,12 @@ export default {
       isEmailChecked: false,
       isError: false,
       isLoading: false,
+      isOauthUserError: false,
     }
   },
   methods: {
     findPassword: function () {
+      this.isOauthUserError = false;
       this.isLoading = true
       axios({
         method: 'GET',
@@ -84,6 +87,8 @@ export default {
         const message = res.data.message
         if (message === "fail") {
           this.isError = true
+        } else if (message === 'isOauthUser') {
+          this.isOauthUserError = true;
         } else {
           this.isEmailChecked = true
         }

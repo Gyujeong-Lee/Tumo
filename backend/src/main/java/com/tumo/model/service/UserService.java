@@ -11,6 +11,9 @@ import com.tumo.model.UserDto;
 
 public interface UserService {
 	
+	// 소셜 로그인으로 회원가입
+	public void createOauthUser(SignupDto signupDto) throws SQLException;
+	
 	// 회원가입 | 회원 정보 insert
 	public void createUser(SignupDto signupDto) throws SQLException;
 		
@@ -46,4 +49,8 @@ public interface UserService {
 	
 	// 비밀번호 찾기 (임시 비밀번호 8자리 생성)
 	public boolean findPassword(String email);
+	
+	// 이메일로 회원 조회
+	public UserDto readUserByEmail(String email);
+
 }

@@ -1,11 +1,12 @@
 <template>
   <div class="container d-flex justify-center my-5 h-100">
-    <div id="userUpdate" class="d-flex flex-column align-items-center h-100 fw-bold">
-      <h1 class="my-5">회원정보 변경</h1>
+    <div class="d-flex flex-column align-items-center h-100 fw-bold">
+      <img src="@/assets/login/logo.png" alt="mainlogo" class="w-50 mb-5"/>
+      <!-- <img src="../../public/Tumo_Korean.png" alt="CI" class="w-100 mb-5"> -->
       <v-form
         ref="form"
         v-model="valid"
-        id="userUpdateForm"
+        id="signupForm"
       >
         <!-- 서비스 내 이름 -->
         <div id="nickNameInput" class="position-relative">
@@ -29,26 +30,20 @@
         <!-- 이메일 계정 -->
         <div id="emailInput" class="position-relative">
           <v-text-field
-            :value="credentials.email"
+            v-model="credentials.email"
+            :rules="emailRules"
             label="E-mail"
-            disabled
+            readonly
+            required
+            @input="email_checked = false"
           ></v-text-field>
-          <v-switch
-            v-model="credentials.disclosure"
-            inset
-            hide-details
-            class="my-auto"
-            id="toggleBtn"
-            :label="credentials.disclosure ? 'Public' : 'Private'"
-          ></v-switch>
+          <v-btn
+          :disabled="!email_exist"
+          small
+          @click="email_check"
+          >중복검사</v-btn>
+          <v-icon v-if="email_checked" color="success" class="checkBtn">mdi-check-bold</v-icon>
         </div>
-
-        <!-- 자기소개 -->
-        <v-text-field
-          :value="credentials.introduce"
-          v-model="credentials.introduce"
-          label="Introduce"
-        ></v-text-field>
 
         <!-- 관심 키워드 입력 -->
         <v-text-field
@@ -72,43 +67,40 @@
           </v-chip>
         </div>
 
+        <!-- 약관 동의 -->
+        <v-checkbox
+          v-model="checkbox"
+          :rules="[v => !!v || '동의하셔야 회원가입이 가능합니다.']"
+          label="Do you agree?"
+          required
+        ></v-checkbox>
         <div id="btnGroup" class="my-3">
-          <div>
-            <v-btn
-              id="cancel_btn"
-              class="mr-4 "
-              @click="cancel"
-            >
-              cancel
-            </v-btn>
-            <v-btn 
-              id="signup_btn"    
-              @click="update"
-              :disabled="!valid || !name_checked"
-            >
-              update
-            </v-btn>
-          </div>
+          <v-btn
+            id="cancel_btn"
+            class="mr-4 "
+            @click="cancel"
+          >
+            cancel
+          </v-btn>
+          <v-btn 
+            id="signup_btn"    
+            @click="signup"
+            :disabled="!valid || !name_checked || !email_checked"
+          >
+            signup
+          </v-btn>
         </div>
       </v-form>
-      <p class="my-3 text-primary" style="cursor: pointer;" @click="drawUpdatePassword" v-if="this.$store.state.user_info.oauth !== 'google'">비밀번호를 변경하시겠어요?</p>
-      <UpdatePassword v-if="$store.state.drawUpdatePassword"/>
-      <p class="my-3 text-danger" style="cursor: pointer;" @click="drawDeleteAccount">계정을 삭제 할건가요.....?</p>
-      <DeleteAccount v-if="$store.state.drawDeleteAccount"/>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import UpdatePassword from '@/components/account/UpdatePassword'
-import DeleteAccount from '@/components/account/DeleteAccount'
 
 export default {
-  name: 'UpdateInfo',
+  name: 'signup',
   components: {
-    UpdatePassword,
-    DeleteAccount
   },    
   data: () => {
     return {
@@ -118,32 +110,40 @@ export default {
       // 서버와 통신할 데이터
       credentials: {
         name: "",
-        introduce: "",
         email: "",
-        disclosure: true,
         keywords: [],
       },
       keyword: "",
+      // 동의 여부
+      checkbox: false, 
 
       // 중복검사 여부
       name_exist: false,
-      name_checked: true,
+      name_checked: false,
+      email_exist: false,
+      email_checked: false,
     }
+  },
+  mounted: function () {
+    if (this.$route.params.email == null) {
+      this.$router.push('/')
+    }
+    this.credentials.email = this.$route.params.email;
   },
   // 닉네임 및 이메일 중복 검사 하기 전 조건에 맞는 입력값인지 확인
   watch: {
     credentials: {
       handler: function () {
+        // console.log('work')
         if (this.credentials.name && this.credentials.name.length <= 10) {
-          // 이미 기존 닉네임과 동일한 경우 중복검사 버튼 비활성화 및 name_check = true
-          if (this.credentials.name === this.$store.state.user_info.nickname) {
-            this.name_exist = false
-            this.name_checked = true
-          } else {
-            this.name_exist = true
-          }
+          this.name_exist = true
         } else {
           this.name_exist = false
+        }
+        if (this.credentials.email && /.+@.+\..+/.test(this.credentials.email)) {
+          this.email_exist = true
+        } else {
+          this.email_exist = false
         }
       },
       deep: true
@@ -152,60 +152,70 @@ export default {
   methods: {
     // 닉네임 중복검사 axios 요청 보낼 것.
     name_check: function () {
-      if (this.credentials.name === this.$store.state.user_info.nickname) {
-        this.name_checked = true
-      } else {
-        axios({
-          method: 'GET',
-          url: `/api/user/nickname/${this.credentials.name}`
-        })
-        .then(res => {
-          const message = res.data.message
-          if (message === "success") {
-            this.name_checked = true
-            this.name_exist = false
-            console.log('ok')
-          } else {
-            alert('이미 존재하는 닉네임입니다.')
-            this.name_checked = false
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      }
+      axios({
+        method: 'GET',
+        url: `/api/user/nickname/${this.credentials.name}`
+      })
+      .then(res => {
+        const message = res.data.message
+        if (message === "success") {
+          this.name_checked = true
+          this.name_exist = false
+          console.log('ok')
+        } else {
+          alert('이미 존재하는 닉네임입니다.')
+          this.name_checked = false
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    // 이메일 중복검사 axios 요청 보낼 것.
+    email_check: function () {
+      axios({
+        method: 'GET',
+        url: `/api/user/email/${this.credentials.email}`
+      })
+      .then(res => {
+        const message = res.data.message
+        if (message === "success") {
+          this.email_checked = true
+        } else {
+          alert('이미 존재하는 이메일입니다.')
+          this.email_checked = false
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
     },
     // 취소 -> 로그인 페이지로
     cancel: function () {
-      this.$router.push({ name: 'main' })
+      this.$router.push('/')
     },
-    // update axios 요청 보내기
-    update: function () {
+    // sign up axios 요청 보내기
+    signup: function () {
       // request에 필요한 data
       const data = {
-        userIdx: this.$store.state.user_info.id,
+        email: this.credentials.email,
+        introduce: null,
         nickname: this.credentials.name,
-        disclosure: (this.credentials.disclosure) ? 'public' : 'private',
-        introduce: this.credentials.introduce,
-        tags: this.credentials.keywords,
-        oauth: this.$store.state.user_info.oauth,
+        tag: this.credentials.keywords,
+        oauth: "google",
       }
       // axios 요청
       axios({
-        method: 'PUT',
-        url: '/api/user/update',
+        method: 'POST',
+        url: '/api/user/oauth-signup',
         data: data
       })
       .then(res => {
         const message = res.data.message
         if (message === "success") {
-          alert('정상적으로 수정 되었습니다.')
-          this.$router.push({ name: 'main' })
+          alert('정상적으로 가입 되었습니다.')
+          this.$router.push({ name: 'Login' })
         }
-      })
-      // store 정보 갱신
-      .then(() => {
-        this.$store.commit('INFO_UPDATE', data)
       })
       .catch(err => {
         console.log(err)
@@ -225,12 +235,6 @@ export default {
       const idx_keyword = this.credentials.keywords.indexOf(keyword)
       this.credentials.keywords.splice(idx_keyword, 1)
     },
-    drawUpdatePassword: function () {
-      this.$store.state.drawUpdatePassword = true
-    },
-    drawDeleteAccount: function () {
-      this.$store.state.drawDeleteAccount = true
-    }
   },
   computed: {
     // 회원가입 규칙
@@ -240,13 +244,12 @@ export default {
         v => (v && v.length <= 10) || '닉네임은 10자를 넘을 수 없습니다.',
       ]
     },
-  },
-  created: function () {
-    this.credentials.name = this.$store.state.user_info.nickname
-    this.credentials.email = this.$store.state.user_info.email
-    this.credentials.introduce = this.$store.state.user_info.introduce
-    this.credentials.keywords = this.$store.state.user_info.tags
-    this.credentials.disclosure = (this.$store.state.user_info.disclosure) === 'public' ? true : false
+    emailRules: function () {
+      return [
+        v => !!v || '이메일은 필수 입력사항입니다.',
+        v => /.+@.+\..+/.test(v) || '이메일이 유효하지 않습니다.',
+      ]
+    },
   }
 }
 </script>
@@ -254,10 +257,6 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
-
-#userUpdate {
-  width: 600px;
-}
 
 #btnGroup {
   display: flex;
@@ -290,18 +289,18 @@ font-family: 'Noto Sans KR', sans-serif;
   top: 20%;
 }
 
-#userUpdateForm {
+#emailInput > button {
+  position: absolute;
+  right: 0;
+  top: 20%;
+}
+
+#signupForm {
   width: 80%;
 }
 
 #btnGroup {
   justify-content: center;
-}
-
-#emailInput div:last-child {
-  position: absolute;
-  top: 15%;
-  left: 78%;
 }
 
 .checkBtn {
@@ -314,17 +313,6 @@ font-family: 'Noto Sans KR', sans-serif;
 @media screen and (min-width: 500px){
   #btnGroup {
     justify-content: flex-end;
-    align-items: center;
-  }
-}
-
-@media screen and (max-width: 599px){
-  #userUpdate {
-    width: 100%;
-  }
-
-  #nickNameInput > button {
-    right: 0;
   }
 }
 </style>

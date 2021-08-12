@@ -27,6 +27,7 @@ import com.tumo.model.UpdateUserDto;
 import com.tumo.model.UserDto;
 import com.tumo.model.service.PortfolioService;
 import com.tumo.model.service.UserService;
+import com.tumo.util.OauthUtil;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -40,6 +41,9 @@ public class UserController {
 
 	@Autowired
 	private PortfolioService portfolioService;
+	
+	@Autowired
+	private OauthUtil oauthUtil;
 	
 	@PostMapping(value = "/signup")
 	@ApiOperation(value = "회원가입")
@@ -160,6 +164,14 @@ public class UserController {
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
 		
+		// 소셜 로그인으로 가입된 회원에게 경고 메시지 반환
+		UserDto oauthCheck = userService.readUserByEmail(loginDto.getEmail());
+		if (oauthCheck != null && "google".equals(oauthCheck.getOauth())) {
+			resultMap.put("message", "isOauthUser");
+			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			return response;
+		}
+		
 		try {
 			TokenDto tokenDto = userService.login(loginDto);
 			
@@ -259,7 +271,7 @@ public class UserController {
 		return response;
 	}
 		
-	@DeleteMapping(value = "")
+	@DeleteMapping(value = "/delete")
 	@ApiOperation(value = "회원 탈퇴")
 	public ResponseEntity deleteUser(@RequestBody Map<String, Integer> map) {
 		int userIdx = map.get("userIdx");
@@ -280,6 +292,14 @@ public class UserController {
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
 		
+		// 소셜 로그인으로 가입된 회원에게 경고 메시지 반환
+		UserDto oauthCheck = userService.readUserByEmail(email);
+		if (oauthCheck != null && "google".equals(oauthCheck.getOauth())) {
+			resultMap.put("message", "isOauthUser");
+			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			return response;
+		}
+		
 		boolean check = userService.findPassword(email);
 		
 		if (check) {
@@ -296,7 +316,6 @@ public class UserController {
 		
 		return response;
 	}
-	
 	
 	@GetMapping(value = "/updaterank")
 	@ApiOperation(value = "랭크 및 수익률 업데이트")
@@ -319,4 +338,79 @@ public class UserController {
 		
 		return response;
 	}
+	
+	@PostMapping(value = "/oauth-login")
+	@ApiOperation(value = "소셜 로그인")
+	public ResponseEntity createOauthLogin(@RequestBody String idToken) {
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		String email = oauthUtil.tokenVerify(idToken);
+		UserDto oauthCheck = userService.readUserByEmail(email);
+		
+		if (oauthCheck == null) {
+			// 가입되지 않은 이메일의 경우 회원 가입 페이지로 이동
+			resultMap.put("message", "null");
+			resultMap.put("email", email);
+			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			return response;
+		}
+		
+		if (!"google".equals(oauthCheck.getOauth())) {
+			// 일반 회원가입 회원이 소셜 로그인 시도
+			resultMap.put("message", "isNotOauthUser");
+			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			return response;
+		}
+		
+		try {
+			// 소셜 로그인 회원의 경우 비밀번호 "google1234", "naver1234", "kakao1234" 등으로 고정
+			LoginDto loginDto = new LoginDto(email, "google1234");
+			TokenDto tokenDto = userService.login(loginDto);
+			
+			String jwt = tokenDto.getJwt();
+			UserDto userDto = tokenDto.getUserDto();
+			List<String> tags = userService.readUserTag(userDto.getUserIdx());
+
+			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+			
+			resultMap.put("userDto", userDto);
+			resultMap.put("tags", tags);
+			resultMap.put("message", "success");
+			
+			response = new ResponseEntity<>(resultMap, httpHeaders, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("message", "fail");
+			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		}
+		
+		return response;
+	}
+	
+	@PostMapping(value = "/oauth-signup")
+	@ApiOperation(value = "소셜 로그인으로 회원가입")
+	public ResponseEntity createOauthSignup(@RequestBody SignupDto signupDto) {
+
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			userService.createOauthUser(signupDto);
+
+			// 회원가입 성공
+			resultMap.put("message", "success");
+			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.CREATED);
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+			// DB 오류로 회원가입 실패
+			resultMap.put("message", "fail");
+			response = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
+	}
+	
 }
