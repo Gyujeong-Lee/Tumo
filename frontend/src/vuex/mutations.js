@@ -45,7 +45,7 @@ export default {
       nickname: data.nickname,
       disclosure: data.disclosure,
       introduce: data.introduce,
-      tags: data.tags,
+      tags: [...data.tags],
     };
   },
   ACTIVATE_ALERTCENTER(state) {

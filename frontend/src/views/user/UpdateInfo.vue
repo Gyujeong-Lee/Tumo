@@ -198,16 +198,15 @@ export default {
       .then(res => {
         const message = res.data.message
         if (message === "success") {
-          alert('정상적으로 수정 되었습니다.')
-          this.$router.push({ name: 'main' })
+          let userData = JSON.parse(localStorage.getItem('userData'))
+          userData = {...userData, ...data, tags: [...data.tags]}
+          localStorage.setItem('userData', JSON.stringify(userData))
+          this.$store.commit('INFO_UPDATE', data)
+          this.$alert("성공적으로 정보가 수정되었습니다.", "수정 완료", 'success')
+          .then(() => {
+            this.$router.push({ name: 'main' })
+          })
         }
-      })
-      // store 정보 갱신
-      .then(() => {
-        this.$store.commit('INFO_UPDATE', data)
-      })
-      .catch(err => {
-        console.log(err)
       })
     },
     // keyword 추가하기

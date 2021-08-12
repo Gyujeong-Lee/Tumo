@@ -2,9 +2,10 @@
   <div id="KeywordNews">
     <div v-for="(keyword, idx) in keywords" :key="idx" class="news">
       <div @click="moveToSearch(keyword)">
-        <p>{{ idx+1 }}. {{ keyword }}</p>
+        <p>{{ keyword | truncate(10) }}</p>
         <img src="@/assets/main/newspaper.png" alt="newspaper" class="newspaper">
       </div>
+      <img :src="require(`@/assets/main/subfeed/${idx+1}.png`)" alt="number">
     </div>
   </div>
 </template>
@@ -20,6 +21,11 @@ export default {
   methods: {
     moveToSearch: function (keyword) {
       this.$router.push({ name: 'search', params: { keyword: keyword }})
+    }
+  },
+  filters: {
+    truncate: function (text, length) {
+      return text.length > length ? text.substring(0, length) + '...' : text
     }
   },
   computed: {
@@ -75,7 +81,7 @@ export default {
   position: absolute;
   width: 220px;
   top: 40px;
-  left: 18px;
+  left: 35px;
   text-align: center;
   font-weight: 700;
   font-size: 1.4rem;
@@ -83,5 +89,13 @@ export default {
 
 .newspaper {
   width: 100%;
+}
+
+.news > img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 40px;
+  
 }
 </style>
