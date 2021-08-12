@@ -47,9 +47,10 @@ const routes = [
     component: UpdateInfo,
   },
   {
-    path: "/corporation",
+    path: "/corporation/:companyName",
     name: "corporationDetail",
     component: CorporationDetail,
+    props: true,
   },
   {
     path: "/user/:nickname",
