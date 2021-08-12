@@ -102,7 +102,6 @@ export default {
       url: `/api/sns/profile/${this.$route.params.nickname}`,
     })
     .then (res => {
-      console.log(res)
       this.user_info = res.data.users
       if (res.data.users.disclosure === 'public') {
         this.isPublic = true
@@ -122,6 +121,7 @@ export default {
       })
       .catch(err => {
         console.log(err)
+        this.$router.push({name: 'notfound'})
       })
       // 랭크 조회
       axios({
@@ -129,7 +129,6 @@ export default {
         url: `/api/portfolio/rank/${this.$route.params.nickname}`,
       })
       .then(res => {
-        // console.log(res)
         const rank = res.data.rank
         if (rank <= 10) {
           this.gold = true
@@ -204,7 +203,7 @@ export default {
         url: `/api/sns/follower/${this.user_info.userIdx}`,
       })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         this.followerList = res.data.followers
       })
       .catch(err => {
@@ -220,7 +219,7 @@ export default {
       })
       .then(res => {
         this.followingList = res.data.followers
-        console.log(this.followingList)
+        // console.log(this.followingList)
       })
       .catch(err => {
         console.log(err)

@@ -67,7 +67,7 @@ export default {
         url: `/api/sns/board/${this.userId}`
       })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         this.activityList = res.data.myFeed
       })
       .catch(err => {
@@ -75,7 +75,7 @@ export default {
       })
     },
     getScrapList: function () {
-      console.log(this.userId)
+      // console.log(this.userId)
       //axios for Scrap
       axios({
         method: 'GET',
@@ -97,7 +97,8 @@ export default {
           ],
         "message" : "success"
         }
-        console.log(res)
+        
+        this.activityList = res.data.scrap
 
         //204 때문에 임의 데이터 삽입함.
         this.activityList = response.scrap

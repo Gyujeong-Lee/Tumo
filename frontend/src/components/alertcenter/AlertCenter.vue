@@ -8,7 +8,12 @@
       <v-list-item>팔로우 알림이 없습니다.</v-list-item>
     </div>
     <!-- 그 외 -->
-    <AlertListActivity v-for="(activityNotification, idx) in activityNotifications" :key="'xxx'+idx" :activityNotification="activityNotification" />
+    <div v-if="activityNotifications.length">
+      <AlertListActivity v-for="(activityNotification, idx) in activityNotifications" :key="'xxx'+idx" :activityNotification="activityNotification" />
+    </div>
+    <div v-else>
+      <v-list-item>알림이 없습니다.</v-list-item>
+    </div>
 
   </v-list>
 </template>
@@ -31,7 +36,7 @@ export default {
     AlertListActivity,
   },
   created: function () {
-    console.log(this.$store.state.unreadAlert)
+    // console.log(this.$store.state.unreadAlert)
     const userIdx = this.$store.state.user_info.id
     // type = 1번 : follow 요청 / 2번 : 좋아요 / 3번 : 댓글 / 4번 : 스크랩
     axios({

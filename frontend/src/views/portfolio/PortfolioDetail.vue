@@ -30,7 +30,7 @@
     <div class="d-flex justify-content-center">
       <div class="d-flex flex-column">
         <h2 style="color:#CE1D28">Portfolio</h2>
-        <h3>{{ portfolio.title }}</h3>
+        <h3 style="font-weight:bold" class="my-auto">{{ portfolio.title }}</h3>
         <UpdatePortfolio :portfolio="portfolio"/>
         <UpdateAssets v-if="assets.length" :assets="assets" :userIdx="userIdx"/>
         <PortfolioChart v-if="assets.length && Object.keys(portfolio).length" :portfolio="portfolio" :assets="assets" />
@@ -38,7 +38,7 @@
       <div class="d-flex align-center">
         <div class="d-flex flex-column border p-2" id="portfolioInfo">
           <p>총 자산 : {{ amount.cursum }}원</p>
-          <p>현재 수익률 : {{ amount.percent }}%</p>
+          <p style="font-weight:bold">현재 수익률 : {{ amount.percent }}%</p>
           <p>목표 수익률 : {{ portfolio.goal }}%</p>
         </div>
       </div>
@@ -46,16 +46,18 @@
     <div id="portfolioPortion">
       <h3 style="display:inline">Portion</h3>
       <v-icon v-if="itsMe" color="#00BFFE" class="mb-2" @click="drawUpdateAssets">mdi-pencil</v-icon>
-      <div class="d-flex flex-column border p-2" id="assetInfo">
+      <div class="d-flex flex-column col-12 border pt-2" id="assetInfo">
         <div id="domesticStock">
           <!-- 추후 국내, 해외 주식 비중 추가할 예정 -->
           <h5>국내 주식(100%)</h5>
-          <div class="d-flex">
+          <div class="d-flex flex-row col-12">
             <!-- 여기에 종목 이름 -->
-            <div v-for="(asset, idx) in assets" :key="idx">
-              <p class="mt-1 mb-0" style="font-weight:bolder" :class="{ 'text-danger': asset.percent > 0, 'text-primary': asset.percent < 0 }">{{ asset.name }} ({{asset.curprice*asset.quantity / portfolio.cursum * 100}}%)</p>
-              <ul>
-                <li>
+            <div class="col-4" v-for="(asset, idx) in assets" :key="idx">
+              <p class="mt-1 mb-0" style="font-weight:bolder" :class="{ 'text-danger': asset.percent > 0, 'text-primary': asset.percent < 0 }">
+              {{ asset.name }} ({{(asset.curprice*asset.quantity / portfolio.cursum * 100).toFixed(0)}}%)
+              </p>
+              <ul class="ps-1">
+                <li class="w-100">
                   목표 가격 : {{ asset.goal }}원
                 </li>
                 <li>
@@ -74,7 +76,7 @@
             </div>
           </div>
         </div>
-        <div id="foreignStock">
+        <div id="foreignStock" class="mt-3">
           <h5>해외 주식(0%)</h5>
         </div>
       </div>
@@ -116,10 +118,9 @@ export default {
   created: function () {
     // 본인 인증
     if (this.$store.state.user_info.id == this.$route.params.userIdx) {
-      console.log('check')
+      // console.log('check')
       this.itsMe = true
     }
-
     // 포트폴리오 요청
     axios({
       method: 'GET',
@@ -128,9 +129,8 @@ export default {
     .then(res => {
       for (const i in res.data.portfolio) {
         if (res.data.portfolio[i].portfolio_idx == this.portfolioIdx) {
+          res.data.portfolio[i].cursum = res.data.portfolio[i].cursum.toFixed(2)
           this.portfolio = res.data.portfolio[i]
-          this.$store.state.selectedPortfolio = this.portfolio
-          // console.log(this.portfolio)
         }
       }
     })
@@ -143,12 +143,22 @@ export default {
       url: `/api/portfolio/asset/${this.portfolioIdx}`
     })
     .then(res => {
-      console.log(res)
+      // console.log(res)
       res.data.amount.percent = res.data.amount.percent / 100
       for (let i=0; i < res.data.Asset.length; i++) {
         res.data.Asset[i].percent = res.data.Asset[i].percent / 100
+        res.data.Asset[i].curprice = res.data.Asset[i].curprice.toFixed(0)
+        if ( res.data.Asset[i].curprice > 1000) {
+          res.data.Asset[i].curprice =  (res.data.Asset[i].curprice).toLocaleString()
+        }
+        if ( res.data.Asset[i].goal > 1000) {
+          res.data.Asset[i].goal = (res.data.Asset[i].goal).toLocaleString()
+        }
       }
       this.assets = res.data.Asset
+      if (res.data.amount.cursum > 1000) {
+        res.data.amount.cursum = (res.data.amount.cursum).toLocaleString()
+      }
       this.amount = res.data.amount
       this.$store.state.portfolioAssets = this.portfolio.assets
       this.$store.state.portfolioAmount = this.portfolio.amount
@@ -173,7 +183,7 @@ export default {
         url: `/api/portfolio/list/${this.portfolioIdx}`
       })
       .then(res => {
-        console.log(`삭제 ${res}`)
+        this.$alert("포트폴리오가 삭제되었습니다.", "삭제 완료", `${res.data.message}`)
         // 이동
         this.$router.push({name: 'main'})
       })
@@ -181,6 +191,12 @@ export default {
         console.log(err)
       })
     },
+    toLocaleString: function (x) {
+      return x.toLocaleString()
+    }
+    // portion: function () {
+    //   this.
+    // } 
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <div v-if="users.length">
     <h4>유저 검색 결과</h4>
     <div class="d-flex flex-row my-autoss">
-      <v-card elevation="2" shaped v-for="(user, idx) in users" :key="idx" class="me-3" @click="moveToProfile(user.nickname)">
+      <v-card :elevation="elevation" shaped v-for="(user, idx) in users" :key="idx" class="me-3" @click="moveToProfile(user.nickname)">
         <div class="d-flex flex-column p-1">
           <div class="d-flex justify-center mt-1">
             <img src="@/assets/main/user.png" alt="user_img" style="width: 30px; height: 30px">
@@ -25,6 +25,7 @@ export default {
   name: 'UserSearch',
   data: function () {
     return {
+      elevation: 4,
       searchWord: this.searchItem,
       resultExist: false,
       pageNum: 0,
@@ -41,13 +42,10 @@ export default {
     })
     .then(res => {
       // console.log(res)
-      if (res.request.status === 204) {
-        // console.log(유저 자료 x)
-      } else {
+      if (res.request.status === 200) {
         this.resultExist = true
         // 응답 담기
         this.users = res.data.users
-        // console.log(this.users)
       }
     })
     .catch(err => {

@@ -45,12 +45,12 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </template>
-            <v-list width="10%">
-              <v-list-item>
-                <p type="button" @click="drawArticleModal">Article</p>
+            <v-list style="width:7rem">
+              <v-list-item class="d-flex justify-center" @click="drawArticleModal">
+                Article
               </v-list-item>
-              <v-list-item>
-                <p type="button" @click="drawPortfolioModal">Portfolio</p>
+              <v-list-item class="d-flex justify-center" @click="drawPortfolioModal">
+                Portfolio
               </v-list-item>
             </v-list>
           </v-menu>
@@ -67,9 +67,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-btn dark icon v-bind="attrs" v-on="on">
-                <v-badge v-if="unreadAlert" overlap dot>
-                  <v-icon>mdi-heart</v-icon>
-                </v-badge>
+                <v-icon v-if="unreadAlert" color="#CE1D28">mdi-heart</v-icon>
                 <v-icon v-else>mdi-heart</v-icon>
               </v-btn>
             </template>
@@ -92,18 +90,13 @@
                 <v-icon>mdi-account-circle</v-icon>
               </v-btn>
             </template>
-            <v-list>
-              <v-list-item>
-                <router-link 
-                :to="{ name: 'profile', params:{ nickname: `${user_nickname}`} }" 
-                style="text-decoration: none; color: inherit;"
-                >
+            <v-list style="width:8rem">
+              <v-list-item class="d-flex justify-center" @click="moveToProfile">
                   my profile
-                </router-link>
               </v-list-item>
               <!-- 로그아웃 -->
-              <v-list-item>
-                <p type="button" @click="logout">Log out</p>
+              <v-list-item class="d-flex justify-center" @click="logout">
+                Log out
               </v-list-item>
             </v-list>
           </v-menu>
@@ -150,7 +143,7 @@ export default {
       url: '/api/feed/hotkeyword'
     })
     .then(res => {
-      console.log(res)
+      // console.log(res)
       res.data.hotkeyList.splice(5)
       this.hotSearchItems = res.data.hotkeyList
       
@@ -180,6 +173,9 @@ export default {
       localStorage.removeItem('userData')
       this.$store.commit('LOGOUT')
       this.$router.push({ name: 'Login' })
+    },
+    moveToProfile: function () {
+      this.$router.push({ name: 'profile', params:{ nickname: `${this.user_nickname}`}})
     }
   },
   components: {

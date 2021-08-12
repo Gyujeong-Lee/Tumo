@@ -11,10 +11,16 @@ import CorporationDetail from "../views/CorporationDetail.vue";
 import Main from "../views/Main.vue";
 import Explore from "../views/Explore.vue";
 import SearchResult from "../views/SearchResult.vue";
+import NotFound from "../components/layout/NotFound.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
+  { 
+    path: '*',
+    name: "notfound",
+    component: NotFound,
+  },
   {
     path: "/",
     name: "Login",

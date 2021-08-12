@@ -268,6 +268,9 @@ public class CompanyServiceImpl implements CompanyService {
 		tmpmap.put("twoyear", String.format("%.2f",roe[2]*1.0/roe[5]*1.0*100));
 		list.add(tmpmap);
 	
+		System.out.println(roe[0]);
+		System.out.println(roe[3]);
+		
 		tmpmap= new HashMap<String, Object>();
 		tmpmap.put("value","자기자본순이익률(ROE)" );
 		tmpmap.put("thisyear", String.format("%.2f",roe[0]*1.0/debt[3]*1.0*100));
