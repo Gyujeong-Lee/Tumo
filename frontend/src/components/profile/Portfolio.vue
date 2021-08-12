@@ -99,6 +99,9 @@ export default {
       .then(res=> {
         // console.log(res)
         this.assets = res.data.Asset
+        if (res.data.amount.cursum > 1000) {
+          res.data.amount.cursum = (res.data.amount.cursum).toLocaleString()
+        }
         this.amount = res.data.amount
       })
       .catch(err => {
@@ -114,7 +117,7 @@ export default {
     moveToDetail: function (idx) {
       // console.log(this.userId)
       // console.log(idx)
-      this.$router.push({name: 'portfolioDetail', params: {userIdx: this.userIdx, portfolioIdx: idx}})
+      this.$router.push({name: 'portfolioDetail', params: {userIdx: `${this.userIdx}`, portfolioIdx: idx}})
     },
     viewMore: function () {
       if (this.clickMore) {

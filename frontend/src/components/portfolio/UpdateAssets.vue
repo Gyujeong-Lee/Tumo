@@ -92,6 +92,7 @@ export default {
   name: 'UpdateAssets',
   data: function () {
     return {
+      // 새로고침 시 params가 string으로 변함
       userId: this.userIdx,
       isSubmit: false,
       inputTag: '',
@@ -113,7 +114,7 @@ export default {
   props: {
     assets: Array,
     userIdx: {
-      type: Number
+      type: String
     },
   },
   components: {
