@@ -97,8 +97,34 @@ public class CompanyController {
 			
 		}
 		
+		
+		
+		@GetMapping(value ="/report/{companyName}")
+		@ApiOperation(value = "국내회사리포트")
+		public ResponseEntity corpReport(@PathVariable("companyName") String corp_name){
+	    	
+			String corp_code=companyService.readCorp(corp_name);
+			while(corp_code.length()!=8) {
+				corp_code="0"+corp_code;
+			}
+			List<Map<String, Object>> result=companyService.corpReport(corp_code);
+			
+			Map<String, Object> resultMap= new HashMap<String, Object>();
+			if(result.size()==0||result==null) {
+				
+				resultMap.put("message", "fail");
+				return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NO_CONTENT);
+			}else {
+				resultMap.put("list",result);
+				resultMap.put("message", "success");
+				return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+			
+		
+			
+		}
 		@GetMapping(value ="/news/{corp_name}")
-		@ApiOperation(value = "국내회사 검색")
+		@ApiOperation(value = "국내회사 뉴스")
 		public ResponseEntity news(@PathVariable("corp_name") String corp_name){
 			
 			
