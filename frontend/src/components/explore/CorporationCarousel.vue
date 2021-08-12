@@ -148,8 +148,11 @@ export default {
         const title = slide.querySelector('h4')
         const color = this.getColor(logo)
         const rgb = `${color[0]}, ${color[1]}, ${color[2]}`
+        const subtitle = slide.firstChild.lastChild.lastChild
+        
         slide.style.boxShadow = `inset 0px 0px 15px 0px rgba(${rgb}, 0.2)`
         slide.style.border = `2px solid rgba(${rgb}, 0.3)`
+        subtitle.style.color = `rgba(${rgb}, 0.7)`
         title.style.color = `rgb(${rgb})`
         slide.style.backgroundColor = `rgba(${rgb}, 0.1)`
       })
@@ -198,7 +201,7 @@ export default {
 }
 
 #corp-glide .glide__slide img {
-  transition: 0.1s;
+  transition: 0.5s;
   width: 200px;
 }
 
