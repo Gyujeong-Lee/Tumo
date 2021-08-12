@@ -38,7 +38,7 @@
       <div class="d-flex align-center">
         <div class="d-flex flex-column border p-2" id="portfolioInfo">
           <p>총 자산 : {{ amount.cursum }}원</p>
-          <p style="font-weight:bold">현재 수익률 : {{ amount.percent }}%</p>
+          <p style="font-weight:bold">현재 수익률 : {{ (amount.percent).toFixed(4) }}%</p>
           <p>목표 수익률 : {{ portfolio.goal }}%</p>
         </div>
       </div>
@@ -129,7 +129,6 @@ export default {
     .then(res => {
       for (const i in res.data.portfolio) {
         if (res.data.portfolio[i].portfolio_idx == this.portfolioIdx) {
-          res.data.portfolio[i].cursum = res.data.portfolio[i].cursum.toFixed(2)
           this.portfolio = res.data.portfolio[i]
         }
       }
@@ -144,9 +143,7 @@ export default {
     })
     .then(res => {
       // console.log(res)
-      res.data.amount.percent = res.data.amount.percent / 100
       for (let i=0; i < res.data.Asset.length; i++) {
-        res.data.Asset[i].percent = res.data.Asset[i].percent / 100
         res.data.Asset[i].curprice = res.data.Asset[i].curprice.toFixed(0)
         if ( res.data.Asset[i].curprice > 1000) {
           res.data.Asset[i].curprice =  (res.data.Asset[i].curprice).toLocaleString()
@@ -193,10 +190,8 @@ export default {
     },
     toLocaleString: function (x) {
       return x.toLocaleString()
-    }
-    // portion: function () {
-    //   this.
-    // } 
+    },
+
   }
 }
 </script>

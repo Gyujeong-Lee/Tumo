@@ -2,13 +2,13 @@
   <tr>
     <td>{{ name }}</td>
     <td>
-      <input type="text" v-model.number="price">
+      <input type="text" v-model.number="asset.price">
     </td>
     <td>
-      <input type="text" v-model.number="goal">
+      <input type="text" v-model.number="asset.goal">
     </td>
     <td>
-      <input type="text" v-model.number="quantity">
+      <input type="text" v-model.number="asset.quantity">
     </td>
     <td>
       <span type="button" v-if="!isConfirm" @click="confirmInfo">확정</span>
@@ -48,6 +48,7 @@ export default {
           price: this.asset.price,
           quantity: this.asset.quantity
         }
+        console.log(assetData)
         axios({
           method: 'PUT',
           url: `/api/portfolio/asset`,
@@ -61,6 +62,7 @@ export default {
       } else {
         // 추가 (신규자산)
         this.asset.portfolioIdx = this.portfolioId
+        console.log(`${this.asset} 신규`)
         axios({
           method: 'POST',
           url: '/api/portfolio/asset',
