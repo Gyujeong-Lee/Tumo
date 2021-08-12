@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     moveToDetail: function () {
-      this.$router.push({ name: 'portfolioDetail', params: { userIdx: this.feed.user_idx, portfolioIdx: this.feed.portfolio_idx }})
+      this.$router.push({ name: 'portfolioDetail', params: { userIdx: `${this.feed.user_idx}`, portfolioIdx: this.feed.portfolio_idx }})
     }
   },
   mounted: function () {

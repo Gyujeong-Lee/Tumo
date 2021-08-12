@@ -18,7 +18,7 @@ Vue.use(VueRouter);
 const routes = [
   { 
     path: '*',
-    name: "NotFound",
+    name: "notfound",
     component: NotFound,
   },
   {

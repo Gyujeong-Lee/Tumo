@@ -121,6 +121,7 @@ export default {
       })
       .catch(err => {
         console.log(err)
+        this.$router.push({name: 'notfound'})
       })
       // 랭크 조회
       axios({

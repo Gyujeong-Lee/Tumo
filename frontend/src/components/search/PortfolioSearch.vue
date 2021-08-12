@@ -54,7 +54,7 @@ export default {
     moveToDetail: function (portfolioInfo) {
       // console.log(portfolioInfo)
       // 포트폴리오 상세 페이지로 이동
-      this.$router.push({name: 'portfolioDetail', params: {userIdx: portfolioInfo.user_idx, portfolioIdx: portfolioInfo.portfolio_idx}})
+      this.$router.push({name: 'portfolioDetail', params: {userIdx: `${portfolioInfo.user_idx}`, portfolioIdx: portfolioInfo.portfolio_idx}})
     },
     moveToProfile: function (userName) {
       // 유저 프로필 페이지로 이동 
