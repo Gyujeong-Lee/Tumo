@@ -90,7 +90,13 @@ public class PortfolioServiceImpl implements PortfolioService {
 				//System.out.println(elem.toString());
 				assetList.get(i).put("curprice", curprice);
 				int price=(int) assetList.get(i).get("price");
-				double percent=((curprice*100-price*100)/price);
+				double percent=0;
+				if(price==0) {
+					
+				}else {
+					 percent=((curprice*100-price*100)/price);
+				}
+				
 				String result=String.format("%.2f",percent);
 				//System.out.println(result);
 				assetList.get(i).put("percent", Double.parseDouble(result));
