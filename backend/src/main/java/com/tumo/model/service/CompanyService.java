@@ -18,4 +18,6 @@ public interface CompanyService {
 	public Map<String, Object> corpDetail(String corp_code, String corp_name);
 
 	public String readStock(String corp_name);
+
+	public List<Map<String, Object>> corpReport(String corp_code);
 }
