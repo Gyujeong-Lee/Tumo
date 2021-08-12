@@ -136,7 +136,12 @@ export default {
       return this.$store.state.user_info.nickname
     },
     unreadAlert () {
-      return this.$store.state.unreadAlert
+      if (this.$store.state.unreadAlert > 0) {
+        return true
+      } else {
+        return false
+      }
+      
     },
   },
   created: function () {

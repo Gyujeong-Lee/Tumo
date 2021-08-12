@@ -1,8 +1,8 @@
 <template>
-  <v-list class="w-100">
+  <v-list style="width: 20rem">
     <!-- 팔로우 요청, 좋아요, 댓글, 스크랩 알림 따로 처리 -->
     <div v-if="followNotifications.length">
-      <AlertListFollow v-for="(notification, idx) in followNotifications" :key="idx" :notification="notification" />
+      <AlertListFollow v-for="(notification, idx) in followNotifications" :key="idx" :followNotifications="followNotifications" :notification="notification" />
     </div>
     <div v-else>
       <v-list-item>팔로우 알림이 없습니다.</v-list-item>
