@@ -38,13 +38,13 @@
 	</select>
 	
 	<select id="searchPortfolio" parameterType="Map" resultType="Map" >
-		 select p.*,u.nickname,(sum(quantity*cp.price)) as cursum,sum(quantity*a.price) as sum,truncate(sum(quantity*cp.price)/sum(quantity*a.price),2)as percent from 
+		 select p.*,u.nickname,(sum(quantity*cp.price)) as cursum,sum(quantity*a.price) as sum,truncate(sum(quantity*cp.price)/sum(quantity*a.price)*100-100,2)as percent from 
 		asset as a join company_price as cp on stock_code=code join portfolio as p on p.portfolio_idx=a.portfolio_idx join user  as u on p.user_idx=u.user_idx
   		where  p.title like "%${searchContent}%" or p.content like "%${searchContent}%"  or  u.nickname like "%${searchContent}%" group by p.portfolio_idx order by percent desc limit 10 ; 
 	</select>
 	
 	<select id="readTopPortfolio" resultType="Map" >
-		 select p.*,u.nickname,(sum(quantity*cp.price)) as cursum,sum(quantity*a.price) as sum,truncate(sum(quantity*cp.price)/sum(quantity*a.price),2)as percent from 
+		 select p.*,u.nickname,(sum(quantity*cp.price)) as cursum,sum(quantity*a.price) as sum,truncate(sum(quantity*cp.price)/sum(quantity*a.price)*100-100,2)as percent from 
 		asset as a join company_price as cp on stock_code=code join portfolio as p on p.portfolio_idx=a.portfolio_idx join user  as u on p.user_idx=u.user_idx
   		group by p.portfolio_idx order by percent desc limit 10 ; 
 	</select>
