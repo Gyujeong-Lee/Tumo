@@ -134,10 +134,10 @@
 	</delete>
 	
 	<select id="readAlarmList" parameterType="int" resultType="notificationDto">
-		select n.notification_idx as notificationIdx, n.user_idx as userIdx, u.nickname, n.type, n.board_idx as boardIdx, n.create_at as createAt, n.read_at as readAt
+		select n.notification_idx as notificationIdx, n.otheruser_idx as userIdx, u.nickname, n.type, n.board_idx as boardIdx, n.create_at as createAt, n.read_at as readAt
 		from notification n join user u
-		on n.user_idx = u.user_idx
-		where n.otheruser_idx = #{userIdx}
+		on n.otheruser_idx = u.user_idx
+		where n.user_idx = #{userIdx}
 		order by n.otheruser_idx asc, n.type asc, n.create_at desc;
 	</select>
 	
