@@ -17,7 +17,7 @@
         <v-badge icon="mdi-star" color="#c0c0c0" v-else-if="silver">
           <h2>{{ user_info.nickname }}'s profile</h2>
         </v-badge>
-        <v-badge icon="mdi-star" color="#CD7F32" v-else-if="bronze">
+        <v-badge icon="mdi-star" color="#347b57" v-else>
           <h2>{{ user_info.nickname }}'s profile</h2>
         </v-badge>
         <div>
@@ -43,15 +43,17 @@
     </div>
     <div v-if="isPublic">
       <!-- 포트폴리오  -->
-      <div class="d-flex justify-center my-auto">
-        <div class="col-5 me-10 col-12-sm" >
-          <h3>portfolio</h3>
-          <Portfolio v-if="user_info.userIdx" :userIdx="user_info.userIdx"/>
-        </div>
-      <!-- 작성글, 스크랩 탭 -->
-        <div class="col-5">
-          <h3>activity</h3>
-          <Activity v-if="user_info.userIdx" :userIdx="user_info.userIdx"/>
+      <div class="d-grid justify-center">
+        <div class="row my-auto">
+          <div class="col-12 col-sm-6">
+            <h3>portfolio</h3>
+            <Portfolio v-if="user_info.userIdx" :userIdx="user_info.userIdx"/>
+          </div>
+        <!-- 작성글, 스크랩 탭 -->
+          <div class="col-12 col-sm-6">
+            <h3>activity</h3>
+            <Activity v-if="user_info.userIdx" :userIdx="user_info.userIdx"/>
+          </div>
         </div>
       </div>
     </div>
@@ -108,21 +110,25 @@ export default {
       }
       const profileUserIdx = res.data.users.userIdx
       const loginUserIdx = this.$store.state.user_info.id
-      // 팔로잉 여부 조회
-      axios({
-        method: 'GET',
-        url: `/api/sns/follow/${loginUserIdx}/${profileUserIdx}`,
-      })
-      .then(res => {
-        this.isFollow = res.data.isFollow
-        if (res.data.isFollow) {
-          this.isPublic = true
-        }
-      })
-      .catch(err => {
-        console.log(err)
-        this.$router.push({name: 'notfound'})
-      })
+
+      if (profileUserIdx === loginUserIdx) {
+        this.isPublic = true
+      } else {
+        // 팔로잉 여부 조회
+        axios({
+          method: 'GET',
+          url: `/api/sns/follow/${loginUserIdx}/${profileUserIdx}`,
+        })
+        .then(res => {
+          this.isFollow = res.data.isFollow
+          if (res.data.isFollow) {
+            this.isPublic = true
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
       // 랭크 조회
       axios({
         method: 'GET',
@@ -132,7 +138,7 @@ export default {
         const rank = res.data.rank
         if (rank <= 10) {
           this.gold = true
-        } else if ( 10 < rank <= 20 ) {
+        } else if ( 10 < rank && rank <= 20 ) {
           this.silver = true
         } else {
           this.bronze = true
@@ -142,9 +148,20 @@ export default {
         console.log(err)
       })
     })
-    .catch (err => {
-      console.log(err)
-    })
+    .catch((error) => {
+      // Error 😨
+      if (error.response) {
+        if (error.response.status === 500) {
+          this.$alert("존재하지 않는 유저입니다.", "실패", 'error')
+          this.$router.go(-1)
+        }
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    });
   },
   computed: {
     itsMe: function () {

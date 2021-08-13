@@ -13,12 +13,33 @@
     <div v-if="selectedTab === 'article'">
       <!-- article -->
       <ArticleList v-for="(article, idx) of activityList" :key="idx" :article="article"/>
-      <Loading v-if="!activityList.length"/>
+      <v-sheet 
+      :elevation="elevation"
+      rounded
+      @mouseover="elevation=10"
+      @mouseleave="elevation=4"
+      height="auto"
+      width="auto">
+        <div v-if="!activityList.length" class="my-3">
+          <v-btn icon @click="createArticle"><v-icon>mdi-file-plus-outline</v-icon></v-btn>
+          <h5 class="text-center" style="color:#00BFFE">게시글을 스크랩 하세요</h5>
+        </div>
+      </v-sheet>
     </div>
     <div v-else-if="selectedTab === 'scrap'">
       <!-- scrap -->
       <ScrapList v-for="(scrap, idx) of activityList" :key="idx" :scrap="scrap"/>
-      <Loading v-if="!activityList.length"/>
+      <v-sheet 
+      :elevation="elevation"
+      rounded
+      @mouseover="elevation=10"
+      @mouseleave="elevation=4"
+      height="auto"
+      width="auto">
+        <div v-if="!activityList.length" class="my-3">
+          <h5 class="text-center" style="color:#00BFFE">게시글을 스크랩 하세요</h5>
+        </div>
+      </v-sheet>
     </div>
   </div>
 </template>
@@ -27,12 +48,13 @@
 import ArticleList from '@/components/profile/activitylist/ArticleList.vue'
 import ScrapList from '@/components/profile/activitylist/ScrapList.vue'
 import axios from 'axios'
-import Loading from '../Loading.vue'
+// import Loading from '../Loading.vue'
 
 export default {
   name: 'Activity',
   data: function () {
       return {
+        elevation: 4,
         userId: this.userIdx,
         selectedTab: 'article',
         activityList: [],
@@ -41,9 +63,6 @@ export default {
   props: {
     userIdx: Number
   },
-  // mounted: function () {
-  //   this.getArticleList()
-  // },
   methods: {
     selectArticle: function () {
       if (this.selectedTab !== 'article') {
@@ -81,32 +100,16 @@ export default {
         method: 'GET',
         url: `/api/sns/scrap/${this.userId}`
       })
-      .then(res => {
-        const response = {
-          "scrap" : [
-            {
-              "boardIdx" : 1,
-              "title" : "스크랩하고 보기 좋은 글",
-              "nickname" : "joon2",
-            },
-            {
-              "boardIdx" : 2,
-            "title" : "스크랩하고 보기 좋은 글2",
-            "nickname" : "joon2",
-            },
-          ],
-        "message" : "success"
-        }
-        
+      .then(res => {  
         this.activityList = res.data.scrap
-
-        //204 때문에 임의 데이터 삽입함.
-        this.activityList = response.scrap
       })
       .catch(err => {
         console.log(err)
       })
     },
+    createArticle: function () {
+      this.$store.state.drawCreateArticle = true
+    }
   },
   created: function () {
     this.getArticleList()
@@ -114,7 +117,7 @@ export default {
   components: {
     ArticleList,
     ScrapList,
-    Loading,
+    // Loading,
   }
 }
 </script>

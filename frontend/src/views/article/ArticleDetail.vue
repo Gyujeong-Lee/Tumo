@@ -175,6 +175,20 @@ export default {
       }).then((res) => {
         Object.assign(this.$data, res.data.feed);
         this.$store.state.selectedArticle = res.data.feed;
+      })
+      .catch((error) => {
+      // Error 😨
+        if (error.response) {
+          if (error.response.status === 500) {
+            this.$alert("존재하지 않는 게시글입니다.", "실패", 'error')
+            this.$router.go(-1)
+          }
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
       });
     }
     setTimeout(() => {
