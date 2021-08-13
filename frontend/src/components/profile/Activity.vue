@@ -89,7 +89,8 @@ export default {
         url: `/api/sns/board/${this.userId}`
       })
       .then(res => {
-        if (res.staus === 200) {
+        console.log(res)
+        if (res.status == 200) {
           this.activityList = res.data.myFeed
         } 
       })
@@ -104,7 +105,7 @@ export default {
         url: `/api/sns/scrap/${this.userId}`
       })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         if (res.status === 200) {
           this.activityList = res.data.scrap
         } 
