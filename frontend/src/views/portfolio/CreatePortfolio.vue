@@ -36,7 +36,7 @@
         </div>
         <br>
         <!-- 상품 검색 -->
-        <div class="d-flex flex-column flex-sm-row align-items-center">
+        <div class="d-grid mb-3 flex-column flex-sm-row align-items-center">
           <div>
             <label for="stockType">상품 종류</label>
             <v-select

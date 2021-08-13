@@ -1,7 +1,7 @@
 <template>
   <div v-if="users.length">
     <h4>유저 검색 결과</h4>
-    <div class="d-flex flex-row my-autoss">
+    <div class="d-flex flex-row my-auto">
       <v-card :elevation="elevation" shaped v-for="(user, idx) in users" :key="idx" class="me-3" @click="moveToProfile(user.nickname)">
         <div class="d-flex flex-column p-1">
           <div class="d-flex justify-center mt-1">

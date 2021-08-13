@@ -78,6 +78,7 @@ export default {
     return {
       isPublic: false,
       isFollow: false,
+      isEmpty: false,
       gold: false,
       silver: false,
       bronze: false,
@@ -136,9 +137,9 @@ export default {
       })
       .then(res => {
         const rank = res.data.rank
-        if (rank <= 10) {
+        if (rank <= 3) {
           this.gold = true
-        } else if ( 10 < rank && rank <= 20 ) {
+        } else if ( 3 < rank && rank <= 6 ) {
           this.silver = true
         } else {
           this.bronze = true
@@ -220,7 +221,6 @@ export default {
         url: `/api/sns/follower/${this.user_info.userIdx}`,
       })
       .then(res => {
-        // console.log(res)
         this.followerList = res.data.followers
       })
       .catch(err => {
@@ -235,8 +235,11 @@ export default {
         url: `/api/sns/following/${this.user_info.userIdx}`,
       })
       .then(res => {
-        this.followingList = res.data.followers
+        // console.log(res)
         // console.log(this.followingList)
+        if (res.status == 200) {
+          this.followingList = res.data.followers
+        }
       })
       .catch(err => {
         console.log(err)

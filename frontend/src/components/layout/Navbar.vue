@@ -8,7 +8,6 @@
       <div class="w-100 d-flex justify-space-between my-auto">
         <!-- Logo -->
         <router-link :to="{ name: 'main' }"><img src="@/assets/login/logo.png" alt="mainlogo" height="50"></router-link>
-
         <!-- Search -->
         <div class="mt-1 ms-1">
           <b-form-input
@@ -29,6 +28,7 @@
           </datalist>
         </div>
         <!-- 아이콘 -->
+
         <div>
           <!-- 글쓰기 -->
           <v-menu 

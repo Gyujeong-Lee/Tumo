@@ -1,8 +1,8 @@
 <template>
   <div v-if="companies.length">
     <h4>기업 검색 결과</h4>
-    <div class="d-flex flex-row my-auto">
-      <v-card :elevation="elevation" shaped v-for="(company, idx) in companies" :key="idx" class="me-3" @click="moveToDetail(company.name)">
+    <div class="d-flex flex-column flex-sm-row  my-auto">
+      <v-card  :elevation="elevation" shaped v-for="(company, idx) in companies" :key="idx" class="me-3 mt-3" @click="moveToDetail(company.name)">
         <v-card-title>{{ company.name }}</v-card-title>
         <v-card-subtitle>{{ company.industry }}</v-card-subtitle>
       </v-card>
@@ -32,7 +32,6 @@ export default {
     searchItem: String,
   },
   created: function () {
-    // console.log(this.$route.params.keyword)
     axios({
       method: 'GET',
       url: `/api/company/search/${this.$route.params.keyword}`

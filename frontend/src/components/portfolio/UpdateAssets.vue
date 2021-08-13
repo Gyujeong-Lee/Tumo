@@ -6,7 +6,7 @@
   >
     <v-card id="updateAssets">
       <h1 class="text-center mb-5"><v-icon large color="#00BFFE" class="me-2">mdi-chart-pie</v-icon>개별 자산</h1>
-      <div class="d-flex flex-column flex-sm-row align-items-center">
+      <div class="d-grid mb-3 flex-column flex-sm-row align-items-center">
         <div>
           <label for="stockType">상품 종류</label>
           <v-select

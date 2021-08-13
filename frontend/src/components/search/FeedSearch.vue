@@ -1,8 +1,8 @@
 <template>
   <div v-if="feeds.length">
     <h4>피드 검색 결과</h4>
-    <div class="d-flex flex-column my-autoss">
-      <v-card :elevation="elevation" shaped v-for="(feed, idx) in feeds" :key="idx" class="mb-3" @click="moveToDetail(feed)">
+    <div class="d-flex flex-column flex-sm-row  my-auto">
+      <v-card :elevation="elevation" shaped v-for="(feed, idx) in feeds" :key="idx" class="mb-3 mt-3" @click="moveToDetail(feed)">
         <v-card-title>{{ feed.title }}</v-card-title>
         <v-card-subtitle>{{ feed.nickname }}</v-card-subtitle>
         <v-card-text>{{ feed.content }}</v-card-text>
@@ -28,7 +28,7 @@ export default {
       elevation: 4,
       searchWord: this.searchItem,
       resultExist: false,
-      pageNum: 1,
+      pageNum: 0,
       feeds: [
       ],
     }
@@ -42,7 +42,8 @@ export default {
       url: `/api/feed/search/${this.searchWord}/${this.pageNum}`,
     })
     .then(res => {
-      if (res.request.status === 200) {
+      // console.log(res)
+      if (res.status == 200) {
         this.resultExist = true
         // 응답 담기
         this.feeds = res.data.feedList

@@ -48,67 +48,70 @@
         </p>
       </div>
     </div>
-    <div class="d-flex justify-center my-auto">
-      <div class="col-5 me-10 col-12-sm">
-        <h3>News</h3>
-        <v-sheet
-          elevation="8"
-          rounded
-          class="articleFeed mx-2 my-5"
-          @mouseover="elevation = 10"
-          @mouseleave="elevation = 4"
-          height="auto"
-          width="auto"
-          v-for="(news, idx) in corpNews"
-          :key="idx"
-        >
-          <h5 type="button" @click="moveToNews(news.href)">
-            {{ news.title }}
-          </h5>
-          <div class="d-flex align-left mt-3">
-            <div class="d-flex flex-row" id="NewsInfo">
-              <span>{{ news.date }}</span> &nbsp;&nbsp;&nbsp;
-              <span class="text-primary">{{ news.author }}</span>
+    <div class="d-grid justify-center my-auto">
+      <div class="row">
+        <div class="col-12 col-sm-5 offset-sm-1">
+          <h3>News</h3>
+          <v-sheet
+            elevation="8"
+            rounded
+            class="articleFeed mx-2 my-5"
+            @mouseover="elevation = 10"
+            @mouseleave="elevation = 4"
+            height="auto"
+            width="auto"
+            v-for="(news, idx) in corpNews"
+            :key="idx"
+          >
+            <h5 type="button" @click="moveToNews(news.href)">
+              {{ news.title }}
+            </h5>
+            <div class="d-flex align-left mt-3">
+              <div class="d-flex flex-row" id="NewsInfo">
+                <span>{{ news.date }}</span> &nbsp;&nbsp;&nbsp;
+                <span class="text-primary">{{ news.author }}</span>
+              </div>
             </div>
-          </div>
-        </v-sheet>
-      </div>
-      <div class="col-5">
-        <h3>Report</h3>
-        <v-simple-table class="w-100 border">
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-center">
-                  분류
-                </th>
-                <th class="text-center">
-                  2019
-                </th>
-                <th class="text-centers">
-                  2020
-                </th>
-                <th class="text-center">
-                  2021
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(report, idx) in corpReport" :key="idx">
-                <td>{{ report.value }}</td>
-                <td>
-                  {{ report.twoyear }}
-                </td>
-                <td>
-                  {{ report.lastyear }}
-                </td>
-                <td>
-                  {{ report.thisyear }}
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+          </v-sheet>
+        </div>
+        <div class="col-12 col-sm-5 offset-sm-1">
+          <h3>Report</h3>
+          <v-simple-table class="w-100 border">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-center">
+                    분류
+                  </th>
+                  <th class="text-center">
+                    2019
+                  </th>
+                  <th class="text-centers">
+                    2020
+                  </th>
+                  <th class="text-center">
+                    2021
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(report, idx) in corpReport" :key="idx">
+                  <td>{{ report.value }}</td>
+                  <td>
+                    {{ report.twoyear }}
+                  </td>
+                  <td>
+                    {{ report.lastyear }}
+                  </td>
+                  <td>
+                    {{ report.thisyear }}
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </div>
+
       </div>
     </div>
   </div>

@@ -7,7 +7,7 @@
   @mouseleave="elevation=4"
   height="auto"
   width="auto">
-    <div>
+    <div v-if="list.length">
       <p style="font-weight:bold" type="button" @click="moveToDetail">{{ myScrap.title }}</p>
       <div class="d-flex flex-row">
         <img src="@/assets/main/user.png" alt="user_img" style="width: 35px;" class="me-3">
@@ -16,7 +16,6 @@
         </router-link>
       </div>
     </div>
-    <!-- <Loading v-else/> -->
   </v-sheet>
 </template>
 
@@ -30,12 +29,13 @@ export default {
     return {
       myScrap: this.scrap,
       elevation: 4,
+      list: this.activityList,
     }
   },
   props: {
     scrap: {
       type: Object
-    }
+    },
   },
   components: {
     // Loading,
