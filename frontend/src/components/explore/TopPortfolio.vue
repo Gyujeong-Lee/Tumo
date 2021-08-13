@@ -85,7 +85,7 @@ export default {
 }
 
 .explore-portfolio img {
-  width: 80px;
+  width: 100px;
   margin-bottom: 1rem;
 }
 

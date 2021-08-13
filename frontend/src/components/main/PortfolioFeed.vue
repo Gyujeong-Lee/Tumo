@@ -46,7 +46,7 @@
         <div v-for="(asset, idx) in topAssets" :key="idx" class="row assets">
           <p class="col-4">{{ asset.name }}</p>
           <p class="col-5" align="right">{{ asset.price | money }} 원</p>
-          <p class="col" align="right"><span :class="{ 'text-danger': asset.percent > 0, 'text-primary': asset.percent < 0 }">{{ asset.percent }}</span> %</p>
+          <p class="col" align="right"><span :class="{ 'text-danger': asset.percent > 0, 'text-primary': asset.percent < 0 }">{{ asset.percent | money }}</span> %</p>
         </div>
       </div>
     </div>
