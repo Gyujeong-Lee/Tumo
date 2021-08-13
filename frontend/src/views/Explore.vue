@@ -1,8 +1,7 @@
 <template>
   <div id="explore">
-    <h1 class="text-center">선택 키워드 : {{ selectedKeyword }}</h1>
     <CorporationCarousel />
-    <TopPortfolio />
+    <TopPortfolio :selectedKeyword="selectedKeyword" />
   </div>
 </template>
 
@@ -32,5 +31,9 @@ export default {
 <style>
 #explore {
   margin: 50px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
 }
 </style>
