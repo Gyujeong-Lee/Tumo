@@ -71,8 +71,8 @@ export default {
         method: 'POST',
         url: '/api/sns/follow/acception',
         data: {
-          userIdx: this.$store.state.user_info.id,
-          otherIdx: this.note.userIdx
+          userIdx: this.note.userIdx,
+          followingIdx: this.$store.state.user_info.id
         }
       })
       .then(res => {

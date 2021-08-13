@@ -12,34 +12,36 @@
     </v-tabs>
     <div v-if="selectedTab === 'article'">
       <!-- article -->
-      <ArticleList v-for="(article, idx) of activityList" :key="idx" :article="article"/>
-      <v-sheet 
-      :elevation="elevation"
-      rounded
-      @mouseover="elevation=10"
-      @mouseleave="elevation=4"
-      height="auto"
-      width="auto">
-        <div v-if="!activityList.length" class="my-3">
+      <ArticleList v-for="(article, idx) of activityList" :activityList="activityList" :key="idx" :article="article"/>
+      <div v-if="!activityList.length" class="my-3">
+        <v-sheet 
+        :elevation="elevation"
+        rounded
+        @mouseover="elevation=10"
+        @mouseleave="elevation=4"
+        height="auto"
+        width="320">
+        <div>
           <v-btn icon @click="createArticle"><v-icon>mdi-file-plus-outline</v-icon></v-btn>
-          <h5 class="text-center" style="color:#00BFFE">게시글을 스크랩 하세요</h5>
+          <span class="text-center" style="color:#00BFFE; font-weight:bold">게시글을 작성하세요</span>
         </div>
-      </v-sheet>
+        </v-sheet>
+      </div>
     </div>
     <div v-else-if="selectedTab === 'scrap'">
       <!-- scrap -->
       <ScrapList v-for="(scrap, idx) of activityList" :key="idx" :scrap="scrap"/>
-      <v-sheet 
-      :elevation="elevation"
-      rounded
-      @mouseover="elevation=10"
-      @mouseleave="elevation=4"
-      height="auto"
-      width="auto">
-        <div v-if="!activityList.length" class="my-3">
-          <h5 class="text-center" style="color:#00BFFE">게시글을 스크랩 하세요</h5>
-        </div>
-      </v-sheet>
+      <div v-if="!activityList.length" class="my-3">
+        <v-sheet 
+        :elevation="elevation"
+        rounded
+        @mouseover="elevation=10"
+        @mouseleave="elevation=4"
+        height="auto"
+        width="320">
+          <span class="text-center" style="color:#00BFFE; font-weight:bold">게시글을 스크랩하세요</span>
+        </v-sheet>
+      </div>
     </div>
   </div>
 </template>
@@ -58,6 +60,7 @@ export default {
         userId: this.userIdx,
         selectedTab: 'article',
         activityList: [],
+        isEmpty: false,
       }
   },
   props: {
@@ -86,22 +89,25 @@ export default {
         url: `/api/sns/board/${this.userId}`
       })
       .then(res => {
-        // console.log(res)
-        this.activityList = res.data.myFeed
+        if (res.staus === 200) {
+          this.activityList = res.data.myFeed
+        } 
       })
       .catch(err => {
         console.log(err)
       })
     },
     getScrapList: function () {
-      // console.log(this.userId)
       //axios for Scrap
       axios({
         method: 'GET',
         url: `/api/sns/scrap/${this.userId}`
       })
-      .then(res => {  
-        this.activityList = res.data.scrap
+      .then(res => {
+        console.log(res)
+        if (res.status === 200) {
+          this.activityList = res.data.scrap
+        } 
       })
       .catch(err => {
         console.log(err)
@@ -109,7 +115,7 @@ export default {
     },
     createArticle: function () {
       this.$store.state.drawCreateArticle = true
-    }
+    },
   },
   created: function () {
     this.getArticleList()
@@ -117,7 +123,6 @@ export default {
   components: {
     ArticleList,
     ScrapList,
-    // Loading,
   }
 }
 </script>

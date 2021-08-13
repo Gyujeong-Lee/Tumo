@@ -24,7 +24,7 @@
     </div>
     <div v-else>
       <v-btn icon @click="creatrePortfolio"><v-icon>mdi-file-plus-outline</v-icon></v-btn>
-      <h5>나만의 포트폴리오를 만들어보세요!</h5>
+      <span class="text-center" style="color:#00BFFE; font-weight:bold">포트폴리오를 만들기</span>
     </div>
   </v-sheet>
   <v-tabs grow class="p-0">
@@ -88,7 +88,9 @@ export default {
     .then(res => {
       // for문 돌려서 가장 수익률이 높은 포트폴리오 가져오기
       // console.log(res)
-      this.portfolios = res.data.portfolio
+      if (res.status == 200) {
+        this.portfolios = res.data.portfolio
+      }
       this.bestPortfolio = _.maxBy(res.data.portfolio, 'percent')
       // console.log(this.bestPortfolio)
       //여기부터 개별 자산
