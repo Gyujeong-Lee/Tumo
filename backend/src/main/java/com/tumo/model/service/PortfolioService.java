@@ -25,4 +25,5 @@ public interface PortfolioService {
 	boolean updateList(PortfolioDto portfoliodto);
 	boolean updateAsset(AssetDto assetDto);
 	int readRank(String nickname);
+	List<Map<Object, Object>> readTopPortfolio();
 }
