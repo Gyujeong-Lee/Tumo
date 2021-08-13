@@ -334,4 +334,22 @@ public class PortfolioController {
 		
 	}
 	
+	
+
+	@GetMapping(value ="/explore")
+	@ApiOperation(value = "explore포트폴리오")
+	public ResponseEntity readTopPortfolio(){
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		List<Map<Object, Object>> portfolioList=portfolioService.readTopPortfolio();
+		if (portfolioList == null || portfolioList.size() == 0) {
+			resultMap.put("message", "fail");
+			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NO_CONTENT);
+		}
+	
+		resultMap.put("portfolio", portfolioList);
+		resultMap.put("message", "success");
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		
+	}
 }

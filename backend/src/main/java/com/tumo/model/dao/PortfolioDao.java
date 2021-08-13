@@ -9,6 +9,7 @@ import com.tumo.model.PortfolioDto;
 
 public interface PortfolioDao {
 
+	
 	boolean createList(PortfolioDto portfoliodto);
 
 	List<Map<Object, Object>> readList(int userIdx);
@@ -36,4 +37,6 @@ public interface PortfolioDao {
 	void updateAsset(AssetDto assetDto);
 
 	String readRank(String nickname);
+
+	List<Map<Object, Object>> readTopPortfolio();
 }

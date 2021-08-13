@@ -213,4 +213,12 @@ public class PortfolioServiceImpl implements PortfolioService {
 		 
 		 
 	}
+
+
+	@Override
+	public List<Map<Object, Object>> readTopPortfolio() {
+		
+		 
+		 return sqlSession.getMapper(PortfolioDao.class).readTopPortfolio();
+	}
 }
