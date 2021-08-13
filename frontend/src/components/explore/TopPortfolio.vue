@@ -1,17 +1,17 @@
 <template>
   <div v-if="portfolioList" id="top-portfolio">
-    <div v-if="portfolioList[1]" class="explore-portfolio">
+    <div class="explore-portfolio">
       <img src="@/assets/explore/portfolio/silver.png" alt="silver">
       <PortfolioCard :feed="portfolioList[1]" :idx="1"/>
     </div>
     <div>
-      <div v-if="portfolioList[0]" class="explore-portfolio">
+      <div class="explore-portfolio">
         <img src="@/assets/explore/portfolio/gold.png" alt="gold">
         <PortfolioCard :feed="portfolioList[0]" :idx="0"/>
       </div>
       <img src="@/assets/explore/portfolio/person.png" alt="person" class="w-100">
     </div>
-    <div v-if="portfolioList[2]" class="explore-portfolio">
+    <div class="explore-portfolio">
       <img src="@/assets/explore/portfolio/bronze.png" alt="bronze">
       <PortfolioCard :feed="portfolioList[2]" :idx="2"/>
     </div>
@@ -67,7 +67,7 @@ export default {
 <style>
 #top-portfolio {
   min-width: 940px;
-  margin: 5rem 10% 0;
+  margin: 0rem 10% 0;
   display: flex;
   align-items: center;
   justify-content: center;

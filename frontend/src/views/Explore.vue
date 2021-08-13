@@ -1,6 +1,8 @@
 <template>
   <div id="explore">
+    <h1>Top 기업</h1>
     <CorporationCarousel />
+    <h1 style="margin-top: 10rem; margin-bottom: 3rem;">Top 포트폴리오</h1>
     <TopPortfolio :selectedKeyword="selectedKeyword" />
   </div>
 </template>

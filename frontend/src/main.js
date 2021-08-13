@@ -22,6 +22,9 @@ Vue.use(IconsPlugin);
 Vue.use(Popconfirm);
 Vue.use(VueSimpleAlert);
 Vue.use(VueGlide);
+Vue.filter("money", (value) => {
+  return value.toLocaleString("ko-KR");
+});
 
 Vue.component(VueWordCloud.name, VueWordCloud);
 

@@ -33,8 +33,8 @@
             <p>목표 수익률</p>
           </div>
           <div class="col" align="right">
-            <p>{{ feed.sum }}원</p>
-            <p><span :class="{ 'text-danger': feed.percent > 0, 'text-primary': feed.percent < 0 }">{{ feed.percent }}</span> %</p>
+            <p>{{ feed.sum | money }}원</p>
+            <p><span :class="{ 'text-danger': feed.percent > 0, 'text-primary': feed.percent < 0 }">{{ feed.percent}}</span> %</p>
             <p><span :class="{ 'text-danger': feed.goal > 0, 'text-primary': feed.goal < 0 }">{{ feed.goal }}</span> %</p>
           </div>
         </div>
@@ -45,7 +45,7 @@
         </div>
         <div v-for="(asset, idx) in topAssets" :key="idx" class="row assets">
           <p class="col-4">{{ asset.name }}</p>
-          <p class="col-5" align="right">{{ asset.price }} 원</p>
+          <p class="col-5" align="right">{{ asset.price | money }} 원</p>
           <p class="col" align="right"><span :class="{ 'text-danger': asset.percent > 0, 'text-primary': asset.percent < 0 }">{{ asset.percent }}</span> %</p>
         </div>
       </div>
@@ -95,7 +95,9 @@ export default {
         }
         const data = res.data || defaultData
         Object.assign(this.$data, data)
-        this.topAssets = data.Asset.slice(0, 3)
+
+        data.Asset.sort((a, b) => { return b.curprice - a.curprice })
+        this.topAssets = [...data.Asset].sort((a, b) => { return b.percent - a.percent }).slice(0, 3)
         const stockData = data.Asset.map(data => {
           return data.name
         })

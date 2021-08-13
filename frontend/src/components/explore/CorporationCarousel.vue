@@ -156,7 +156,7 @@ export default {
         title.style.color = `rgb(${rgb})`
         slide.style.backgroundColor = `rgba(${rgb}, 0.1)`
       })
-    }, 500);
+    }, 800);
   }
 }
 </script>
