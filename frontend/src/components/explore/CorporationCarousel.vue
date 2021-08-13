@@ -6,7 +6,7 @@
     @glide:run-after="moveCarousel"
   >
     <vue-glide-slide> 
-      <div class="d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center" @click="$router.push({ name: 'corporationDetail', params: { companyName: '삼성전자'}})">
         <img src="@/assets/explore/samsung.png" alt="samsung">
         <div>
           <h4>삼성전자(주)</h4>
@@ -15,13 +15,14 @@
       </div>
       <div>
         <div class="my-2"></div>
+        <v-icon small color="black">mdi-home</v-icon>
         <a href="#">www.sec.co.kr</a>
-        <p>경기도 수원시 영통구 삼성로 129 (매탄동)</p>
-        <p>Tel: 031-200-1114</p>
+        <p><v-icon small color="black">mdi-map-marker</v-icon>경기도 수원시 영통구 삼성로 129 (매탄동)</p>
+        <p><v-icon small color="black">mdi-phone</v-icon>031-200-1114</p>
       </div>
     </vue-glide-slide>
     <vue-glide-slide> 
-      <div class="d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center" @click="$router.push({ name: 'corporationDetail', params: { companyName: '카카오'}})">
         <img src="@/assets/explore/kakao.png" alt="kakao">
         <div>
           <h4>(주)카카오</h4>
@@ -30,13 +31,14 @@
       </div>
       <div>
         <div class="my-2"></div>
+        <v-icon small color="black">mdi-home</v-icon>
         <a href="#">www.kakaocorp.com</a>
-        <p>제주특별자치도 제주시 첨단로 242</p>
-        <p>Tel: 02-6718-1082</p>
+        <p><v-icon small color="black">mdi-map-marker</v-icon>제주특별자치도 제주시 첨단로 242</p>
+        <p><v-icon small color="black">mdi-phone</v-icon>02-6718-1082</p>
       </div>
     </vue-glide-slide>
     <vue-glide-slide> 
-      <div class="d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center" @click="$router.push({ name: 'corporationDetail', params: { companyName: 'NAVER'}})">
         <img src="@/assets/explore/naver.png" alt="naver">
         <div>
           <h4>네이버(주)</h4>
@@ -45,13 +47,14 @@
       </div>
       <div>
         <div class="my-2"></div>
+        <v-icon small color="black">mdi-home</v-icon>
         <a href="#">www.navercorp.com</a>
-        <p>경기도 성남시 분당구 불정로 6</p>
-        <p>Tel: 031-784-4175</p>
+        <p><v-icon small color="black">mdi-map-marker</v-icon>경기도 성남시 분당구 불정로 6</p>
+        <p><v-icon small color="black">mdi-phone</v-icon>031-784-4175</p>
       </div>
     </vue-glide-slide>
     <vue-glide-slide> 
-      <div class="d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center" @click="$router.push({ name: 'corporationDetail', params: { companyName: 'SK하이닉스'}})">
         <img src="@/assets/explore/hynix.png" alt="sk">
         <div>
           <h4>SK하이닉스(주)</h4>
@@ -60,13 +63,14 @@
       </div>
       <div>
         <div class="my-2"></div>
+        <v-icon small color="black">mdi-home</v-icon>
         <a href="#">www.skhynix.com</a>
-        <p>경기도 이천시 부발읍 경충대로 2091</p>
-        <p>Tel: 031-630-4114</p>
+        <p><v-icon small color="black">mdi-map-marker</v-icon>경기도 이천시 부발읍 경충대로 2091</p>
+        <p><v-icon small color="black">mdi-phone</v-icon>031-630-4114</p>
       </div>
     </vue-glide-slide>
     <vue-glide-slide> 
-      <div class="d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center" @click="$router.push({ name: 'corporationDetail', params: { companyName: '현대모비스'}})">
         <img src="@/assets/explore/mobis.png" alt="mobis">
         <div>
           <h4>현대모비스(주)</h4>
@@ -75,9 +79,10 @@
       </div>
       <div>
         <div class="my-2"></div>
+        <v-icon small color="black">mdi-home</v-icon>
         <a href="#">www.mobis.co.kr</a>
-        <p>서울 강남구 역삼1동 로담코빌딩 140-2</p>
-        <p>Tel: 02-2018-5114</p>
+        <p><v-icon small color="black">mdi-map-marker</v-icon>서울 강남구 역삼1동 로담코빌딩 140-2</p>
+        <p><v-icon small color="black">mdi-phone</v-icon>02-2018-5114</p>
       </div>
     </vue-glide-slide>
     <template slot="control">
@@ -156,7 +161,7 @@ export default {
         title.style.color = `rgb(${rgb})`
         slide.style.backgroundColor = `rgba(${rgb}, 0.1)`
       })
-    }, 500);
+    }, 800);
   }
 }
 </script>
@@ -194,6 +199,7 @@ export default {
   padding: 0rem 1.5rem 1.5rem;
   border-radius: 5px;
   transition: all 0.3s;
+  cursor: pointer;
 }
 
 #corp-glide .glide__slide div {
@@ -214,6 +220,11 @@ export default {
 
 #corp-glide .glide__slide p {
   font-size: 12px;
+  margin-bottom: 1px;
+}
+
+#corp-glide .glide__slide a {
+  margin-bottom: 1px;
 }
 
 #corp-glide .glide__slide--active {
@@ -228,6 +239,10 @@ export default {
   width: 150px;
 }
 
+#corp-glide .v-icon {
+  margin-right: 0.4rem;
+}
+
 .prev_slide {
   transform: perspective(1000px) rotateY(-45deg);
 }
@@ -238,7 +253,7 @@ export default {
 
 @media screen and (max-width: 940px) {
   #corp-glide {
-    width: 576px;
+    width: 596px;
   }
 
   #corp-glide > div:last-child {
