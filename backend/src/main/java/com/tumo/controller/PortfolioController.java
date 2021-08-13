@@ -281,34 +281,16 @@ public class PortfolioController {
 		
 	}
 	
-	@GetMapping(value ="/search/{searchContent}/{pageNum}")
+	@GetMapping(value ="/search/{searchContent}")
 	@ApiOperation(value = "포트폴리오 검색")
-	public ResponseEntity searchPortfolio(@PathVariable("searchContent") String searchContent, @PathVariable("pageNum") String pageNum){
+	public ResponseEntity searchPortfolio(@PathVariable("searchContent") String searchContent){
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
-		List<Map<Object, Object>> portfolioList=portfolioService.searchPortfolio(searchContent,pageNum);
+		List<Map<Object, Object>> portfolioList=portfolioService.searchPortfolio(searchContent);
 		if (portfolioList == null || portfolioList.size() == 0) {
 			resultMap.put("message", "fail");
 			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NO_CONTENT);
 		}
-		System.out.println(portfolioList.get(0).get("portfolio_idx"));
-		for (int i = 0; i < portfolioList.size(); i++) {
-			List<Map<Object,Object>> assetList=portfolioService.readAsset(Integer.parseInt(portfolioList.get(i).get("portfolio_idx").toString()));
-			assetList=portfolioService.calcAsset(assetList);
-			int sum=portfolioService.sumAsset(assetList);
-			int cursum=portfolioService.sumCurAsset(assetList);
-			double percent=0;
-			double ssum=sum;
-			if(sum!=0 && cursum!=0) {
-				percent=((cursum*100-sum*100)/ssum);
-			}
-			String result=String.format("%.2f",percent);
-			Map<Object,Object> amount=new HashMap<Object, Object>();
-			amount.put("sum", sum);
-			amount.put("cursum", cursum);
-			amount.put("percent", Double.parseDouble(result));
-			portfolioList.get(i).put("amount", amount);
-		}	
 		resultMap.put("portfolio", portfolioList);
 		resultMap.put("message", "success");
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);

@@ -152,13 +152,9 @@ public class PortfolioServiceImpl implements PortfolioService {
 
 
 	@Override
-	public List<Map<Object, Object>> searchPortfolio(String searchContent, String pageNum) {
-		System.out.println(searchContent+" "+ pageNum);
-		int temp=Integer.parseInt(pageNum);
-		pageNum=Integer.toString(temp*5);
+	public List<Map<Object, Object>> searchPortfolio(String searchContent) {
 		HashMap<String, Object> tmp=new HashMap<String, Object>();
 		tmp.put("searchContent", searchContent);
-		tmp.put("pageNum", pageNum);
 		return sqlSession.getMapper(PortfolioDao.class).searchPortfolio(tmp);
 	}
 
