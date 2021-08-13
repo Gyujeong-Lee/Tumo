@@ -38,9 +38,6 @@
           <hr>
           <div id="my-signin2"></div><p/>
           <v-alert v-if="isNotOauthUserError" dense text type="error" style="font-size: 0.8rem;">일반 회원으로 가입된 이메일입니다.<br>일반 로그인 창을 이용해주세요.</v-alert>
-          <v-btn color="error"><img src="@/assets/login/google.png" alt="googleIcon">Google 로그인</v-btn>
-          <v-btn color="success"><img src="@/assets/login/naver.png" alt="naverIcon">Naver 로그인</v-btn>
-          <v-btn color="yellow"><img src="@/assets/login/kakao.png" alt="kakaoIcon">Kakao 로그인</v-btn>
         </div>
       </div>
 
@@ -148,6 +145,7 @@ export default {
       authInst.signOut();
     },
     oauthLogin: function (id_token) {
+      console.log(id_token);
       const authInst = window.gapi.auth2.getAuthInstance();
       authInst.signOut();
       axios({
