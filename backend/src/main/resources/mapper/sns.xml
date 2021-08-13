@@ -118,12 +118,12 @@
 		where user_idx = #{userIdx} and following_idx = #{followingIdx}
 	</select>
 	
-	<delete id="deleteFollowing" parameterType="map">
+	<delete id="deleteFollowing" parameterType="followDto">
 		delete from following
 		where user_idx = #{userIdx} and following_idx = #{followingIdx}
 	</delete>
 	
-	<insert id="createFollowing" parameterType="map">
+	<insert id="createFollowing" parameterType="followDto">
 		insert into following (user_idx, following_idx)
 		values (#{userIdx}, #{followingIdx})
 	</insert>
@@ -137,7 +137,7 @@
 		select n.notification_idx as notificationIdx, n.otheruser_idx as userIdx, u.nickname, n.type, n.board_idx as boardIdx, n.create_at as createAt, n.read_at as readAt
 		from notification n join user u
 		on n.otheruser_idx = u.user_idx
-		where n.user_idx = #{userIdx}
+		where n.user_idx = #{userIdx} and n.user_idx != n.otheruser_idx
 		order by n.otheruser_idx asc, n.type asc, n.create_at desc;
 	</select>
 	
