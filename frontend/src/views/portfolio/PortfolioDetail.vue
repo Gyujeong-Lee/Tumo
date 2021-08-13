@@ -4,7 +4,7 @@
       elevation="8"
       rounded
       id="portfolioDetail"
-      class="p-5"
+      class="p-2"
       width="auto"
       height="auto"
     >
@@ -27,7 +27,7 @@
         <v-btn v-else icon><v-icon>mdi-comment-multiple-outline</v-icon></v-btn>
       </div>
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex flex-column flex-sm-row justify-content-center">
       <div class="d-flex flex-column">
         <h2 style="color:#CE1D28">Portfolio</h2>
         <h3 style="font-weight:bold" class="my-auto">{{ portfolio.title }}</h3>
@@ -35,7 +35,7 @@
         <UpdateAssets v-if="assets.length" :assets="assets" :userIdx="userIdx"/>
         <PortfolioChart v-if="assets.length && Object.keys(portfolio).length" :portfolio="portfolio" :assets="assets" />
       </div>
-      <div class="d-flex align-center">
+      <div class="d-flex align-center justify-center">
         <div class="d-flex flex-column border p-2" id="portfolioInfo">
           <p>총 자산 : {{ amount.cursum }}원</p>
           <p style="font-weight:bold">현재 수익률 : {{ amount.percent }}%</p>
@@ -53,7 +53,7 @@
           <div class="d-grid">
             <div class="row">
               <!-- 여기에 종목 이름 -->
-              <div class="col-4" v-for="(asset, idx) in assets" :key="idx">
+              <div class="col-12 col-sm-4 pe-0" v-for="(asset, idx) in assets" :key="idx">
                 <p class="mt-1 mb-0" style="font-weight:bolder" :class="{ 'text-danger': asset.percent > 0, 'text-primary': asset.percent < 0 }">
                 {{ asset.name }} ({{(asset.curprice*asset.quantity / portfolio.cursum * 100).toFixed(0)}}%)
                 </p>
@@ -138,9 +138,21 @@ export default {
         }
       }
     })
-    .catch(err => {
-      console.log(err)
-    })
+    .catch((error) => {
+      // Error 😨
+      if (error.response) {
+        if (error.response.status === 500) {
+          this.$alert("존재하지 않는 포트폴리오입니다.", "실패", 'error')
+          this.$router.go(-1)
+        }
+      } else if (error.request) {
+
+        console.log(error.request);
+      } else {
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    });
     // 개별 자산 요청 
     axios({
       method: 'GET',
