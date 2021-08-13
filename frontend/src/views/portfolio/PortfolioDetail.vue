@@ -31,14 +31,14 @@
       <div class="d-flex flex-column">
         <h2 style="color:#CE1D28">Portfolio</h2>
         <h3 style="font-weight:bold" class="my-auto">{{ portfolio.title }}</h3>
-        <UpdatePortfolio :portfolio="portfolio"/>
+        <UpdatePortfolio v-if="Object.keys(portfolio).length" :portfolio="portfolio"/>
         <UpdateAssets v-if="assets.length" :assets="assets" :userIdx="userIdx"/>
         <PortfolioChart v-if="assets.length && Object.keys(portfolio).length" :portfolio="portfolio" :assets="assets" />
       </div>
       <div class="d-flex align-center">
         <div class="d-flex flex-column border p-2" id="portfolioInfo">
           <p>총 자산 : {{ amount.cursum }}원</p>
-          <p style="font-weight:bold">현재 수익률 : {{ (amount.percent).toFixed(4) }}%</p>
+          <p style="font-weight:bold">현재 수익률 : {{ amount.percent }}%</p>
           <p>목표 수익률 : {{ portfolio.goal }}%</p>
         </div>
       </div>
@@ -46,33 +46,38 @@
     <div id="portfolioPortion">
       <h3 style="display:inline">Portion</h3>
       <v-icon v-if="itsMe" color="#00BFFE" class="mb-2" @click="drawUpdateAssets">mdi-pencil</v-icon>
-      <div class="d-flex flex-column col-12 border pt-2" id="assetInfo">
+      <div class="d-flex flex-column border pt-2" id="assetInfo">
         <div id="domesticStock">
           <!-- 추후 국내, 해외 주식 비중 추가할 예정 -->
           <h5>국내 주식(100%)</h5>
-          <div class="d-flex flex-row col-12">
-            <!-- 여기에 종목 이름 -->
-            <div class="col-4" v-for="(asset, idx) in assets" :key="idx">
-              <p class="mt-1 mb-0" style="font-weight:bolder" :class="{ 'text-danger': asset.percent > 0, 'text-primary': asset.percent < 0 }">
-              {{ asset.name }} ({{(asset.curprice*asset.quantity / portfolio.cursum * 100).toFixed(0)}}%)
-              </p>
-              <ul class="ps-1">
-                <li class="w-100">
-                  목표 가격 : {{ asset.goal }}원
-                </li>
-                <li>
-                  현재 가격 : {{ asset.curprice }}원
-                </li>
-                <li>
-                  구매 수량 : {{ asset.quantity }}주
-                </li>
-                <li v-if="asset.percent>0" class="text-danger">
-                  수익률 : {{ asset.percent }}%
-                </li>
-                <li v-else style="color:#00BFFE">
-                  수익률 : {{ asset.percent }}%
-                </li>
-              </ul>
+          <div class="d-grid">
+            <div class="row">
+              <!-- 여기에 종목 이름 -->
+              <div class="col-4" v-for="(asset, idx) in assets" :key="idx">
+                <p class="mt-1 mb-0" style="font-weight:bolder" :class="{ 'text-danger': asset.percent > 0, 'text-primary': asset.percent < 0 }">
+                {{ asset.name }} ({{(asset.curprice*asset.quantity / portfolio.cursum * 100).toFixed(0)}}%)
+                </p>
+                <ul class="ps-1">
+                  <li>
+                    목표 가격 : {{ asset.goal }}원
+                  </li>
+                  <li>
+                    현재 가격 : {{ asset.curprice }}원
+                  </li>
+                  <li>
+                    구매 수량 : {{ asset.quantity }}주
+                  </li>
+                  <li v-if="asset.percent>0" class="text-danger">
+                    수익률 : {{ asset.percent }}%
+                  </li>
+                  <li v-else-if="!asset.percent">
+                    수익률 : {{ asset.percent }}%
+                  </li>
+                  <li v-else style="color:#00BFFE">
+                    수익률 : {{ asset.percent }}%
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -197,6 +202,10 @@ export default {
 </script>
 
 <style scoped>
+  h2, h3 {
+    font-family: "Otomanopee One", sans-serif
+  }
+
   #portfolioInfo {
     border: black;
     border-width: 2px;

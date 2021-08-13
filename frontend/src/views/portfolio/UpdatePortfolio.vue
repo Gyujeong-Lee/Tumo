@@ -85,7 +85,9 @@ export default {
         data: this.data
       })
       .then(res => {
+        console.log(res)
         this.$alert("성공적으로 포트폴리오를 수정하였습니다.", "수정 완료", `${res.data.message}`)
+        // this.$router.go(this.$router.currentRoute)
       })
       .catch(err => {
         console.log(err)
