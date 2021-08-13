@@ -27,21 +27,20 @@
             <!-- <option v-for="(item, idx) in search_list" :key="idx">{{ item }}</option> -->
           </datalist>
         </div>
-        <!-- 아이콘 -->
 
-        <div>
+        <!-- <v-app-bar-nav-icon @click="drawer = !drawer"/>
+        <v-navigation-drawer app v-model="drawer">
+        </v-navigation-drawer> -->
+
+        <!-- 아이콘 -->
+        <v-app-bar-nav-icon @click="drawer = !drawer" id="toggleBtn"/>
+        <v-navigation-drawer id="navDrawer" right app v-model="drawer">
+        </v-navigation-drawer>
+        <div id="btnGroup">
           <!-- 글쓰기 -->
-          <v-menu 
-          bottom 
-          left 
-          offset-y>
+          <v-menu bottom left offset-y>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                dark
-                icon
-                v-bind="attrs"
-                v-on="on"
-              >
+              <v-btn dark icon v-bind="attrs" v-on="on">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </template>
@@ -61,10 +60,7 @@
             </router-link>
           </v-btn>
           <!-- 알림 -->
-          <v-menu
-          bottom
-          offset-y
-          >
+          <v-menu bottom offset-y>
             <template v-slot:activator="{ on, attrs }">
               <v-btn dark icon v-bind="attrs" v-on="on">
                 <v-icon v-if="unreadAlert" color="#CE1D28">mdi-heart</v-icon>
@@ -76,17 +72,9 @@
           </v-menu>
 
           <!-- 프로필 -->
-          <v-menu
-          bottom
-          offset-y
-          >
+          <v-menu bottom offset-y>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                dark
-                icon
-                v-bind="attrs"
-                v-on="on"
-              >
+              <v-btn dark icon v-bind="attrs" v-on="on">
                 <v-icon>mdi-account-circle</v-icon>
               </v-btn>
             </template>
@@ -117,6 +105,7 @@ export default {
       // 검색어
       hotSearchItems: [],
       search_item: "",
+      drawer: false,
     }
   },
   computed: {
@@ -199,6 +188,19 @@ export default {
 
 #NavBar {
   z-index: 2;
+}
+@media (min-width: 600px) { 
+  #toggleBtn {
+    display: none;
+  }
+  #navDrawer {
+    display: none;
+  }
+}
+@media (max-width: 600px) { 
+  #btnGroup {
+    display: none;
+  }
 }
 
 </style>
