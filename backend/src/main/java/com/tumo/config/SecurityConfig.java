@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		
-		// 현재 테스트 용도로 모든 경로에 대해 로그인 없이 접속 허용 시킨 상태입니다.
+		// 현재 테스트 용도로 Swagger에 대해 로그인 없이 접속 허용 시킨 상태입니다.
 		web
 			.ignoring()
 			.antMatchers("/swagger/**", "/swagger-ui.html", 
@@ -76,8 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.formLogin().disable() // Spring Security 기본 로그인 페이지 없애기
 			.authorizeRequests()	// http 사용하는 요청 접근 제한
-			.antMatchers("/**").permitAll()	// '/api/user'로 시작하는 주소는 비회원 접근 허용
-			.anyRequest().authenticated()	// 나머지 요청들은 인증 필요
+			.antMatchers("/**").permitAll()	
+			.anyRequest().authenticated()
 		
 			.and()
 			.apply(new JwtSecurityConfig(tokenProvider));
