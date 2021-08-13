@@ -145,7 +145,6 @@ export default {
       authInst.signOut();
     },
     oauthLogin: function (id_token) {
-      console.log(id_token);
       const authInst = window.gapi.auth2.getAuthInstance();
       authInst.signOut();
       axios({
