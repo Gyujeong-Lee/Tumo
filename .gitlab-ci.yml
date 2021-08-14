@@ -9,7 +9,6 @@ deploy-to-server:
     - echo '배포 시작'
   script:
     - cd $REPOSITORY/$PROJECT_NAME/
-    - sudo chown -R .git/
     - git pull origin develop
     - cd..
     - sudo ./deploy.sh
