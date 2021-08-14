@@ -151,8 +151,7 @@ export default {
           url: `/api/company/news/${this.$route.params.companyName}`,
         }).then((res) => {
           this.corpNews = res.data.news;
-        });
-
+        })
         axios({
           method: "GET",
           url: `/api/company/report/${this.$route.params.companyName}`,
@@ -269,7 +268,35 @@ export default {
           }
           this.corpReport = tmpList;
           this.isLoading = false;
+        })
+        .catch((error) => {
+          // Error 😨
+          if (error.response) {
+            if (error.response.status === 500) {
+              this.$alert("존재하지 않는 기업입니다.", "실패", 'error')
+              this.$router.go(-1)
+            }
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log('Error', error.message);
+          }
+          console.log(error.config);
         });
+      })
+      .catch((error) => {
+        // Error 😨
+        if (error.response) {
+          if (error.response.status === 500) {
+            this.$alert("존재하지 않는 기업입니다.", "실패", 'error')
+            this.$router.go(-1)
+          }
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
       });
   },
 };
