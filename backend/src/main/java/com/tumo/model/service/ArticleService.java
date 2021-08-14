@@ -7,7 +7,6 @@ import java.util.Map;
 import com.tumo.model.ArticleDto;
 import com.tumo.model.CommentDto;
 import com.tumo.model.FeedCommentDto;
-import com.tumo.model.FeedDto;
 
 public interface ArticleService {
 

@@ -21,22 +21,18 @@ import com.tumo.model.dao.PortfolioDao;
 @Service
 public class PortfolioServiceImpl implements PortfolioService {
 
-	@Autowired 
+	@Autowired
 	private SqlSession sqlSession;
-	
-	
+
 	@Override
 	public boolean createList(PortfolioDto portfoliodto) {
-		// TODO Auto-generated method stub
-		
-		 sqlSession.getMapper(PortfolioDao.class).createList(portfoliodto);
-		 return	 true;
+		sqlSession.getMapper(PortfolioDao.class).createList(portfoliodto);
+		return true;
 	}
-
 
 	@Override
 	public List<Map<Object, Object>> readList(int userIdx) {
-		
+
 		return sqlSession.getMapper(PortfolioDao.class).readList(userIdx);
 	}
 
@@ -46,93 +42,82 @@ public class PortfolioServiceImpl implements PortfolioService {
 		return true;
 	}
 
-
 	@Override
 	public boolean createAsset(AssetDto assetDto) {
 		sqlSession.getMapper(PortfolioDao.class).createAsset(assetDto);
 		return true;
 	}
 
-
 	@Override
 	public List<Map<Object, Object>> readAsset(int portfolioIdx) {
-		
 		return sqlSession.getMapper(PortfolioDao.class).readAsset(portfolioIdx);
 	}
-
 
 	@Override
 	public List<Map<Object, Object>> calcAsset(List<Map<Object, Object>> assetList) {
 		for (int i = 0; i < assetList.size(); i++) {
-			String code=(String) assetList.get(i).get("stock_code");
-			//System.out.println(code);
-			while(code.length()!=6) {
-				code="0"+code;
+			String code = (String) assetList.get(i).get("stock_code");
+			// System.out.println(code);
+			while (code.length() != 6) {
+				code = "0" + code;
 			}
-			
-			//System.out.println(code);
-			String url="https://finance.naver.com/item/main.nhn?code="+code;
-			
-			//System.out.println(url);
-			 Document doc;
+
+			// System.out.println(code);
+			String url = "https://finance.naver.com/item/main.nhn?code=" + code;
+
+			// System.out.println(url);
+			Document doc;
 			try {
 				doc = Jsoup.connect(url).get();
-				//System.out.println(doc.toString());
+				// System.out.println(doc.toString());
 				Elements elem = doc.select("dl.blind");
-				//System.out.println(elem.select("dd").get(3).text().toString());
-				
+				// System.out.println(elem.select("dd").get(3).text().toString());
+
 				StringTokenizer st = new StringTokenizer(elem.select("dd").get(3).text().toString());
-				String temp=st.nextToken();
-				temp=st.nextToken();
-				//System.out.println();
-				temp=temp.replace(",", "");
-				int curprice=Integer.parseInt(temp);
-				//System.out.println(elem.toString());
+				String temp = st.nextToken();
+				temp = st.nextToken();
+				// System.out.println();
+				temp = temp.replace(",", "");
+				int curprice = Integer.parseInt(temp);
+				// System.out.println(elem.toString());
 				assetList.get(i).put("curprice", curprice);
-				int price=(int) assetList.get(i).get("price");
-				double percent=0;
-				if(price==0) {
-					
-				}else {
-					 percent=((curprice*100-price*100)/price);
+				int price = (int) assetList.get(i).get("price");
+				double percent = 0;
+				if (price == 0) {
+
+				} else {
+					percent = ((curprice * 100 - price * 100) / price);
 				}
-				
-				String result=String.format("%.2f",percent);
-				//System.out.println(result);
+
+				String result = String.format("%.2f", percent);
+				// System.out.println(result);
 				assetList.get(i).put("percent", Double.parseDouble(result));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			
+
 		}
-	
-		
-		
+
 		return assetList;
 	}
 
-
 	@Override
 	public int sumCurAsset(List<Map<Object, Object>> assetList) {
-		int temp=0;
+		int temp = 0;
 		for (int i = 0; i < assetList.size(); i++) {
-			temp+= (int) assetList.get(i).get("curprice") * (int)assetList.get(i).get("quantity");
+			temp += (int) assetList.get(i).get("curprice") * (int) assetList.get(i).get("quantity");
 		}
 		return temp;
 	}
 
 	@Override
 	public int sumAsset(List<Map<Object, Object>> assetList) {
-		int temp=0;
+		int temp = 0;
 		for (int i = 0; i < assetList.size(); i++) {
-			temp+= (int) assetList.get(i).get("price") * (int)assetList.get(i).get("quantity");
+			temp += (int) assetList.get(i).get("price") * (int) assetList.get(i).get("quantity");
 		}
 		return temp;
 	}
-
 
 	@Override
 	public boolean deleteAsset(int assetIdx) {
@@ -140,31 +125,27 @@ public class PortfolioServiceImpl implements PortfolioService {
 		return true;
 	}
 
-
 	@Override
-	public List<Map<Object, Object>> readFeedList(int userIdx,int pageNum) {
-		HashMap<String, Object> tmp=new HashMap<String, Object>();
+	public List<Map<Object, Object>> readFeedList(int userIdx, int pageNum) {
+		HashMap<String, Object> tmp = new HashMap<String, Object>();
 		tmp.put("userIdx", userIdx);
-		tmp.put("pageNum", pageNum*5);
+		tmp.put("pageNum", pageNum * 5);
 		System.out.println(userIdx);
 		return sqlSession.getMapper(PortfolioDao.class).readFeedList(tmp);
 	}
 
-
 	@Override
 	public List<Map<Object, Object>> searchPortfolio(String searchContent) {
-		HashMap<String, Object> tmp=new HashMap<String, Object>();
+		HashMap<String, Object> tmp = new HashMap<String, Object>();
 		tmp.put("searchContent", searchContent);
 		return sqlSession.getMapper(PortfolioDao.class).searchPortfolio(tmp);
 	}
 
-
 	@Override
 	public int recentPortfolio(int userIdx) {
-		
+
 		return sqlSession.getMapper(PortfolioDao.class).recentPortfolio(userIdx);
 	}
-
 
 	@Override
 	public boolean updateRank() {
@@ -173,22 +154,19 @@ public class PortfolioServiceImpl implements PortfolioService {
 		return true;
 	}
 
-
 	@Override
 	public boolean updateYield() {
 		sqlSession.getMapper(PortfolioDao.class).updateYield();
 		return true;
 	}
 
-
 	@Override
 	public boolean updateList(PortfolioDto portfoliodto) {
-		
+
 		sqlSession.getMapper(PortfolioDao.class).updateList(portfoliodto);
-		
+
 		return true;
 	}
-
 
 	@Override
 	public boolean updateAsset(AssetDto assetDto) {
@@ -196,25 +174,21 @@ public class PortfolioServiceImpl implements PortfolioService {
 		return true;
 	}
 
-
 	@Override
 	public int readRank(String nickname) {
-		String temp=sqlSession.getMapper(PortfolioDao.class).readRank(nickname);
-		 
-		 if(temp==null) {
-			 return 0;
-		 }else {
-			 return		Integer.parseInt(temp);
-		 }
-		 
-		 
-	}
+		String temp = sqlSession.getMapper(PortfolioDao.class).readRank(nickname);
 
+		if (temp == null) {
+			return 0;
+		} else {
+			return Integer.parseInt(temp);
+		}
+
+	}
 
 	@Override
 	public List<Map<Object, Object>> readTopPortfolio() {
-		
-		 
-		 return sqlSession.getMapper(PortfolioDao.class).readTopPortfolio();
+
+		return sqlSession.getMapper(PortfolioDao.class).readTopPortfolio();
 	}
 }
