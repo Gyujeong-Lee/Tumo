@@ -36,13 +36,13 @@
           width: 240px;
         "
         :words="hotkeyList"
+        :spacing="0.5"
         font-family="Jua"
-        :font-size-ratio="1"
         rotation-unit="deg"
         id="wordcloud"
       />
       <div>
-        <h1 class="fw-bold text-center">TOP KeyWords</h1>
+        <img src="@/assets/main/subfeed/title.png" alt="title">
       </div>
       <br>
       <Newspaper v-if="hotkeyList.length" :keyList="hotkeyList.slice(0, 3)"/>
@@ -74,12 +74,12 @@ export default {
         url: '/api/feed/hotkeyword'
       })
       .then(res => {
-        this.hotkeyList = res.data.hotkeyList.map(data => {
+        this.hotkeyList = res.data.hotkeyList.slice(0, 30).map((data, index) => {
           return {
             text: data.keyword, 
             weight: data.amount,
-            rotation: Math.random() * 360,
-            color: "#" + Math.round(Math.random() * 0xFFFFFF).toString(16),
+            rotation: (Math.random() - 0.5) * 90,
+            color: index < 10 ? "#" + Math.round(Math.random() * 0xFFFFFF).toString(16) : 'rgba(0, 0, 0, 0.3)',
           }
         })
       })      
@@ -124,6 +124,10 @@ export default {
   #subfeed {
     display: none !important;
   }  
+}
+
+#subfeed {
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 #subfeed > div {

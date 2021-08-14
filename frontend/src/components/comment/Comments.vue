@@ -1,9 +1,9 @@
 <template>
   <div id="comments">
     <hr class="mt-2">
-    <div v-if="isLoading">로딩중 입니다.</div>
+    <div v-if="isLoading" v-loading="isLoading" style="height: 50px;"></div>
     <div v-else>
-      <h3 v-if="!commentData.length" class="text-center">댓글이 없습니다.</h3>
+      <h5 v-if="!commentData.length" class="text-center">등록된 댓글이 없습니다.</h5>
       <div v-else>
         <div v-for="(data, idx) in commentData" :key="idx">
           <div class="d-flex align-items-center">
@@ -81,6 +81,7 @@ export default {
       })
       .catch(err => {
         console.log(err)
+        this.isLoading = false
       })
     },
     createComment: function () {

@@ -29,8 +29,8 @@
     </div>
     <!-- content & tags -->
     <div v-html="content" @click="moveToDetail" style="cursor: pointer;"></div>
-    <div class="mb-3">
-      <v-chip v-for="(tag, idx) in tags" :key="idx" label class="px-2 me-2 mb-2"># {{ tag }}</v-chip>
+    <div class="mb-1">
+      <v-chip v-for="(tag, idx) in tags" :key="idx" label class="px-2 me-2 mb-2">#{{ tag }}</v-chip>
     </div>
     <!-- Btn Group -->
     <div class="d-flex justify-content-between">
@@ -126,6 +126,7 @@ export default {
 .articleFeed {
   padding: 1rem 0rem;
   transition: 0.5s;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .articleFeed > * {

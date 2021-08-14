@@ -11,7 +11,7 @@
       <div class="d-flex align-items-center">
         <img src="@/assets/main/user.png" alt="user_img" style="width: 35px;">
         <div class="d-flex align-items-center">
-          <h4 class="mb-0 mx-3">{{ feed.title }}</h4>
+          <h4 class="mb-0 mx-3 fw-bold">{{ feed.title }}</h4>
           <router-link 
             class="text-secondary nickname" 
             :to="{ name: 'profile', params: { nickname: `${feed.nickname}` }}"
@@ -29,16 +29,18 @@
         <div class="row">
           <div class="col">
             <p>전체 투자액</p>
+            <p>총 평가액</p>
             <p>전체 수익률</p>
             <p>목표 수익률</p>
           </div>
           <div class="col" align="right">
             <p>{{ feed.sum | money }}원</p>
+            <p>{{ feed.cursum | money }}원</p>
             <p><span :class="{ 'text-danger': feed.percent > 0, 'text-primary': feed.percent < 0 }">{{ feed.percent}}</span> %</p>
             <p><span :class="{ 'text-danger': feed.goal > 0, 'text-primary': feed.goal < 0 }">{{ feed.goal }}</span> %</p>
           </div>
         </div>
-        <div class="row mt-3 assets">
+        <div class="row mt-3 fw-bold assets">
           <p class="col-4">주요 개별자산</p>
           <p class="col-5" align="right">매수 가격</p>
           <p class="col" align="right">수익률</p>
