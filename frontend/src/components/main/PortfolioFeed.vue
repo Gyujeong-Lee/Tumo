@@ -119,11 +119,11 @@ export default {
               data: res.priceData,
               backgroundColor: [
                 '#00BFFE',
-                '#CE1D28',
-                'rgb(255, 206, 86)',
-                'rgb(75, 192, 192)',
-                'rgb(153, 102, 255)',
-                'rgb(255, 159, 64)'
+                '#57648C',
+                '#C2B4D6',
+                '#ABDFF1',
+                '#E1DDDB',
+                '#FFFEE6',
               ],
               hoverOffset: 4
             }]
