@@ -9,7 +9,7 @@ deploy-to-server:
     - echo '배포 시작'
   script:
     - cd $REPOSITORY/$PROJECT_NAME/
-    - git pull origin develop
+    - git pull origin master
     - cd ..
     - sudo ./deploy.sh
   after_script:
