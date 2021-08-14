@@ -36,8 +36,8 @@
         <PortfolioChart v-if="assets.length && Object.keys(portfolio).length" :portfolio="portfolio" :assets="assets" />
       </div>
       <div class="d-flex align-center justify-center">
-        <div class="d-flex flex-column border p-2" id="portfolioInfo">
-          <p>총 자산 : {{ amount.cursum }}원</p>
+        <div class="d-flex flex-column border p-2 mt-2" id="portfolioInfo">
+          <p>전체 투자액 : {{ amount.cursum }}원</p>
           <p style="font-weight:bold">현재 수익률 : {{ amount.percent }}%</p>
           <p>목표 수익률 : {{ portfolio.goal }}%</p>
         </div>
