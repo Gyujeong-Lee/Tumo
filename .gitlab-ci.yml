@@ -1,14 +1,14 @@
 deploy-to-server:
-  stage: master
+  stage: deploy
   only:
-    - master
+    - develop
   before_script:
     - REPOSITORY=/home/ubuntu/tumo
     - PROJECT_NAME=S05P13A302
     - echo '배포 시작'
   script:
     - cd $REPOSITORY/$PROJECT_NAME/
-    - git pull origin master
+    - git pull origin develop
     - cd..
     - sudo ./deploy.sh
   after_script:
