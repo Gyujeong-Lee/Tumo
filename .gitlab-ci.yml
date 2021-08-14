@@ -3,6 +3,7 @@ deploy-to-server:
   only:
     - master
   before_script:
+    - whoami
     - REPOSITORY=/home/ubuntu/tumo
     - PROJECT_NAME=S05P13A302
     - echo '배포 시작'
