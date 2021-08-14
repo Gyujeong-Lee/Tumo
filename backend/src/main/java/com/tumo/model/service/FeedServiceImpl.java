@@ -46,8 +46,12 @@ public class FeedServiceImpl implements FeedService {
 			tmp.put("createAt", feedDto.getCreateAt());
 			tmp.put("updateAt", feedDto.getUpdateAt());
 			tmp.put("tags", sqlSession.getMapper(FeedDao.class).readFeedTag(boardIdx));
-			tmp.put("isLike", sqlSession.getMapper(SNSDao.class).readIsLike(new FavorScrapDto(userIdx, boardIdx)) == null ? false : true);
-			tmp.put("isScrap", sqlSession.getMapper(SNSDao.class).readIsScrap(new FavorScrapDto(userIdx, boardIdx)) == null ? false : true);
+			tmp.put("isLike",
+					sqlSession.getMapper(SNSDao.class).readIsLike(new FavorScrapDto(userIdx, boardIdx)) == null ? false
+							: true);
+			tmp.put("isScrap",
+					sqlSession.getMapper(SNSDao.class).readIsScrap(new FavorScrapDto(userIdx, boardIdx)) == null ? false
+							: true);
 
 			result.add(tmp);
 		}
@@ -62,11 +66,11 @@ public class FeedServiceImpl implements FeedService {
 		param.put("searchContent", (param.get("searchContent").toString()).trim());
 		System.out.println(param.get("searchContent"));
 		List<FeedDto> feedDtoList = sqlSession.getMapper(FeedDao.class).searchFeed(param);
-		
-		for(FeedDto feedDto : feedDtoList) {
+
+		for (FeedDto feedDto : feedDtoList) {
 			int boardIdx = feedDto.getBoardIdx();
 			HashMap<String, Object> tmp = new HashMap<String, Object>();
-			
+
 			tmp.put("boardIdx", boardIdx);
 			tmp.put("userIdx", feedDto.getUserIdx());
 			tmp.put("nickname", feedDto.getNickname());
@@ -78,68 +82,67 @@ public class FeedServiceImpl implements FeedService {
 
 			result.add(tmp);
 		}
-		
-		
+
 		return result;
 	}
 
 	@Override
 	public List<Map<Object, Object>> readHotKeyword() {
-		
+
 		return sqlSession.getMapper(FeedDao.class).readHotKeyword();
 	}
 
 	@Override
 	public int readFeedPageCnt(int userIdx) {
 		int totalCnt = sqlSession.getMapper(FeedDao.class).readFeedPageCnt(userIdx);
-		
+
 		return totalCnt % 10 == 0 ? totalCnt / 10 : totalCnt / 10 + 1;
 	}
 
 	@Override
 	public List<HashMap<String, Object>> readRecommendedArticles(int boardIdx) {
 		// 태그 얻어오기
-		int userIdx =  sqlSession.getMapper(FeedDao.class).readArticle(boardIdx).getUserIdx();
+		int userIdx = sqlSession.getMapper(FeedDao.class).readArticle(boardIdx).getUserIdx();
 		List<String> tags = sqlSession.getMapper(FeedDao.class).readFeedTag(boardIdx);
 		// 태그에 해당하는 boardIdx 얻어오기
 		Map<Integer, Integer> boardIdxFreq = new HashMap<Integer, Integer>();
-		for(String tag : tags) {
+		for (String tag : tags) {
 			List<Integer> boardIdx4Tags = sqlSession.getMapper(FeedDao.class).readBoardIdx4Tags(tag);
-			for(int bidx : boardIdx4Tags) {
-				if(userIdx ==  sqlSession.getMapper(FeedDao.class).readArticle(bidx).getUserIdx())
+			for (int bidx : boardIdx4Tags) {
+				if (userIdx == sqlSession.getMapper(FeedDao.class).readArticle(bidx).getUserIdx())
 					continue;
-				
-				if(boardIdxFreq.get(bidx) == null)
+
+				if (boardIdxFreq.get(bidx) == null)
 					boardIdxFreq.put(bidx, 1);
 				else
-					boardIdxFreq.put(bidx, boardIdxFreq.get(bidx)+1);
+					boardIdxFreq.put(bidx, boardIdxFreq.get(bidx) + 1);
 			}
 		}
-		
-		if(boardIdxFreq.get(boardIdx) != null)
+
+		if (boardIdxFreq.get(boardIdx) != null)
 			boardIdxFreq.remove(boardIdx);
-		
+
 		// sort
-		List<Map.Entry<Integer,Integer>> entries = new LinkedList<>(boardIdxFreq.entrySet());
+		List<Map.Entry<Integer, Integer>> entries = new LinkedList<>(boardIdxFreq.entrySet());
 		Collections.sort(entries, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
 		List<Integer> sortedBoardIdx = new ArrayList<Integer>();
-		for(Map.Entry<Integer, Integer> entry : entries) {
+		for (Map.Entry<Integer, Integer> entry : entries) {
 			sortedBoardIdx.add(entry.getKey());
 		}
-		
+
 		List<HashMap<String, Object>> result = new ArrayList<HashMap<String, Object>>();
-		for(int bidx : sortedBoardIdx) {
+		for (int bidx : sortedBoardIdx) {
 			HashMap<String, Object> tmp = new HashMap<String, Object>();
 			tmp.put("boardIdx", bidx);
 			FeedDto feed = sqlSession.getMapper(FeedDao.class).readArticle(bidx);
 			tmp.put("userIdx", feed.getUserIdx());
 			tmp.put("title", feed.getTitle());
 			tmp.put("nickname", sqlSession.getMapper(UserDao.class).findUserByUserIdx(feed.getUserIdx()).getNickname());
-			tmp.put("tags",  sqlSession.getMapper(FeedDao.class).readFeedTag(bidx));
-			
+			tmp.put("tags", sqlSession.getMapper(FeedDao.class).readFeedTag(bidx));
+
 			result.add(tmp);
 		}
-		
+
 		return result;
 	}
 
