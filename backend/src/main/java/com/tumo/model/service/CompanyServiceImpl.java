@@ -160,6 +160,7 @@ public class CompanyServiceImpl implements CompanyService {
 	public List<Map<String, Object>> corpReport(String corp_code) {
 		String key = "32b1e829ffb13df1927c85ec2936092a63b22fdf";
     	String result = "";
+    	System.out.println(corp_code);
     	 Date date = new Date();
          ZoneId timeZone = ZoneId.systemDefault();
          LocalDate getLocalDate = date.toInstant().atZone(timeZone).toLocalDate();
@@ -172,6 +173,9 @@ public class CompanyServiceImpl implements CompanyService {
     	}catch(Exception e) {
     		e.printStackTrace();
     	}		
+		System.out.println("https://opendart.fss.or.kr/api/fnlttSinglAcnt.json?crtfc_key="
+    				+ key +"&corp_code="+corp_code+ "&bsns_year="+(getLocalDate.getYear()-1)+"&reprt_code=11011"	);
+		System.out.println(result);
 		JSONParser parser = new JSONParser();
 		JSONObject obj = null;
 			try {
@@ -180,7 +184,6 @@ public class CompanyServiceImpl implements CompanyService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
 		JSONArray item = (JSONArray)obj.get("list");
 		
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
@@ -188,6 +191,9 @@ public class CompanyServiceImpl implements CompanyService {
 		long [] debt=new long [6];//부채총계,자본총계
 		long [] roe= new long [6];//당기순이익 ,매출액
 		Map<String, Object> tmpmap= new HashMap<String, Object>();
+		if(item==null) {
+			
+		
 		for (int i = 0; i < item.size(); i++) {
 			JSONObject tmp = (JSONObject) item.get(i);
 			
@@ -210,35 +216,35 @@ public class CompanyServiceImpl implements CompanyService {
 			if(tmp.get("account_nm").toString().equals("당기순이익")) {
 				tmpmap=putmap(tmp,tmpmap,"당기순이익");
 				list.add(tmpmap);
-				roe[0]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").trim());
-				roe[1]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").trim());
-				roe[2]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").trim());
+				roe[0]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").replace("-","-0").trim());
+				roe[1]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").replace("-","-0").trim());
+				roe[2]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").replace("-","-0").trim());
 			}
 			if(tmp.get("account_nm").toString().equals("유동자산")) {
-				moveList[0]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").trim());
-				moveList[1]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").trim());
-				moveList[2]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").trim());
+				moveList[0]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").replace("-","-0").trim());
+				moveList[1]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").replace("-","-0").trim());
+				moveList[2]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").replace("-","-0").trim());
 			}
 			if(tmp.get("account_nm").toString().equals("유동부채")) {
-				moveList[3]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").trim());
-				moveList[4]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").trim());
-				moveList[5]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").trim());
+				moveList[3]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").replace("-","-0").trim());
+				moveList[4]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").replace("-","-0").trim());
+				moveList[5]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").replace("-","-0").trim());
 			}
 			
 			if(tmp.get("account_nm").toString().equals("부채총계")) {
-				debt[0]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").trim());
-				debt[1]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").trim());
-				debt[2]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").trim());
+				debt[0]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").replace("-","-0").trim());
+				debt[1]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").replace("-","-0").trim());
+				debt[2]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").replace("-","-0").trim());
 			}
 			if(tmp.get("account_nm").toString().equals("자본총계")) {
-				debt[3]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").trim());
-				debt[4]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").trim());
-				debt[5]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").trim());
+				debt[3]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").replace("-","-0").trim());
+				debt[4]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").replace("-","-0").trim());
+				debt[5]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").replace("-","-0").trim());
 			}
 			if(tmp.get("account_nm").toString().equals("매출액")) {
-				roe[3]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").trim());
-				roe[4]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").trim());
-				roe[5]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").trim());
+				roe[3]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").replace("-","-0").trim());
+				roe[4]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").replace("-","-0").trim());
+				roe[5]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").replace("-","-0").trim());
 			}
 			
 			
@@ -277,6 +283,7 @@ public class CompanyServiceImpl implements CompanyService {
 		tmpmap.put("lastyear", String.format("%.2f",roe[1]*1.0/debt[4]*1.0*100));
 		tmpmap.put("twoyear", String.format("%.2f",roe[2]*1.0/debt[5]*1.0*100));
 		list.add(tmpmap);
+		}
 		return list;
 	}
 
