@@ -1,7 +1,7 @@
 deploy-to-server:
   stage: deploy
   only:
-    - develop
+    - master
   before_script:
     - REPOSITORY=/home/ubuntu/tumo
     - PROJECT_NAME=S05P13A302
