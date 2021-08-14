@@ -7,7 +7,12 @@
     >
       <div class="w-100 d-flex justify-space-between my-auto">
         <!-- Logo -->
-        <router-link :to="{ name: 'main' }"><img src="@/assets/login/logo.png" alt="mainlogo" height="50"></router-link>
+        <div id="enLogo">
+          <router-link :to="{ name: 'main' }"><img src="@/assets/login/logo.png" alt="mainlogo" height="50"></router-link>
+        </div>
+        <div id="koLogo">
+          <router-link :to="{ name: 'main' }"><img src="@/assets/koLogo.png" alt="mainlogo" height="50"></router-link>
+        </div>
         <!-- Search -->
         <div class="mt-1 ms-1">
           <b-form-input
@@ -28,14 +33,92 @@
           </datalist>
         </div>
 
-        <!-- <v-app-bar-nav-icon @click="drawer = !drawer"/>
-        <v-navigation-drawer app v-model="drawer">
-        </v-navigation-drawer> -->
+        <!-- toggle menu -->
+        <v-app-bar-nav-icon @click="drawer = !drawer" id="toggleBtn"/>
+        <v-navigation-drawer id="navDrawer" light right absolute app v-model="drawer">
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="text-h6">
+              Menu
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-divider></v-divider>
+        
+        <!-- 토글된 메뉴 리스트 -->
+        <!-- 글작성 -->
+        <v-list dense nav>
+          <v-list-item link @click="createDrawer = !createDrawer">
+            <v-list-item-icon>
+              <v-icon>mdi-pencil</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Create</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-navigation-drawer id="createDrawer" bottom absolute v-model="createDrawer">
+            <v-list>
+              <v-list-item @click="drawArticleModal">
+                Article
+              </v-list-item>
+              <v-list-item @click="drawPortfolioModal">
+                Portfolio
+              </v-list-item>
+            </v-list>
+          </v-navigation-drawer>
+
+          <!-- 탐색 -->
+          <router-link :to="{ name: 'explore' }" style="text-decoration: none; color: inherit;">
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-apple-safari</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Explore</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </router-link>
+          
+          
+          <v-list-item link @click="alarmDrawer = !alarmDrawer">
+            <v-list-item-icon>
+              <v-icon>mdi-heart</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Alarm</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-navigation-drawer id="alarmDrawer" bottom absolute v-model="alarmDrawer">
+            <AlertCenter/>
+          </v-navigation-drawer>
+
+          <v-list-item link @click="myPageDrawer = !myPageDrawer">
+            <v-list-item-icon>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>My Page</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-navigation-drawer id="myPageDrawer" bottom absolute v-model="myPageDrawer">
+            <v-list>
+              <v-list-item @click="moveToProfile">
+                Profile
+              </v-list-item>
+              <v-list-item @click="logout">
+                Logout
+              </v-list-item>
+            </v-list>
+          </v-navigation-drawer>
+          
+
+
+        </v-list>
+
+        </v-navigation-drawer>
 
         <!-- 아이콘 -->
-        <v-app-bar-nav-icon @click="drawer = !drawer" id="toggleBtn"/>
-        <v-navigation-drawer id="navDrawer" right app v-model="drawer">
-        </v-navigation-drawer>
         <div id="btnGroup">
           <!-- 글쓰기 -->
           <v-menu bottom left offset-y>
@@ -106,6 +189,15 @@ export default {
       hotSearchItems: [],
       search_item: "",
       drawer: false,
+      createDrawer: false,
+      alarmDrawer: false,
+      myPageDrawer: false,
+      items: [
+        { title: 'Create', icon: 'mdi-pencil' },
+        { title: 'Explore', icon: 'mdi-apple-safari' },
+        { title: 'Alarm', icon: 'mdi-heart' },
+        { title: 'MyPage', icon: 'mdi-account-circle' },
+      ],
     }
   },
   computed: {
@@ -196,11 +288,20 @@ export default {
   #navDrawer {
     display: none;
   }
+  #koLogo {
+    display: none;
+  }
 }
 @media (max-width: 600px) { 
   #btnGroup {
     display: none;
   }
+  #enLogo {
+    display: none;
+  }
 }
 
+ .toggleMenu {
+   display: none;
+ }
 </style>
