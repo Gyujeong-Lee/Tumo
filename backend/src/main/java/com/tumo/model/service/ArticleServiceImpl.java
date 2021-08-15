@@ -133,7 +133,7 @@ public class ArticleServiceImpl implements ArticleService {
 		param.put("type", 3);
 		param.put("boardIdx", commentDto.getBoardIdx());
 		sqlSession.getMapper(SNSDao.class).createNotification(param);
-		
+
 		return true;
 	}
 
@@ -159,7 +159,7 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public int readCommentPageCnt(int boardIdx) {
 		int totalCnt = sqlSession.getMapper(FeedDao.class).countCommentInFeed(boardIdx);
-		
+
 		return totalCnt % 5 == 0 ? totalCnt / 5 : totalCnt / 5 + 1;
 	}
 

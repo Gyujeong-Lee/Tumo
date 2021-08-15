@@ -86,8 +86,9 @@
       </div>
     </vue-glide-slide>
     <template slot="control">
-      <button data-glide-dir="<"><img src="@/assets/explore/left.png" alt="prev"></button>
-      <button data-glide-dir=">"><img src="@/assets/explore/right.png" alt="next"></button>
+      <button data-glide-dir="<" style="width: 50px;"><img src="@/assets/explore/left.png" alt="prev" style="width: 100%"></button>
+      <img src="@/assets/explore/title1.png" alt="title1" class="w-50">
+      <button data-glide-dir=">" style="width: 50px;"><img src="@/assets/explore/right.png" alt="next" style="width: 100%"></button>
     </template>
   </vue-glide>
 </template>
@@ -176,10 +177,8 @@ export default {
 
 #corp-glide > div:last-child {
   width: 100%;
-  position: absolute;
   display: flex;
   justify-content: space-between;
-  top: 85%;
 }
 
 #corp-glide .glide__slides {
@@ -254,10 +253,6 @@ export default {
 @media screen and (max-width: 940px) {
   #corp-glide {
     width: 596px;
-  }
-
-  #corp-glide > div:last-child {
-    top: 95%;
   }
 }
 

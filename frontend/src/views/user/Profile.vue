@@ -21,8 +21,8 @@
           <h2>{{ user_info.nickname }}'s profile</h2>
         </v-badge>
         <div>
-          <span type="button" @click="openFollowerList" class="me-5"> Follwer : {{ user_info.followerCnt }}</span>
-          <span type="button" @click="openFollowingList"> Follwing : {{ user_info.followingCnt }}</span>
+          <span type="button" @click="openFollowerList" class="me-5"> Follower : {{ user_info.followerCnt }}</span>
+          <span type="button" @click="openFollowingList"> Following : {{ user_info.followingCnt }}</span>
           <FollowerList v-if="followerList.length" :followerList="followerList"/>
           <FollowingList v-if="followingList.length" :followingList="followingList"/>
         </div>

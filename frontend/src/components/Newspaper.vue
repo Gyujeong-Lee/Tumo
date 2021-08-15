@@ -1,11 +1,13 @@
 <template>
   <div id="KeywordNews">
-    <div v-for="(keyword, idx) in keywords" :key="idx" class="news">
-      <div @click="moveToSearch(keyword)">
-        <p>{{ keyword | truncate(10) }}</p>
-        <img src="@/assets/main/newspaper.png" alt="newspaper" class="newspaper">
+    <div v-for="(keyword, idx) in keywords" :key="idx" class="position-relative">
+      <img :src="require(`@/assets/main/subfeed/${idx+1}.png`)" alt="number" class="rank">
+      <div class="news">
+        <div @click="moveToSearch(keyword)">
+          <p>{{ keyword | truncate(10) }}</p>
+          <img src="@/assets/main/newspaper.png" alt="newspaper" class="newspaper">
+        </div>
       </div>
-      <img :src="require(`@/assets/main/subfeed/${idx+1}.png`)" alt="number">
     </div>
   </div>
 </template>
@@ -42,6 +44,7 @@ export default {
 #KeywordNews {
   position: relative;
   height: 350px;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 #KeywordNews > div:nth-child(1) {
@@ -58,10 +61,10 @@ export default {
 
 .news {
   position: absolute;
-  width: 300px;
+  width: 260px;
   height: 150px;
   padding-top: 50px;
-  left: 0;
+  left: 50px;
   overflow-y: hidden;
   border-bottom: 2px solid;
   box-shadow: 3px;
@@ -79,9 +82,9 @@ export default {
 
 .news p {
   position: absolute;
-  width: 220px;
-  top: 40px;
-  left: 35px;
+  width: 200px;
+  top: 35px;
+  left: 10px;
   text-align: center;
   font-weight: 700;
   font-size: 1.4rem;
@@ -91,11 +94,9 @@ export default {
   width: 100%;
 }
 
-.news > img {
+.rank {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 40px;
-  
+  width: 40px;
+  top: 100px;
 }
 </style>

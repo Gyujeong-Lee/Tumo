@@ -34,8 +34,11 @@
 	</select>
 	
 	<select id="readHotKeyword" resultType="map">
-		select ft.content as keyword,count(*) as amount from feed_tag as ft join feed as f on f.board_idx =ft.board_idx 
-		where f.create_at between date_add(now(),interval-1 week)and now() group by ft.content order by amount desc limit 10;
+		select ft.content as keyword, count(*) as amount
+		from feed_tag as ft join feed as f
+		on f.board_idx =ft.board_idx 
+		where f.create_at between date_add(now(), interval-1 week) and now()
+		group by ft.content order by amount desc
 	</select>
 	
 	<select id="readBoardIdx4Tags" parameterType="string" resultType="integer">

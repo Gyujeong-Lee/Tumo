@@ -67,7 +67,7 @@ export default {
 <style>
 #top-portfolio {
   min-width: 940px;
-  margin: 0rem 10% 0;
+  margin: 10rem 10% 0;
   display: flex;
   align-items: center;
   justify-content: center;

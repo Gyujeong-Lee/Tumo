@@ -17,10 +17,11 @@
         <v-sheet 
         :elevation="elevation"
         rounded
+        class="articleFeed mx-2 my-5"
         @mouseover="elevation=10"
         @mouseleave="elevation=4"
         height="auto"
-        width="320">
+        width="auto">
         <div>
           <v-btn icon @click="createArticle"><v-icon>mdi-file-plus-outline</v-icon></v-btn>
           <span class="text-center" style="color:#00BFFE; font-weight:bold">게시글을 작성하세요</span>
@@ -35,11 +36,14 @@
         <v-sheet 
         :elevation="elevation"
         rounded
+        class="articleFeed mx-2 my-5"
         @mouseover="elevation=10"
         @mouseleave="elevation=4"
         height="auto"
         width="320">
+        <div >
           <span class="text-center" style="color:#00BFFE; font-weight:bold">게시글을 스크랩하세요</span>
+        </div>
         </v-sheet>
       </div>
     </div>

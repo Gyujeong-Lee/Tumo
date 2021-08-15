@@ -143,7 +143,7 @@ public class SNSController {
 			@PathVariable int pageNum) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<Map<String, Object>> users = snsService.searchUser(searchContent, pageNum);
-		System.out.println(users+" 잘되니");
+		System.out.println(users + " 잘되니");
 		if (users == null || users.size() == 0) {
 			result.put("message", FAIL);
 			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
@@ -233,7 +233,7 @@ public class SNSController {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("userIdx", userIdx);
 		param.put("otheruserIdx", otheruserIdx);
-		
+
 		snsService.deleteFollowingRequest(param);
 		result.put("message", SUCCESS);
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
@@ -241,7 +241,8 @@ public class SNSController {
 
 	@ApiOperation(value = "팔로우 삭제")
 	@DeleteMapping("follow/{userIdx}/{followingIdx}")
-	public ResponseEntity<Map<String, Object>> deleteFollowing(@PathVariable int userIdx, @PathVariable int followingIdx) {
+	public ResponseEntity<Map<String, Object>> deleteFollowing(@PathVariable int userIdx,
+			@PathVariable int followingIdx) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		FollowDto followDto = new FollowDto(userIdx, followingIdx);
 		snsService.deleteFollowing(followDto);
@@ -259,7 +260,7 @@ public class SNSController {
 
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "알림 읽음 표시")
 	@PutMapping("alarm/{notificationIdx}")
 	public ResponseEntity<Map<String, Object>> updateAlarmList(@PathVariable int notificationIdx) {
