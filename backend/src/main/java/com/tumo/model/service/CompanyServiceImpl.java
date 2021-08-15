@@ -150,85 +150,10 @@ public class CompanyServiceImpl implements CompanyService {
 //		System.out.println(result);
 		JSONParser parser = new JSONParser();
 		JSONObject obj = null;
-			try {
-				obj = (JSONObject)parser.parse(result);
-			} catch (org.json.simple.parser.ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		JSONArray item = (JSONArray)obj.get("list");
-		
-		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-		long [] moveList=new long [6];//유동자산,유동부채
-		long [] debt=new long [6];//부채총계,자본총계
-		long [] roe= new long [6];//당기순이익 ,매출액
-		Map<String, Object> tmpmap= new HashMap<String, Object>();
-		if(item!=null) {
-			
-		
-		for (int i = 0; i < item.size(); i++) {
-			JSONObject tmp = (JSONObject) item.get(i);
-			
-			if(tmp.get("fs_div").toString().equals("OFS")) {
-			if(tmp.get("account_nm").toString().equals("매출액")) {
-				tmpmap=putmap(tmp,tmpmap,"매출액");
-				list.add(tmpmap);
-//				tmpmap.put("value", "매출액");
-//				tmpmap.put("thisyear", tmp.get("thstrm_amount").toString());
-//				tmpmap.put("lastyear", tmp.get("frmtrm_amount").toString());
-//				tmpmap.put("twoyear", tmp.get("bfefrmtrm_amount").toString());
-				
-			}
-			
-			if(tmp.get("account_nm").toString().equals("영업이익")) {
-				tmpmap=putmap(tmp,tmpmap,"영업이익");
-				list.add(tmpmap);
-				
-			}
-			if(tmp.get("account_nm").toString().equals("당기순이익")) {
-				tmpmap=putmap(tmp,tmpmap,"당기순이익");
-				list.add(tmpmap);
-				roe[0]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").replace("-","-0").trim());
-				roe[1]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").replace("-","-0").trim());
-				roe[2]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").replace("-","-0").trim());
-			}
-			if(tmp.get("account_nm").toString().equals("유동자산")) {
-				moveList[0]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").replace("-","-0").trim());
-				moveList[1]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").replace("-","-0").trim());
-				moveList[2]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").replace("-","-0").trim());
-			}
-			if(tmp.get("account_nm").toString().equals("유동부채")) {
-				moveList[3]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").replace("-","-0").trim());
-				moveList[4]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").replace("-","-0").trim());
-				moveList[5]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").replace("-","-0").trim());
-			}
-			
-			if(tmp.get("account_nm").toString().equals("부채총계")) {
-				debt[0]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").replace("-","-0").trim());
-				debt[1]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").replace("-","-0").trim());
-				debt[2]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").replace("-","-0").trim());
-			}
-			if(tmp.get("account_nm").toString().equals("자본총계")) {
-				debt[3]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").replace("-","-0").trim());
-				debt[4]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").replace("-","-0").trim());
-				debt[5]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").replace("-","-0").trim());
-			}
-			if(tmp.get("account_nm").toString().equals("매출액")) {
-				roe[3]=Long.parseLong(tmp.get("thstrm_amount").toString().replace(",","").replace("-","-0").trim());
-				roe[4]=Long.parseLong(tmp.get("frmtrm_amount").toString().replace(",","").replace("-","-0").trim());
-				roe[5]=Long.parseLong(tmp.get("bfefrmtrm_amount").toString().replace(",","").replace("-","-0").trim());
-			}
-			
-			
-			
-			}
-			
-=======
 		try {
 			obj = (JSONObject) parser.parse(result);
 		} catch (org.json.simple.parser.ParseException e) {
 			e.printStackTrace();
->>>>>>> 4a9ca514f89d083dff11e2eaa0746840799b330d
 		}
 		JSONArray item = (JSONArray) obj.get("list");
 
@@ -237,7 +162,7 @@ public class CompanyServiceImpl implements CompanyService {
 		long[] debt = new long[6];// 부채총계,자본총계
 		long[] roe = new long[6];// 당기순이익 ,매출액
 		Map<String, Object> tmpmap = new HashMap<String, Object>();
-		if (item == null) {
+		if (item != null) {
 
 			for (int i = 0; i < item.size(); i++) {
 				JSONObject tmp = (JSONObject) item.get(i);
