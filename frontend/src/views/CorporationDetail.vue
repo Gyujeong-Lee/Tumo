@@ -165,7 +165,7 @@ export default {
           method: "GET",
           url: `/api/company/report/${this.$route.params.companyName}`,
         }).then((res) => {
-          console.log(res)
+          // console.log(res)
           let tmpList = res.data.list ?? []
           for (let idx in tmpList) {
             let flag = false;
