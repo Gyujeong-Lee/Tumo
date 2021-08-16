@@ -52,27 +52,30 @@
       <div class="row">
         <div class="col-12 col-sm-5 offset-sm-1">
           <h3>News</h3>
-          <v-sheet
-            elevation="8"
-            rounded
-            class="articleFeed mx-2 my-5"
-            @mouseover="elevation = 10"
-            @mouseleave="elevation = 4"
-            height="auto"
-            width="auto"
-            v-for="(news, idx) in corpNews"
-            :key="idx"
-          >
-            <h5 type="button" @click="moveToNews(news.href)">
-              {{ news.title }}
-            </h5>
-            <div class="d-flex align-left mt-3">
-              <div class="d-flex flex-row" id="NewsInfo">
-                <span>{{ news.date }}</span> &nbsp;&nbsp;&nbsp;
-                <span class="text-primary">{{ news.author }}</span>
+          <div v-if="isNews" class="w-100">
+            <v-sheet
+              elevation="8"
+              rounded
+              class="articleFeed mx-2 my-5"
+              @mouseover="elevation = 10"
+              @mouseleave="elevation = 4"
+              height="auto"
+              width="auto"
+              v-for="(news, idx) in corpNews"
+              :key="idx"
+            >
+              <h5 type="button" @click="moveToNews(news.href)">
+                {{ news.title }}
+              </h5>
+              <div class="d-flex align-left mt-3">
+                <div class="d-flex flex-row" id="NewsInfo">
+                  <span>{{ news.date }}</span> &nbsp;&nbsp;&nbsp;
+                  <span class="text-primary">{{ news.author }}</span>
+                </div>
               </div>
-            </div>
-          </v-sheet>
+            </v-sheet>
+          </div>
+          <div v-else>뉴스가 없습니다.</div>
         </div>
         <div class="col-12 col-sm-5 offset-sm-1">
           <h3>Report</h3>
@@ -127,6 +130,8 @@ export default {
       isLoading: true,
       corpNews: [],
       corpReport: [],
+      isNews: false,
+      isReport: false,
     };
   },
   methods: {
@@ -151,6 +156,7 @@ export default {
           url: `/api/company/news/${this.$route.params.companyName}`,
         }).then((res) => {
           this.corpNews = res.data.news;
+          this.isNews = true
         })
         axios({
           method: "GET",
@@ -268,6 +274,7 @@ export default {
             }
           }
           this.corpReport = tmpList;
+          this.isReport = true
           this.isLoading = false;
         })
         .catch((error) => {

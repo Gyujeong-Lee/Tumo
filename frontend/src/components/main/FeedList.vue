@@ -109,7 +109,7 @@ export default {
             } else {
               $state.complete()
             }
-          }, 1000)
+          }, 500)
         })
       } else {
         const EACH_LEN = 5
@@ -126,7 +126,7 @@ export default {
             } else {
               $state.complete()
             }
-          }, 1000)
+          }, 500)
         })
       }
     },
