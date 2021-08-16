@@ -6,7 +6,7 @@
   @mouseover="elevation=10"
   @mouseleave="elevation=4"
   height="auto"
-  width="auto">
+  width="320">
   <div>
     <p style="font-weight:bold" type="button" @click="moveToDetail">{{ myArticle.title }}</p>
     <p v-html="myArticle.content"></p>

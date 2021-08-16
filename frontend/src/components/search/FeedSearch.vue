@@ -5,7 +5,7 @@
       <v-card :elevation="elevation" shaped v-for="(feed, idx) in feeds" :key="idx" class="mb-3 mt-3" @click="moveToDetail(feed)">
         <v-card-title>{{ feed.title }}</v-card-title>
         <v-card-subtitle>{{ feed.nickname }}</v-card-subtitle>
-        <v-card-text>{{ feed.content }}</v-card-text>
+        <v-card-text v-html="feed.content"></v-card-text>
         <v-btn icon>
           <v-icon>mdi-heart</v-icon>
         </v-btn>

@@ -109,7 +109,7 @@ export default {
             } else {
               $state.complete()
             }
-          }, 1000)
+          }, 500)
         })
       } else {
         const EACH_LEN = 5
@@ -126,30 +126,10 @@ export default {
             } else {
               $state.complete()
             }
-          }, 1000)
+          }, 500)
         })
       }
     },
-    // portfolioInfiniteHandler: function ($state) {
-    //   const EACH_LEN = 5
-    //   this.getPortfolioFeeds()
-    //   .then(data => {
-    //     setTimeout(() => {
-    //       if (data.length) {
-    //         this.portfolioFeedList = this.portfolioFeedList.concat(data)
-    //         $state.loaded()
-    //         this.pageNum += 1
-    //         if (data.length / EACH_LEN < 1) {
-    //           this.pageNum = 0
-    //           $state.complete()
-    //         }
-    //       } else {
-    //         this.pageNum = 0
-    //         $state.complete()
-    //       }
-    //     }, 1000)
-    //   })
-    // }
   },
 }
 </script>

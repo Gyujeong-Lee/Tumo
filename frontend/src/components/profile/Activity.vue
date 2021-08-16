@@ -21,7 +21,7 @@
         @mouseover="elevation=10"
         @mouseleave="elevation=4"
         height="auto"
-        width="auto">
+        width="320">
         <div>
           <v-btn icon @click="createArticle"><v-icon>mdi-file-plus-outline</v-icon></v-btn>
           <span class="text-center" style="color:#00BFFE; font-weight:bold">게시글을 작성하세요</span>
@@ -109,7 +109,7 @@ export default {
         url: `/api/sns/scrap/${this.userId}`
       })
       .then(res => {
-        // console.log(res)
+        console.log(res)
         if (res.status === 200) {
           this.activityList = res.data.scrap
         } 
