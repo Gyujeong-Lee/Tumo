@@ -79,7 +79,7 @@
         </div>
         <div class="col-12 col-sm-5 offset-sm-1">
           <h3>Report</h3>
-          <v-simple-table class="w-100 border">
+          <v-simple-table v-if="isReport" class="w-100 border">
             <template v-slot:default>
               <thead>
                 <tr>
@@ -113,6 +113,7 @@
               </tbody>
             </template>
           </v-simple-table>
+          <div v-else>Report가 없습니다.</div>
         </div>
 
       </div>
@@ -155,15 +156,17 @@ export default {
           method: "GET",
           url: `/api/company/news/${this.$route.params.companyName}`,
         }).then((res) => {
-          this.corpNews = res.data.news;
-          this.isNews = true
+          this.corpNews = res.data.news ?? []
+          if (this.corpNews.length) {
+            this.isNews = true
+          }
         })
         axios({
           method: "GET",
           url: `/api/company/report/${this.$route.params.companyName}`,
         }).then((res) => {
           console.log(res)
-          let tmpList = res.data.list;
+          let tmpList = res.data.list ?? []
           for (let idx in tmpList) {
             let flag = false;
             if (tmpList[idx].thisyear == Infinity || tmpList[idx].thisyear == -Infinity) {
@@ -274,7 +277,9 @@ export default {
             }
           }
           this.corpReport = tmpList;
-          this.isReport = true
+          if (tmpList.length) {
+            this.isReport = true
+          }
           this.isLoading = false;
         })
         .catch((error) => {
