@@ -130,11 +130,13 @@ public class CompanyController {
 			 List<Map<String, Object>> result =companyService.CompanyNews(stockcode);
 			 
 			 Map<String, Object> resultMap= new HashMap<String, Object>();
-			 resultMap.put("news", result);
-			if(resultMap.size()==0||resultMap==null) {
+			 
+			if(result==null||result.size()==0) {
 				resultMap.put("message", "fail");
 				return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NO_CONTENT);
 			}else {
+
+				resultMap.put("news", result);
 				resultMap.put("message", "success");
 				return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 			}

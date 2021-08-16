@@ -52,31 +52,34 @@
       <div class="row">
         <div class="col-12 col-sm-5 offset-sm-1">
           <h3>News</h3>
-          <v-sheet
-            elevation="8"
-            rounded
-            class="articleFeed mx-2 my-5"
-            @mouseover="elevation = 10"
-            @mouseleave="elevation = 4"
-            height="auto"
-            width="auto"
-            v-for="(news, idx) in corpNews"
-            :key="idx"
-          >
-            <h5 type="button" @click="moveToNews(news.href)">
-              {{ news.title }}
-            </h5>
-            <div class="d-flex align-left mt-3">
-              <div class="d-flex flex-row" id="NewsInfo">
-                <span>{{ news.date }}</span> &nbsp;&nbsp;&nbsp;
-                <span class="text-primary">{{ news.author }}</span>
+          <div v-if="isNews" class="w-100">
+            <v-sheet
+              elevation="8"
+              rounded
+              class="articleFeed mx-2 my-5"
+              @mouseover="elevation = 10"
+              @mouseleave="elevation = 4"
+              height="auto"
+              width="auto"
+              v-for="(news, idx) in corpNews"
+              :key="idx"
+            >
+              <h5 type="button" @click="moveToNews(news.href)">
+                {{ news.title }}
+              </h5>
+              <div class="d-flex align-left mt-3">
+                <div class="d-flex flex-row" id="NewsInfo">
+                  <span>{{ news.date }}</span> &nbsp;&nbsp;&nbsp;
+                  <span class="text-primary">{{ news.author }}</span>
+                </div>
               </div>
-            </div>
-          </v-sheet>
+            </v-sheet>
+          </div>
+          <div v-else>뉴스가 없습니다.</div>
         </div>
         <div class="col-12 col-sm-5 offset-sm-1">
           <h3>Report</h3>
-          <v-simple-table class="w-100 border">
+          <v-simple-table v-if="isReport" class="w-100 border">
             <template v-slot:default>
               <thead>
                 <tr>
@@ -110,6 +113,7 @@
               </tbody>
             </template>
           </v-simple-table>
+          <div v-else>Report가 없습니다.</div>
         </div>
 
       </div>
@@ -127,6 +131,8 @@ export default {
       isLoading: true,
       corpNews: [],
       corpReport: [],
+      isNews: false,
+      isReport: false,
     };
   },
   methods: {
@@ -150,14 +156,17 @@ export default {
           method: "GET",
           url: `/api/company/news/${this.$route.params.companyName}`,
         }).then((res) => {
-          this.corpNews = res.data.news;
+          this.corpNews = res.data.news ?? []
+          if (this.corpNews.length) {
+            this.isNews = true
+          }
         })
         axios({
           method: "GET",
           url: `/api/company/report/${this.$route.params.companyName}`,
         }).then((res) => {
           console.log(res)
-          let tmpList = res.data.list;
+          let tmpList = res.data.list ?? []
           for (let idx in tmpList) {
             let flag = false;
             if (tmpList[idx].thisyear == Infinity || tmpList[idx].thisyear == -Infinity) {
@@ -268,6 +277,9 @@ export default {
             }
           }
           this.corpReport = tmpList;
+          if (tmpList.length) {
+            this.isReport = true
+          }
           this.isLoading = false;
         })
         .catch((error) => {
