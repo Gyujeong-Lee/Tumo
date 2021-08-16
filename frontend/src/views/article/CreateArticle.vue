@@ -5,7 +5,7 @@
     v-model="isDrawCreateArticle" 
   >
     <v-card id="createArticle">
-      <h1 class="text-center mb-5"><v-icon large color="#00BFFE" class="me-2">mdi-pencil</v-icon> 새 게시물</h1>
+      <h1 class="text-center mb-5"><v-icon large color="#00BFFE" class="me-2">mdi-pencil</v-icon> 게시물 작성</h1>
       <v-form
         ref="form"
         v-model="valid"
@@ -41,20 +41,21 @@
         </div>
         <br>
         <!-- tags -->
-        <label for="tags">태그</label>
+        <label for="tags">해쉬 태그</label>
         <div class="d-flex justify-content-between align-items-end">
+          <span>#</span>
           <v-text-field
             dense
             solo
             hide-details
-            class="w-100"
+            class="w-100 mx-2"
             v-model="inputTag"
             @keypress.enter="addTag"
           ></v-text-field>
           <v-btn color="error" @click="addTag">추가</v-btn>          
         </div>
-        <div>
-          <v-chip v-for="(tag, idx) in data.tags" :key="idx" label close @click:close="popTag(idx)" class="me-3 my-3">#{{ tag }}</v-chip>
+        <div class="mt-2 mb-3">
+          <v-chip v-for="(tag, idx) in data.tags" :key="idx" label close @click:close="popTag(idx)" class="me-3 mt-3">#{{ tag }}</v-chip>
         </div>
         <!-- Btn Group -->
         <div class="d-flex justify-content-end mt-5">
@@ -144,17 +145,13 @@ export default {
 <style>
 #createArticle {
   padding: 5% 7%;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 #createArticle h1 {
   font-family: 'Gothic A1', sans-serif;
   font-weight: 800;
-}
-
-#createArticle label, 
-#createArticle span {
-  font-family: 'Nanum Gothic', sans-serif;
-  font-weight: 700;
+  color: #00BFFE;
 }
 
 #createArticle form {

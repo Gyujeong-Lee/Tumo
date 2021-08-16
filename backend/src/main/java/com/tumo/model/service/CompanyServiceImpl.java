@@ -162,7 +162,7 @@ public class CompanyServiceImpl implements CompanyService {
 		long[] debt = new long[6];// 부채총계,자본총계
 		long[] roe = new long[6];// 당기순이익 ,매출액
 		Map<String, Object> tmpmap = new HashMap<String, Object>();
-		if (item == null) {
+		if (item != null) {
 
 			for (int i = 0; i < item.size(); i++) {
 				JSONObject tmp = (JSONObject) item.get(i);

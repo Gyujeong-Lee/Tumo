@@ -1,7 +1,7 @@
 <template>
   <div v-if="feeds.length">
     <h4>피드 검색 결과</h4>
-    <div class="d-flex flex-column flex-sm-row  my-auto">
+    <div class="d-grid flex-column flex-sm-row  my-auto">
       <v-card :elevation="elevation" shaped v-for="(feed, idx) in feeds" :key="idx" class="mb-3 mt-3" @click="moveToDetail(feed)">
         <v-card-title>{{ feed.title }}</v-card-title>
         <v-card-subtitle>{{ feed.nickname }}</v-card-subtitle>
@@ -54,9 +54,17 @@ export default {
     })
   },
   methods: {
-    moveToDetail: function (feedInfo) {
-      this.$router.push({name: 'articleDetail', params: {userIdx: feedInfo.user_idx, boardIdx: feedInfo.board_idx}})
-    }
+    moveToDetail: function (feed) {
+      console.log(feed)
+      axios({
+        method: 'GET',
+        url: `/api/article/${feed.boardIdx}/${feed.userIdx}`
+      })
+      .then(res => {
+        this.$store.state.selectedArticle = res.data.feed
+        this.$router.push({ name: 'articleDetail', params: { userIdx: res.data.feed.userIdx ,boardIdx: this.boardIdx }})
+      })
+    },
   }
 }
 </script>

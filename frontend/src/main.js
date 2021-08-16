@@ -5,7 +5,7 @@ import store from "./vuex/store";
 import vuetify from "./plugins/vuetify";
 import VueWordCloud from "vuewordcloud";
 import VueSimpleAlert from "vue-simple-alert";
-import { Popconfirm, Message } from "element-ui";
+import { Popconfirm, Message, Loading } from "element-ui";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import VueGlide from "vue-glide-js";
 
@@ -22,12 +22,15 @@ Vue.use(IconsPlugin);
 Vue.use(Popconfirm);
 Vue.use(VueSimpleAlert);
 Vue.use(VueGlide);
+Vue.use(Loading.directive);
+
 Vue.filter("money", (value) => {
   return value.toLocaleString("ko-KR");
 });
 
 Vue.component(VueWordCloud.name, VueWordCloud);
 
+Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message;
 
 new Vue({

@@ -41,20 +41,21 @@
         </div>
         <br>
         <!-- tags -->
-        <label for="tags">태그</label>
+        <label for="tags">해쉬 태그</label>
         <div class="d-flex justify-content-between align-items-end">
+          <span>#</span>
           <v-text-field
             dense
             solo
             hide-details
-            class="w-100"
+            class="w-100 mx-2"
             v-model="inputTag"
             @keypress.enter="addTag"
           ></v-text-field>
           <v-btn color="error" @click="addTag">추가</v-btn>          
         </div>
-        <div>
-          <v-chip v-for="(tag, idx) in data.tags" :key="idx" label close @click:close="popTag(idx)" class="me-3 my-3">#{{ tag }}</v-chip>
+        <div class="mt-2 mb-3">
+          <v-chip v-for="(tag, idx) in data.tags" :key="idx" label close @click:close="popTag(idx)" class="me-3 mt-3">#{{ tag }}</v-chip>
         </div>
         <!-- Btn Group -->
         <div class="d-flex justify-content-end mt-5">
@@ -167,6 +168,7 @@ export default {
 #updateArticle h1 {
   font-family: 'Gothic A1', sans-serif;
   font-weight: 800;
+  color: #00BFFE;
 }
 
 #updateArticle label, 
