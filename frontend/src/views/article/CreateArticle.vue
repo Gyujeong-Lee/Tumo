@@ -151,6 +151,7 @@ export default {
 #createArticle h1 {
   font-family: 'Gothic A1', sans-serif;
   font-weight: 800;
+  color: #00BFFE;
 }
 
 #createArticle form {

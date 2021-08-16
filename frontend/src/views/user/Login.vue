@@ -49,7 +49,7 @@
           :interval="3000"
           fade
         >
-          <b-carousel-slide v-for="num in ['1', '2', '3']" :key="num">
+          <b-carousel-slide v-for="num in 7" :key="num">
             <template #img>
               <img
                 class="w-100"
@@ -237,10 +237,10 @@ export default {
 }
 
 #carousel {
-  width: 84.5%;
+  width: 85%;
   margin-left: 9.5%;
   position: absolute;
-  top: 11.7%;
+  top: 11.5%;
 }
 
 #carousel img {

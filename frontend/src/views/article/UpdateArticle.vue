@@ -168,6 +168,7 @@ export default {
 #updateArticle h1 {
   font-family: 'Gothic A1', sans-serif;
   font-weight: 800;
+  color: #00BFFE;
 }
 
 #updateArticle label, 
