@@ -54,9 +54,9 @@ public class CompanyServiceImpl implements CompanyService {
 		while (code.length() != 6) {
 			code = "0" + code;
 		}
-		List<Map<String, Object>> List = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> List = null;
 
-		System.out.println(code);
+		
 		String url = "https://finance.naver.com/item/news_news.nhn?code=" + code
 				+ "&page=&sm=title_entity_id.basic&clusterId=";
 		Document doc;
@@ -66,14 +66,19 @@ public class CompanyServiceImpl implements CompanyService {
 			Elements title = elem.select("td.title");
 			Elements info = elem.select("td.info");
 			Elements date = elem.select("td.date");
-			for (int i = 0; i < 5; i++) {
-				Map<String, Object> result = new HashMap<String, Object>();
-				result.put("title", title.get(i).text());
-				result.put("href", title.get(i).select("a[href]").attr("href"));
-				result.put("author", info.get(i).text());
-				result.put("date", date.get(i).text());
-				List.add(result);
+			if(title.size()!=0) {
+				List= new ArrayList<Map<String, Object>>();
+				for (int i = 0; i < 5; i++) {
+					
+					Map<String, Object> result = new HashMap<String, Object>();
+					result.put("title", title.get(i).text());
+					result.put("href", title.get(i).select("a[href]").attr("href"));
+					result.put("author", info.get(i).text());
+					result.put("date", date.get(i).text());
+					List.add(result);
+				}
 			}
+			
 
 		} catch (IOException e) {
 			e.printStackTrace();
