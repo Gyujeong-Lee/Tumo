@@ -63,11 +63,14 @@
         ></v-text-field>
 
         <!-- 관심 키워드 입력 -->
-        <v-text-field
-          v-model="keyword"
-          label="Hash Tag"
-          @keypress.enter="add_keyword"
-        ></v-text-field>
+        <div class="d-flex align-items-center w-100">
+          <v-text-field
+            v-model="keyword"
+            label="Hash Tag"
+            @keypress.enter="add_keyword"
+          ></v-text-field>
+          <v-btn color="primary" class="ms-5" @click="add_keyword">추가</v-btn>
+        </div>
         
         <!-- 선택된 키워드 or default -->
         <div id="keyword_items">

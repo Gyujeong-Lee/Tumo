@@ -87,13 +87,13 @@
                     분류
                   </th>
                   <th class="text-center">
-                    2019
+                    2018
                   </th>
                   <th class="text-centers">
-                    2020
+                    2019
                   </th>
                   <th class="text-center">
-                    2021
+                    2020
                   </th>
                 </tr>
               </thead>
