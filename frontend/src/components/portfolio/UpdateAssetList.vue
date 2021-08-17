@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>{{ name }}</td>
+    <td class="text-center">{{ name }}</td>
     <td>
       <input type="text" v-model.number="asset.price">
     </td>
@@ -10,11 +10,11 @@
     <td>
       <input type="text" v-model.number="asset.quantity">
     </td>
-    <td>
+    <td class="text-center">
       <span type="button" v-if="!isConfirm" @click="confirmInfo">확정</span>
       <span v-else>완료</span>
       <v-btn icon>
-        <v-icon @click="deleteAsset">mdi-delete</v-icon>
+        <v-icon dense @click="deleteAsset">mdi-delete</v-icon>
       </v-btn>
     </td>
   </tr>

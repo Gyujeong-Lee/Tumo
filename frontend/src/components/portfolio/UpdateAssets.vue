@@ -58,10 +58,10 @@
                   상품명
                 </th>
                 <th class="text-center">
-                  매수 가격
+                  매수가격
                 </th>
-                <th class="text-centers">
-                  목표 가격
+                <th class="text-center">
+                  목표가격
                 </th>
                 <th class="text-center">
                   수량(주)
@@ -171,7 +171,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 #updateAssets {
   padding: 5% 7%;
 }
@@ -198,5 +198,14 @@ export default {
   
 #updateAssets h1 {
   color: #00BFFE;
+}
+
+@media screen and (max-width: 600px) {
+  #updateAssets td,
+  #updateAssets th {
+    text-align: center;
+    font-size: 1vw;
+    padding: 0 1vw;
+  }
 }
 </style>

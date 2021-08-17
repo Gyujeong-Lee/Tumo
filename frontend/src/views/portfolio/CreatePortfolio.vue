@@ -79,7 +79,7 @@
           >추가</v-btn>  
         </div>
         <!-- 선택한 종목 담기 -->
-        <div>
+        <div class="portfolio-table">
           <v-simple-table class="w-100 border">
             <template v-slot:default>
               <thead>
@@ -88,10 +88,10 @@
                     상품명
                   </th>
                   <th class="text-center">
-                    매수 가격
+                    매수가격
                   </th>
-                  <th class="text-centers">
-                    목표 가격
+                  <th class="text-center">
+                    목표가격
                   </th>
                   <th class="text-center">
                     수량(주)
@@ -263,5 +263,14 @@ export default {
   
 #createPortfolio h1 {
   color: #00BFFE;
+}
+
+@media screen and (max-width: 600px) {
+  #createPortfolio td,
+  #createPortfolio th {
+    text-align: center;
+    font-size: 1vw;
+    padding: 0 1vw;
+  }
 }
 </style>

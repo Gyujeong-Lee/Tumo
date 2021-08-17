@@ -32,7 +32,7 @@ export default {
   },
   created: function () {
     const userData = JSON.parse(localStorage.getItem('userData'))
-    if (this.$route.name !== 'confirmEmail') {
+    if (this.$route.name !== 'confirmEmail' && this.$route.name !== 'oauthSignup') {
       userData ? this.$store.commit('LOGIN', userData) : this.$router.push({ name: 'Login' })
     } 
   }
