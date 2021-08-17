@@ -64,7 +64,7 @@
 		from feed_comment c join user u
 		on c.user_idx = u.user_idx
 		where c.board_idx = #{boardIdx}
-		order by c.create_at desc
+		order by c.create_at
 		limit #{pageNum}, 5
 	</select>
 	
