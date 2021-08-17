@@ -16,7 +16,7 @@
       <div class="d-flex align-center justify-center mt-3">
         <div class="d-flex flex-column border p-2" id="portfolioInfo">
           <p>총 자산 : {{ amount.cursum }}원</p>
-          <p v-if="bestPortfolio.percent > 0" class="text-danger">현재 수익률 : {{ amount.percent / 100 }} %</p>
+          <p v-if="bestPortfolio.percent > 0" class="text-danger">현재 수익률 : {{ amount.percent }} %</p>
           <p v-else class="text-primary">현재 수익률 : {{ amount.percent }}%</p>
           <p >목표 수익률 : {{ bestPortfolio.goal }}%</p>
         </div>
