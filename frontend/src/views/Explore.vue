@@ -24,6 +24,7 @@ export default {
   created: function () {
     const tags = this.$store.state.user_info.tags
     this.selectedKeyword = _.sample(tags) ?? ''
+    
   }
 }
 </script>

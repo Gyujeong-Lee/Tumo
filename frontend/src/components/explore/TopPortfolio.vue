@@ -48,14 +48,18 @@ export default {
       })
     },
     getKeywordPortfolio: function () {
-      axios({
-        method: 'GET',
-        url: `/api/portfolio/search/${this.selectedKeyword}`
-      })
-      .then(res => {
-        const portfolioList = res.data.portfolio
-        portfolioList?.length >= 3 ? this.portfolioList = portfolioList.slice(0, 3) : this.getTopPortfolio()
-      })
+      if (this.selectedKeyword) {
+        axios({
+          method: 'GET',
+          url: `/api/portfolio/search/${this.selectedKeyword}`
+        })
+        .then(res => {
+          const portfolioList = res.data.portfolio
+          portfolioList?.length >= 3 ? this.portfolioList = portfolioList.slice(0, 3) : this.getTopPortfolio()
+        })
+      } else {
+        this.getTopPortfolio()
+      }
     }
   },
   created: function () {

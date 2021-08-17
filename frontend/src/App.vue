@@ -32,7 +32,9 @@ export default {
   },
   created: function () {
     const userData = JSON.parse(localStorage.getItem('userData'))
-    userData ? this.$store.commit('LOGIN', userData) : this.$router.push({ name: 'Login' })
+    if (this.$route.name !== 'confirmEmail') {
+      userData ? this.$store.commit('LOGIN', userData) : this.$router.push({ name: 'Login' })
+    } 
   }
 }
 </script>
