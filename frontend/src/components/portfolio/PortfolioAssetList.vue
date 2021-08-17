@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>{{ name }}</td>
+    <td class="text-center">{{ name }}</td>
     <td>
       <input type="text" v-model.number="tempInfo.price">
     </td>
@@ -10,7 +10,7 @@
     <td>
       <input type="text" v-model.number="tempInfo.quantity">
     </td>
-    <td>
+    <td class="text-center">
       <span type="button" v-if="!isConfirm" @click="confirmInfo">확정</span>
       <span v-else>완료</span>
     </td>
