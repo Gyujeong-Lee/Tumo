@@ -57,7 +57,11 @@
               <v-list-item-title>Create</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-navigation-drawer id="createDrawer" bottom absolute v-model="createDrawer">
+          <v-list-item type='button' class="text-center" style="font-size:smaller" v-if="createDrawer" @click="drawArticleModal">- Article</v-list-item>
+          <v-list-item type='button' class="text-center" style="font-size:smaller" v-if="createDrawer" @click="drawPortfolioModal">- Portfolio</v-list-item>
+          <!-- <v-list-item-subtitle v-else>Article</v-list-item-subtitle> -->
+
+          <!-- <v-navigation-drawer id="createDrawer" bottom absolute v-model="createDrawer">
             <v-list>
               <v-list-item @click="drawArticleModal">
                 Article
@@ -66,7 +70,7 @@
                 Portfolio
               </v-list-item>
             </v-list>
-          </v-navigation-drawer>
+          </v-navigation-drawer> -->
 
           <!-- 탐색 -->
           <router-link :to="{ name: 'explore' }" style="text-decoration: none; color: inherit;">
@@ -101,7 +105,9 @@
               <v-list-item-title>My Page</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-navigation-drawer id="myPageDrawer" bottom absolute v-model="myPageDrawer">
+          <v-list-item type='button' class="text-center" style="font-size:smaller" v-if="myPageDrawer" @click="moveToProfile">- Profile</v-list-item>
+          <v-list-item type='button' class="text-center" style="font-size:smaller" v-if="myPageDrawer" @click="logout">- Logout</v-list-item>
+          <!-- <v-navigation-drawer id="myPageDrawer" bottom absolute v-model="myPageDrawer">
             <v-list>
               <v-list-item @click="moveToProfile">
                 Profile
@@ -110,7 +116,7 @@
                 Logout
               </v-list-item>
             </v-list>
-          </v-navigation-drawer>
+          </v-navigation-drawer> -->
           
 
 
@@ -189,6 +195,7 @@ export default {
       hotSearchItems: [],
       search_item: "",
       drawer: false,
+      createDraw: false,
       createDrawer: false,
       alarmDrawer: false,
       myPageDrawer: false,
@@ -268,6 +275,9 @@ export default {
     },
     moveToProfile: function () {
       this.$router.push({ name: 'profile', params:{ nickname: `${this.user_nickname}`}})
+    },
+    showList: function () {
+      this.createDraw = true
     }
   },
   components: {
@@ -303,5 +313,9 @@ export default {
 
  .toggleMenu {
    display: none;
+ }
+
+ .createList {
+   display: block;
  }
 </style>
