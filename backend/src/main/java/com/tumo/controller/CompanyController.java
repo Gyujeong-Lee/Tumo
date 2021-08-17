@@ -108,8 +108,8 @@ public class CompanyController {
 			List<Map<String, Object>> result=companyService.corpReport(corp_code);
 			
 			Map<String, Object> resultMap= new HashMap<String, Object>();
+			System.out.println(result);
 			if(result.size()==0||result==null) {
-				
 				resultMap.put("message", "fail");
 				return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NO_CONTENT);
 			}else {
