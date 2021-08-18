@@ -18,7 +18,7 @@
           </div>
         </v-card>
         <v-skeleton-loader
-          v-for="n in 3-relatedFeeds.length" :key="n"
+          v-for="n in 3-relatedFeeds.length" :key="n+'a'"
           class="mb-4"
           type="avatar, heading, text, chip"
           elevation="4"
