@@ -166,31 +166,28 @@ export default {
     },
   },
   created: function() {
-    if (!this.$store.state.selectedArticle) {
-      const userIdx = this.$route.params.userIdx;
-      const boardIdx = this.$route.params.boardIdx;
-      axios({
-        method: "GET",
-        url: `/api/article/${boardIdx}/${userIdx}`,
-      }).then((res) => {
-        Object.assign(this.$data, res.data.feed);
-        this.$store.state.selectedArticle = res.data.feed;
-      })
-      .catch((error) => {
-      // Error 😨
-        if (error.response) {
-          if (error.response.status === 500) {
-            this.$alert("존재하지 않는 게시글입니다.", "실패", 'error')
-            this.$router.go(-1)
-          }
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log('Error', error.message);
+    const boardIdx = this.$route.params.boardIdx;
+    axios({
+      method: "GET",
+      url: `/api/article/${boardIdx}/${this.$store.state.user_info.id}`,
+    }).then((res) => {
+      Object.assign(this.$data, res.data.feed);
+      this.$store.state.selectedArticle = res.data.feed;
+    })
+    .catch((error) => {
+    // Error 😨
+      if (error.response) {
+        if (error.response.status === 500) {
+          this.$alert("존재하지 않는 게시글입니다.", "실패", 'error')
+          this.$router.go(-1)
         }
-        console.log(error.config);
-      });
-    }
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    });
     setTimeout(() => {
       this.isLoading = false;
     }, 1000);
