@@ -12,9 +12,8 @@
 
 - [기획 발표 자료 (한 눈에 보기)](https://docs.google.com/presentation/d/1BUmCPjD3nl1hnQS8ZTmICsX9RWJ3C3JC3V0X5G1RN9A/edit#slide=id.ge68eb2bfc9_3_57)
 - [최종 발표 자료 (한 눈에 보기)](https://docs.google.com/presentation/d/1Ampp3iAXb_XsJrdF6NKmZDbUUKHwQhe3_daI1qt7mm0/edit#slide=id.ge81ccc57a0_0_9)
-- UCC
 
-
+  
 
 ### 👩‍👦‍👦 TEAM
 
@@ -286,9 +285,4 @@
 
 - Tumo를 모바일에서도 이용 가능하도록 모바일 display 환경에 맞는 프론트도 반응형으로 제작
 
-
-
-## 후기
-
-> 기억에 남는 이슈나 프로젝트 전반에 대한 소감 적어주세요
 
