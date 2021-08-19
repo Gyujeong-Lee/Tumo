@@ -69,7 +69,7 @@
   - 로컬 FE 서버를 포트번호 3000으로 실행
   - EC2 nginx 포트 포워딩 3000으로 설정 https://i5a302.p.ssafy.io
 
-  ![](img\구글 Oauth.PNG)
+  ![Oauth](img/구글 Oauth.PNG)
 
 
 
