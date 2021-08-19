@@ -53,14 +53,16 @@ export default {
           this.$store.state.unreadAlert = this.$store.state.unreadAlert -1
       }
     
-      // 상세 페이지 이동 api 문서 수정 후 변경 
+      
       axios({
         method: 'GET',
         url: `/api/article/${this.note.boardIdx}/${this.$store.state.user_info.id}`
       })
       .then(res => {
-        this.$store.state.selectedArticle = res.data.feed
-        this.$router.go({ name: 'articleDetail', params: {userIdx: this.$store.state.user_info.id, boardIdx: this.note.boardIdx }})
+        if (this.$route.params.boardIdx != this.note.boardIdx) {
+          this.$store.state.selectedArticle = res.data.feed
+          this.$router.push({ name: 'articleDetail', params: {userIdx: this.$store.state.user_info.id, boardIdx: this.note.boardIdx }})
+        }
       })
     } 
   }
